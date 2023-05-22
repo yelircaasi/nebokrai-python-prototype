@@ -1,12 +1,12 @@
 from typing import List 
 
-from planager.utils.entry import Entry
+from planager.entities.entry import Entry
+from planager.utils.datetime_extensions import PlTime
 
 
-def compress(start: PlTime, end: PlTime, entries: List[Entry]) -> List[Entry]:
+def compress(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
     newentries = []
     total = end - start 
-    lengths = list(map(Entry.length, entries))
     scale = sum(map(Entry.length, entries)) / total 
     newlengths = [round(scale * x.length) for x in entries]
     newlengths[-1] += (total - sum(newlengths))
@@ -17,6 +17,66 @@ def compress(start: PlTime, end: PlTime, entries: List[Entry]) -> List[Entry]:
         entry.end = tracker.copy()
         newentries.append(entry)
     return newentries
+
+
+def adjust_forward(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
+    ...
+
+
+def adjust_backward(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
+    ...
+
+
+def entries_fit(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+    total_min = sum(map(Entry.mintime, filter(Entry.hasmass, entries)))
+    return (start.timeto(stop) >= total_min)
+
+
+def entries_fit_spare(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+    total_max = sum(map(Entry.maxtime, filter(Entry.hasmass, entries)))
+    return (start.timeto(stop) >= total_max)
+    
+
+def push_aside(newentry: Entry, before: List[Entry], after: List[Entry], overlaps: List[Entry]) -> List[Entry]:
+    movable_before = []
+    movable = before[-1].ismovable
+    ind = -1
+    while movable:
+        movable_before.insert(0, before[ind])
+        movable = before[-1].ismovable
+        ind -= 1
+    limit_before = before[-1].end
+    movable_after = []
+    movable = after[0].ismovable
+    ind = 0
+    while movable:
+        movable_after.append(after[ind])
+        movable = after[0].ismovable
+        ind += 1
+    limit_after = after[0].start
+    
+    fit_before = entries_fit(movable_before, limit_before, newentry.start)
+    fit_after = entries_fit(movable_after, newentry.end, limit_after)
+    if not (fit_before and fit_after):
+        print("Not enough room to add task.")
+        return 
+
+    spare_before = entries_fit_spare(movable_before, limit_before, newentry.start)
+    if spare_before:
+        movable_before = adjust_backward(movable_before, limit_before, newentry.start)
+    else:
+        movable_before = compress(movable_before, limit_before, newentry.start)
+    spare_after = entries_fit_spare(movable_after, newentry.end, limit_after)
+    if movable_after:
+        movable_after = adjust_forward(movable_after, newentry.end, limit_after)
+    else:
+        movable_after = compress(movable_after, newentry.end, limit_after)
+    
+    
+    # NEED TO CONSOLIDATE HERE
+    
+    
+
 
 
 def share_time(entry1: Entry, entry2: Entry):
@@ -34,6 +94,8 @@ def resolve_1_collision(
     overlaps: List[Entry], 
     after: List[Entry]
     ) -> List[Entry]:
+
+    schedule = []
     overlap = overlaps[0]
     if overlap.priority <= 0:
         pre = overlap.copy(end=entry.start)
@@ -46,10 +108,10 @@ def resolve_1_collision(
 
 
 def resolve_2_collisions(entry, before, overlaps, after) -> List[Entry]:
-    
+    schedule = []
     return schedule
 
 
 def resolve_n_collisions(entry, before, overlaps, after) -> List[Entry]:
-    
+    schedule = []
     return schedule

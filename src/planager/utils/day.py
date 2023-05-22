@@ -2,9 +2,10 @@ from calendar import Calendar
 from datetime import date, datetime, time
 from enum import Enum
 
+from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Entry
 from planager.entities.task import Task, RecurringTask, emptytask
-from planager.utils.datetime_extended import PlDate, PlDateTime, PlTime
-from planager.utils.entry impot Entry
+from planager.utils.datetime_extensions import PlDate, PlDateTime, PlTime
+from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 
 
 class AdjustmentType(Enum):
@@ -15,14 +16,11 @@ class AdjustmentType(Enum):
     COMPROMISE = 4   # 
 
 
-    
-
-
 class DefaultDay:
     def __init__(self, year, month, day):
         self.schedule = [
             Entry(
-                name="Empty"
+                name="Empty",
                 start=PlDateTime(year, month, day, 0, 0),
                 end=PlDateTime(year, month, day, 23, 59),
                 priority=-1.0
@@ -31,8 +29,8 @@ class DefaultDay:
 
     def add_entry(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         self.schedule.sort()
-        before = list(filter(entry.after, self.schedule))
-        after = list(filter(entry.before, self.schedule))
+        before = [FIRST_ENTRY] + list(filter(entry.after, self.schedule))
+        after = list(filter(entry.before, self.schedule)) + [LAST_ENTRY]
         overlaps = list(filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, self.schedule)))
         collisions = len(overlaps)
 
@@ -45,8 +43,7 @@ class DefaultDay:
                         self.schedule = resolve_2_collisions(entry, before, overlaps, after)
                     case _:
                         self.schedule = resolve_n_collisions(entry, before, overlaps, after)
-                    
-                if entry.precedes(head)
+
             case AdjustmentType.CLIP:
                 raise NotImplemented
             case AdjustmentType.SHIFT:

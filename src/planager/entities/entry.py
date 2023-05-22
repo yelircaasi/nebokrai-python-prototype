@@ -1,12 +1,17 @@
 from datetime import time
 
+from planager.utils.datetime_extensions import PlTime
+
 
 class Entry:
-    def __init__(self, start: PlTime, end: PlTime, obj, priority):
+    def __init__(self, start: PlTime, end: PlTime, obj, priority=0, ismovable=True):
         self.__dict__.update(locals())
-
-    def length(self) -> int:
+        
+    def duration(self) -> int:
         return self.end - self.start
+    
+    def hasmass(self) -> bool:
+        return self.priority > 0
 
     def before(self, entry2: "Entry") -> bool:
         return self.end <= entry2.start
@@ -46,4 +51,6 @@ class Entry:
         elif self.surrounded(entry2):
             return "surrounded"
 
-    
+
+FIRST_ENTRY = Entry(start=PlTime(0), end=PlTime(0), movable=False)
+LAST_ENTRY = Entry(start=PlTime(23, 59), end=PlTime(23, 59), movable=False)
