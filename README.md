@@ -5,7 +5,7 @@ Python prototype of a tool for planning, prioritizing, and tracking. Designed by
 
 To create a system that takes into account all obligations, goals, and values to optimally allocate time. This system should be:
 
-* purely functional: the same inputs will always result in the same outputs, with so side-effects
+* purely functional: the same inputs will always result in the same outputs, with no side-effects
 * declarative: the entities (tasks, etc.) and settings I delare provide a complete specification of my system; I say 'what' and the software tells me 'when'.
 * simple and intuitive to use
 * robust: when circumstances change, I can adjust the plans via the interface provided (as opposed to internal hacking) and carry on without problems
@@ -23,7 +23,7 @@ To create a system that takes into account all obligations, goals, and values to
 ## Overview of Vanilla Scheduling Algorithm
 
 1. A default day is specified, which contains recurring activities and activities blocked out.
-2. From plnaning (typically quarterly and weekly), non-recurring "big rock" activities are added, each with a priority level that determines which takes precedence among a set of items competing for the same time. 
+2. From planning (typically quarterly and weekly), non-recurring "big rock" activities are added, each with a priority level that determines which takes precedence among a set of items competing for the same time. 
 3. From the store of long-term roadmaps and projects and their corresponding tasks, tasks are assigned according to schedule and priority.
 4. When there are conflicts or too many tasks to fit in the available time, these are to be resolved first automatically according to the settings. 
 5. The irresoluble conflicts or overloads are then resolved manually, but only by editing the declrations, upon which the schedule is recomputed.
