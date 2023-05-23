@@ -19,14 +19,6 @@ def compress(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
     return newentries
 
 
-def adjust_forward(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
-    ...
-
-
-def adjust_backward(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
-    ...
-
-
 def entries_fit(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
     total_min = sum(map(Entry.mintime, filter(Entry.hasmass, entries)))
     return (start.timeto(stop) >= total_min)
@@ -35,7 +27,31 @@ def entries_fit(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
 def entries_fit_spare(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
     total_max = sum(map(Entry.maxtime, filter(Entry.hasmass, entries)))
     return (start.timeto(stop) >= total_max)
-    
+
+
+def adjust_forward(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+    newentries = []
+    tracker = start.copy()
+    for entry in entries:
+        dur = entry.duration
+        entry.start = tracker.copy()
+        tracker += dur
+        entry.end = tracker.copy()
+        newentries.append(entry)
+    return newentries
+
+
+def adjust_backward(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+    newentries = []
+    tracker = start.copy()
+    for entry in entries[::-1]:
+        dur = entry.duration
+        entry.end = tracker.copy()
+        tracker -= dur
+        entry.start = tracker.copy()
+        newentries.insert(0, entry)
+    return newentries
+
 
 def push_aside(newentry: Entry, before: List[Entry], after: List[Entry], overlaps: List[Entry]) -> List[Entry]:
     movable_before = []

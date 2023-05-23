@@ -2,6 +2,9 @@ from datetime import date, datetime, time, timedelta
 
 
 class PlTime(time):
+    def copy(self):
+        return PlTime(self.hour, self.minute)
+    
     def plain(self) -> time:
         return time(self.hour, self.minute)
     
@@ -24,8 +27,8 @@ class PlTime(time):
     def __sub__(self, mins: int) -> "PlDate":
         return PlTime.fromminutes(min(1439, max(0, self.tominutes() - mins)))
 
-t = PlTime(4, 31)
-t + 357
+#t = PlTime(4, 31)
+#t + 357
 
 
 # class PlDateTime(datetime):
@@ -37,6 +40,9 @@ t + 357
 
 
 class PlDate(date):
+    def copy(self):
+        return PlDate(self.year, self.month, self.day)
+    
     def __add__(self, days: int) -> "PlDate":
         return PlDate.fromordinal(self.toordinal() + days)
     
