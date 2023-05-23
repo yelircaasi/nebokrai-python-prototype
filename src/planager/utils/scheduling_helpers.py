@@ -1,10 +1,10 @@
 from typing import List 
 
 from planager.entities.entry import Entry
-from planager.utils.datetime_extensions import PlTime
+from planager.utils.datetime_extensions import PTime
 
 
-def compress(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
+def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
     newentries = []
     total = end - start 
     scale = sum(map(Entry.length, entries)) / total 
@@ -19,17 +19,17 @@ def compress(entries: List[Entry], start: PlTime, end: PlTime) -> List[Entry]:
     return newentries
 
 
-def entries_fit(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+def entries_fit(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     total_min = sum(map(Entry.mintime, filter(Entry.hasmass, entries)))
     return (start.timeto(stop) >= total_min)
 
 
-def entries_fit_spare(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+def entries_fit_spare(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     total_max = sum(map(Entry.maxtime, filter(Entry.hasmass, entries)))
     return (start.timeto(stop) >= total_max)
 
 
-def adjust_forward(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     newentries = []
     tracker = start.copy()
     for entry in entries:
@@ -41,7 +41,7 @@ def adjust_forward(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
     return newentries
 
 
-def adjust_backward(entries: List[Entry], start: PlTime, stop: PlTime) -> bool:
+def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     newentries = []
     tracker = start.copy()
     for entry in entries[::-1]:

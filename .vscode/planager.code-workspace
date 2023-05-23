@@ -1,0 +1,19 @@
+{
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": ".."
+        },
+        {
+            "path": "../../ganttouchthis-py"
+        },
+        {
+            "path": "../../ganttouchthis-data"
+        },
+        {
+            "path": "../../notion-extensions"
+        },
+    ],
+}
