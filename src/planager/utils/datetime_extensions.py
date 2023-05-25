@@ -1,12 +1,17 @@
-from datetime import date, datetime, time, timedelta
+from datetime import date
 
 
-class PTime(time):
+class PTime:
+    def __init__(self, hour=0, minute=0, isblank=False):
+        if not (60 * hour + minute) in range(1441):
+            raise ValueError("Time must be within 00:00..24:00")
+        self.__dict__.update(locals())
+
+    def __bool__(self):
+        return (not self.isblank)
+
     def copy(self):
         return PTime(self.hour, self.minute)
-    
-    def plain(self) -> time:
-        return time(self.hour, self.minute)
     
     def tominutes(self) -> int:
         return 60 * self.hour + self.minute
@@ -19,13 +24,13 @@ class PTime(time):
     
     @classmethod
     def fromminutes(cls, mins: int) -> "PTime":
-        return cls(*divmod(mins, 60))
+        return cls(*divmod(mins, 60))        
 
     def __add__(self, mins: int) -> "PDate":
-        return PTime.fromminutes(min(1439, max(0, self.tominutes() + mins)))
+        return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
     
     def __sub__(self, mins: int) -> "PDate":
-        return PTime.fromminutes(min(1439, max(0, self.tominutes() - mins)))
+        return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
     
     def __str__(self) -> str:
         return f"{self.hour:0>2}:{self.minute:0>2}"
