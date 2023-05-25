@@ -1,6 +1,6 @@
 #from datetime import time
 
-from typing import Optional
+from typing import Optional, Tuple
 from planager.utils.datetime_extensions import PTime
 from planager.utils.misc import tabularize
 
@@ -12,6 +12,9 @@ class Entry:
             self.end = start + time
         elif end and (not time):
             self.time = start.timeto(end)
+
+    def timespan(self) -> Tuple[PTime, PTime]:
+        return (self.start, self.end)
 
     def __eq__(self, entry2: "Entry") -> bool:
         return self.__dict__ == entry2.__dict__
@@ -75,6 +78,6 @@ class Empty(Entry):
 # ent = Entry(PTime(5,30), PTime(6,20), "Workout", priority=30, notes="Running, pullups, pushups, medecine ball")
 # print(ent.pretty())
 
-FIRST_ENTRY = Entry(start=PTime(0), end=PTime(0), movable=False)
-LAST_ENTRY = Entry(start=PTime(24), end=PTime(24), movable=False)
+FIRST_ENTRY = Empty(start=PTime(0), end=PTime(0))
+LAST_ENTRY = Empty(start=PTime(24), end=PTime(24))
 

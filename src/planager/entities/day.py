@@ -1,11 +1,10 @@
 from calendar import Calendar
-from datetime import date, datetime, time
+#from datetime import date, time
 from enum import Enum
 
 from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from planager.entities.task import Task, RecurringTask, emptytask
-from planager.utils.datetime_extensions import PDate, PDateTime, PTime
-from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
+from planager.utils.datetime_extensions import PDate, PTime
+# from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
 
 
@@ -18,10 +17,21 @@ class AdjustmentType(Enum):
 
 
 class Day:
-    def __init__(self, year, month, day, schedule=None, width: int = 80):
+    def __init__(self, 
+            year=PDate.today().year, 
+            month=PDate.today().month, 
+            day=PDate.today().day, 
+            schedule=None, 
+            width: int = 80
+        ) -> None:
         self.schedule = schedule or [Empty(start=PTime(), end=PTime(24))]
         self.date = PDate(year, month, day)
         self.width = width
+
+    def copy(self):
+        newday = Day()
+        newday.__dict__.update(self.__dict__)
+        return newday
 
     def add(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         self.schedule.sort()
@@ -32,13 +42,14 @@ class Day:
 
         match adjustment:
             case AdjustmentType.AUTO:
-                match collisions:
-                    case 1:
-                        self.schedule = resolve_1_collision(entry, before, overlaps, after)
-                    case 2:
-                        self.schedule = resolve_2_collisions(entry, before, overlaps, after)
-                    case _:
-                        self.schedule = resolve_n_collisions(entry, before, overlaps, after)
+                ...
+                # match collisions:
+                #     case 1:
+                #         self.schedule = resolve_1_collision(entry, before, overlaps, after)
+                #     case 2:
+                #         self.schedule = resolve_2_collisions(entry, before, overlaps, after)
+                #     case _:
+                #         self.schedule = resolve_n_collisions(entry, before, overlaps, after)
 
             case AdjustmentType.CLIP:
                 raise NotImplemented
@@ -47,7 +58,8 @@ class Day:
             case AdjustmentType.COMPRESS:
                 raise NotImplemented
             case AdjustmentType.COMPROMISE:
-                raise NotImplemented
+                raise NotImplementedError
+                
             case _:
                 print("Invalid adjustment type.")
 

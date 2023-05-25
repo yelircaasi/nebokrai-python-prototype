@@ -29,7 +29,7 @@ def entries_fit_spare(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     return (start.timeto(stop) >= total_max)
 
 
-def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
+def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> List[Entry]:
     newentries = []
     tracker = start.copy()
     for entry in entries:
@@ -41,7 +41,7 @@ def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     return newentries
 
 
-def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
+def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Entry]:
     newentries = []
     tracker = start.copy()
     for entry in entries[::-1]:
@@ -54,20 +54,20 @@ def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> bool:
 
 
 def push_aside(newentry: Entry, before: List[Entry], after: List[Entry], overlaps: List[Entry]) -> List[Entry]:
-    movable_before = []
-    movable = before[-1].ismovable
+    ismovable_before = []
+    ismovable = before[-1].ismovable
     ind = -1
-    while movable:
-        movable_before.insert(0, before[ind])
-        movable = before[-1].ismovable
+    while ismovable:
+        ismovable_before.insert(0, before[ind])
+        ismovable = before[-1].ismovable
         ind -= 1
     limit_before = before[-1].end
-    movable_after = []
-    movable = after[0].ismovable
+    ismovable_after = []
+    ismovable = after[0].ismovable
     ind = 0
-    while movable:
-        movable_after.append(after[ind])
-        movable = after[0].ismovable
+    while ismovable:
+        ismovable_after.append(after[ind])
+        ismovable = after[0].ismovable
         ind += 1
     limit_after = after[0].start
     
@@ -79,14 +79,14 @@ def push_aside(newentry: Entry, before: List[Entry], after: List[Entry], overlap
 
     spare_before = entries_fit_spare(movable_before, limit_before, newentry.start)
     if spare_before:
-        movable_before = adjust_backward(movable_before, limit_before, newentry.start)
+        ismovable_before = adjust_backward(movable_before, limit_before, newentry.start)
     else:
-        movable_before = compress(movable_before, limit_before, newentry.start)
+        ismovable_before = compress(movable_before, limit_before, newentry.start)
     spare_after = entries_fit_spare(movable_after, newentry.end, limit_after)
-    if movable_after:
-        movable_after = adjust_forward(movable_after, newentry.end, limit_after)
+    if ismovable_after:
+        ismovable_after = adjust_forward(movable_after, newentry.end, limit_after)
     else:
-        movable_after = compress(movable_after, newentry.end, limit_after)
+        ismovable_after = compress(movable_after, newentry.end, limit_after)
     
     
     # NEED TO CONSOLIDATE HERE
@@ -104,30 +104,30 @@ def share_time(entry1: Entry, entry2: Entry):
     
     return entry1, entry2
 
-def resolve_1_collision(
-    entry: Entry, 
-    before: List[Entry], 
-    overlaps: List[Entry], 
-    after: List[Entry]
-    ) -> List[Entry]:
+# def resolve_1_collision(
+#     entry: Entry, 
+#     before: List[Entry], 
+#     overlaps: List[Entry], 
+#     after: List[Entry]
+#     ) -> List[Entry]:
 
-    schedule = []
-    overlap = overlaps[0]
-    if overlap.priority <= 0:
-        pre = overlap.copy(end=entry.start)
-        post = overlap.copy(start=entry.end)
-        return [pre, entry, post]
-    elif entry.precedes(overlap) and (entry.mintime + overlap.mintime < entry.spansize(overlap)):
-        entry, overlap = share_time(entry, overlap)
+#     schedule = []
+#     overlap = overlaps[0]
+#     if overlap.priority <= 0:
+#         pre = overlap.copy(end=entry.start)
+#         post = overlap.copy(start=entry.end)
+#         return [pre, entry, post]
+#     elif entry.precedes(overlap) and (entry.mintime + overlap.mintime < entry.spansize(overlap)):
+#         entry, overlap = share_time(entry, overlap)
 
-    return schedule
-
-
-def resolve_2_collisions(entry, before, overlaps, after) -> List[Entry]:
-    schedule = []
-    return schedule
+#     return schedule
 
 
-def resolve_n_collisions(entry, before, overlaps, after) -> List[Entry]:
-    schedule = []
-    return schedule
+# def resolve_2_collisions(entry, before, overlaps, after) -> List[Entry]:
+#     schedule = []
+#     return schedule
+
+
+# def resolve_n_collisions(entry, before, overlaps, after) -> List[Entry]:
+#     schedule = []
+#     return schedule
