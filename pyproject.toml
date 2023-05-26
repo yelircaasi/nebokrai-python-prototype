@@ -1,14 +1,15 @@
-[project]
+[tool.poetry]
 name = "planager"
-description = "Package for planning and time tracking."
 version = "0.1.0"
-authors = [
-    { name = "Isaac Riley", email = "isaac.r.riley@gmail.com" }
-]
-dependencies = []
+description = "Python prototype of a tool for planning, prioritizing, and tracking. Designed by me for me to be an all-in-one way to stay organized"
+authors = ["Isaac Riley <isaac.r.riley@gmail.com>"]
+license = "GPL3"
+readme = "README.md"
 
-[project.optional-dependencies]
-dev = [
-    "tox",
-    "pre-commit",
-]
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

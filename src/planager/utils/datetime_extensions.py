@@ -34,6 +34,24 @@ class PTime:
     
     def __str__(self) -> str:
         return f"{self.hour:0>2}:{self.minute:0>2}"
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def __eq__(self, ptime2: "PTime") -> bool:
+        return self.tominutes() == ptime2.tominutes()
+
+    def __lt__(self, ptime2: "PTime") -> bool:
+        return self.tominutes() < ptime2.tominutes()
+    
+    def __gt__(self, ptime2: "PTime") -> bool:
+        return self.tominutes() > ptime2.tominutes()
+    
+    def __le__(self, ptime2: "PTime") -> bool:
+        return self.tominutes() <= ptime2.tominutes()
+    
+    def __ge__(self, ptime2: "PTime") -> bool:
+        return self.tominutes() >= ptime2.tominutes()
 
 #t = PTime(4, 31)
 #t + 357

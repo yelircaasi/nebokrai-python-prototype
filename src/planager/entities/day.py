@@ -1,11 +1,13 @@
 from calendar import Calendar
 #from datetime import date, time
 from enum import Enum
+from pathlib import Path
 
 from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PDate, PTime
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
+from planager.utils.scheduling_helpers import add_entry_default
 
 
 class AdjustmentType(Enum):
@@ -17,16 +19,40 @@ class AdjustmentType(Enum):
 
 
 class Day:
-    def __init__(self, 
+    def __init__(
+            self, 
             year=PDate.today().year, 
             month=PDate.today().month, 
             day=PDate.today().day, 
             schedule=None, 
             width: int = 80
         ) -> None:
-        self.schedule = schedule or [Empty(start=PTime(), end=PTime(24))]
+        self.schedule = schedule or [FIRST_ENTRY, Empty(start=PTime(), end=PTime(24)), LAST_ENTRY]
         self.date = PDate(year, month, day)
         self.width = width
+
+    def ensure_bookends(self) -> None:
+        if not self.schedule[0] == FIRST_ENTRY:
+            self.schedule.insert(0, FIRST_ENTRY)
+        if not self.schedule[-1] == LAST_ENTRY:
+            self.schedule.append(LAST_ENTRY)
+
+    @classmethod
+    def from_norg(cls, path: Path) -> "Day":
+        #dict = read_norg_day(path)
+        day = cls()
+        return day
+
+    @classmethod
+    def from_json(cls, path: Path) -> "Day":
+        day = cls()
+        return day
+    
+    def to_norg(self, path: Path) -> None:
+        ...
+
+    def to_json(self, path: Path) -> None:
+        ...
 
     def copy(self):
         newday = Day()
@@ -34,23 +60,16 @@ class Day:
         return newday
 
     def add(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
-        self.schedule.sort()
-        before = [FIRST_ENTRY] + list(filter(entry.after, self.schedule))
-        after = list(filter(entry.before, self.schedule)) + [LAST_ENTRY]
+        self.ensure_bookends()
+        self.schedule.sort(key=lambda x: x.start)
+        before = list(filter(entry.after, self.schedule))
+        after = list(filter(entry.before, self.schedule))
         overlaps = list(filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, self.schedule)))
-        collisions = len(overlaps)
+        #collisions = len(overlaps)
 
         match adjustment:
             case AdjustmentType.AUTO:
-                ...
-                # match collisions:
-                #     case 1:
-                #         self.schedule = resolve_1_collision(entry, before, overlaps, after)
-                #     case 2:
-                #         self.schedule = resolve_2_collisions(entry, before, overlaps, after)
-                #     case _:
-                #         self.schedule = resolve_n_collisions(entry, before, overlaps, after)
-
+                self.schedule = add_entry_default(entry, before, after, overlaps)
             case AdjustmentType.CLIP:
                 raise NotImplemented
             case AdjustmentType.SHIFT:
@@ -59,11 +78,8 @@ class Day:
                 raise NotImplemented
             case AdjustmentType.COMPROMISE:
                 raise NotImplementedError
-                
             case _:
                 print("Invalid adjustment type.")
-
-        self.schedule = ...
 
     def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         before = filter(entry.after, self.schedule)
@@ -103,6 +119,14 @@ class Day:
     def __str__(self) -> str:
 
         return self.__repr__()
+    
+    def ispartitioned(self):
+        if len(self.schedule) == 1:
+            adjacency = True
+        else:
+            adjacency = all(map(lambda x: x[0].end == x[1].start, zip(self.schedule[:-1], self.schedule[1:])))
+        return adjacency and (self.schedule[0].start == PTime()) and (self.schedule[-1].end == PTime(24))
+
 
 
 # d = Day(2023, 5, 23)
