@@ -14,7 +14,7 @@ class Entry:
             end: PTime, 
             priority: int = 0, 
             ismovable: bool = True, 
-            notes: str = "", 
+            notes: str = "",
             normaltime: Optional[int] = None,
             idealtime: Optional[int] = None,
             mintime: Optional[int] = None,

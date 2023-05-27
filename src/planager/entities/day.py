@@ -50,6 +50,9 @@ class Day:
         return day
     
     def to_norg(self, path: Path) -> None:
+        #header = make_norg_header()
+        #body = "\n\n".join(map(Entry.to_norg, self.schedule[1:-1]))
+        #notes = make_norg_notes()
         ...
 
     def to_json(self, path: Path) -> None:
