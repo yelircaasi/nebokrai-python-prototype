@@ -9,19 +9,45 @@ from planager.utils.misc import tabularize
 class Entry:
     def __init__(
             self, 
-            name, start: PTime, 
-            end: PTime, priority=0, 
-            ismovable=True, 
-            notes="", 
-            time=30, 
-            mintime=10
-        ):
+            name: str, 
+            start: PTime, 
+            end: PTime, 
+            priority: int = 0, 
+            ismovable: bool = True, 
+            notes: str = "", 
+            normaltime: Optional[int] = None,
+            idealtime: Optional[int] = None,
+            mintime: Optional[int] = None,
+            maxtime: Optional[int] = None,
+            align_end: bool = False
+        ) -> None:
         self.__dict__.update(locals())
-        if time and (not end):
-            self.end = start + time
-        elif end and (not time):
-            self.time = start.timeto(end)
+        if normaltime and (not end):
+            self.end = start + normaltime
+        elif end and (not normaltime):
+            self.normaltime = start.timeto(end)
+        if idealtime is None:
+            self.idealtime = int(1.5 * self.normaltime)
+        if mintime is None:
+            self.mintime = int(0.333 * self.normaltime)
+        if maxtime is None:
+            self.maxtime = int(2 * self.normaltime)
 
+    def copy(self) -> "Entry":
+        return Entry(
+            self.name, 
+            start=self.start, 
+            end=self.end, 
+            priority=self.priority,
+            ismovable=self.ismovable,
+            notes=self.notes, 
+            normaltime=self.normaltime, 
+            idealtime=self.idealtime,
+            mintime=self.mintime,
+            maxtime=self.maxtime,
+            align_end=self.align_end,
+        )
+    
     @classmethod
     def from_norg(cls, path: Path) -> "Entry":
         #dict = read_norg_day(path)
@@ -43,7 +69,7 @@ class Entry:
         return (self.start, self.end)
 
     def __eq__(self, entry2: "Entry") -> bool:
-        return self.__str__ == str(entry2)
+        return self.__str__() == str(entry2)
         
     def duration(self) -> int:
         return self.start.timeto(self.end)
@@ -58,7 +84,7 @@ class Entry:
         return self.start >= entry2.end
 
     def overlaps(self, entry2: "Entry") -> bool:
-        return (self.start < entry2.start < self.end) or (entry2.start < self.start < entry2.end)
+        return (self.start <= entry2.start < self.end) or (entry2.start < self.start <= entry2.end)
 
     def overlaps_first(self, entry2: "Entry") -> bool:
         return (self.start <= entry2.start < self.end <= entry2.end)
@@ -71,6 +97,21 @@ class Entry:
 
     def surrounded(self, entry2: "Entry") -> bool:
         return (entry2.start < self.start < self.end < entry2.end)
+    
+    def shares_start_shorter(self, entry2: "Entry") -> bool:
+        return (self.start == entry2.start) and (self.end < entry2.end)
+    
+    def shares_start_longer(self, entry2: "Entry") -> bool:
+        return (self.start == entry2.start) and (self.end > entry2.end)
+    
+    def shares_end_shorter(self, entry2: "Entry") -> bool:
+        return (self.start > entry2.start) and (self.end == entry2.end)
+    
+    def shares_end_longer(self, entry2: "Entry") -> bool:
+        return (self.start < entry2.start) and (self.end == entry2.end)
+    
+    def iscovered(self, entry2: "Entry") -> bool:
+        return (self.start >= entry2.start) and (self.end <= entry2.end)
 
     def precedes(self, entry2: "Entry") -> bool:
         return self.priority > entry2.priority
@@ -101,7 +142,7 @@ class Entry:
 
 class Empty(Entry):
     def __init__(self, start: PTime, end: PTime, time: Optional[int] = None):
-        super().__init__("Empty", start=start, end=end, priority=-1.0, time=time, mintime=0)
+        super().__init__("Empty", start=start, end=end, priority=-1.0, normaltime=time, mintime=0)
 
 # ent = Entry(PTime(5,30), PTime(6,20), "Workout", priority=30, notes="Running, pullups, pushups, medecine ball")
 # print(ent.pretty())

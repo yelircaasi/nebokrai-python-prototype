@@ -2,6 +2,7 @@ from calendar import Calendar
 #from datetime import date, time
 from enum import Enum
 from pathlib import Path
+from typing import List
 
 from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PDate, PTime
@@ -62,14 +63,15 @@ class Day:
     def add(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         self.ensure_bookends()
         self.schedule.sort(key=lambda x: x.start)
-        before = list(filter(entry.after, self.schedule))
-        after = list(filter(entry.before, self.schedule))
-        overlaps = list(filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, self.schedule)))
-        #collisions = len(overlaps)
+        
 
         match adjustment:
             case AdjustmentType.AUTO:
-                self.schedule = add_entry_default(entry, before, after, overlaps)
+                self.schedule = add_entry_default(entry, self.schedule)
+                
+                #TODO: integrate collision handling into before and after logic
+                
+
             case AdjustmentType.CLIP:
                 raise NotImplemented
             case AdjustmentType.SHIFT:
@@ -127,6 +129,14 @@ class Day:
             adjacency = all(map(lambda x: x[0].end == x[1].start, zip(self.schedule[:-1], self.schedule[1:])))
         return adjacency and (self.schedule[0].start == PTime()) and (self.schedule[-1].end == PTime(24))
 
+    def names(self) -> List[str]:
+        return [x.name for x in self.schedule]
+    
+    def starts(self) -> List[PTime]:
+        return [x.start for x in self.schedule]
+    
+    def starts_str(self) -> List[PTime]:
+        return [str(x.start) for x in self.schedule]
 
 
 # d = Day(2023, 5, 23)
