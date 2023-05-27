@@ -1,0 +1,440 @@
+@document.meta
+title: 1.0-semantics
+description: 
+authors: vhyrro
+categories: 
+created: 2022-09-10
+version: 0.0.13
+@end
+
+- ( ) Document stdlib macros/carryover tags/ranged tags
+- ( ) Describe how tags are evaluated
+- ( ) Document inbuilt attached modifier extensions and their behaviours
+- ( ) When evaluating macros for attributes (inline elements w/ attached mod ext) and
+      the `&var&` syntax they should be placed on a new line and /then/ expanded.
+      This prevents user error.
+- ( ) Explain how extendable links are macros under the hood.
+- (?) Force `#eval` to take in a vararg of variable names to transfer to the janet side?
+      How does `#eval` know the parameters passed to the current function?
+
+Table syntax:
+- ( ) New motions: `>`, `v`, `^`, `<`
+- ( ) Floor motion (go fully left and down): `_`
+- ( ) Ceiling motion (go fully up and right): `/`
+- ( ) Root of table (A1): `.`
+- ( ) Allow the combination of motions with numerical values (`13>`/`2_`)
+- ( ) Allow underflowing via `<` (B1 -> A3 if A has 3 occupied cells)
+- ::
+  Example:
+@code norg
+  : . : Char
+  : > : Name/Type
+  : > : Categories
+  : _ : `*`
+  : > : Headings
+  : > : structural, nestable
+  : _ : `-`
+
+  : . : Char
+  : v : `*`
+  : v : `-`
+  : v :
+  : / : Name/Type
+  : v : Headings
+  @end
+  ---
+
+* Introduction
+
+  This file contains a formal description of the semantics of the Norg file format. For an
+  introduction of what the Norg file format is, it is recommended that you read the [specification]
+  first. When writing a syntax parser, it's not necessary for you to understand exactly how Norg is
+  intended to behave - however, when writing a more sophisticated tool like
+  [Neorg]{https://github.com/nvim-neorg/neorg}, understanding how various tags and dynamic elements
+  behave is quite crucial.
+
+  This specification, in contrast to the syntax specification, reads more like a book, with
+  recommendations and requirements written out as they are applicable.
+
+* Tags
+
+  All dynamic/extendable parts of Norg are centered around tags and macros.
+  The single {# macro tag} defines macros, and all of the other tag types
+  execute a macro in some specific way.
+
+** Common Definitions
+
+   $ Macro Expansion
+   The process of expanding a macro involves supplying it with the correct parameters,
+   then replacing the macro invocation with the result, expanding any other macros that
+   may be present in said result.
+
+   $ Variable
+   A variable is a macro that takes no parameters as input and always produces the same output
+   regardless of context.
+
+** Macro Tag
+
+   The base form, the [macro tag]{:1.0-specification:*** Macro Tags} can be seen as a function
+   definition - it defines the name of the macro, its parameters, and also what the macro evaluates
+   to.
+   
+   An example implementation of a macro may look like such:
+   |example
+   =greet name
+   Hello, &name&!
+   =end
+   |end
+   
+   We define a macro called `greet`, which takes in a mandatory parameter called `name`.
+   When this macro is invoked, it evaluates to `Hello, &name&!`
+   where the `&name&` variable is replaced with whatever we provided to the macro (see: {# macro
+   expansion}, {# inline macro expansion}).
+   
+*** Macro Redefinitions
+
+    Redefining a macro is permitted. One may have many reasons to redefine macros, it is most
+    notably used however when redefining {$ variable}s (see {# parameters as macros}).
+
+*** Parameters as Macros
+
+    Since {$ variable}s are officially just macros without parameters, parameters supplied to
+    macros are also themselves macros (hence they can be expanded with the `&inline macro
+    expansion&` syntax).
+
+*** Supplying Parameters to Macros
+
+    By default, every parameter that a macro expects must be supplied, else an error should be
+    thrown. If excess values are supplied, then the supplied parameters should be highlighted
+    in some form in your editor or interpreter and a warning should be issued. Upon execution
+    excess values should be discarded.
+
+*** Parameter Modifiers (suffixes)
+
+    There are three suffixes that may be applied to a macro to express some properties about the
+    object. These are: `?` (optional variable), `*` (optional vararg), `+` (vararg with at least one
+    element).
+
+    To illustrate via an example:
+
+    |example
+    =mymacro variable?
+    Where did my &variable& go.
+    =end
+    |end
+
+    Now, it is possible to not supply the variable and not get an error. When expanding a "null"
+    object, it should evaluate to an empty string, or in other words, to nothing.
+
+    *NOTE:* Norg does not actually have a notion of null values. Instead, the null value is
+    represented as an empty {* abstract objects}[abstract object]. See that section for more
+    details.
+
+    For the vararg variations, they exist to store an arbitrary amount of parameters within a single
+    value, which may be thought of as a list of objects. Yet again, Norg does not have a notion of
+    lists in their traditional sense, it simply encodes the list as a macro that, when expanded,
+    evaluates to the contents of the list (space separated). For example:
+
+    |example
+    =vararg.expand args+
+    Here are my args: &args&
+    =end
+    |end
+
+    Given the input `test-arg1 test-arg2` the macro will evaluate to `Here are my args: test-arg1
+    test-arg2`.
+
+    When referencing the parameters in e.g. `&variable&` expansions you do not include the
+    succeeding modifier.
+
+*** Parameter Filters (prefixes)
+
+    Apart from being able to supply a modifier to a parameter, you may also choose to filter
+    out/support only certain kinds of parameters supplied from different sources. For example,
+    you may only want your macro to be used in the context of a ranged verbatim tag, or you
+    may only want your function to be usable when ran through an {# extendable links}[extendable
+    link].
+
+    Norg recognizes the following set of filters:
+    - `=` - the content of an extendable link
+    - `@` - content of a ranged verbatim tag
+    - `\|` - content of a standard ranged tag
+    - `>` - the next object (content of all carryover tag types). There is no way to differentiate
+      between a `#` and `+` invocation, as both have consistent behaviours and return the same types
+      of data
+    - `&` - the "variable reference". Used seldom, but this prefix ensures that the value you
+      provide as a string is a name of a variable that exists in the current scope. When paired with
+      the `*` vararg and if no values are provided by the user, all variables in the current scope
+      should be supplied as the content of the variable (see {# parameter filters (prefixes)}).
+      Expanding the parameter reference should expand the variable the reference is pointing to.
+
+    When referencing the arguments through e.g. the {# inline macro expansion}, you do not include
+    the preceding modifier in the parameter name.
+
+*** Macro Return Values
+
+    Macros may return only one of three values:
+    - Raw Norg Markup
+    - An {# Abstract Objects}[abstract object]
+    - An abstract object future
+
+    When dealing with raw norg macros, one may only return raw norg markup.
+    When invoking {* janet} from within the macro via {* the `eval` carryover tag},
+    then the return value is determined by the last expression in the eval block.
+
+    If the return value is not a {https://janet-lang.org/docs/strings.html}[string] , a
+    `(neorg/abstract-object)` nor a `(neorg/await-abstract-object)`, then an appropriate error
+    should be raised.
+
+** Infirm Tags
+
+   The simplest way to invoke a macro is via the infirm tag. It does not auto-supply any parameters
+   like the rest do.
+
+   An example usage looks like so:
+
+   @code norg
+
+   =greet name
+   Hello, &name&!
+   =end
+
+   We then invoke the macro with the `.` prefix:
+
+   .greet Vhyrro
+
+   @end
+   
+   When expanding the macro, you get:
+   @code norg
+
+   Hello,
+   Vhyrro
+   \!
+
+   @end
+
+   Which, after an automatic reformatting, converts to `Hello, Vhyrro!`.
+   See {# inline macro expansion} rules for more information.
+
+** Ranged Tags
+
+   Ranged tags are a special type of macro invocation. They take in arbitrary parameters, and then
+   also consume some content until an end marker is reached. This content may be norg markup, in
+   which case the tag in question is a /standard ranged tag/, otherwise the tag takes in verbatim
+   markup and is a /verbatim ranged tag/.
+
+   To create a macro that specifically targets a ranged tag, you may use one of the prefixes
+   described {# parameter filters (prefixes)}[here]. Below is an example for the verbatim ranged
+   tag that takes in a string and slices it by some amount:
+   @code norg
+
+   =slice start end? @content
+   .eval janet (string/slice content start end)
+   =end
+
+   @end
+
+   *NOTE:* When invoking the macro using the `@` tag syntax, the `content` variable should be auto-supplied
+   by Norg. The content should always target the last parameter.
+
+   The example uses {* janet} to perform the actual slicing logic. To invoke the macro, we use the
+   ranged tag syntax:
+   |example
+
+   @slice 0 5
+   hello world!
+   @end
+
+   |end
+
+   When the macro is expanded, it evaluates to the norg markup `hello`. This is because the `.eval`
+   call returns a string (see {# macro return values}).
+
+* Inline Macro Expansion
+
+  Inline macro expansion is the process of expanding the content of a macro in-line via the
+  `&` attached modifiers.
+  There is no way to supply parameters to an inline macro expansion and, therefore by definition,
+  only {# variable}s may be expanded through this syntax.
+
+  When performing inline expansion, the expansion must be isolated onto its own separate line,
+  this involves prefixing and postfixing the inline macro expansion with newlines /and/ postfixing
+  the expansion with an escape character (this is to prevent punctuation that may occur after the
+  macro expansion to be treated as a detached modifier). This means that given the input `Hello,
+  &name&!` (like in our [greet example]{# macro tag}), the macro should be isolated like this:
+
+  @code norg
+
+  Hello,
+  &name&
+  \!
+
+  @end
+
+  And only then should `&name&` be expanded to its underlying value.
+
+  Such a rule allows these variables to expand to complex data types like headings, footnotes and
+  other detached modifiers without unintentionally breaking.
+
+  This rule also carries over to {* extendable links}.
+
+** Compressing Expanded Results
+
+   After the result has been expanded, your application may want to automatically reformat the
+   output of the macro. Several lines for what could be a single line is unpleasant to look at,
+   not to mention the extraneous escape character that the expansion might generate.
+
+   Once the expansion is complete, an inbuilt formatter may choose to stitch the text back together
+   in a coherent fashion, if the output of the macro does not begin with a detached modifier or tag.
+   Following up with the example in the previous section:
+
+   @code norg
+
+   Hello,
+   Vhyrro,
+   \!
+
+   @end
+
+   May be compressed back to:
+
+   @code norg
+
+   Hello, Vhyrro!
+
+   @end
+
+* (=) Attributes
+
+  Attributes are a special data type in Norg as they serve as a way to retain a function invocation
+  for later use, and allow for combinatoric logic by chaining macro calls. If a carryover tag is
+  applied to an attribute, then the carryover tag should /not/ be invoked on the attribute, but
+  should instead be stored in the attribute's metadata internally in your application through the
+  standard library function .
+
+* Null Attached Modifier
+
+  The null attached modifier serves two purposes - when used standalone, all text inbetween the two
+  `%` modifiers gets removed. This means that, on its own, `%this%` acts as an inline comment
+  syntax. When paired with attached modifier extensions, the attached modifier extensions determine
+  how the text is displayed. For example, `%blue text%(color:blue)` renders the text as blue,
+  without any further modifications. This allows for easy inline styling of objects or words, as `%`
+  is non-verbatim (other markup can exist within it).
+
+* Extendable Links
+
+  Apart from the traditional inbuilt links, extendable links exist to allow custom search behaviour
+  to be implemented within Norg. The extendable link is prefixed with a `=`, and has its behaviour
+  governed by an succeeding attached modifier extension.
+
+  The extendable link is simply a fancy macro invocation with two parameters, the second being
+  optional: the content of the link, and the content of the link description (if any).
+
+  This means that the following:
+  @code norg
+  {= some text}[a description](macro-name)
+  @end
+
+  Is equivalent to:
+  @code norg
+  .macro-name some\ text a\ description
+  @end
+
+  To explicitly capture extendable links, you may use the {# parameter filters (prefixes)}[`=`
+  prefix] before your parameter name.
+
+* The Standard Library
+
+  Norg implements a cross-platform standard library that any [Neorg]-like implementation may use.
+  It is never recommended to roll your own standard library.
+
+  Despite this, a single macro is /required/ to be implemented by every client that implements Norg
+  macros - this is the `.invoke-janet` macro. Its syntax looks like so:
+  @code norg
+
+  .invoke-janet code+
+
+  @end
+
+  Where `code` is a vararg of strings that get stitched together with a single space char before
+  executing the code. Code should be executed in a janet {# sandboxing}[sandbox]. It forms the baseline for the
+  `#eval` carryover tag.
+
+  The `stdlib.norg` file can be found {/ stdlib.norg}[here].
+
+* The `#eval` Carryover Tag
+
+  Complex macros and their behaviours are only possible with a scripting language backing it. {*
+  Janet} is our first class citizen language of choice, and there must be some way to execute it and
+  return its result.
+
+  For this, the `#eval` carryover tag exists, which is a wrapper around `invoke-janet`, ensuring
+  every variable captured is valid. The `#eval` tag delegates the rest of the invocation logic to
+  `(neorg/execute)` (see {# norg-janet standard library}), which also allows for execution of code
+  in different programming languages.
+
+  `#eval` always expects a `@code` block to follow itself containing the code to execute.
+
+* Abstract Objects
+
+  Abstract Objects (AOs) are an opaque data type within Norg. They serve as a way to represent some
+  intermediate information about an object without having concrete Norg markup backing it.
+
+  Abstract Objects have a few builtin properties - some must be provided, whereas others are left as
+  optional:
+  - The {# AST Node} that the abstract object would like to bind itself to (*optional*)
+  - A translation function to convert the intermediate representation of the AO to any given target
+    format (markdown, asciidoc etc.). The target may also be Norg itself. Returning `nil` tells
+    Neorg that said object does not have a representation for the given target. (*required*)
+  - Custom data that the AO would like to keep for future reference (*optional*)
+
+  A prime example of AOs in use are `@code` blocks. There is no Norg syntax that `@code` blocks
+  could possibly evaluate to, as Norg does not have a built-in code block syntax. Instead,
+  when the `@code` macro is evaluated, it gets translated into an abstract object with some
+  properties. Now, when the user wants to export their Norg document into markdown, the translation
+  function is invoked, and the `@code` block is converted into a markdown fenced code block
+  (`|```|`).
+
+** "Null" Objects
+
+   Null objects are a special type of AO, which form when the {# AST Node} is left as
+   `nil`, and whose translation function simply always return an empty string (`""`).
+
+   To produce a null AO, you may use the `(neorg/null-abstract-object)` function (see {* janet}[this
+   section] on janet support).
+
+** `&...&` expansion overrides
+
+   When attempting to expand a {$ variable} through the inline macro expansion syntax (`&this&`),
+   Norg should look at a few factors:
+
+   ~ If the variable contains raw norg markup, paste the contents of the raw markup within the
+     document, respecting the {# inline macro expansion} rules.
+   ~ If the variable is an abstract object, then execute the translation function with the target
+     language set to `norg`. If the returned result is raw norg markup, then perform step 1. If the
+     translation function returns `nil`, then the macro is considered {# Bakeability}[unbakeable].
+     When this is the case, issue a warning to your user letting them know that baking the macro is
+     not possible.
+
+* Bakeability
+
+  "Baking" refers to the process of expanding a macro permanently and irreversibly by pasting its
+  expanded form in place of the original macro invocation. Most macros can be baked, but not all.
+
+  Baking is a process manually triggered by the user (with a keybind or command in your
+  application). Not all macros can be baked, however.
+
+  Baking of an object boils down to invoking the translation function of an {# Abstract
+  Objects}[abstract object] with the target set to `norg`. If the function returns `nil`, then the
+  macro is not bakeable.
+
+* Janet
+
+**** Norg-Janet Standard Library
+
+** AST Nodes
+
+  ===
+
+%| vim: set tw=100 :|%

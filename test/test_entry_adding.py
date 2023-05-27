@@ -159,164 +159,106 @@ class TestEntryAdding(unittest.TestCase):
             "24:00",
         ]
         assert day.starts_str() == assert_times
-        # assert day.schedule[0] == Entry(
-        #     name="Sleep", 
-        #     start=PTime(), 
-        #     end=PTime(5), 
-        #     priority=0, 
-        #     ismovable=True, 
-        #     normaltime=None, 
-        #     mintime=240
-        # )
-        # assert day.schedule[1] == Entry(
-        #     name="Morning Routine", 
-        #     start=PTime(5),      
-        #     end=PTime(7),      
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=30
-        # )
-        # assert day.schedule[2] == Entry(
-        #     name="Appointment",     
-        #     start=PTime(7),      
-        #     end=PTime(9),      
-        #     priority=0, 
-        #     ismovable=False, 
-        #     normaltime=None, 
-        #     mintime=120
-        # )
-        # assert day.schedule[3] == Empty(
-        #     start=PTime(9),
-        #     end=PTime(9, 45),
-        # )
-        # assert day.schedule[4] == Entry(
-        #     name="Shopping",    
-        #     start=PTime(9, 45),  
-        #     end=PTime(10, 15), 
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=20
-        # )
-        # assert day.schedule[5] == Entry(
-        #     name="Programming",     
-        #     start=PTime(10, 45), 
-        #     end=PTime(11, 30),     
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=40
-        # )
-        # assert day.schedule[6] == Entry(
-        #     name="Walk", 
-        #     start=PTime(11), 
-        #     end=PTime(13), 
-        #     priority=50.0, 
-        #     ismovable=True
-        # )
-        # assert day.schedule[7] == Empty(
-        #     start=PTime(13),     
-        #     end=PTime(21), 
-        # )
-        # assert day.schedule[8] == Entry(
-        #     name="Sleep",       
-        #     start=PTime(21),     
-        #     end=PTime(24), 
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=150
-        # )
         
     def test_add_bump_down(self):
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(10, 30), end=PTime(11), priority=50.0, ismovable=True)
         day.add(entry)
 
-        
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
+
 
     def test_add_adjacent(self):
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
         day.add(entry)
 
-        
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
     def test_add_minimal_uncompressed(self):
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
         day.add(entry)
 
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3] == Empty(
-            start=PTime(9),
-            end=PTime(9, 45),
-        )
-        assert day.schedule[4] == Entry(
-            name="Shopping",    
-            start=PTime(9, 45),  
-            end=PTime(10, 15), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=20
-        )
-        assert day.schedule[5] == Entry(
-            name="Programming",     
-            start=PTime(10, 15), 
-            end=PTime(11, 30),     
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=40
-        )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(11), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
     def test_add_with_compression(self):
         day =self.day1.copy()
@@ -324,387 +266,173 @@ class TestEntryAdding(unittest.TestCase):
         day.add(entry)
         
         assert day.ispartitioned()
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3].duration >= day.schedule[3].mintime
-        assert day.schedule[4].duration >= day.schedule[4].mintime
-        assert day.schedule[5].duration >= day.schedule[5].mintime
-        # assert day.schedule[3] == Empty(
-        #     start=PTime(9),
-        #     end=PTime(9, 45),
-        # )
-        # assert day.schedule[4] == Entry(
-        #     name="Shopping",    
-        #     start=PTime(9, 45),  
-        #     end=PTime(10, 15), 
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=20
-        # )
-        # assert day.schedule[5] == Entry(
-        #     name="Programming",     
-        #     start=PTime(10, 45), 
-        #     end=PTime(11, 30),     
-        #     priority=0, 
-        #     ismovable=True,  
-        #     normaltime=None, 
-        #     mintime=40
-        # )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(10, 30), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
     def test_add_no_room_before(self): #TODO
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
         day.add(entry)
 
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3] == Empty(
-            start=PTime(9),
-            end=PTime(9, 45),
-        )
-        assert day.schedule[4] == Entry(
-            name="Shopping",    
-            start=PTime(9, 45),  
-            end=PTime(10, 15), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=20
-        )
-        assert day.schedule[5] == Entry(
-            name="Programming",     
-            start=PTime(10, 45), 
-            end=PTime(11, 30),     
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=40
-        )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(11), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
     def test_add_no_room_before(self): #TODO
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
         day.add(entry)
 
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3] == Empty(
-            start=PTime(9),
-            end=PTime(9, 45),
-        )
-        assert day.schedule[4] == Entry(
-            name="Shopping",    
-            start=PTime(9, 45),  
-            end=PTime(10, 15), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=20
-        )
-        assert day.schedule[5] == Entry(
-            name="Programming",     
-            start=PTime(10, 45), 
-            end=PTime(11, 30),     
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=40
-        )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(11), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
-
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
+        
     def test_add_no_room_after(self): #TODO
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
         day.add(entry)
 
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3] == Empty(
-            start=PTime(9),
-            end=PTime(9, 45),
-        )
-        assert day.schedule[4] == Entry(
-            name="Shopping",    
-            start=PTime(9, 45),  
-            end=PTime(10, 15), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=20
-        )
-        assert day.schedule[5] == Entry(
-            name="Programming",     
-            start=PTime(10, 45), 
-            end=PTime(11, 30),     
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=40
-        )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(11), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
     def test_add_over_immovable(self): #TODO
         day =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
         day.add(entry)
 
-        assert day.schedule[0] == Entry(
-            name="Sleep", 
-            start=PTime(), 
-            end=PTime(5), 
-            priority=0, 
-            ismovable=True, 
-            normaltime=None, 
-            mintime=240
-        )
-        assert day.schedule[1] == Entry(
-            name="Morning Routine", 
-            start=PTime(5),      
-            end=PTime(7),      
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=30
-        )
-        assert day.schedule[2] == Entry(
-            name="Appointment",     
-            start=PTime(7),      
-            end=PTime(9),      
-            priority=0, 
-            ismovable=False, 
-            normaltime=None, 
-            mintime=120
-        )
-        assert day.schedule[3] == Empty(
-            start=PTime(9),
-            end=PTime(9, 45),
-        )
-        assert day.schedule[4] == Entry(
-            name="Shopping",    
-            start=PTime(9, 45),  
-            end=PTime(10, 15), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=20
-        )
-        assert day.schedule[5] == Entry(
-            name="Programming",     
-            start=PTime(10, 45), 
-            end=PTime(11, 30),     
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=40
-        )
-        assert day.schedule[6] == Entry(
-            name="Walk", 
-            start=PTime(11), 
-            end=PTime(13), 
-            priority=50.0, 
-            ismovable=True
-        )
-        assert day.schedule[7] == Empty(
-            start=PTime(13),     
-            end=PTime(21), 
-        )
-        assert day.schedule[8] == Entry(
-            name="Sleep",       
-            start=PTime(21),     
-            end=PTime(24), 
-            priority=0, 
-            ismovable=True,  
-            normaltime=None, 
-            mintime=150
-        )
+        assert day.ispartitioned()
+        assert_names = [
+            "First",
+            "Sleep",
+            "Morning Routine",
+            "Appointment",
+            "Shopping",
+            "Programming",
+            "Walk",
+            "Empty",
+            "Sleep",
+            "Last"
+        ]
+        assert day.names() == assert_names
+        assert_times = [
+            "00:00",
+            "00:00",
+            "05:00",
+            "07:00",
+            "09:00",
+            "10:00",
+            "11:30",
+            "15:30",
+            "18:00",
+            "24:00",
+        ]
+        assert day.starts_str() == assert_times
 
 
-t = TestEntryAdding()
-t.test_add_to_empty()
-t.test_add_room_to_spare()
-e = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
-s = t.day1.schedule
-d = t.day1
-entries = [x for x in s[4:] if x.priority >= 0]
-entries.insert(2, e)
-start = PTime(9)
-end = PTime(24)
+# t = TestEntryAdding()
+# t.test_add_to_empty()
+# t.test_add_room_to_spare()
+# e = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
+# s = t.day1.schedule
+# d = t.day1
+# entries = [x for x in s[4:] if x.priority >= 0]
+# entries.insert(2, e)
+# start = PTime(9)
+# end = PTime(24)
