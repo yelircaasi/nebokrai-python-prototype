@@ -1,8 +1,8 @@
-from planager.entities.day import DayAgenda
+from planager.entities.day import Day
 from planager.utils.datetime_extensions import PTime
 
 
-def check_day_validity(day: DayAgenda) -> bool:
+def check_day_validity(day: Day) -> bool:
     if len(day.schedule) == 1:
         adjacency = True
     else:

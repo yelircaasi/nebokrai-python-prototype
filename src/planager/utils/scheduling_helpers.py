@@ -55,11 +55,11 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
     entries_tail = []
     newentries_tail = []
     newlengths_tail = []
-    align_end = entries[-1].align_end
-    while align_end:
+    alignend = entries[-1].alignend
+    while alignend:
         entries_tail.insert(0, entries.pop())
         newlengths_tail.insert(0, newlengths.pop())
-        align_end = entries[-1].align_end
+        alignend = entries[-1].alignend
 
     tracker = start.copy()
     for entry, duration in zip(entries, newlengths):

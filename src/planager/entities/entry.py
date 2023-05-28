@@ -19,7 +19,7 @@ class Entry:
             idealtime: Optional[int] = None,
             mintime: Optional[int] = None,
             maxtime: Optional[int] = None,
-            align_end: bool = False
+            alignend: bool = False
         ) -> None:
         self.__dict__.update(locals())
         if normaltime and (not end):
@@ -45,7 +45,7 @@ class Entry:
             idealtime=self.idealtime,
             mintime=self.mintime,
             maxtime=self.maxtime,
-            align_end=self.align_end,
+            alignend=self.alignend,
         )
     
     @classmethod

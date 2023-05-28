@@ -81,7 +81,7 @@ class TestEntryAdding(unittest.TestCase):
                     ismovable=True,  
                     normaltime=None, 
                     mintime=150,
-                    align_end=True
+                    alignend=True
                 ),
                 LAST_ENTRY,
             ]

@@ -8,6 +8,7 @@ from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PDate, PTime
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
+from planager.utils.data.norg import make_norg_header, make_norg_body, make_norg_notes
 from planager.utils.scheduling_helpers import add_entry_default
 
 
@@ -50,7 +51,7 @@ class Day:
         return day
     
     def to_norg(self, path: Path) -> None:
-        #header = make_norg_header()
+        header = make_norg_header()
         #body = "\n\n".join(map(Entry.to_norg, self.schedule[1:-1]))
         #notes = make_norg_notes()
         ...

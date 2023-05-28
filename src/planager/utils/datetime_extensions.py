@@ -7,6 +7,11 @@ class PTime:
             raise ValueError("Time must be within 00:00..24:00")
         self.__dict__.update(locals())
 
+    @classmethod
+    def from_string(cls, date_string: str) -> "PTime":
+        hour, minute = map(int, date_string.split(":"))
+        return cls(hour, minute)
+    
     def __bool__(self):
         return (not self.isblank)
 

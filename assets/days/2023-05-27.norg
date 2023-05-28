@@ -18,7 +18,7 @@ version: 0.1
   - idealtime:  360
   - mintime:    240
   - maxtime:    420
-  - align_end:  false
+  - alignend:  false
 
 ** 06:00 | Morning Routine
 
@@ -30,7 +30,7 @@ version: 0.1
   - idealtime:  120
   - mintime:    30
   - maxtime:    150
-  - align_end:  false
+  - alignend:  false
 
 ** 9:00 | Appointment
 
@@ -41,7 +41,7 @@ version: 0.1
   - idealtime:  
   - mintime:    
   - maxtime:    
-  - align_end:  
+  - alignend:  
 
 ** 10:30 | Empty
 
@@ -54,7 +54,7 @@ version: 0.1
   - idealtime:  
   - mintime:    
   - maxtime:    
-  - align_end:  
+  - alignend:  
 
 ** 12:00 | Empty
 
@@ -67,7 +67,7 @@ version: 0.1
   - idealtime: 
   - mintime: 
   - maxtime: 
-  - align_end: 
+  - alignend: 
 
 ** 19:00 | Walk
 
@@ -78,7 +78,7 @@ version: 0.1
   - idealtime: 
   - mintime: 
   - maxtime: 
-  - align_end: 
+  - alignend: 
 
 ** 20:00 | Evening Routine
 
@@ -91,7 +91,7 @@ version: 0.1
   - idealtime: 
   - mintime: 
   - maxtime: 
-  - align_end: 
+  - alignend: 
 
 ** 23:00 | Sleep
 
