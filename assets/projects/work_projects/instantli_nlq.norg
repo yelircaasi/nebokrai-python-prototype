@@ -1,0 +1,22 @@
+@document.meta
+title: Instantli NLQ
+authors: [yelircaasi]
+categories: 
+version: 0.1
+@end
+
+* Refactor pytorch_ner: add inference function
+  ** due: 
+  ** priority: 
+  ** before: 
+  ** after: 
+
+* Refactor pytorch_ner: add support for bert embeddings
+
+* Check model on conll2003, debug inference
+
+* run and evaluate with bert embeddings
+
+* add attention to model
+
+* run and evaluate model with attention
