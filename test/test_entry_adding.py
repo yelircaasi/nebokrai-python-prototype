@@ -11,14 +11,14 @@ Case to test:
 """
 import unittest
 
-from planager.entities.day import Day
+from planager.entities.day import Schedule
 from planager.entities.entry import Empty, Entry, FIRST_ENTRY, LAST_ENTRY
 from planager.utils.datetime_extensions import PTime
 
 
 class TestEntryAdding(unittest.TestCase):
     def __init__(self):
-        self.day1 = Day(
+        self.day1 = Schedule(
             schedule=[
                 FIRST_ENTRY,
                 Entry(
@@ -86,15 +86,15 @@ class TestEntryAdding(unittest.TestCase):
                 LAST_ENTRY,
             ]
         )
-        self.day2 = Day(
+        self.day2 = Schedule(
             schedule = []
         )
-        self.day3 = Day(
+        self.day3 = Schedule(
             schedule = []
         )
 
     def test_add_to_empty(self):
-        day = Day()
+        schedule = Schedule()
         entry = Entry(
             name="Walk", 
             start=PTime(11), 
@@ -102,37 +102,37 @@ class TestEntryAdding(unittest.TestCase):
             priority=50.0, 
             ismovable=True
         )
-        day.add(entry)
-        print(day)
-        print(day.schedule)
+        schedule.add(entry)
+        print(schedule)
+        print(schedule.schedule)
 
-        assert day.schedule[1] == Empty(
+        assert schedule.schedule[1] == Empty(
             start=PTime(), 
             end=PTime(11), 
         )
-        assert day.schedule[2] == Entry(
+        assert schedule.schedule[2] == Entry(
             name="Walk", 
             start=PTime(11), 
             end=PTime(13), 
             priority=50.0, 
             ismovable=True
         )
-        assert day.schedule[3] == Empty(
+        assert schedule.schedule[3] == Empty(
             start=PTime(13), 
             end=PTime(24), 
         )
 
     def test_add_room_to_spare(self):
-        day = self.day1.copy()
+        schedule = self.day1.copy()
         entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
         print("\n\n\n")
-        print(day)
-        print(day.schedule)
+        print(schedule)
+        print(schedule.schedule)
 
-        self.d = day
+        self.d = schedule
         
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -145,7 +145,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -158,14 +158,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
         
     def test_add_bump_down(self):
-        day =self.day1.copy()
+        schedule = self.day1.copy()
         entry = Entry(name="Walk", start=PTime(10, 30), end=PTime(11), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -178,7 +178,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -191,15 +191,15 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
 
     def test_add_adjacent(self):
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -212,7 +212,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -225,14 +225,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
     def test_add_minimal_uncompressed(self):
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -245,7 +245,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -258,14 +258,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
     def test_add_with_compression(self):
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(10, 30), end=PTime(13), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
         
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -278,7 +278,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -291,14 +291,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
     def test_add_no_room_before(self): #TODO
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -311,7 +311,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -324,14 +324,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
     def test_add_no_room_before(self): #TODO
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -344,7 +344,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -357,14 +357,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
         
     def test_add_no_room_after(self): #TODO
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -377,7 +377,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -390,14 +390,14 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
     def test_add_over_immovable(self): #TODO
-        day =self.day1.copy()
+        schedule =self.day1.copy()
         entry = Entry(name="Walk", start=PTime(14, 30), end=PTime(15, 15), priority=50.0, ismovable=True)
-        day.add(entry)
+        schedule.add(entry)
 
-        assert day.ispartitioned()
+        assert schedule.ispartitioned()
         assert_names = [
             "First",
             "Sleep",
@@ -410,7 +410,7 @@ class TestEntryAdding(unittest.TestCase):
             "Sleep",
             "Last"
         ]
-        assert day.names() == assert_names
+        assert schedule.names() == assert_names
         assert_times = [
             "00:00",
             "00:00",
@@ -423,7 +423,7 @@ class TestEntryAdding(unittest.TestCase):
             "18:00",
             "24:00",
         ]
-        assert day.starts_str() == assert_times
+        assert schedule.starts_str() == assert_times
 
 
 # t = TestEntryAdding()

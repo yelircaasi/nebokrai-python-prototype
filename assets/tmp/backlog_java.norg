@@ -1,0 +1,512 @@
+
+
+* Java и OpenCV
+  ** link: 
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** cv
+  ** description: 
+
+* Программирование на Java для начинающих
+  ** link: 
+  ** tasks: 0-18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* https://www.analyticsinsight.net/top-10-java-projects-that-beginners-should-master-in-2022/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Sams Teach Yourself Java in 24 Hours
+  ** link: 
+  ** tasks: 24,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Fundamentals of Java Programming
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Grundkurs Java
+  ** link: 
+  ** tasks: 33,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Succinctly Part 1
+  ** link: 
+  ** tasks: 9,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Neural Network Programming with Java
+  ** link: 
+  ** tasks: 9,B
+  ** priority: MEDIUM_HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** dl
+  ** description: 
+
+* Core Java Cheatsheet
+  ** link: 
+  ** tasks: 1
+  ** priority: HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Learning Java
+  ** link: 
+  ** tasks: 13,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Програмування на Java
+  ** link: https://www.youtube.com/playlist?list=PLxxPga8YS0l7Bory4_a9RHhg7NAQiCyrq
+  ** tasks: 87
+  ** priority: WISH
+  ** cluster: 3
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Курс Java з нуля Українською
+  ** link: https://www.youtube.com/playlist?list=PLOlyZEVllXBGFYKIpet7KdkWnhQ7JpNXS
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Head First Java
+  ** link: 
+  ** tasks: 9,A
+  ** priority: MEDIUM_LOW
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Легкий способ выучить Java
+  ** link: 
+  ** tasks: 11,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Hands-On Software Engineering with Java
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* https://www.geeksforgeeks.org/image-processing-in-java-changing-orientation-of-image/?ref=rp
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** cv
+  ** description: 
+
+* JTextPro: A Java-based Text Processing Toolkit
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** java
+  ** description: 
+
+* JWebPro: A Java-based Web Processing Toolkit
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+     *** java
+  ** description: 
+
+* Learn Java the Hard Way
+  ** link: 
+  ** tasks: 0-58
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Классические задачи Computer Science на языке Java
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** alg
+     *** java
+  ** description: 
+
+* Interactive Object-Oriented Programming with Java
+  ** link: 
+  ** tasks: 16,C
+  ** priority: MEDIUM_HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Core Java SE 9 for the Impatient
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* https://exercism.org/tracks/java
+  ** link: 
+  ** tasks: 132
+  ** priority: MEDIUM_HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Think Java (2e)
+  ** link: 
+  ** tasks: 17,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java для всех
+  ** link: 
+  ** tasks: 13,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Cookbook
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java for Data Science
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Programming (Farrell)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Programming. From The Ground Up
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java для начинающих
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java полное руководство
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java. A Beginner's Guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java. Справочник разработчика
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Mastering Java. A Beginner's Guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Mastering Java. An Effective Project Based Approach (including Web)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Введение в объектно-ориентированный дизайн с Java
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Джава. Решение практических задач
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Pocket Guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java by Comparison. Become a Java Craftsman in 70 Examples
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Succinctly Part 2
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Java Virtual Machine
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** jvm
+  ** description: 
+
+* Modern Java in Action
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Programming for the Java Virtual Machine
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** jvm
+  ** description: 
+
+* The Java® Virtual Machine Specification
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** jvm
+  ** description: 
+
+* Well-Grounded Java Developer
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Система модулей Java
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Современный Java 2020
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Структуры данных и алгоритмы Java
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+  ** description: 
+
+* Decompiling Java
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** java
+     *** jvm
+  ** description: 

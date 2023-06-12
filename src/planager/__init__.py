@@ -1,4 +1,4 @@
-from planager.entities.day import Day
+from src.planager.entities.schedule import Day
 from planager.entities.entry import Empty, Entry, FIRST_ENTRY, LAST_ENTRY
 from planager.utils.datetime_extensions import PDate, PTime
 

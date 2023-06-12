@@ -1,0 +1,95 @@
+
+
+* An Introduction to GCC. For the GNU Compilers GCC and G++
+  ** link: 
+  ** tasks: 13,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** c++
+     *** c
+  ** description: 
+
+* nand2tetris
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** low_level
+  ** description: 
+
+* Компиляторы
+  ** link: 
+  ** tasks: 12,A9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 
+
+* Introduction to Compiler Design
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 
+
+* Implementing Programming Languages. An Introduction to Compilers and Interpreters
+  ** link: 
+  ** tasks: 8,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** proglang
+  ** description: 
+
+* Compilers (Aho et al. 2E)
+  ** link: 
+  ** tasks: 12,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 
+
+* Compiladores y interpretes
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 
+
+* Compiladores 2e
+  ** link: 
+  ** tasks: 12,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 
+
+* Compilers
+  ** link: 
+  ** tasks: 0-37,A,B,C,D,E,F
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+  ** description: 

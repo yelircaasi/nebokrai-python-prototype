@@ -20,7 +20,7 @@ class AdjustmentType(Enum):
     COMPROMISE = 4   # 
 
 
-class Day:
+class Schedule:
     def __init__(
             self, 
             year=PDate.today().year, 
@@ -40,15 +40,15 @@ class Day:
             self.schedule.append(LAST_ENTRY)
 
     @classmethod
-    def from_norg(cls, path: Path) -> "Day":
+    def from_norg(cls, path: Path) -> "Schedule":
         #dict = read_norg_day(path)
-        day = cls()
-        return day
+        schedule = cls()
+        return schedule
 
     @classmethod
-    def from_json(cls, path: Path) -> "Day":
-        day = cls()
-        return day
+    def from_json(cls, path: Path) -> "Schedule":
+        schedule = cls()
+        return schedule
     
     def to_norg(self, path: Path) -> None:
         header = make_norg_header()
@@ -60,9 +60,9 @@ class Day:
         ...
 
     def copy(self):
-        newday = Day()
-        newday.__dict__.update(self.__dict__)
-        return newday
+        newschedule = Schedule()
+        newschedule.__dict__.update(self.__dict__)
+        return newschedule
 
     def add(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         self.ensure_bookends()
@@ -143,10 +143,10 @@ class Day:
         return [str(x.start) for x in self.schedule]
 
 
-# d = Day(2023, 5, 23)
+# d = Schedule(2023, 5, 23)
 # d.schedule = [
 #     Entry(name="Entry 1", start=PTime(4,30), end=PTime(5,45)), 
 #     Entry(name="Entry 2", start=PTime(7,10), end=PTime(7,30), priority=56), 
 #     Entry(name="R & R", start=PTime(9,15), end=PTime(9,50)), 
-#     Entry(name="Last Entry for the day: reading at my own discretion", start=PTime(17,30), end=PTime(19,15), priority=10)
+#     Entry(name="Last Entry for the schedule: reading at my own discretion", start=PTime(17,30), end=PTime(19,15), priority=10)
 # ]

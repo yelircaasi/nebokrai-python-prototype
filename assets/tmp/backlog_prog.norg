@@ -1,0 +1,440 @@
+
+
+* The Healthy Programmer
+  ** link: 
+  ** tasks: 12,A2
+  ** priority: CRITICAL
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** meta
+     *** prog
+  ** description: 
+
+* Clean Code (IT)
+  ** link: 
+  ** tasks: 17,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Building your Mouseless Development Environment
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** setup
+     *** prog
+  ** description: 
+
+* The Missing Semester of Your CS Education
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** setup
+     *** prog
+  ** description: 
+
+* The Art of Clean Code
+  ** link: 
+  ** tasks: 0-9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Code Craft - The Practice of Writing Excellent Code
+  ** link: 
+  ** tasks: 24,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Softwareengineering - Wie entwickelt man Software
+  ** link: 
+  ** tasks: 75
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Refactoring
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Ingeniería del software
+  ** link: 
+  ** tasks: 32
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Заблуждения и антишаблоны, относящиеся к devops
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* First Year in Code
+  ** link: 
+  ** tasks: 0-22,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* https://euler.stephan-brumme.com/
+  ** link: 
+  ** tasks: 200
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Регулярные выражения
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* The Programmer's Brain. What Every Programmer Needs
+  ** link: 
+  ** tasks: 13
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** meta
+     *** prog
+  ** description: 
+
+* Читаемый код
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Software Development, Design, and Coding
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Software Engineering. Grundlagen, Menschen, Prozesse, Techniken.epub
+  ** link: 
+  ** tasks: 26
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Software Engineering
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Street Coder
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Code Complete - A Practical Handbook of Software Construction
+  ** link: 
+  ** tasks: 35
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Write Great Code 2
+  ** link: 
+  ** tasks: 17,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Write Great Code 1
+  ** link: 
+  ** tasks: 16,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* O Programador Pragmático
+  ** link: 
+  ** tasks: 47,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Идеальный программист. Как стать профессионалом разработки ПО
+  ** link: 
+  ** tasks: 0-14,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Совершенный код. Мастер-класс
+  ** link: 
+  ** tasks: 34,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* How Open Source Ate Software
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** meta
+     *** prog
+  ** description: 
+
+* Чистая архитектура. Искусство разработки программного обеспечения
+  ** link: 
+  ** tasks: 34
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Five Lines of Code
+  ** link: 
+  ** tasks: 0-14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Essentials of Programming Languages
+  ** link: 
+  ** tasks: 9,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Scalability Patterns
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Refactoring at Scale
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Scalability Rules
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Secure by Design
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+     *** prog
+  ** description: 
+
+* Code Reading. The Open Source Perspective
+  ** link: 
+  ** tasks: 11,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* 1400 задач по программированию
+  ** link: 
+  ** tasks: 14,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** alg
+     *** prog
+  ** description: 
+
+* 97 Etudes RU
+  ** link: 
+  ** tasks: 97
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Seriously Good Software
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Handbuch für Softwareentwickler
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* https://ocw.mit.edu/courses/6-172-performance-engineering-of-software-systems-fall-2018/video_galleries/lecture-videos/
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Structure and Interpretation of Computer Programs
+  ** link: 
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Fundamentals of Software Architecture
+  ** link: 
+  ** tasks: 24
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog
+  ** description: 
+
+* Введение в рекурсивное программирование
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** alg
+     *** prog
+  ** description: 
+
+* Человеческий фактор успешные проекты и команды
+  ** link: 
+  ** tasks: 26
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** prog
+  ** description: 

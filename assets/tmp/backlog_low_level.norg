@@ -1,0 +1,474 @@
+
+
+* Introduction to Digital Electronics
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Introduction to Computer Organization. An Under the Hood Look at Hardware and x86-64 Assembly
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Linux intern
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+     *** linux
+  ** description: 
+
+* Code (Petzold)
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Код
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Computer Systems - A Programmer's Perspective
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Programming from the Ground Up
+  ** link: 
+  ** tasks: 13,A,B,C,D,E,F,G,H,I
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* But How Do It Know. The Basic Principles of Computers for Everyone
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Learn to Program with Assembly
+  ** link: 
+  ** tasks: 19,A11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Computing Systems (Elahi)
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Assembly Programming and Computer Architecture for Software Engineers
+  ** link: 
+  ** tasks: 12,A,B,C,D,E,F,G,H,I
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* BIOS.djvu
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+     *** os
+     *** linux
+  ** description: 
+
+* Sistemas computacionales
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* https://justinmeiners.github.io/lc3-vm/
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Introduction to Logic Circuits and Logic Design with VHDL
+  ** link: 
+  ** tasks: 13,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Linux Kernel in a Nutshell
+  ** link: 
+  ** tasks: 11,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** os
+     *** low_level
+     *** systems
+  ** description: 
+
+* Low-Level Programming
+  ** link: 
+  ** tasks: 22
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Ensamblador
+  ** link: 
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Fundamentos físicos de la informática
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Programming with POSIX threads
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** concurrency
+     *** low_level
+  ** description: 
+
+* Digital Computer Electronics
+  ** link: 
+  ** tasks: 24,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Assembly Language Step-by-Step. Programming with Linux
+  ** link: 
+  ** tasks: 13,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* How to Build a Working Digital Computer
+  ** link: 
+  ** tasks: 7,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Lenguaje ensamblador y programación para IBM PC y compatibles
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* UNIX Network Programming, Volume 1. The Sockets Networking API
+  ** link: https://github.com/sqm2050/wiki/blob/master/Books/c%26programme/UNIX%20Network%20Programming%2C%20Volume%201%2C%20Third%20Edition%2C%20The%20Sockets%20Networking%20API
+  ** tasks: 31,A5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog_misc
+     *** low_level
+  ** description: 
+
+* The Art of Assembly Language Programming
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Програмування мовою асемблера. Навчальний посібник
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* The Art of 64-Bit Assembly
+  ** link: 
+  ** tasks: 16,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Профессиональное программирование на ассемблере x64 с расширениями
+  ** link: 
+  ** tasks: 0-16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Программирование на ассемблере х64. От начального уровня до профессионального
+  ** link: 
+  ** tasks: 0-43
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Assembler Lernen - Tutorial Deutsch
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Fundamentals of Computer Architecture and Design
+  ** link: 
+  ** tasks: 8,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Betriebssysteme (zweisprachig)
+  ** link: 
+  ** tasks: 10,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** os
+     *** low_level
+  ** description: 
+
+* Real-Time Operating Systems Book 1. The Theory
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** os
+     *** low_level
+  ** description: 
+
+* Arquitectura de computadores
+  ** link: 
+  ** tasks: 10,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Linux API. Исчерпывающее руководство
+  ** link: 
+  ** tasks: 60
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+     *** linux
+  ** description: 
+
+* Operating System - YouTube
+  ** link: 
+  ** tasks: 29
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** os
+     *** low_level
+  ** description: 
+
+* Computer Systems (Elahi)
+  ** link: 
+  ** tasks: 10,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Inside the Machine - An Illustrated Guide
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Electronic Digital System Fundamentals
+  ** link: 
+  ** tasks: 11,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Processor Microarchitecture
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Вычислительные системы и ассемблер.djvu
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Structured Computer Organization
+  ** link: 
+  ** tasks: 9,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* https://exercism.org/tracks/x86-64-assembly/
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Arquitetura e organização de computadores (Stallings)
+  ** link: 
+  ** tasks: 21,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+  ** description: 
+
+* Systems Programming in Unix/Linux
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** low_level
+     *** os
+     *** linux
+  ** description: 

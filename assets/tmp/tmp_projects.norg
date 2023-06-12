@@ -1,0 +1,640 @@
+* The Well-Grounded Python Developer
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-05
+  ** end: 2023-04-07
+  ** priority: 9
+  ** interval: None
+  ** cluster: 2
+  ** duration: 20
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Testing with pytest
+  ** link: 
+  ** tasks: 16,A2
+  ** start: 2023-04-05
+  ** end: 2023-04-20
+  ** priority: 9
+  ** interval: None
+  ** cluster: 3
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python лучшие инструменты и практики
+  ** link: 
+  ** tasks: 17,A
+  ** start: 2023-04-05
+  ** end: 2023-04-07
+  ** priority: 9
+  ** interval: None
+  ** cluster: 2
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Effective Python
+  ** link: 
+  ** tasks: 10
+  ** start: 2023-04-08
+  ** end: 2023-05-15
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 40
+  ** tags:
+     *** python
+  ** description: 
+
+* Профессиональная разработка на Python
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-06
+  ** end: 2023-05-15
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Fluent Python (2e)
+  ** link: 
+  ** tasks: 24
+  ** start: 2023-04-07
+  ** end: 2023-07-04
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 45
+  ** tags:
+     *** python
+  ** description: 
+
+* Robust Python
+  ** link: 
+  ** tasks: 24
+  ** start: 2023-04-08
+  ** end: 2023-07-04
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Exploring CPython's Internals - Python Developer's Guide
+  ** link: 
+  ** tasks: 10
+  ** start: 2023-04-06
+  ** end: 2023-05-05
+  ** priority: 8
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python_low_level
+     *** python
+  ** description: 
+
+* Python Programming with Design Patterns
+  ** link: 
+  ** tasks: 13
+  ** start: 2023-05-05
+  ** end: 2023-06-14
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+     *** python
+  ** description: 
+
+* Inside the Python Virtual Machine
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-10
+  ** end: 2023-05-25
+  ** priority: 8
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python_low_level
+     *** python
+  ** description: 
+
+* Секреты Python Pro
+  ** link: 
+  ** tasks: 11,A
+  ** start: 2023-04-05
+  ** end: 2023-05-25
+  ** priority: 8
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Clean Code in Python
+  ** link: 
+  ** tasks: 10
+  ** start: 2023-04-14
+  ** end: 2023-05-25
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* 40 Algorithms Every Programmer Should Know (Python)
+  ** link: 
+  ** tasks: 40
+  ** start: 2023-05-26
+  ** end: 2023-08-03
+  ** priority: 6
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** alg
+     *** python
+  ** description: 
+
+* Practical Cryptography in Python. Learning Correct Cryptography by Example
+  ** link: 
+  ** tasks: 8
+  ** start: 2023-05-05
+  ** end: 2023-06-04
+  ** priority: 6
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** crypto
+  ** description: 
+
+* High Performance Python
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-05-05
+  ** end: 2023-06-24
+  ** priority: 8
+  ** interval: None
+  ** cluster: 1
+  ** duration: 60
+  ** tags:
+     *** python
+  ** description: 
+
+* CPython Internals
+  ** link: 
+  ** tasks: 17
+  ** start: 2023-04-08
+  ** end: 2023-06-04
+  ** priority: 6
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c
+     *** python
+  ** description: 
+
+* Three Keys to Leveling up Your Python
+  ** link: 
+  ** tasks: 3
+  ** start: 2023-04-05
+  ** end: None
+  ** priority: 7
+  ** interval: 1
+  ** cluster: 3
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Простой Python (2021)
+  ** link: 
+  ** tasks: 22,A5
+  ** start: 2023-04-08
+  ** end: 2023-07-14
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python. Das umfassende Handbuch
+  ** link: 
+  ** tasks: 40,A
+  ** start: 2023-04-09
+  ** end: 2023-07-14
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Software Architecture with Python
+  ** link: 
+  ** tasks: 10
+  ** start: 2023-04-09
+  ** end: 2023-05-15
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 80
+  ** tags:
+     *** python
+  ** description: 
+
+* Advanced Guide to Python 3 Programming
+  ** link: 
+  ** tasks: 41
+  ** start: 2023-04-07
+  ** end: None
+  ** priority: 7
+  ** interval: 2
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Чистый код
+  ** link: 
+  ** tasks: 9
+  ** start: 2023-04-10
+  ** end: 2023-05-05
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Чистый Python
+  ** link: 
+  ** tasks: 9
+  ** start: 2023-04-11
+  ** end: 2023-05-06
+  ** priority: 9
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Путь Python
+  ** link: 
+  ** tasks: 13
+  ** start: 2023-04-07
+  ** end: 2023-05-25
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Architecture Patterns with Python
+  ** link: 
+  ** tasks: 13,A0-A5
+  ** start: 2023-04-07
+  ** end: 2023-05-25
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 40
+  ** tags:
+     *** python
+  ** description: 
+
+* Advanced Python Development
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-09
+  ** end: 2023-05-25
+  ** priority: 8
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Full Speed Python
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-09
+  ** end: 2023-04-25
+  ** priority: 6
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python, например
+  ** link: 
+  ** tasks: Основы,Инструкция if,Строки,Математические операции,Цикл for,Цикл while,Случайные числа,Черепашья графика,Кортежи; списки и словари,Снова о работе со строками,Числовые массивы,Двумерные списки и словари,Чтение и запись текстовых файлов,Чтение и запись файлов .csv,Подпрограммы,Графический интерфейс Tkinter,Подробнее о Tkinter,SQLite,Задача 146. Код сдвига,Задача 147. Mastermind,Задача 148. Пароли,Задача 149. Таблица умножения,Задача 150. Картинная галерея,Что дальше?,Глоссарий
+  ** start: 2023-04-15
+  ** end: None
+  ** priority: 0
+  ** interval: 2
+  ** cluster: 1
+  ** duration: 20
+  ** tags:
+     *** python
+  ** description: 
+
+* Serious Python
+  ** link: 
+  ** tasks: 13
+  ** start: 2023-04-11
+  ** end: 2023-06-14
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Standard Library
+  ** link: 
+  ** tasks: Introduction,Built-in Functions,Built-in Constants,Built-in Types,Built-in Exceptions,string,re,difflib,textwrap,unicodedata,stringprep,readline,rlcompleter,struct,codecs,datetime,zoneinfo,calendar,collections,collections.abc,heapq,bisect,array,weakref,types,copy,pprint,reprlib,enum,graphlib,numbers,math,cmath,decimal,fractions,random,statistics,itertools,functools,operator,pathlib,os.path,fileinput,stat,filecmp,tempfile,glob,fnmatch,linecache,shutil,pickle,copyreg,shelve,marshal,dbm,sqlite3,zlib,gzip,bz2,lzma,zipfile,tarfile,csv,configparser,tomllib,netrc,plistlib,hashlib,hmac,secrets,os,io,time,argparse,getopt,logging,logging.config,logging.handlers,getpass,curses,curses.textpad,curses.ascii,curses.panel,platform,errno,ctypes,threading,multiprocessing,multiprocessing.shared_memory,The concurrent package,concurrent.futures,subprocess,sched,queue,contextvars,_thread,asyncio,socket,ssl,select,selectors,signal,mmap,email,json,mailbox,mimetypes,base64,binascii,quopri,html,html.parser,html.entities,XML Processing Modules,xml.etree.ElementTree,xml.dom,xml.dom.minidom,xml.dom.pulldom,xml.sax,xml.sax.handler,xml.sax.saxutils,xml.sax.xmlreader,xml.parsers.expat,webbrowser,wsgiref,urllib,urllib.request,urllib.response,urllib.parse,urllib.error,urllib.robotparser,http,http.client,ftplib,poplib,imaplib,smtplib,uuid,socketserver,http.server,http.cookies,http.cookiejar,xmlrpc,xmlrpc.client,xmlrpc.server,ipaddress,wave,colorsys,gettext,locale,turtle,cmd,shlex,tkinter,tkinter.colorchooser,tkinter.font,Tkinter Dialogs,tkinter.messagebox,tkinter.scrolledtext,tkinter.dnd,tkinter.ttk,tkinter.tix,IDLE,typing,pydoc,Python Development Mode,Effects of the Python Development Mode,ResourceWarning Example,Bad file descriptor error example,doctest,unittest,unittest.mock,unittest.mock,2to3,test,test.support,test.support.socket_helper,test.support.script_helper,test.support.bytecode_helper,test.support.threading_helper,test.support.os_helper,test.support.import_helper,test.support.warnings_helper,Audit events table,bdb,faulthandler,pdb,The Python Profilers,timeit,trace,tracemalloc,distutils,ensurepip,venv,zipapp,sys,sysconfig,builtins,__main__,warnings,dataclasses,contextlib,abc,atexit,traceback,__future__,gc,inspect,site,code,codeop,zipimport,pkgutil,modulefinder,runpy,importlib,importlib.resources – Resources,Deprecated functions,importlib.resources.abc – Abstract base classes for resources,Using importlib.metadata,The initialization of the sys.path module search path,ast,symtable,token,keyword,tokenize,tabnanny,pyclbr,py_compile,compileall,dis,pickletools,msvcrt,winreg,winsound,posix,pwd,grp,termios,tty,pty,fcntl,resource,syslog,aifc,asynchat,asyncore,audioop,cgi,cgitb,chunk,crypt,imghdr,imp,mailcap,msilib,nis,nntplib,optparse,ossaudiodev,pipes,smtpd,sndhdr,spwd,sunau,telnetlib,uu,xdrlib,Security Considerations
+  ** start: 2023-04-05
+  ** end: None
+  ** priority: 8
+  ** interval: 3
+  ** cluster: 2
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* How to use C from Python? - #9
+  ** link: 
+  ** tasks: 1
+  ** start: 2023-05-02
+  ** end: None
+  ** priority: 6
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c
+     *** python
+  ** description: 
+
+* Python Glossary
+  ** link: 
+  ** tasks: 1
+  ** start: 2023-04-06
+  ** end: None
+  ** priority: 0
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Mastering Python Design Patterns
+  ** link: 
+  ** tasks: 16
+  ** start: 2023-06-04
+  ** end: None
+  ** priority: 6
+  ** interval: 4
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+     *** python
+  ** description: 
+
+* Python FAQs
+  ** link: 
+  ** tasks: 1
+  ** start: 2023-04-05
+  ** end: None
+  ** priority: 7
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* https://python-patterns.guide/
+  ** link: 
+  ** tasks: 74
+  ** start: 2023-04-20
+  ** end: None
+  ** priority: 5
+  ** interval: 2
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+     *** python
+  ** description: 
+
+* Visual Studio Code for Python Programmers
+  ** link: 
+  ** tasks: 12
+  ** start: 2023-04-15
+  ** end: 2023-04-30
+  ** priority: 7
+  ** interval: None
+  ** cluster: 3
+  ** duration: 30
+  ** tags:
+     *** vscode
+  ** description: 
+
+* C and Python Applications
+  ** link: 
+  ** tasks: 6,A
+  ** start: 2023-07-04
+  ** end: None
+  ** priority: 5
+  ** interval: 4
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c
+     *** python
+  ** description: 
+
+* Python. The True Book
+  ** link: 
+  ** tasks: 8
+  ** start: 2023-04-15
+  ** end: None
+  ** priority: 5
+  ** interval: 2
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* The Python Book
+  ** link: 
+  ** tasks: 20
+  ** start: 2023-04-12
+  ** end: 2023-05-25
+  ** priority: 0
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Concurrency with asyncio
+  ** link: 
+  ** tasks: 14
+  ** start: 2023-06-04
+  ** end: 2023-08-03
+  ** priority: 5
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** concurrency
+     *** async
+  ** description: 
+
+* Fast numerical computations with Cython
+  ** link: 
+  ** tasks: 1
+  ** start: 2023-05-15
+  ** end: None
+  ** priority: 6
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c
+     *** python
+  ** description: 
+
+* Cython: The Best of Both Worlds
+  ** link: 
+  ** tasks: 1
+  ** start: 2023-06-06
+  ** end: None
+  ** priority: 6
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c
+     *** python
+  ** description: 
+
+* Optimizing Visual Studio Code for Python Development
+  ** link: 
+  ** tasks: 5
+  ** start: 2023-04-16
+  ** end: 2023-04-30
+  ** priority: 7
+  ** interval: None
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vscode
+     *** python
+  ** description: 
+
+* Python Language Reference
+  ** link: 
+  ** tasks: 10,A,B
+  ** start: 2023-04-05
+  ** end: None
+  ** priority: 8
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* https://docs.python.org/3/extending/
+  ** link: 
+  ** tasks: 5
+  ** start: 2023-07-09
+  ** end: None
+  ** priority: 6
+  ** interval: 4
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python HOWTOs
+  ** link: 
+  ** tasks: 16
+  ** start: 2023-04-18
+  ** end: None
+  ** priority: 9
+  ** interval: 1
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Design Patterns in Python
+  ** link: 
+  ** tasks: 8
+  ** start: 2023-06-05
+  ** end: None
+  ** priority: 7
+  ** interval: 4
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+     *** python
+  ** description: 
+
+* Elementary Math for Computer Science with Python
+  ** link: 
+  ** tasks: 8,A
+  ** start: 2023-05-25
+  ** end: 2023-07-04
+  ** priority: 0
+  ** interval: None
+  ** cluster: 2
+  ** duration: 30
+  ** tags:
+     *** python
+     *** math
+  ** description: 

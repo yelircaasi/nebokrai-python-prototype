@@ -1,0 +1,362 @@
+
+
+* Классические задачи Computer Science на языке Python
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** python
+     *** alg
+  ** description: 
+
+* The Computer Science of TeX and LaTeX
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** tex
+  ** description: 
+
+* Code and Data for the Social Sciences. A Practitioner's Guide
+  ** link: 
+  ** tasks: 8,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* A Programmer's Guide to Computer Science. Volume I
+  ** link: 
+  ** tasks: 14,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* How Software Works
+  ** link: 
+  ** tasks: 9
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Computer Science Illuminated
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Computer Science - A Very Short Introduction
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Computing Handbook. Computer science and software engineering
+  ** link: 
+  ** tasks: 93
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** prog
+  ** description: 
+
+* Гид по Computer Science
+  ** link: 
+  ** tasks: 35,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Techtiefen
+  ** link: 
+  ** tasks: 36
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Programming Logic and Design, Comprehensive
+  ** link: 
+  ** tasks: 14,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** prog
+  ** description: 
+
+* An Introduction To Programs
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** prog
+  ** description: 
+
+* The Secret Life of Programs. Understand Computers, Craft Better Code
+  ** link: 
+  ** tasks: 0-15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** low_level
+     *** prog
+  ** description: 
+
+* Computer Science Distilled
+  ** link: 
+  ** tasks: 9,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Теоретический минимум по Computer Science
+  ** link: 
+  ** tasks: 8,A0-A4
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Elements of Computing Systems (2e)
+  ** link: 
+  ** tasks: 13,A5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* The Missing README
+  ** link: 
+  ** tasks: 14
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Computer Science. An Interdisciplinary Approach
+  ** link: 
+  ** tasks: 7,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* ix Developer - Sichere Software entwickeln
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Computers: A History
+  ** link: https://www.youtube.com/watch?v=OwQ9DFeJysw&list=PLU3TaPgchJtRANwKajkQyUIrRYGthyl7t&index=4
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** history
+  ** description: 
+
+* The Future of Computer Security
+  ** link: https://www.youtube.com/watch?v=sJvLyccxIJY&list=PLU3TaPgchJtRANwKajkQyUIrRYGthyl7t&index=6
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** crypto
+  ** description: 
+
+* Computer Science: A Very Short Introduction
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* What Kind of Computation Is Cognition?
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** philo
+     *** cs
+  ** description: 
+
+* A Course in Formal Languages, Automata, and Groups (Chiswell)
+  ** link: 
+  ** tasks: 5,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** cs
+  ** description: 
+
+* Scientific Computing. A Historical Perspective
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** history
+  ** description: 
+
+* How to Design, Build, & Program Your Own Working Computer System
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** low_level
+  ** description: 
+
+* Exploring the Early Digital
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** history
+  ** description: 
+
+* An Introduction to Formal Languages and Automata
+  ** link: 
+  ** tasks: 14,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** compiler
+  ** description: 
+
+* Intro to Automata Theory, Languages, and Computation (Hopcroft)
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** cs
+  ** description: 
+
+* Algorithms, Languages, Automata, and Compilers
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** compiler
+     *** alg
+     *** cs
+  ** description: 
+
+* The Annotated Turing
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 
+
+* Алгоритмы и модели вычисления
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** alg
+  ** description: 
+
+* Introduction to the Theory of Formal Languages and Automata (Levelt)
+  ** link: 
+  ** tasks: 9,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** compiler
+  ** description: 
+
+* Foundations of Computer Science
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+  ** description: 

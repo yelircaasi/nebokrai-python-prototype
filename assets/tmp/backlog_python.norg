@@ -1,0 +1,341 @@
+
+
+* Изучаем Python, том 2
+  ** link: 
+  ** tasks: 26-41,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Tutorial
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Изучаем Python, том 1
+  ** link: 
+  ** tasks: 25,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Test-Driven Development with Python
+  ** link: 
+  ** tasks: 26,A10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Functional Python Programming. Discover the power of functional programming, generator functions, lazy evaluation, the built-in itertools library, and monads
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** functional
+  ** description: 
+
+* Functional Programming in Python (2019)
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** functional
+  ** description: 
+
+* Flask Framework Cookbook
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+     *** python
+  ** description: 
+
+* Python. Экспресс-курс
+  ** link: 
+  ** tasks: 42,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* The Coder’s Apprentice. Learning Programming with Python 3
+  ** link: 
+  ** tasks: 27,A,B,C,D,E,F
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* A functional start to computing with Python
+  ** link: 
+  ** tasks: 32
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** functional
+  ** description: 
+
+* Fluent Python (2015)
+  ** link: 
+  ** tasks: 21,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Fluente (2015)
+  ** link: 
+  ** tasks: 21,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Functional Programming in Python
+  ** link: 
+  ** tasks: 4
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** functional
+  ** description: 
+
+* Learn More Python 3 the Hard Way
+  ** link: 
+  ** tasks: 0-52
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Learn Python 3 the Hard Way
+  ** link: 
+  ** tasks: 0-52,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Mastering Python for Web. A Beginner's Guide
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+     *** python
+  ** description: 
+
+* Паттерны разработки на Python. TDD, DDD и событийно-ориентированная архитектура
+  ** link: 
+  ** tasks: 14,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** design_patterns
+  ** description: 
+
+* Beyond the Basic Stuff with Python. Best Practices
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Стандартная библиотека Python 3
+  ** link: 
+  ** tasks: 19,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* https://book.pythontips.com/en/latest/index.html
+  ** link: 
+  ** tasks: 27
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python. Сборник упражнений
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Learn Python Programing
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Основы Python (2021)
+  ** link: 
+  ** tasks: 21,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Как устроен Python. Гид для разработчиков, программистов и интересующихся [2019] Харрисон
+  ** link: 
+  ** tasks: 27,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python_low_level
+     *** python
+  ** description: 
+
+* Advanced Python Programming
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Python Developer’s Guide
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python_lowlevel
+     *** python
+  ** description: 
+
+* Une introduction à Python 3
+  ** link: 
+  ** tasks: 9,J
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Introduction to Programming in Python. An Interdisciplinary Approach
+  ** link: 
+  ** tasks: 4,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Самоучитель Python
+  ** link: 
+  ** tasks: 32
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* ACME: Python Essentials
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Однострочники Python лаконичный и содержательный код
+  ** link: 
+  ** tasks: 6
+  ** priority: HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 
+
+* Architcture Patterns with Python
+  ** link: 
+  ** tasks: 13,A,B,C,D,E
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+     *** design_patterns
+  ** description: 
+
+* Efektywny Python 59 sposobow na lepszy kod
+  ** link: 
+  ** tasks: 59
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python
+  ** description: 

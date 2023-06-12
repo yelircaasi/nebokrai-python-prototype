@@ -1,5 +1,5 @@
 from planager import (
-    Day,
+    Schedule,
     Empty,
     Entry,
     FIRST_ENTRY, 
@@ -14,7 +14,7 @@ sleep2 = Entry(...)
 morning_routine = Entry(...)
 evening_routine = Entry(...)
 
-DEFAULT_DAY = Day()
+DEFAULT_DAY = Schedule()
 DEFAULT_DAY.add(sleep1)
 DEFAULT_DAY.add(sleep2)
 DEFAULT_DAY.add(morning_routine)

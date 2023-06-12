@@ -1,0 +1,662 @@
+
+
+* NLP04) Deep Learning for NLP and Speech Recognition
+  ** link: 
+  ** tasks: 13,L
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Transfer Learning for Natural Language Processing
+  ** link: 
+  ** tasks: 11,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* NLP07) Advanced Natural Language Processing with TensorFlow 2
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* NLP14) Transformers for Natural Language Processing
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+     *** nlp
+  ** description: 
+
+* Шаблоны и практика глубокого обучения
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Шаблоны и практика глубокого обучения
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Neural Networks and Deep Learning
+  ** link: 
+  ** tasks: 9,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* MIT DL Course
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Week 12 – Practicum: Attention and the Transformer
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Dive into Deep Learning
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Bert
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+     *** nlp
+  ** description: 
+
+* TF Certificate Handbook
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+  ** description: 
+
+* https://towardsdatascience.com/ai-papers-to-read-in-2022-c6edd4302247
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** dl
+  ** description: 
+
+* Learn TensorFlow 2.0
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+  ** description: 
+
+* Lilian Weng Blog
+  ** link: 
+  ** tasks: 35
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Transformers Video
+  ** link: https://www.youtube.com/watch?v=XSSTuhyAmnI
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+  ** description: 
+
+* NLP10) Neural Network Methods for NLP
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Грокаем глубокое обучение
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Deep Learning. A Comprehensive Overview
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Intro to Deep Learning (Skansi)
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Attention is All You Need
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+  ** description: 
+
+* Deep Learning for Amharic Text-Image Recognition: Algorithm, Dataset and Application
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Neural Networks and Deep Learning (Michael Nielsen)
+  ** link: 
+  ** tasks: 6,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Simple Explanation of LSTM | Deep Learning Tutorial 36 (Tensorflow, Keras & Python) - YouTube
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Advanced Deep Learning with TensorFlow 2 and Keras
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Computational Linguistics and Deep Learning
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Elmo
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Episode 10: Deep Neural Networks in Julia with Flux.jl
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** julia
+  ** description: 
+
+* NLP11) Deep Learning in Natural Language Processing
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* A survey of transformers
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+  ** description: 
+
+* Transformers for Machine Learning. A Deep Dive
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** transformer
+     *** dl
+  ** description: 
+
+* PyTorch Recipes
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** pytorch
+     *** dl
+  ** description: 
+
+* Глубокое обучение
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Hands-On Machine Learning with Scikit-Learn and TensorFlow
+  ** link: 
+  ** tasks: 19,A7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** dl
+     *** tf
+  ** description: 
+
+* Deep Learning with TensorFlow 2 and Keras
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+  ** description: 
+
+* Deep Learning. From Basics to Practice. Volume 1 (Glassner 2022)
+  ** link: 
+  ** tasks: 30
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Deep Learning. From Basics to Practice. Volume 2 (Glassner 2022)
+  ** link: 
+  ** tasks: 30
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Learning Deep Learning
+  ** link: 
+  ** tasks: 18,A10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Programming Machine Learning. From Coding to Deep Learning
+  ** link: 
+  ** tasks: 20,A2
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Generative Deep Learning
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Deep Learning with PyTorch
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* Mastering PyTorch
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* Deep Learning with Python. Learn Best Practices of Deep Learning Models with PyTorch
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* AI and Machine Learning for Coders
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* PyTorch Artificial Intelligence Fundamentals
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* The Deep Learning with PyTorch Workshop
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* Inside Deep Learning
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* https://github.com/yunjey/pytorch-tutorial
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** pytorch
+  ** description: 
+
+* TensorFlow 2 Pocket Reference: Building and Deploying Machine Learning Models
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+  ** description: 
+
+* Deep Learning Approaches for Low-Resource Natural Language Processing
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Flux.jl Docs
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** julia
+  ** description: 
+
+* DL Technical Intro
+  ** link: 
+  ** tasks: 3-7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Deep Learning (Goodfellow et al., 2016)
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Разработка беспилотных транспортных средств
+  ** link: 
+  ** tasks: 11,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Глубокое обучение с подкреплением на Python. OpenAI Gym и TensorFlow для профи
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+  ** description: 
+
+* Deep Learning for Robot Perception and Cognition
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rl
+     *** dl
+  ** description: 
+
+* R Deep Learning. Essentials
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Deep Learning (Aggarwal)
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Artificial Intelligence, Machine Learning, and Deep Learning (Campesato)
+  ** link: 
+  ** tasks: 6,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** dl
+     *** tf
+  ** description: 
+
+* Deep Learning in Natural Language Processing
+  ** link: 
+  ** tasks: 11,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** dl
+  ** description: 
+
+* Deep Learning. A Visual Approach (Glassner)
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+  ** description: 
+
+* Why Flux? The Elegant Julia Machine Learning Library
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** julia
+  ** description: 

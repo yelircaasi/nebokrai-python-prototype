@@ -1,0 +1,152 @@
+
+
+* Использование Docker
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Микросервисы и контейнеры Docker
+  ** link: 
+  ** tasks: 13,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Программирование Cloud Native. Микросервисы, Docker и Kubernetes
+  ** link: 
+  ** tasks: 0-9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** kubernetes
+     *** docker
+  ** description: 
+
+* Practical Docker with Python
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* The Docker Handbook
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Descomplicando o Docker
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Mastering Docker
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Learn Docker in a Month of Lunches
+  ** link: 
+  ** tasks: 22
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker Succinctly
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker in Action
+  ** link: 
+  ** tasks: 13
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Aprendizaje Docker
+  ** link: 
+  ** tasks: 37
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker на практике
+  ** link: 
+  ** tasks: 16,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker in Practice
+  ** link: 
+  ** tasks: 16,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker Deep Dive
+  ** link: 
+  ** tasks: 17,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 
+
+* Docker para Desenvolvedores
+  ** link: 
+  ** tasks: 25,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** docker
+  ** description: 

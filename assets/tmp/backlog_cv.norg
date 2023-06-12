@@ -1,0 +1,684 @@
+
+
+* Learn Computer Vision Using OpenCV. With Deep Learning CNNs and RNNs
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** opencv
+     *** dl
+     *** cv
+  ** description: 
+
+* Cogneethi -  Evolution Of Object Detection Networks
+  ** link: 
+  ** tasks: 134
+  ** priority: WISH
+  ** cluster: 4
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* HOG paper
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Detecting Faces (Viola Jones Algorithm) - Computerphile
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Page Segmentation for Historical Handwritten Documents Using Fully Convolutional Networks
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* C32 | SIFT | Scale Invariant Feature Transform | Computer Vision | Object detection | EvODN - YouTube
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Concise Computer Vision
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Computer Vision Algorithms and Applications
+  ** link: 
+  ** tasks: 15,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Page Segmentation of Historical Document Images  with Convolutional Autoencoders
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Cogneethi - Classical CV - HOG and SIFT intuitions
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Why do linear SVMs trained on HOG features perform so well?
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* MMOD paper
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* How I Read a Paper: Facebook's DETR (Video Tutorial)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** meta
+     *** cv
+  ** description: 
+
+* DETR: End-to-End Object Detection with Transformers | Paper Explained
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* DETR: End-to-End Object Detection with Transformers (Paper Explained)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* DETR Paper arXiv Repo PwC
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* DETR - End to end object detection with transformers (ECCV2020)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Data: The Past, the Present and the Future
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* CV3DST - Transformers and DETR
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* [Code] How to use Facebook's DETR object detection algorithm in Python (Full Tutorial)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Cogneethi - Convolutional Neural Networks Basics & Intuitions
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** cv
+  ** description: 
+
+* Document Image Analysis. Current Trends and Challenges in Graphics Recognition
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://github.com/doc-analysis
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Rich feature hierarchies for accurate object detection and semantic segmentation
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Fast R-CNN
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Fast R-CNN Slides
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Faster R-CNN. Towards Real-Time Object Detection with Region Proposal Networks
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Mask R-CNN
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Mask RCNN - How it Works - Intuition Tutorial | OpenCV Python | Computer Vision 2020
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://learnopencv.com/create-snapchat-instagram-filters-using-mediapipe/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://learnopencv.com/deep-learning-based-object-detection-using-yolov3-with-opencv-python-c/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://www.learnopencv.com/wp-content/uploads/2020/05/Computer-Vision-Resources
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Mask RCNN - How it Works - Intuition Tutorial | OpenCV Python | Computer Vision 2020
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Vision Transformer in PyTorch
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Advanced Computer Vision with Python - Full Course
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://omdena.com/blog/computer-vision-projects-github/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Lecture 11 | Detection and Segmentation
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* DETR: End-to-End Object Detection with Transformers (Paper Explained)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://learnopencv.com/deep-learning-based-text-recognition-ocr-using-tesseract-and-opencv/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://learnopencv.com/multi-person-pose-estimation-in-opencv-using-openpose/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://homepages.inf.ed.ac.uk/rbf/HIPR2/guidecon.htm
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Lecture 11 | Detection and Segmentation
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Vision Transformer in PyTorch
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://www.width.ai/post/facial-detection-and-recognition-with-dlib
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://learnopencv.com/convolutional-neural-network-based-image-colorization-using-opencv/
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* https://github.com/spmallick/learnopencv/blob/master/README.md?ck_subscriber_id=1680684172
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Fast R-CNN Slides
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* DETR: End-to-End Object Detection with Transformers (Paper Explained)
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Computer Vision. A Reference Guide
+  ** link: 
+  ** tasks: 321
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Wikipedia Computer Vision
+  ** link: 
+  ** tasks: 31
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Hands-On Computer Vision with Julia 
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+     *** julia
+  ** description: 
+
+* Convolutional Neural Networks (Course 4 of the Deep Learning Specialization)
+  ** link: 
+  ** tasks: 42
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Mastering Computer Vision with TensorFlow 2.x
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** tf
+     *** cv
+  ** description: 
+
+* OCR with OpenCV, Tesseract, and Python
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Practical Machine Learning for Computer Vision
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Learning OpenCV 4 Computer Vision with Python 3
+  ** link: 
+  ** tasks: 10,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Lecture Collection | Convolutional Neural Networks for Visual Recognition (Spring 2017)
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** cv
+  ** description: 
+
+* OCR with OpenCV, Tesseract, and Python - Intro to OCR
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* Deep Learning for Vision Systems
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** cv
+  ** description: 
+
+* Deep Learning in Computer Vision
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** cv
+  ** description: 
+
+* Domain Adaptation in Computer Vision with Deep Learning
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dl
+     *** cv
+  ** description: 
+
+* Handbook of Image Processing and Computer Vision. Volume 1. From Energy to Image
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 
+
+* PyTorch Computer Vision Cookbook
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** pytorch
+     *** cv
+  ** description: 
+
+* TensorFlow 2.0 Computer Vision Cookbook
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** tf
+     *** cv
+  ** description: 
+
+* Биологическое и компьютерное зрение
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cv
+  ** description: 

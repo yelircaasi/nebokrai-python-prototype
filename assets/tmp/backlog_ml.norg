@@ -1,0 +1,614 @@
+
+
+* Машинное обучение без лишних слов
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* ML Algorithms.jpg
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* https://uk.wikipedia.org/wiki/Інформатика#Штучний_інтелект
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** uk
+  ** description: 
+
+* A Concise Introduction to ML (Faul)
+  ** link: 
+  ** tasks: 9,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Encyclopedia of Machine Learning and Data Mining
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning (Mitchell)
+  ** link: 
+  ** tasks: 13,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* ML Spider Diagram RU.jpg
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Injecting fairness into machine-learning models
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Pattern Recognition and Machine Learning (Bishop)
+  ** link: 
+  ** tasks: 14,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Notation Sheet
+  ** link: https://nthu-datalab.github.io/ml/slides/Notation.pdf?fbclid=IwAR0kYjO13sIR4JvN8VVBrgXBH8e9wlE1TGBv_YC6wuAzyCFved5TC4gCqc8
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Conditional Random Fields : Data Science Concepts - YouTube
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nlp
+     *** ml
+  ** description: 
+
+* The Machine Learning Solutions Architect Handbook
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Машинное обучение. Паттерны проектирования
+  ** link: 
+  ** tasks: I,II,30,VIII
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Машинное обучение. Карманный справочник
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* https://uk.wikipedia.org/wiki/Машинне_навчання
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* https://towardsdatascience.com/xgboost-an-intuitive-explanation-88eb32a48eff
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* ML Algorithms List.jpg
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Automated Machine Learning in Action
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Regression Cheatsheet.jpg
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Mastering ML with Python in Six Steps
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Разработка конвейеров машинного обучения
+  ** link: 
+  ** tasks: 0-15,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* write clustering section of ML Cheatsheet & make PR
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Introduction to Artificial Intelligence
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Artificial Intelligence Programming with Python
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* ix Developer - Machine Learning
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Introduction to Machine Learning (Alpaydin 4e)
+  ** link: 
+  ** tasks: 20,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Основы искусственного интеллекта в примерах на Python
+  ** link: 
+  ** tasks: 8,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Artificial Intelligence with Python. Your complete guide to building intelligent apps using Python 3.x and TensorFlow 2
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** tf
+  ** description: 
+
+* Machine Learning mit Python
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning Bookcamp
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning (Flach)
+  ** link: 
+  ** tasks: 12,A2
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning Refined
+  ** link: 
+  ** tasks: 14,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning. An Algorithmic Perspective
+  ** link: 
+  ** tasks: 18,A4
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* scikit-learn Cookbook
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* An Overview of Statistical Learning Theory
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Statistical Learning Theory Notes (Liang)
+  ** link: 
+  ** tasks: 7,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Learning from Data
+  ** link: https://work.caltech.edu/telecourse
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Антология машинного обучения. Важнейшие исследования в области ИИ.epub
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Крупномасштабное машинное обучение вместе с Python
+  ** link: 
+  ** tasks: 9,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Building Machine Learning Pipelines
+  ** link: 
+  ** tasks: 15,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Pragmatic AI
+  ** link: 
+  ** tasks: 11,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Elements of Statistical Learning
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning (Alpaydin 2020)
+  ** link: 
+  ** tasks: 8,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Data Mining (Aggarwal)
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Fundamentals of Machine Learning for Predictive Data Analysis
+  ** link: 
+  ** tasks: 14,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Probabilistic Machine Learning. Advanced Topics - Supplementary Materials
+  ** link: 
+  ** tasks: 36
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Probabilistic Machine Learning. Advanced Topics
+  ** link: 
+  ** tasks: 36
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* The Kaggle Book
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Data Clustering
+  ** link: 
+  ** tasks: 24
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Practical Machine Learning. A New Look at Anomaly Detection
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Practical Machine Learning. Innovations in Recommendation
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Анализ данных в науке и технике
+  ** link: 
+  ** tasks: 12,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Как вытащить из данных максимум. Навыки аналитики для неспециалистов
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Scaling Up Machine Learning. Parallel and Distributed Approaches
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Машинное обучение: алгоритмы для бизнеса
+  ** link: 
+  ** tasks: 22,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning and Data Science Blueprints for Finance
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Artificial Intelligence (Norvig)
+  ** link: 
+  ** tasks: 28,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning: A Bayesian and Optimization Perspective
+  ** link: 
+  ** tasks: 19,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Machine Learning: A Probabilistic Perspective
+  ** link: 
+  ** tasks: 28,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Probabilistic Machine Learning: An Introduction
+  ** link: 
+  ** tasks: 23,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 
+
+* Getting Started with Artificial Intelligence
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+  ** description: 

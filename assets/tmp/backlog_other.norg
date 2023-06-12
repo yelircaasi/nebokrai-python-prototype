@@ -1,0 +1,5800 @@
+
+
+* Bash Pocket Reference. Help for Power Users and Sys Admins
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Foundations of Programming Languages
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Linguae per carmina
+  ** link: 
+  ** tasks: 300
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** multilingual
+     *** ls
+  ** description: 
+
+* Everything You Need to Ace Computer Science and Coding
+  ** link: 
+  ** tasks: 39
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs_gen
+  ** description: 
+
+* Cómo piensa el mundo: Una historia global de la filosofía
+  ** link: 
+  ** tasks: 28
+  ** priority: MEDIUM_LOW
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** philo
+  ** description: 
+
+* LingoDeer
+  ** link: 
+  ** tasks: 44
+  ** priority: LOW
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ls
+  ** description: 
+
+* Fusha to Shami
+  ** link: 
+  ** tasks: 33
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ar
+  ** description: 
+
+* Об'єктно-орієнтоване програмування
+  ** link: 
+  ** tasks: 18,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** oop
+  ** description: 
+
+* Gemalte Wörter
+  ** link: 
+  ** tasks: 214
+  ** priority: LOW
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** zh
+     *** ls
+  ** description: 
+
+* Open Data Structures
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dsa
+  ** description: 
+
+* Julia Docs
+  ** link: 
+  ** tasks: 108
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** julia
+  ** description: 
+
+* https://www.gnu.org/software/bash/manual/
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** bash
+  ** description: 
+
+* Willensfreiheit
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* Das Handwerk der Freiheit
+  ** link: 
+  ** tasks: 11,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* The Gospel of John in Greek and Latin
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** grc
+     *** la
+  ** description: 
+
+* The Linux Command Line
+  ** link: 
+  ** tasks: 36
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Head First Design Patterns
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+  ** description: 
+
+* Mythos Determinismus
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* Clean Code. A Handbook of Agile Software Craftsmanship
+  ** link: 
+  ** tasks: 17,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** agile
+  ** description: 
+
+* Україна - не Росія
+  ** link: 
+  ** tasks: 30
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** uk
+  ** description: 
+
+* zsh Docs
+  ** link: 
+  ** tasks: 26,A6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Modern Vim
+  ** link: 
+  ** tasks: 7,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vim
+  ** description: 
+
+* Programming Languages. Principles and Paradigms
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Das illustrierte Kompendium der Philosophie
+  ** link: 
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** philo
+  ** description: 
+
+* Самоучитель украинского языка
+  ** link: 
+  ** tasks: 50,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** uk
+  ** description: 
+
+* Bin ich mein Gehirn?
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** neuro
+     *** free_will
+  ** description: 
+
+* Design Patterns (Lasater)
+  ** link: 
+  ** tasks: 4
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+  ** description: 
+
+* Introducción al sistema operativo GNU/Linux
+  ** link: 
+  ** tasks: 0-7,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** linux
+  ** description: 
+
+* Das lateinische Basisvokabular
+  ** link: 
+  ** tasks: A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** la
+  ** description: 
+
+* Griechische Grammatik (Bornemann)
+  ** link: 
+  ** tasks: 1.I,1.II,1.III,2.I,2.II,2.III,2.IV,2.V,2.VI.A,2.VI.B,2.VI.C,3.I,3.II,3.III,A.1,A.2,R.1,R.2,R.3
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** grc
+  ** description: 
+
+* Learn Vim Tonight
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vim
+  ** description: 
+
+* Наш творчий мозок
+  ** link: 
+  ** tasks: 31
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** neuro
+  ** description: 
+
+* Lecture notes: Literature search and scientific reading
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** misc
+  ** description: 
+
+* Learn Bash the Hard Way
+  ** link: 
+  ** tasks: 4
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Reinforcement Learning. An Introduction
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rl
+  ** description: 
+
+* Ukrainian. A Comprehensive Grammar
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** uk
+  ** description: 
+
+* Linux in a Nutshell
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** linux
+  ** description: 
+
+* The Linux Philosophy for SysAdmins
+  ** link: 
+  ** tasks: 26
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** linux
+  ** description: 
+
+* Der freie Wille
+  ** link: 
+  ** tasks: 8,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* Learning the Vi and Vim Editors
+  ** link: 
+  ** tasks: 17,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vim
+  ** description: 
+
+* Mastering Vim
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vim
+  ** description: 
+
+* Object-oriented vs Functional Programming
+  ** link: 
+  ** tasks: 40
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** functional
+     *** oop
+  ** description: 
+
+* Agile (PT)
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** agile
+  ** description: 
+
+* Bewusstsein und freier Wille
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* Make list of top 1000 Chinese characters, all input codes, constituent radicals, character combinations, pronunciations, eventually example phrases
+  ** link: 
+  ** tasks: 1000
+  ** priority: WISH
+  ** cluster: 10
+  ** duration: 30
+  ** tags:
+     *** zh
+  ** description: 
+
+* Nano Docs
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog_misc
+  ** description: 
+
+* Nano Cheatsheet
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog_misc
+  ** description: 
+
+* https://exercism.org/tracks/bash
+  ** link: 
+  ** tasks: 89
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** bash
+  ** description: 
+
+* Ich denke, also will ich: Philosophie des freien Willens
+  ** link: 
+  ** tasks: 5
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** free_will
+  ** description: 
+
+* Чистый Agile. Основы гибкости
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** agile
+  ** description: 
+
+* Scrum. Революционный метод управления проектами
+  ** link: 
+  ** tasks: 0-9,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** agile
+  ** description: 
+
+* Pro bash programming: scripting the GNU/Linux shell
+  ** link: 
+  ** tasks: 15,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Сценарии командной оболочки
+  ** link: 
+  ** tasks: 15,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Real-World Kanban
+  ** link: 
+  ** tasks: 5,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** kanban
+  ** description: 
+
+* Genealogy of Programming Languages
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Мозок - це ми
+  ** link: 
+  ** tasks: 24
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** neuro
+  ** description: 
+
+* Прекрасный, опасный, кибербезопасный мир
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Networks: The Internet and Beyond
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+  ** description: 
+
+* Emacs Tour
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog_misc
+  ** description: 
+
+* Ali Baba
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ar
+  ** description: 
+
+* https://en.wikipedia.org/wiki/Template:Design_Patterns_patterns
+  ** link: 
+  ** tasks: Abstract factory,Builder,Factory method,Prototype,Singleton,Adapter,Bridge,Composite,Decorator,Facade,Flyweight,Proxy,Chain of responsibility,Command,Interpreter,Iterator,Mediator,Memento,Observer,State,Strategy,Template method,Visitor,Active object,Balking,Binding properties,Double-checked locking,Event-based asynchronous,Guarded suspension,Join,Lock,Monitor,Proactor,Reactor,Read write lock,Scheduler,Thread pool,Thread-local storage,Front controller,Interceptor,MVC,ADR,ECS,n-tier,Specification,Publish–subscribe,Naked objects,Service locator,Active record,Identity map,Data access object,Data transfer object,Inversion of control,Model 2,Broker,Blackboard,Business delegate,Composite entity,Dependency injection,Intercepting filter,Lazy loading,Mock object,Null object,Object pool,Servant,Twin,Type tunnel,Method chaining,Delegation,Anti-pattern,Architectural pattern
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+  ** description: 
+
+* Программист-фанатик
+  ** link: 
+  ** tasks: 0-5,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** meta
+  ** description: 
+
+* Ich denke zu viel
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** neuro
+     *** psycho
+  ** description: 
+
+* https://zsh.sourceforge.io/Guide/zshguide.html
+  ** link: 
+  ** tasks: 7,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Introduction to Programming Languages. Programming in C, C++, Scheme, Prolog, g, C#, and SOA
+  ** link: 
+  ** tasks: 6,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Handbook of Data Structures and Applications
+  ** link: 
+  ** tasks: 67
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** dsa
+  ** description: 
+
+* Tacitus Germania
+  ** link: 
+  ** tasks: 46
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** la
+  ** description: 
+
+* Soft Skills
+  ** link: 
+  ** tasks: 71
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** meta
+  ** description: 
+
+* Introducción a los Patrones de Diseño
+  ** link: 
+  ** tasks: 31
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** design_patterns
+  ** description: 
+
+* Visual Studio Code. End-To-End...
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vscode
+  ** description: 
+
+* Visual Studio Code Distilled
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vscode
+  ** description: 
+
+* Assimil Hindi
+  ** link: 
+  ** tasks: 53
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hi
+  ** description: 
+
+* https://exercism.org/tracks/vimscript
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** vim
+  ** description: 
+
+* Hacking APIs Breaking Web Application Programming Interfaces
+  ** link: 
+  ** tasks: 16,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+     *** crypto
+  ** description: 
+
+* sed & awk 101 Hacks
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* GNU sed. Awesome Stream Editor
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Effective awk Programming. Universal Text Processing and Pattern Matching
+  ** link: 
+  ** tasks: 16,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Learning Shell Scripting with zsh
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* Sed & Awk
+  ** link: 
+  ** tasks: 13,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** shell
+  ** description: 
+
+* The Object-Oriented Thought Process
+  ** link: 
+  ** tasks: 13,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** oop
+  ** description: 
+
+* Consciousness: A Very Short Introduction
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** philo
+     *** neuro
+  ** description: 
+
+* Manim tutorial | Introduction: What is Manim?
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** manim
+  ** description: 
+
+* Make Videos Like 3Blue1Brown | Manim
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** manim
+  ** description: 
+
+* How 3 Blue 1 Brown makes animations  | Manim Tutorial
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** manim
+  ** description: 
+
+* Advice for using Manim | Grant Sanderson and Lex Fridman
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** manim
+  ** description: 
+
+* Desconstruindo a Web
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+  ** description: 
+
+* Scrum Shortcuts without Cutting Corners
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** management
+     *** agile
+  ** description: 
+
+* The GNU Make Book
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** make
+     *** prog_misc
+  ** description: 
+
+* https://makefiletutorial.com/
+  ** link: 
+  ** tasks: 1
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** make
+  ** description: 
+
+* GNU Make Manual
+  ** link: 
+  ** tasks: 16,A,B,C,D,E,F
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** make
+  ** description: 
+
+* Rust Book
+  ** link: 
+  ** tasks: 20,a,B,C,D,E,F
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rust
+  ** description: 
+
+* Grundkurs Codierung Verschlüsselung, Kompression und Fehlerbeseitigung
+  ** link: 
+  ** tasks: 6,a,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Web Development for Beginners
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+  ** description: 
+
+* Kryptologie Eine Einführung in die Wissenschaft vom Verschlüsseln, Verbergen und Verheimlichen
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Bases de datos
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** db
+  ** description: 
+
+* Cryptography Algorithms
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* How Cybersecurity Really Works
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* PostgreSQL. Основы языка SQL
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** db
+  ** description: 
+
+* Beginning PostgresQL on the Cloud
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** db
+  ** description: 
+
+* Scala Book
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** scala
+  ** description: 
+
+* Real-World Cryptography
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Основы технологий баз данных
+  ** link: 
+  ** tasks: 22,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** db
+  ** description: 
+
+* Прикладная криптография
+  ** link: 
+  ** tasks: 25,A9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Happy Learn Haskell
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** haskell
+  ** description: 
+
+* Haskell Report
+  ** link: 
+  ** tasks: 0-40
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** haskell
+  ** description: 
+
+* Mastering MySQL for Web. A Beginner's Guide
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** db
+     *** web
+  ** description: 
+
+* Tour of Scala
+  ** link: https://docs.scala-lang.org/tour/tour-of-scala.html
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** scala
+  ** description: 
+
+* Web Security for Developers
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+     *** crypto
+  ** description: 
+
+* Yet Another Haskell Tutorial
+  ** link: 
+  ** tasks: 10,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** haskell
+  ** description: 
+
+* GNU Emacs Manual
+  ** link: 
+  ** tasks: 24
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prog_misc
+  ** description: 
+
+* Изучение сложных систем с помощью Python
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** pythonds
+  ** description: 
+
+* Сетевые технологии. Основы веб дизайна
+  ** link: 
+  ** tasks: 3
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** web
+  ** description: 
+
+* Linux в действии
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** linux
+  ** description: 
+
+* Scala Programming Projects
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** scala
+  ** description: 
+
+* Scala Design Patterns
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** scala
+  ** description: 
+
+* Объектно-ориентированный подход
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** oop
+  ** description: 
+
+* Cloud Computing (Ruparelia)
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cloud
+  ** description: 
+
+* Cloud Computing Theory and Practice
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cloud
+  ** description: 
+
+* О криптографии всерьез
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+  ** description: 
+
+* Linguaggi di Programmazione
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Types and Programming Languages
+  ** link: 
+  ** tasks: 32,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* Programming Languages. Principles and Paradigms (Noonan and Tucker)
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* CS 377 Spring '14: Operating Systems - YouTube
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** os
+  ** description: 
+
+* Advanced Topics in Types and Programming Languages
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** proglang
+  ** description: 
+
+* https://exercism.org/tracks/lua
+  ** link: 
+  ** tasks: 82
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** lua
+  ** description: 
+
+* https://exercism.org/tracks/ocaml
+  ** link: 
+  ** tasks: 44
+  ** priority: LOW
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ocaml
+  ** description: 
+
+* https://exercism.org/tracks/wasm
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** wasm
+  ** description: 
+
+* https://exercism.org/tracks/kotlin
+  ** link: 
+  ** tasks: 85
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** kotlin
+  ** description: 
+
+* https://exercism.org/tracks/haskell
+  ** link: 
+  ** tasks: 96
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** haskell
+  ** description: 
+
+* PyTorch Deep Learning Hands-On
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** pytorch
+  ** description: 
+
+* The TensorFlow Workshop
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** tf
+  ** description: 
+
+* Applied Deep Learning with TensorFlow 2
+  ** link: 
+  ** tasks: 20,A2
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** tf
+  ** description: 
+
+* Using MPI: Portable Parallel Programming with the Message-Passing Interface by (Gropp, Lusk, and Skjellum)
+  ** link: 
+  ** tasks: 10,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hpc
+  ** description: 
+
+* Programming Massively Parallel Processors (Kirk and Hwu)
+  ** link: 
+  ** tasks: 21,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hpc
+  ** description: 
+
+* CUDA for Engineers (Storti & Yurtoglu)
+  ** link: 
+  ** tasks: 9,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hpc
+  ** description: 
+
+* Глубокое обучение с подкреплением
+  ** link: 
+  ** tasks: 17,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rl
+  ** description: 
+
+* Deep Reinforcement Learning. Das umfassende Praxis-Handbuch
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rl
+  ** description: 
+
+* Алгоритмы обучения с подкреплением на Python
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rl
+  ** description: 
+
+* Aprender Noruego
+  ** link: 
+  ** tasks: 5-36
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** no
+  ** description: 
+
+* > 100 frases positivas + cumplidos - Noruego + Español - (Hablante nativo)
+  ** link: 
+  ** tasks: 100
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** no
+  ** description: 
+
+* Imparare 200 frasi in Cinese
+  ** link: 
+  ** tasks: 200
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** zh
+  ** description: 
+
+* https://zh.wikipedia.org/wiki/深度学习
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** zh
+  ** description: 
+
+* https://zh.wikipedia.org/wiki/计算机科学
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** zh
+  ** description: 
+
+* Assimil Ancient Greek
+  ** link: 
+  ** tasks: 50,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** grc
+  ** description: 
+
+* Assimil HI
+  ** link: 
+  ** tasks: 53
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hi
+  ** description: 
+
+* > Assimil HR
+  ** link: 
+  ** tasks: 50
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hr
+  ** description: 
+
+* > Assimil PL
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** pl
+  ** description: 
+
+* > Assimil ZH
+  ** link: 
+  ** tasks: 101
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** zh
+  ** description: 
+
+* > Build Your Arabic Vocabulary
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ar
+  ** description: 
+
+* > https://archive.org/details/AssimilArabicWithEase
+  ** link: 
+  ** tasks: 41
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ar
+  ** description: 
+
+* (2024) Assimil NL
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** nl
+  ** description: 
+
+* 200 frases - Télugu - Español
+  ** link: 
+  ** tasks: 200
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** hi
+  ** description: 
+
+* R in a Nutshell
+  ** link: 
+  ** tasks: 26,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** r
+  ** description: 
+
+* The Art of R Programming
+  ** link: 
+  ** tasks: 16,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** r
+  ** description: 
+
+* Learning Perl the Hard Way
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** perl
+  ** description: 
+
+* https://exercism.org/tracks/prolog
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** prolog
+  ** description: 
+
+* https://exercism.org/tracks/perl5
+  ** link: 
+  ** tasks: 62
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** perl
+  ** description: 
+
+* https://exercism.org/tracks/rust
+  ** link: 
+  ** tasks: 103
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rust
+  ** description: 
+
+* Data Science with Julia
+  ** link: 
+  ** tasks: 7,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** julia
+  ** description: 
+
+* Beginning Perl Programming
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** perl
+  ** description: 
+
+* Beginning Rust
+  ** link: 
+  ** tasks: 24
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rust
+  ** description: 
+
+* Programming Rust. Fast, Safe Systems Development
+  ** link: 
+  ** tasks: 23
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rust
+  ** description: 
+
+* Программирование на Rust. Официальный гайд от команды разработчиков
+  ** link: 
+  ** tasks: 20,A5
+  ** priority: HIGHER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** rust
+  ** description: 
+
+* Creative Projects for Rust Programmers (https://libgen.is/book/index.php?md5=69F202277193C9C7FD9495F17BFA0944)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Language Study
+  ** description: 
+
+* HelloChinese
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Language Study
+  ** description: 
+
+* Deep Learning from First Principles In Vectorized Python R and Octave
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Tiny Python Projects
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Автоматизация рутинных задач с помощью Python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python. Сборник упражнений
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python. Книга рецептов
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python. Разработка на основе тестирования
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Machine Learning - An Applied Mathematics Introduction
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Statistical Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* INTO_IT: C Programmieren trainieren! - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Le langage C
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mastering C++ Programming Language
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Programmieren in C - YouTube C Tutorials Deutsch
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Sams Teach Yourself C++ in One Hour a Day (2022)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The C++ Standard Library. A Tutorial and Reference
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/cpp
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Conceitos de computação com o essencial de C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* C++. Lernen und professionell anwenden
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Экстремальный Си
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Экстремальный Си
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The C++ Programming Language
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 100 algoritmos C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Algoritmos em Linguagem C
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Решение задач на современном C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cpp Notes for Professionals
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cpp Programming. Program Design Including Data Structures
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Design Patterns in Modern C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Design Patterns in Modern C++20
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-On Design Patterns with Cpp
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Il linguaggio C (Deitel)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Open Data Structures (in C++)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Programming Principles and Practices C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Думай как программист - C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* C++ для профи
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Guide to Competitive Programming
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* C – kurz & gut
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Clean C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Оптимизация программ на C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Функциональное программирование на языке C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Алгоритмические трюки для программистов
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Beautiful Cpp. 30 Core Guidelines for Writing Clean, Safe, and Fast Code
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Inteligencia artificial avanzada
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* C und Linux
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Data Structures and Algorithm  Analysis in C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Effective C++ (140)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Effective Modern C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Expert C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Practical C++ Design
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Programación en C, C++, Java y UML
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Software Architecture with C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* String Algorithms in C
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Безопасное программирование на C и C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Programming in Java. An Interdisciplinary Approach
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Java and the Java Virtual Machine Definition, Verification, Validation
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Principles of Computer Organization and Assembly Language Using the JavaTM Virtual Machine
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Объектно-ориентированное программирование на Java. Платформа Java SE
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Avrim Blum and Tom Mitchell: Combining Labeled and Unlabeled Data with Co-Training, 1998.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* John Lafferty, Andrew McCallum, Fernando C.N. Pereira: Conditional Random Fields: Probabilistic Models for Segmenting and Labeling Sequence Data, ICML 2001.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Charles Sutton, Andrew McCallum. An Introduction to Conditional Random Fields for Relational Learning.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kamal Nigam, et al.: Text Classification from Labeled and Unlabeled Documents using EM. Machine Learning, 1999.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “A simple framework for contrastive learning of visual representations.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kevin Knight: Bayesian Inference with Tears, 2009.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Marco Tulio Ribeiro et al.: “Why Should I Trust You?”: Explaining the Predictions of Any Classifier, KDD 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Marco Tulio Ribeiro et al.: Beyond Accuracy: Behavioral Testing of NLP Models with CheckList, ACL 2020.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Richard Socher, et al.: Dynamic Pooling and Unfolding Recursive Autoencoders for Paraphrase Detection, NIPS 2011.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “Efficientnet: Rethinking model scaling for convolutional neural networks.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ronan Collobert et al.: Natural Language Processing (almost) from Scratch, J. of Machine Learning Research, 2011.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Richard Socher, et al.: Recursive Deep Models for Semantic Compositionality Over a Sentiment Treebank, EMNLP 2013.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Xiang Zhang, Junbo Zhao, and Yann LeCun: Character-level Convolutional Networks for Text Classification, NIPS 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yoon Kim: Convolutional Neural Networks for Sentence Classification, 2014.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “Pushing the limits of narrow precision inferencing at cloud scale with microsoft floating point.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Christopher Olah: Understanding LSTM Networks, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Matthew E. Peters, et al.: Deep contextualized word representations, 2018.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Jacob Devlin, et al.: BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding, 2018.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yihan Liu et al. RoBERTa: A Robustly Optimized BERT Pretraining Approach, 2020.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “AdderNet: Do we really need multiplications in deep learning?.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Peter F Brown, et al.: Class-Based n-gram Models of Natural Language, 1992.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Tomas Mikolov, et al.: Efficient Estimation of Word Representations in Vector Space, 2013.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Tomas Mikolov, et al.: Distributed Representations of Words and Phrases and their Compositionality, NIPS 2013.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Quoc V. Le and Tomas Mikolov: Distributed Representations of Sentences and Documents, 2014.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “Alias-free generative adversarial networks.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Jeffrey Pennington, et al.: GloVe: Global Vectors for Word Representation, 2014.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ryan Kiros, et al.: Skip-Thought Vectors, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Piotr Bojanowski, et al.: Enriching Word Vectors with Subword Information, 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Daniel Cer et al.: Universal Sentence Encoder, 2018.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “Transparency and reproducibility in artificial intelligence.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Thomas Hofmann: Probabilistic Latent Semantic Indexing, SIGIR 1999.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* David Blei, Andrew Y. Ng, and Michael I. Jordan: Latent Dirichlet Allocation, J. Machine Learning Research, 2003.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Joshua Goodman: A bit of progress in language modeling, MSR Technical Report, 2001.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Stanley F. Chen and Joshua Goodman: An Empirical Study of Smoothing Techniques for Language Modeling, ACL 2006.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “On the Measure of Intelligence.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yee Whye Teh: A Hierarchical Bayesian Language Model based on Pitman-Yor Processes, COLING/ACL 2006.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yee Whye Teh: A Bayesian interpretation of Interpolated Kneser-Ney, 2006.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yoshua Bengio, et al.: A Neural Probabilistic Language Model, J. of Machine Learning Research, 2003.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Andrej Karpathy: The Unreasonable Effectiveness of Recurrent Neural Networks, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Alec Radford, et al.: Language Models are Unsupervised Multitask Learners, 2018.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Donald Hindle and Mats Rooth. Structural Ambiguity and Lexical Relations, Computational Linguistics, 1993.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Adwait Ratnaparkhi: A Maximum Entropy Model for Part-Of-Speech Tagging, EMNLP 1996.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Michael Collins: Discriminative Training Methods for Hidden Markov Models: Theory and Experiments with Perceptron Algorithms, EMNLP 2002.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Dan Klein and Christopher Manning: Accurate Unlexicalized Parsing, ACL 2003.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Dan Klein and Christopher Manning: Corpus-Based Induction of Syntactic Structure: Models of Dependency and Constituency, ACL 2004.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Joakim Nivre and Mario Scholz: Deterministic Dependency Parsing of English Text, COLING 2004.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ryan McDonald et al.: Non-Projective Dependency Parsing using Spanning-Tree Algorithms, EMNLP 2005.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Daniel Andor et al.: Globally Normalized Transition-Based Neural Networks, 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Marti A. Hearst: Automatic Acquisition of Hyponyms from Large Text Corpora, COLING 1992.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Collins and Singer: Unsupervised Models for Named Entity Classification, EMNLP 1999.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Patrick Pantel and Dekang Lin, Discovering Word Senses from Text, SIGKDD, 2002.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mike Mintz et al.: Distant supervision for relation extraction without labeled data, ACL 2009.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Zhiheng Huang et al.: Bidirectional LSTM-CRF Models for Sequence Tagging, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Xuezhe Ma and Eduard Hovy: End-to-end Sequence Labeling via Bi-directional LSTM-CNNs-CRF, ACL 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Peter F. Brown et al.: A Statistical Approach to Machine Translation, Computational Linguistics, 1990.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kevin Knight, Graehl Jonathan. Machine Transliteration. Computational Linguistics, 1992.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Dekai Wu: Inversion Transduction Grammars and the Bilingual Parsing of Parallel Corpora, Computational Linguistics, 1997.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kishore Papineni, et al.: BLEU: a Method for Automatic Evaluation of Machine Translation, ACL 2002.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Philipp Koehn, Franz J Och, and Daniel Marcu: Statistical Phrase-Based Translation, NAACL 2003.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Philip Resnik and Noah A. Smith: The Web as a Parallel Corpus, Computational Linguistics, 2003.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Franz J Och and Hermann Ney: The Alignment-Template Approach to Statistical Machine Translation, Computational Linguistics, 2004.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* David Chiang. A Hierarchical Phrase-Based Model for Statistical Machine Translation, ACL 2005.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ilya Sutskever, Oriol Vinyals, and Quoc V. Le: Sequence to Sequence Learning with Neural Networks, NIPS 2014.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Dzmitry Bahdanau, et al.: Neural Machine Translation by Jointly Learning to Align and Translate, 2014.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Minh-Thang Luong, et al.: Effective Approaches to Attention-based Neural Machine Translation, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Rico Sennrich et al.: Neural Machine Translation of Rare Words with Subword Units. ACL 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Yonghui Wu, et al.: Google’s Neural Machine Translation System: Bridging the Gap between Human and Machine Translation, 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Melvin Johnson, et al.: Google’s Multilingual Neural Machine Translation System: Enabling Zero-Shot Translation, 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Jonas Gehring, et al.: Convolutional Sequence to Sequence Learning, 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Vincent Ng: Supervised Noun Phrase Coreference Research: The First Fifteen Years, ACL 2010.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kevin Knight and Daniel Marcu: Summarization beyond sentence extraction. Artificial Intelligence 139, 2002.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* James Clarke and Mirella Lapata: Modeling Compression with Discourse Constraints. EMNLP-CONLL 2007.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ryan McDonald: A Study of Global Inference Algorithms in Multi-Document Summarization, ECIR 2007.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Wen-tau Yih et al.: Multi-Document Summarization by Maximizing Informative Content-Words. IJCAI 2007.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Alexander M Rush, et al.: A Neural Attention Model for Sentence Summarization. EMNLP 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Abigail See et al.: Get To The Point: Summarization with Pointer-Generator Networks. ACL 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Pranav Rajpurkar et al.: SQuAD: 100,000+ Questions for Machine Comprehension of Text. EMNLP 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Minjoon Soo et al.: Bi-Directional Attention Flow for Machine Comprehension. ICLR 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Jiwei Li, et al.: Deep Reinforcement Learning for Dialogue Generation, EMNLP 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Marc’Aurelio Ranzato et al.: Sequence Level Training with Recurrent Neural Networks. ICLR 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Samuel R Bowman et al.: Generating sentences from a continuous space, CoNLL 2016.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Lantao Yu, et al.: SeqGAN: Sequence Generative Adversarial Nets with Policy Gradient, AAAI 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The CoNLL-2010 shared task: learning to detect hedges and their scope in natural language text.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 3Blue1Brown Differential Equations
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mathematik
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Principles of Mathematical Analysis (Rudin)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Videos: Socratica Abstract Algebra Playlist
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Linear Algebra Done Right (Axler)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Linear Algebra (Insel, Freidberg, Spence - problems)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Videos: Sheldon Axler’s Playlist
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Linear Algebra, Fourth Edition by Gilbert Strang
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Basic Linear Algebra (Blyth & Robertson)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* MIT Open Courseware Video Lectures - Linear Algebra by Gilbert Strang
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Geometry by Roger Fenn
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Metric Spaces (O'Searcoid)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Measure, Integral and Probability (Capinski & Kopp, 2E)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* MIT OCW Measure and Integration
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* A First Course in Probability (Ross)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Schaum's Outline of Probability and Statistics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Probability and Statistics by Example: Volume 1 (Suhov & Kelbert)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Statistical Inference (Casella & Berger)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Real Analysis: Lectures by Professor Francis Su
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Understanding Analysis (Abbott)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Videos: MAT137 Playlist
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Real Analysis (Howie)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Topology through Inquiry (Su & Starbird)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Essential Topology (Crossley)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Videos: WhyBMaths
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Foundations of Applied Mathematics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://pnp.mathematik.uni-stuttgart.de/igt/eiserm/lehre/Lineare-Algebra/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Vector Calculus (Matthews)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 3Blue1Brown Neural Networks
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Statistical Rethinking 2022
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Measure Theory and Probability (MathematicalMonk)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mathematical Tripos examination questions in IB Statistics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Div, Grad, Curl, and All That: An Informal Text on Vector Calculus (Schey)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* MIT OCW Multivariable Calculus
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Think Bayes. Bayesian Statistics in Python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Think stats
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Байесовская статистика
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Classic Algebra by P.M. Cohn
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Matlab - A Practical Introduction to Programming and Problem Solving (Attaway 3E)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Online Notes: MAT327 Course Notes
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Problems: MAT 327 Course Problems
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Videos: Point Set Topology Playlist
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Algebraic Topology Playlist
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Concrete Abstract Algebra: From Numbers to Gröbner Bases by N. Lauritzen
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Contemporary Abstract Algebra (Gallian)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Manifolds (Tu, for rigor)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Groups (Jordan & Jordan)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Schaum's Outline of Group Theory (Baumslag & Chandle)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Groups, Rings and Fields (Wallace)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Online Notes: MAT327 Course Notes <>
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Elementary Differential Equations and Boundary Value Problems (Boyce & DiPrima)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* MIT Open CourseWare Video Lectures - Differential Equations by Arthur Mattuck
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Stability, Instability and Chaos: An Introduction to the Theory of Nonlinear Differential Equations (Glendinning)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Differential Equations with Boundary Value Problems (Zill & Cullen)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* An Introduction to Ordinary Differential Equations (Robinson)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Visual Complex Analysis (Needham, for intuition)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Analysis of a Complex Kind (Petra Bonfert-Taylor)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* A Geometric Approach to Differential Forms (Bachman, for intuition)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Differential Equations
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Ordinary Differential Equations: Analysis, Qualitative Theory and Control (Logemann & Ryan)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Scalar, Vector, and Matrix Mathematics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Machine Learning Engineering in Action
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Machine Learning Engineering with MLFlow (Hank and (Elsie)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Machine Learning Engineering
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Параллельные и высокопроизводительные вычисления
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Deep Learning Illustrated
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Deep Learning for Coders with Fastai and PyTorch
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Machine Learning Hands-on for Developers and Technical Professionals
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mastering Machine Learning Algorithms
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Transfer Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Math for Deep Learning. What You Need to Know
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Thoughtful Machine Learning with Python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Глубокое обучение в картинках
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Redes neuronales & deep learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Data Scientists at Work
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Машинное обучение с участием человека
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* GPT-2
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “Tabular data: Deep learning is not all you need.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Universal Language Model Fine-tuning for Text Classification
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Improving Language Understanding by Generative Pre-Training
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learning an Executable Neural Semantic Parser
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://blog.codinghorror.com/recommended-reading-for-developers/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 200 frases - Noruego - Español
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Aprender yidis
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Colloquial Arabic (Levantine)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Full-Stack Python Security
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Modern Python Cookbook
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Linux Bible
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The TCP,IP Guide. A Comprehensive, Illustrated Internet Protocols Reference
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование GPU при помощи Python и CUDA
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Deep Learning with PyTorch Step-by-Step
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Neural Networks https://www.youtube.com/watch?v=CqOfi41LfDw&list=PLblh5JKOoLUIxGDQs4LFFD--41Vzf-ME1
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* PyTorch Pocket Reference
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* PyTorch Basics for Absolute Beginners.epub
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The Supervised Learning Workshop
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Глубокое обучение 1 (Гласснер)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Глубокое обучение 2 (Гласснер)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Data science from Scratch 2e
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-On Python Deep Learning for the Web. Integrating neural network architectures to build smart web apps with Flask, Django, and TensorFlow
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Еще более эффективный Agile
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Карьера программиста
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mathematics for Machine Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* “A ConvNet for the 2020s.”
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Unsupervised Compositionality Prediction of Nominal Compounds
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Automatic Inference of Sound Correspondence Patterns across Multiple Languages
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* A Sequential Matching Framework for Multi-Turn Response Selection in Retrieval-Based Chatbots
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Parsing Chinese Sentences with Grammatical Relations
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 300 verbos + Leer y escuchar: - Noruego + Español
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Modern Cpp Tutorial
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование на С
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование на языке Cpp
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-On Machine Learning with C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* C++ українською
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cpp for Lazy Programmers
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cpp20 for Programmers
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Discovering Modern C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Exploring C++20
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Corso di informatica 1. Linguaggio C e Cpp
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Corso di informatica 2. Linguaggio C e Cpp
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Tour of C++
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* A Book on C
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The C++ Workshop
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Computational Thinking | MIT 18.S191/6.S083 Spring 2021
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Computational Thinking | MIT 18.S191/6.S083 Spring 2023
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Data Science with Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia - Bit by Bit: Programming for Beginners (Undergraduate Topics in Computer Science)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia 1.0 Programming Dynamic and High-Performance Programming to Build Fast Scientific Applications.epub
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia 1.7
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia Express
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia for Data Science
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia for R Programmers
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia Language. A Concise Tutorial
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia Programming Projects
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learn Julia by building a number guessing game!
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learning Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Mastering Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Statistics with Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Осваиваем язык Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://docs.python.org/3/library/ctypes.html
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Physics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* PoissonNote.dvi - PoissonNote
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Proof of existence and proof of uniqueness of determinant
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Prove 8 statements in the key theorem of LA (All the Math You Missed, 1.6)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Operating system for beginners || Operating system basics - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://wiki.archlinux.org/title/Installation_guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://linux-audit.com/elf-binaries-on-linux-understanding-and-analysis/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* April 9 -  Comparing Programming Languages Part 3 - C, Rust, Java, Kotlin, Go, JS/TS, Python, and Ruby  (12 mins)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* March 29 -  Comparing Programming Languages Part 2 - Memory Management and Concurrency  (10 mins)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* March 26 -  Comparing Programming Languages Part 1 - Compilers and Type-Systems  (10 mins)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Compilers: Innovation from the Bottom-Up—Viral Shah & Keno Fischer on TechLifeSkills w/Tanmay Ep. 20
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* On Mathematical Maturity (1) Thomas Garrity - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Fast Inverse Square Root — A Quake III Algorithm - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Operating System Full Course | Operating System Tutorials for Beginners - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Assembler #1 Hello-World zur Maschinensprache
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Assembler #2 Wie speichert man eine Konsoleneingabe?
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Operating Systems: Crash Course Computer Science #18 - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Operating System Full Course || Operating System for IT Support - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://www.youtube.com/watch?v=jAGIuobLp60
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://www.youtube.com/watch?v=LFKZLXVO-Dg
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Neural Network from scratch-part 1 | AI Summer
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://contentlab.io/c-neural-network-in-a-weekend/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* That unbelievable function that can compute EVERYTHING! An Adventure in Discrete Mathematics - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* We're Building Computers Wrong - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-004-computation-structures-spring-2017/c10/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Turingmaschinen - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://github.com/0xAX/asm
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://cs.lmu.edu/~ray/notes/nasmtutorial/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 1000 Linux Questions & Answers
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://booking.ai/theres-more-to-experimentation-than-a-b-223fba846876
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* http://www.norvig.com/design-patterns/design-patterns
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* So you want to write an interpreter?
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* WebAssembly (WASM) verdrängt Docker?! // deutsch
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://fuchsia.dev/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://medium.com/@brianwill/unix-userland-should-be-replaced-5605fe47cac0
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://medium.com/@brianwill
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://pilvinen.github.io/notes-on-why-oop-is-bad-and-how-to-solve-it.html
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://developer.ibm.com/articles/l-gas-nasm/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Games RL
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* What Happens when I Press a Key?
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* AES
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* OOP
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Why Rust?
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Railroad
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Was sind Monaden? Funktionale Programmierung
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Why would a python programmer learn rust when there are no jobs in it
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://github.com/gnulinuxpro/infra/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ Crash Course
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ Introduction | RabbitMQ Tutorial for Beginners | What is RabbitMQ | RabbitMQ Message Broker
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Configuration as Code in Bamboo - Atlassian Summit Europe 2017
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://www.freecodecamp.org/news/the-docker-handbook/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Microservices Architecture Design Patterns | 10 Design Principles | 26 Design Patterns 🔥 🔥 🔥 - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 10 Architecture Patterns Used In Enterprise Software Development Today - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* 10 Design Patterns Explained in 10 Minutes - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ Crash Course - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Microservice APIs: With examples in Python (MEAP v10)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ in 5 minutes
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://www.youtube.com/watch?v=fl_AelgaWKE
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learn Docker in 7 Easy Steps - Full Beginner's Tutorial - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The 50 Most Popular Linux & Terminal Commands - Full Course for Beginners - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Docker Tutorial #1 - Warum ihr Docker braucht! - YouTube
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cloud Computing. Concepts and Technologies.epub
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cloud Native Python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Generic Pipelines Using Docker. The DevOps Guide to Building Reusable, Platform Agnostic CI_CD
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-On RESTful Python Web Services
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Practical Web Scraping for Data Scientists
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python и DevOps
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python. Непрерывная интеграция и доставка
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ Essentials
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* RabbitMQ in Depth
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Web API Development with Python. A Beginner's Guide using Flask and FastAPI
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Облачные архитектуры разработка устойчивых и экономичных облачных приложений
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* От монолита к микросервисам
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Networks, Crowds, and Markets: Reasoning about a Highly Connected World
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learning at Lambert Labs
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* LaTeX 2e for class and package writers
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* LaTeX Users Guide and Reference Manual. A Document Preparation System (Lamport)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* TeX by Topic, A TeXnician's Reference
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The TeXbook
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Algorithms for Decision Making
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Angewandte Mathematik 1 mit MATLAB und Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Angewandte Mathematik 2 mit MATLAB und Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Beginning Julia Programming for Engineers and Scientists
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Foundation Dynamic Web Pages with Python
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Getting Started with Julia Programming
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-on Design Patterns and Best Practices with Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://julia.quantecon.org/intro.html
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://pnp.mathematik.uni-stuttgart.de/igt/eiserm/lehre/Topolywood/
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Open Data Structures (in Java)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Seven Languages in Seven Weeks
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Seven More Languages in Seven Weeks
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Understanding Cryptography
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* ГЕОМЕТРИЯ В КАРТИНКАХ
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Коротко о языке программирования Julia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Шпаргалки для начинающего верстальщика HTML CSS
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* ЯЗЫК ПРОГРАММИРОВАНИЯ МАТЕМАТИЧЕСКИХ ВЫЧИСЛЕНИЙ JULIA. БАЗОВОЕ РУКОВОДСТВО
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/scala
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/go
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* ACOUSTIC PARAMETERS VERSUS PHONETIC FEATURES IN ASR
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/scheme
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/fortran
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Modern Fortran
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Das Gehirn
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kognitive Neurowissenschaften
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Neurobiologie
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Neuromythologie
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Psycholinguistik - Neurolinguistik
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Мозг, познание, разум I
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Мозг, познание, разум II
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Fascism: A Very Short Introduction
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Free Will: A Very Short Introduction
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Freedom Regained: The Possibility of Free Will
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Gehirn und Geist Spezial
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* German Philosophy: A Very Short Introduction (Elsie)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* History: A Very Short Introduction (Elsie)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kant & Co. im Interview
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Motherland: a philosophical history of Russia
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The Palgrave Handbook of the Psychology of Sexuality and Gender
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* The Philosophy of Sex
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Кухня Робинсона.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Один на один с природой
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Проста фізика.epub
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Lehrbuch Kognitive Neurowissenschaften
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Мозг, познание, разум
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Философия DevOps
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Осваиваем Kubernetes
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Социальная инженерия и социальные хакеры
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Субстанция мышления
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* МАТЕМАТИЧЕСКАЯ ЛОГИКА И ТЕОРИЯ АЛГОРИТМОВ
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование. Python. C++. Часть 1.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование. Python. C++. Часть 2.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование. Python. C++. Часть 3.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программирование. Python. C++. Часть 4.djvu
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Beginning Topology
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* ES6 и не только
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* GNU Linux programación de sistemas
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hands-On System Programming with Linux
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Topology
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Intuitive Concepts in Elementary Topology
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Topologie 2020
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Topology Illustrated
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Topology: A Very Short Introduction (Elsie)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* TypeScript ES
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Understanding Topology. A Practical Introduction
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* WebAssembly в действии
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Искусство WebAssembly
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Математика в огне
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Наглядный CSS
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Отзывчивый дизайн на HTML5 и CSS3 для любых устройств 3е
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Программируй & типизируй
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Разработка веб-приложений
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* ТОПОЛОГІЯ МНОГОВИДІВ
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/r
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Numerical Methods in Science and Engineering
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Cassandra. The Definitive Guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Graph Databases
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Hadoop. The Definitive Guide
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* High Performance Spark
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Learning Spark
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Practical Machine Learning with H2O
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Time Series Databases
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* An introduction to language processing with Perl and Prolog
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* An Overview of Lexical Semantics
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Analytical Methods for Interpretable Ultradense Word Embeddings
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kotlin в действии
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Android Slides
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Kotlin for Android App Development
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Practical Android. 14 Complete Projects
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/racket
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/elixir
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* https://exercism.org/tracks/erlang
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Practical Deep Learning for Cloud, Mobile, & Edge
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Understanding Machine Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Foundations of Machine Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Foundaions of Machine Learning
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Introduction to Machine Learning (Alpaydin)
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Inteligencia artificial
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python Machine Learning Blueprints
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 
+
+* Python и наука о данных
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+  ** description: 

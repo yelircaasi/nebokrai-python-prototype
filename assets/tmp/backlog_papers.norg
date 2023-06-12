@@ -1,0 +1,171 @@
+
+
+* Why do linear SVMs trained on HOG features perform so well?
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Yoon Kim, et al.: Character-Aware Neural Language Models, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Eugene Charniak: A Maximum-Entropy-Inspired Parser, NAACL 2000.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Oriol Vinyals, et al.: Grammar as a Foreign Language, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Kevin Knight: A Statistical MT Tutorial Workbook, 1999.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Oriol Vinyals, Quoc Le: A Neural Conversation Model, 2015.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Ashish Vaswani, et al.: Attention Is All You Need, 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Kenton Lee at al.: End-to-end Neural Coreference Resolution, EMNLP 2017.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* CoNLL-X shared task on multilingual dependency parsing.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Coarse-to-fine n-best parsing and MaxEnt discriminative reranking.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* WordNet: An electronic lexical database. 1998.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Accurate unlexicalized parsing.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Automatic retrieval and clustering of similar words.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Building a large annotated corpus of English: The Penn Treebank.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* The proposition bank: An annotated corpus of semantic roles.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* BLEU: a method for automatic evaluation of machine translation.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 
+
+* Improved Inference for Unlexicalized Parsing.
+  ** link: 
+  ** tasks: 
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** Papers
+  ** description: 

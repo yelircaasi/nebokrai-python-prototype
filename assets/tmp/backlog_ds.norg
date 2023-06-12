@@ -1,0 +1,295 @@
+
+
+* Computing with Data
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** ds
+  ** description: 
+
+* https://sites.google.com/view/datascience-cheat-sheets
+  ** link: 
+  ** tasks: 9,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Математика для Data Science [2021] Миронов, Минеева
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+  ** description: 
+
+* Computing with Data
+  ** link: 
+  ** tasks: 15
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** ds
+  ** description: 
+
+* Big Data PT
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* The Data Science Design Manual
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Практическая статистика для специалистов Data Science
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Head First Data Analysis
+  ** link: 
+  ** tasks: 13,A3
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* ACME: Labs I
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+  ** description: 
+
+* ACME: Labs II
+  ** link: 
+  ** tasks: 21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+  ** description: 
+
+* ACME: Data Science Essentials →
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* ACME: README
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+  ** description: 
+
+* Foundations Of Data Science (2020)
+  ** link: 
+  ** tasks: 12
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Developing Analytic Talent
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Introduction to Applied Linear Algebra Julia Companion
+  ** link: https://web.stanford.edu/~boyd/vmls/vmls-julia-companion
+  ** tasks: 19,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+     *** julia
+  ** description: 
+
+* Statistics with Julia
+  ** link: 
+  ** tasks: 10,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+     *** julia
+  ** description: 
+
+* Julia for Data Science
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+     *** julia
+  ** description: 
+
+* Data Science. Concepts and Practice
+  ** link: 
+  ** tasks: 15
+  ** priority: MEDIUM_HIGH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Data Science at the Command Line
+  ** link: 
+  ** tasks: 10,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+     *** shell
+  ** description: 
+
+* Doing Data Science
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Data science для карьериста
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Data Science Handbook (Shan et al.)
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* The Data Science Handbook (Cady)
+  ** link: 
+  ** tasks: 25
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Algorithms for Data Science
+  ** link: 
+  ** tasks: 12,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Handbook of Data Intensive Computing
+  ** link: 
+  ** tasks: 30
+  ** priority: LOWER
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+     *** prog
+  ** description: 
+
+* Understanding Complex Datasets
+  ** link: 
+  ** tasks: 10,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** ds
+  ** description: 
+
+* Spark: The Definitive Guide (Chambers & Zaharia)
+  ** link: 
+  ** tasks: 33
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ds
+  ** description: 
+
+* Intro to Applied Linear Algebra
+  ** link: https://web.stanford.edu/~boyd/vmls/vmls
+  ** tasks: 19,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** ds
+  ** description: 

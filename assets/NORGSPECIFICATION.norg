@@ -603,7 +603,7 @@ version: 1.0
        The `<day>` value is reliant on the current locale, but the following alterations of that
        value are permitted:
        -- Full version (e.g. `Tuesday`, `Wednesday`)
-       -- An unambiguous shorthand (a shorthand that can uniquely identify the day), e.g. `Tue`, `We`,
+       -- An unambiguous shorthand (a shorthand that can uniquely identify the schedule), e.g. `Tue`, `We`,
           `M` (Monday), `Frid`. Something like `T` is not allowed, as both `Tuesday` and `Thursday`
           could satisfy the input.
 
@@ -1318,7 +1318,7 @@ version: 1.0
   $ Term
     This is a definition of that term.
   |end
-  This is perfectly normal syntax that you would write day to day in Norg. But what if you're more
+  This is perfectly normal syntax that you would write schedule to schedule in Norg. But what if you're more
   of a fan of one-liners? The `| : |` intersecting modifier (currently the only modifier of this
   type) can be used to do just this:
   |example

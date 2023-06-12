@@ -56,8 +56,8 @@ class Entry:
 
     @classmethod
     def from_json(cls, path: Path) -> "Entry":
-        day = cls()
-        return day
+        schedule = cls()
+        return schedule
     
     def to_norg(self, path: Path) -> None:
         ...

@@ -1,0 +1,349 @@
+
+
+* https://pybind11.readthedocs.io/en/latest/
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** python_low_level
+     *** python
+     *** c++
+  ** description: 
+
+* Udemy C++ Masterclass
+  ** link: 
+  ** tasks: 699
+  ** priority: WISH
+  ** cluster: 7
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Cherno C++ Playlist
+  ** link: 
+  ** tasks: 100
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++. Das umfassende Handbuch
+  ** link: 
+  ** tasks: 31,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Programming Principles and Practice Using C++
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Beginning C++17
+  ** link: 
+  ** tasks: 0-19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Beginning C++20
+  ** link: 
+  ** tasks: 0-21
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Schrödinger programmiert C++
+  ** link: 
+  ** tasks: 18
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Data Structures and Algorithms in Cpp
+  ** link: 
+  ** tasks: 14,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+     *** alg
+     *** dsa
+  ** description: 
+
+* https://www.learncpp.com/
+  ** link: 
+  ** tasks: 23,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++ на примерах
+  ** link: 
+  ** tasks: 14,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Cpp for Mathematicians
+  ** link: 
+  ** tasks: 15,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Accelerated C++
+  ** link: 
+  ** tasks: 0-16,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++ by Dissection
+  ** link: 
+  ** tasks: 11,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Beginning Cpp Programming
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* How Linux Works. What Every Superuser Should Know
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Введение в язык Си++
+  ** link: 
+  ** tasks: 6
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++ Tutorial 2021 - YouTube
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Язык программирование C++. Полное руководство
+  ** link: 
+  ** tasks: 20,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* https://vcpkg.io/en/index.html
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Lecture: Modern C++ (Summer 2018, Uni Bonn)
+  ** link: 
+  ** tasks: 0-9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* The Rook's Guide to Cpp
+  ** link: 
+  ** tasks: 23
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Уроки програмування на С++ для початківців / aCode
+  ** link: 
+  ** tasks: 267
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Hands-On Machine Learning with Cpp
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Modern CMake for Cpp
+  ** link: 
+  ** tasks: 12,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cmake
+     *** c++
+  ** description: 
+
+* C++ Cheatsheets
+  ** link: https://hackingcpp.com/cpp/cheat_sheets.html
+  ** tasks: Algorithms,Views,Containers,Randomness,Utilities,Language,Libraries,Design,Engineering,Terminology
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++20 Recipes
+  ** link: 
+  ** tasks: 14
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* C++ - das Übungsbuch
+  ** link: 
+  ** tasks: 29,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Professional C++
+  ** link: 
+  ** tasks: 34A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* https://github.com/pdeitel/CPlusPlus20ForProgrammers
+  ** link: 
+  ** tasks: 20
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 
+
+* Modern Parallel Programming with C++ and Assembly Language
+  ** link: 
+  ** tasks: 19,A,B
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+     *** low_level
+     *** parallel
+  ** description: 
+
+* Touch of Class
+  ** link: 
+  ** tasks: 19,A,B,C,D,E
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+     *** oop
+  ** description: 
+
+* C++20 for Programmers
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** c++
+  ** description: 

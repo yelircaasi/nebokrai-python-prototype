@@ -1,0 +1,326 @@
+
+
+* Dual Numbers
+  ** link: https://www.youtube.com/watch?v=ceaNqdHdqtg
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** dl
+  ** description: 
+
+* Дискретная математика для программистов
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Introductory Mathematics: Algebra and Analysis (Smith)
+  ** link: 
+  ** tasks: 8
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* All the Math You Missed
+  ** link: 
+  ** tasks: 16,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Taxonomy of Principal Distances.jpg
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** math
+  ** description: 
+
+* 3Blue1Brown Essence of Linear Algebra & Calculus & Neural Networks
+  ** link: 
+  ** tasks: 32
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** dl
+  ** description: 
+
+* The Foundations of Mathematics (Ian Stewart)
+  ** link: 
+  ** tasks: 16,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Handbook of Linear Algebra
+  ** link: 
+  ** tasks: 98
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Sigmoid and Logit function | Logical Intuitions
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** dl
+  ** description: 
+
+* Open letter
+  ** link: http://assets.press.princeton.edu/chapters/s10825
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Handbook of Mathematics
+  ** link: 
+  ** tasks: 28,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* https://sebastianraschka.com/faq/docs/logistic-why-sigmoid.html
+  ** link: 
+  ** tasks: 1
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** math
+  ** description: 
+
+* Numbers and Functions: Steps into Analysis (Burn)
+  ** link: 
+  ** tasks: 12,A3
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Introduction to Metric and Topological Spaces (Sutherland)
+  ** link: 
+  ** tasks: 17
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+     *** topo
+  ** description: 
+
+* Элементарное введение в высшую математику
+  ** link: 
+  ** tasks: 19
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Вища математика I. Підручник у 2 частинах
+  ** link: 
+  ** tasks: 13
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** uk
+     *** math
+  ** description: 
+
+* Introduction to Mathematical Thinking (Devlin)
+  ** link: 
+  ** tasks: 4,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Mathematical Linguistics
+  ** link: 
+  ** tasks: 10
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ling
+     *** math
+  ** description: 
+
+* Mathematics of Language
+  ** link: 
+  ** tasks: 21,A2
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ling
+     *** math
+  ** description: 
+
+* Category Theory for Computing Science
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** math
+     *** functional
+  ** description: 
+
+* Алгебраические основы криптографии
+  ** link: 
+  ** tasks: 7
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** crypto
+     *** math
+  ** description: 
+
+* Математические основы информатики
+  ** link: 
+  ** tasks: 6,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** cs
+     *** math
+  ** description: 
+
+* Вища математика II. Підручник у 2 частинах
+  ** link: 
+  ** tasks: 9
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Artin - Algebra
+  ** link: 
+  ** tasks: 14,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Algebra, Topology, Differential Calculus, and Optimization Theory for Computer Science and Machine Learning
+  ** link: 
+  ** tasks: 17,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Pure Mathematics for Beginners. A Rigorous Introduction to Logic, Set Theory, Abstract Algebra, Number Theory, Real Analysis, Topology, Complex Analysis, and Linear Algebra
+  ** link: 
+  ** tasks: 16
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* ACME: Foundations of Applied Mathematics, Volume 2. Algorithms, Approximation, Optimization
+  ** link: 
+  ** tasks: 17,A
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* ACME: Foundations of Applied Mathematics, Volume 1. Mathematical Analysis
+  ** link: 
+  ** tasks: 15,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 
+
+* Linear Algebra and Learning from Data
+  ** link: 
+  ** tasks: I.1,I.2,I.3,I.4,I.5,I.6,I.7,I.8,I.9,I.10,I.11,I.12,II.1,II.2,II.3,II.4,III.1,III.2,III.3,III.4,III.5,IV.1,IV.2,IV.3,IV.4,IV.5,IV.6,IV.7,IV.8,IV.9,IV.10,V.1,V.2,V.3,V.4,V.5,V.6,VI.1,VI.2,VI.3,VI.4,VI.5,VII.1,VII.2,VII.3,VII.4,VII.5,A,B,C,D
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** math
+  ** description: 
+
+* Linear Algebra and Optimization for Machine Learning: A Textbook
+  ** link: 
+  ** tasks: 11
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** ml
+     *** math
+  ** description: 
+
+* Alebra, Topology, Differential Calculus, and Optimization Theory for Computer Science and Machine Learning
+  ** link: 
+  ** tasks: 56,A,B,C
+  ** priority: WISH
+  ** cluster: 1
+  ** duration: 30
+  ** tags:
+     *** math
+  ** description: 

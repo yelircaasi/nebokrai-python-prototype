@@ -22,7 +22,7 @@ To create a system that takes into account all obligations, goals, and values to
 
 ## Overview of Vanilla Scheduling Algorithm
 
-1. A default day is specified, which contains recurring activities and activities blocked out.
+1. A default schedule is specified, which contains recurring activities and activities blocked out.
 2. From planning (typically quarterly and weekly), non-recurring "big rock" activities are added, each with a priority level that determines which takes precedence among a set of items competing for the same time. 
 3. From the store of long-term roadmaps and projects and their corresponding tasks, tasks are assigned according to schedule and priority.
 4. When there are conflicts or too many tasks to fit in the available time, these are to be resolved first automatically according to the settings. 
