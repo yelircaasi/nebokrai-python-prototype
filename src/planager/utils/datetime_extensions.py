@@ -1,4 +1,9 @@
-from datetime import date
+from datetime import date, datetime
+from typing import List, Tuple, Union
+
+
+def now() -> str:
+    return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 class PTime:
@@ -70,6 +75,9 @@ class PTime:
 #         return PDate.fromordinal(self.toordinal() - days)
 
 
+PDateInputType = Union["PDate", str, Tuple[int, int, int], int]
+
+
 class PDate(date):
     def copy(self):
         return PDate(self.year, self.month, self.day)
@@ -87,3 +95,58 @@ class PDate(date):
         ending = ORDINAL_ENDINGS.get(self.day, "th")
         return f"{DAYS[self.weekday()]}, {MONTHS[self.month]} {self.day}{ending}, {self.year}"   
     
+    @classmethod
+    def ensure_is_pdate(cls, candidate: Union["PDate", str, Tuple[int, int, int], int]) -> "PDate":
+        if isinstance(candidate, PDate):
+            pass
+        elif isinstance(candidate, str):
+            try:
+              candidate = PDate.fromisoformat(candidate)
+            except:
+                raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
+        elif isinstance(candidate, tuple):
+            try:
+              candidate = PDate(*candidate)
+            except:
+                raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
+        elif isinstance(candidate, int):
+            try:
+              candidate = PDate.today() + candidate
+            except:
+                raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
+        else:
+            raise ValueError(f"Invalid input type for `PDate` class: '{type(candidate)}' (value: '{candidate}')")
+        return candidate
+    
+    def range(self, date2: "PDate", inclusive: bool = True) -> List["PDate"]:
+        
+        date1 = self.copy()
+        reverse: bool = False
+
+        if date1 > date2:
+            date1, date2 = date2, date1
+            reverse = True
+
+        if not inclusive:
+            date2 -= 1
+
+        date_i = date1
+        dates = [date_i]
+
+        while date_i < date2:
+            dates.append(date_i := date_i + 1)
+
+        if reverse:
+            dates.reverse()
+
+        return dates
+
+
+class PDateTime:
+    ...
+
+
+ZERODATE = PDate(2023, 1, 1)
+
+
+

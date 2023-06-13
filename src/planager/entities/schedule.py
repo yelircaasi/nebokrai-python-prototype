@@ -2,14 +2,15 @@ from calendar import Calendar
 #from datetime import date, time
 from enum import Enum
 from pathlib import Path
-from typing import List
+from typing import Any, Dict, List, Tuple, Union
 
 from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from planager.utils.datetime_extensions import PDate, PTime
+from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
 from planager.utils.data.norg import make_norg_header, make_norg_body, make_norg_notes
 from planager.utils.scheduling_helpers import add_entry_default
+from planager.entities import AdHoc, Plan, Routines
 
 
 class AdjustmentType(Enum):
@@ -141,6 +142,15 @@ class Schedule:
     
     def starts_str(self) -> List[PTime]:
         return [str(x.start) for x in self.schedule]
+    
+    def add_routines(self, routines: Routines) -> None:
+        ...
+
+    def add_from_plan(self, plan: Plan) -> None:
+        ...
+
+    def add_adhoc(self, adhoc: AdHoc) -> None:
+        ...
 
 
 # d = Schedule(2023, 5, 23)
@@ -150,3 +160,59 @@ class Schedule:
 #     Entry(name="R & R", start=PTime(9,15), end=PTime(9,50)), 
 #     Entry(name="Last Entry for the schedule: reading at my own discretion", start=PTime(17,30), end=PTime(19,15), priority=10)
 # ]
+
+
+
+
+class Schedules:
+    def __init__(self, schedules: Dict[Schedule] = {}) -> None:
+        self._schedules = schedules
+
+    def __getitem__(self, __key: PDateInputType) -> Schedule:
+        __key = PDate.ensure_is_pdate(__key)
+        return self._schedules[__key]
+        
+    def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
+        assert isinstance(__value, Schedule)
+        __key = PDate.ensure_is_pdate(__key)
+        self._schedules.update({__key: __value})
+
+
+"""
+t = PDate.today()
+scheds = {t: "today's schedule}
+s = Schedules(schedules={})
+"""
+        
+
+    # def __getattr__(self, __name: str) -> Any:
+    #     if __name in self.__dict__:
+    #         return self.__dict__[__name]
+    #     elif __name in self._schedules:
+    #         return self._schedules[__name]
+    #     else:
+    #         raise ValueError("Invalid attribute.")
+    
+    # def __setattr__(self, __name: str, __value: Any) -> None:
+    #     pass
+
+
+class SchedulePatch:
+    def __init__(self) -> None:
+        self.x = ...
+
+
+class SchedulePatches:
+    def __init__(self, schedules: Dict[Schedule] = {}) -> None:
+        ...
+
+    def __getitem__(self, __key: PDateInputType) -> Schedule:
+        ...
+        
+    def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
+        ...
+
+    @classmethod
+    def from_norg_workspace(workspace_root: Path) -> "SchedulePatches":
+        patches = ...
+        return patches
