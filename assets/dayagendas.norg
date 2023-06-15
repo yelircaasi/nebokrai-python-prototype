@@ -1,6 +1,10 @@
 @document.meta
 title: Day Agendas
-authors: [yelircaasi]
+description: 
 categories: 
+id: 
+parent: 
+updated:
+author: yelircaasi
 version: 0.1
 @end

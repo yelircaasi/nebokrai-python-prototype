@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Optional, TYPE_CHECKING
+from typing import Dict, List, Optional, TYPE_CHECKING
 
 from planager.entities import (
     AdHoc,
@@ -24,7 +24,6 @@ from planager.entities import (
     TaskPatches,
 )
 from planager.operators import (
-    Adjuster,
     Planner,
     Scheduler,
 )
@@ -34,6 +33,28 @@ if TYPE_CHECKING:
 
 
 class Universe:
+    files = []
+    roadmaps: Roadmaps
+    adhoc: AdHoc
+    projects: Projects
+    tasks: Tasks
+    routines: Routines
+    plan: Plan
+    schedules: Schedules
+
+    planner: Planner
+    scheduler: Scheduler
+        
+    plan_patches: List[PlanPatch]
+    schedule_patches: List[SchedulePatch]
+    task_patches: List[TaskPatch]
+    last_update: Optional[PDateTime]
+    deps_highlevel: Dict
+    deps_lowlevel: Dict
+    norg_workspace: Optional[Path]
+    json_dir: Optional[Path]
+    html_dir: Optional[Path]
+    
     def __init__(self) -> None:
         self.files = []
         self.roadmaps   = Roadmaps()
@@ -44,7 +65,6 @@ class Universe:
         self.plan: Plan = Plan()
         self.schedules  = Schedules()
 
-        self.adjuster  = Adjuster()
         self.planner   = Planner()
         self.scheduler = Scheduler()
         
@@ -70,12 +90,11 @@ class Universe:
 
         # direct reading
         univ.roadmaps         = Roadmaps.from_norg_workspace(workspace)
+        univ.routines         = Routines.from_norg_workspace(workspace)
+        univ.adhoc            = AdHoc.from_norg_workspace(workspace)
         univ.plan_patches     = PlanPatches.from_norg_workspace(workspace)
         univ.task_patches     = TaskPatches.from_norg_workspace(workspace)
         univ.schedule_patches = SchedulePatches.from_norg_workspace(workspace)
-        univ.routines         = Routines.from_norg_workspace(workspace)
-        univ.adhoc            = AdHoc.from_norg_workspace(workspace)
-        univ.projects         = univ.roadmaps.open_projects_norg()
         
         # operators
         univ.planner     = Planner(config)
@@ -83,14 +102,16 @@ class Universe:
         
         # derivation
         univ.plan: Plan = univ.planner(
-            univ.projects, 
-            univ.plan_patches
+            univ.projects,
+            univ.calendar,
+            univ.task_patches,
+            univ.plan_patches,
         )
         univ.schedules: Schedules = univ.scheduler(
             univ.plan, 
             univ.routines, 
             univ.adhoc, 
-            univ.schedule_patches
+            univ.schedule_patches,
         )
 
         return univ

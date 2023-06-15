@@ -4,13 +4,15 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
-from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
 from planager.utils.data.norg import make_norg_header, make_norg_body, make_norg_notes
 from planager.utils.scheduling_helpers import add_entry_default
 from planager.entities import AdHoc, Plan, Routines
+from planager.utils.data.norg.norg_utils import Norg
+from planager.entities import Roadmaps
 
 
 class AdjustmentType(Enum):
@@ -19,6 +21,7 @@ class AdjustmentType(Enum):
     SHIFT = 2        # 
     COMPRESS = 3     # 
     COMPROMISE = 4   # 
+    DISPLACE = 5     # 
 
 
 class Schedule:
@@ -33,6 +36,8 @@ class Schedule:
         self.schedule = schedule or [FIRST_ENTRY, Empty(start=PTime(), end=PTime(24)), LAST_ENTRY]
         self.date = PDate(year, month, day)
         self.width = width
+        self.AdjustmentType = AdjustmentType
+        self.overflow = []
 
     def ensure_bookends(self) -> None:
         if not self.schedule[0] == FIRST_ENTRY:
@@ -144,13 +149,17 @@ class Schedule:
         return [str(x.start) for x in self.schedule]
     
     def add_routines(self, routines: Routines) -> None:
-        ...
+        for routine in routines:
+            if routine.valid_on(self.date):
+                self.add(routine.as_entry())
 
     def add_from_plan(self, plan: Plan) -> None:
-        ...
+        for task_id in plan[self.date]:
+            self.add(plan[task_id].as_entry())
 
     def add_adhoc(self, adhoc: AdHoc) -> None:
-        ...
+        for entry_id in adhoc[self.date]:
+            self.add(entry_id)
 
 
 # d = Schedule(2023, 5, 23)
@@ -176,6 +185,13 @@ class Schedules:
         assert isinstance(__value, Schedule)
         __key = PDate.ensure_is_pdate(__key)
         self._schedules.update({__key: __value})
+
+    @classmethod
+    def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
+        file = workspace_dir / "roadmaps.norg"
+        parsed: Dict = Norg.from_path(file)
+        ...
+        return cls()
 
 
 """

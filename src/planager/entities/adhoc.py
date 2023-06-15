@@ -23,15 +23,18 @@ version: 0.1
 """
 
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Dict, List, Union
+
 
 #from planager.config import config
+from planager.entities import Entry
 from planager.utils.datetime_extensions import now
-from planager.utils.data.norg.norg_utils import norg_utils as norg
+from planager.utils.data.norg.norg_utils import Norg, norg_utils as norg
+
 
 
 class AdHoc:
-    def __init__(self, title: str) -> None:
+    def __init__(self, title: str, entries: List[Entry]) -> None:
         self.title = title
         #self.author = config.author
 
@@ -84,6 +87,24 @@ class AdHoc:
             #author=self.author,
             updated=now(),
         )
+
+    @classmethod
+    def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
+        file = workspace_dir / "routines.norg"
+        parsed: Dict = Norg.from_path(file)
+        entries = []
+        for section in parsed["sections"]: #TODO
+            #attributes = Norg.parse_preasterix_attributes(section)
+            #items = map(lambda x: x["title"], Norg.parse_subsections(section))
+            
+            entries.append(
+                Entry(
+                    # section["title"], 
+                    # attributes, 
+                    # items,
+                )
+            )
+        return cls(entries)
 
 
 

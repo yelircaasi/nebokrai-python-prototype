@@ -1,8 +1,8 @@
 import re
-from typing import Any, Dict, List, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-from click import Path
-from planager.utils.datetime_extensions import PTime
+from pathlib import Path
+from planager.utils.datetime_extensions import PDateTime, PTime, ZERODATETIME
 
 from planager.utils.linewrap import wrap_string
 
@@ -163,6 +163,122 @@ def get_norg_entries(norg_str):
     return re.split(regx, norg_str.split("* Notes")[0])[1:]
 
 
+class Norg:
+    def __init__(
+        self,
+        title: str = "",
+        description: str = "",
+        author: str = "",
+        id: int = -1,
+        parent: int = -1,
+        updated: PDateTime = ZERODATETIME,
+        categories: str = "",
+        sections: dict = {},
+        items: List[str] = [],
+        path: Optional[Path] = None,
+    ) -> None:
+        self.__dict__.update(**locals())
+
+    @classmethod
+    def from_path(cls, norg_path: Path) -> "Norg":
+        with open(norg_path) as f:
+            norg_str = f.read()
+        norg_obj = cls.from_string(norg_str)
+        norg_obj.path = norg_path
+        return norg_obj
+    
+    @classmethod
+    def from_string(cls, norg_str) -> "Norg":
+        
+        kwarg_dict = cls.parse_norg_str(norg_str)
+        
+        return cls(**kwarg_dict)
+
+    @staticmethod
+    def parse_norg_str(norg: str) -> Dict[str, Any]:
+        regx_header = re.compile("@document.meta\n(.+)\n@end\n+\s*\n*(.*)", re.DOTALL)
+        regx_sections = re.compile("\n\* ", re.DOTALL)
+        regx_items = re.compile("\n\d{1,3}\. +|\n\s*- +")
+        
+        header, body = re.search(regx_header, norg).groups()
+        lines = header.split("\n")
+        
+        kwarg_dict = dict(map(lambda x: x.split(": ", 1), lines))
+        print(kwarg_dict)
+        kwarg_dict["id"] = int(kwarg_dict["id"])
+        kwarg_dict["parent"] = int(kwarg_dict["parent"])
+        kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
+        
+        def parse_section(section_str: str) -> Dict[str, Any]:
+            regx_subsections = re.compile("\n\s*\*\* ", re.DOTALL)
+            section_str = section_str.strip()
+            section_dict = {"title": "", "text": "", "subsections": []}
+            section_dict["title"] = re.search("([^\n]+)", section_str).groups()[0]
+            section_dict["text"] = re.search("\n(.*?)\n?\*+ ", section_str).groups()[0].strip()
+            section_dict["subsections"] = list(map(str.strip, re.split(regx_subsections, section_str)))
+            return section_dict
+
+        sections = re.split(regx_sections, body)
+        kwarg_dict.update({"sections": list(map(parse_section, sections[1:]))})
+        print(sections[0])
+        kwarg_dict.update({"items": list(map(str.strip, re.split(regx_items, sections[0])[1:]))})
+
+        return kwarg_dict
+    
+    @staticmethod
+    def parse_link(s: str) -> str:
+        regx_link = re.compile("\[(.+?)\]\{(.+?)\}|\{(.+?}\]\[(.+?)\]", re.DOTALL)
+        search = re.search(regx_link, s)
+        if not search:
+            return ""
+        return search.groups()[0]
+    
+    @staticmethod
+    def parse_preasterix_attributes(section: str) -> dict:
+        regx1 = re.compile("\n+\s*\*+ ")
+        regx2 = re.compile("\n")
+        section = re.split(regx1, section)[0]
+        attributes = list(map(str.strip, re.split(regx2, section)))
+        return attributes
+    
+    @staticmethod
+    def parse_subsections(section: str) -> List[dict]:
+        regx = re.compile("\n+\s*\*\*+ ")
+        try:
+            title, body = section.split("\n", 1)
+            subsections = re.split(regx)
+            return {"title": title, "subsections": subsections}
+        except:
+            return {"title": section}
+    
+    def __str__(self) -> str:
+        return f""
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    
+
+# class DocType(Enum):
+#     ROADMAP = 1
+#     PROJECT = 2
 
 
 
+def parse_norg_str(norg_str: str) -> Norg:
+    norg = {}
+    
+    return norg
+
+def parse_norg_path(file: Path) -> Norg:
+    with open(file) as f:
+        norg_str = f.read()
+    return parse_norg_str(norg_str)
+
+
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/projects/notes_reading_projects/b.norg"))
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/roadmaps.norg"))
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/adhoc.norg"))
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/calendar.norg"))
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/.norg"))
+# n = Norg.from_path(Path("/home/isaac/Learning/planager-data/.norg"))

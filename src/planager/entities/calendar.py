@@ -13,10 +13,3 @@ class Calendar:
     
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
-
-    def __getattr__(self, __name: str) -> Any:
-        item = ...
-        return item
-    
-    def __setattr__(self, __name: str, __value: Any) -> None:
-        ...

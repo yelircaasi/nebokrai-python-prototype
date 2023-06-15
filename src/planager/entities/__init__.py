@@ -1,6 +1,6 @@
 from .adhoc import AdHoc
 from .calendar import Calendar
-from .entry import Entry
+from .entry import Empty, Entry, FIRST_ENTRY, LAST_ENTRY
 from .plan import Plan, PlanPatch, PlanPatches
 from .project import Project, Projects
 from .roadmap import Roadmap, Roadmaps
@@ -11,7 +11,10 @@ from .task import Task, Tasks, TaskPatch, TaskPatches
 __all__ = [
     AdHoc,
     Calendar,
+    Empty,
     Entry,
+    FIRST_ENTRY,
+    LAST_ENTRY,
     Plan,
     PlanPatch,
     PlanPatches,
