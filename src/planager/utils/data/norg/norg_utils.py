@@ -5,13 +5,14 @@ from pathlib import Path
 from planager.utils.datetime_extensions import PDateTime, PTime, ZERODATETIME
 
 from planager.utils.linewrap import wrap_string
+from planager.utils.regex import Regexes
 
 BOOL2STR = {True: "true", False: "false"}
 STR2BOOL = {"true": True, "false": False}
 
 
 def split_document(fp: Path) -> Tuple:
-    regx = re.compile("\s*\n+\s*\*\s+")
+    regx = Regexes.section_split
     with open(fp) as f:
         return re.split(regx, f.read())
 
@@ -52,18 +53,7 @@ def get_dict_from_path(fp: Path) -> Dict:
 
 
 def parse_norg_entry(entry: str):
-    regx = re.compile(
-        "\*\* (\d\d:\d\d) \| ([^\n]+)\n\n"
-        "  - priority: +(\d+)\n"
-        "  - ismovable: +(\w+)\n"
-        "  - notes: +(.+?)\n"
-        "  - normaltime: +(\d+)\n"
-        "  - idealtime: +(\d+)\n"
-        "  - mintime: +(\d+)\n"
-        "  - maxtime: +(\d+)\n"
-        "  - alignend: +(\w+)\n",
-        re.DOTALL
-    )
+    regx = Regexes.entry_old
     groups = re.search(regx, entry).groups()
     if not len(groups) == 10:
         raise ValueError("Invalid norg entry format.")
@@ -159,7 +149,7 @@ def make_norg_notes(
 
 
 def get_norg_entries(norg_str):
-    regx = re.compile("\n(?=\*\* \d\d:\d\d \| )")
+    regx = Regexes.entry_split_old
     return re.split(regx, norg_str.split("* Notes")[0])[1:]
 
 
@@ -181,6 +171,9 @@ class Norg:
 
     @classmethod
     def from_path(cls, norg_path: Path) -> "Norg":
+        #print(50 * '=')
+        #print(norg_path)
+        #print(50 * '=')
         with open(norg_path) as f:
             norg_str = f.read()
         norg_obj = cls.from_string(norg_str)
@@ -196,60 +189,121 @@ class Norg:
 
     @staticmethod
     def parse_norg_str(norg: str) -> Dict[str, Any]:
-        regx_header = re.compile("@document.meta\n(.+)\n@end\n+\s*\n*(.*)", re.DOTALL)
-        regx_sections = re.compile("\n\* ", re.DOTALL)
-        regx_items = re.compile("\n\d{1,3}\. +|\n\s*- +")
+        regx_header_and_body = Regexes.header_and_body
+        regx_sections = Regexes.section_split
+        regx_items = Regexes.item1_split
         
-        header, body = re.search(regx_header, norg).groups()
+        search = re.search(regx_header_and_body, norg)
+        if not search:
+            print(100 * "&")
+            print(norg)
+            print(search)
+            print(regx_header_and_body)
+        header, body = search.groups()
+        body= '\n' + body
+        #print(body)
         lines = header.split("\n")
         
+        #print(lines)
         kwarg_dict = dict(map(lambda x: x.split(": ", 1), lines))
-        print(kwarg_dict)
+        #print(kwarg_dict)
         kwarg_dict["id"] = int(kwarg_dict["id"])
         kwarg_dict["parent"] = int(kwarg_dict["parent"])
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
         
-        def parse_section(section_str: str) -> Dict[str, Any]:
-            regx_subsections = re.compile("\n\s*\*\* ", re.DOTALL)
-            section_str = section_str.strip()
+        def parse_section(section_str: str) -> Optional[Dict[str, Any]]:
+            regx_subsections = Regexes.subsection_split
+            #section_str = section_str.strip()
             section_dict = {"title": "", "text": "", "subsections": []}
-            section_dict["title"] = re.search("([^\n]+)", section_str).groups()[0]
-            section_dict["text"] = re.search("\n(.*?)\n?\*+ ", section_str).groups()[0].strip()
-            section_dict["subsections"] = list(map(str.strip, re.split(regx_subsections, section_str)))
+            res = re.search("\*?([^\n]+)", section_str)
+            if not res:
+                return None
+            section_dict["title"] = res.groups()[0].strip()
+            res = re.search("\n(.*?)\n?\*+ ", section_str)
+            section_dict["text"] = "" if not res else res.groups()[0].strip()
+            section_dict["subsections"] = list(map(str.strip, re.split(regx_subsections, section_str)[1:]))
             return section_dict
 
         sections = re.split(regx_sections, body)
-        kwarg_dict.update({"sections": list(map(parse_section, sections[1:]))})
-        print(sections[0])
-        kwarg_dict.update({"items": list(map(str.strip, re.split(regx_items, sections[0])[1:]))})
+        kwarg_dict.update({"sections": list(map(parse_section, filter(bool, sections)))})
+        #print(sections[0])
+        kwarg_dict.update({"items": re.split(regx_items, sections[0])[1:]})
 
         return kwarg_dict
     
     @staticmethod
     def parse_link(s: str) -> str:
-        regx_link = re.compile("\[(.+?)\]\{(.+?)\}|\{(.+?}\]\[(.+?)\]", re.DOTALL)
+        regx_link = Regexes.link
         search = re.search(regx_link, s)
         if not search:
-            return ""
-        return search.groups()[0]
+            return ("", "")
+        s = search.groups()
+        # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+        # print(s)
+        link = [result for result in s if str(result).startswith("$/")][0]
+        loc = s.index(link)
+        text = s[(loc - 1) if (loc % 2) else (loc + 1)]
+        return (text, link)
     
     @staticmethod
     def parse_preasterix_attributes(section: str) -> dict:
-        regx1 = re.compile("\n+\s*\*+ ")
-        regx2 = re.compile("\n")
+        if not section:
+            return {}
+        regx1 = Regexes.asterix_split
+        regx2 = Regexes.item_split
         section = re.split(regx1, section)[0]
-        attributes = list(map(str.strip, re.split(regx2, section)))
-        return attributes
-    
+        # print(100 * "%")
+        # print(section)
+        return dict(map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section))))
+        
     @staticmethod
     def parse_subsections(section: str) -> List[dict]:
-        regx = re.compile("\n+\s*\*\*+ ")
+        print(f"{section=}")
+        regx = Regexes.subsection_split
         try:
             title, body = section.split("\n", 1)
-            subsections = re.split(regx)
+            subsections = re.split(regx, body)
             return {"title": title, "subsections": subsections}
         except:
             return {"title": section}
+        
+    @staticmethod
+    def parse_item_with_attributes(item: str) -> dict:
+        if not item.strip():
+            print("Tried to parse empty item!")
+            return None
+        regx1 = Regexes.first_line
+        regx2 = Regexes.item_split
+        title = re.search(regx1, item).groups()[0]
+        attributes = dict(map(lambda s: s.split(": ", 1), re.split(regx2, item)[1:]))
+        return {"title": title, "attributes": attributes}
+        
+    @staticmethod
+    def parse_title_and_attributes(segment: str) -> Tuple[str, dict]:
+        assert isinstance(segment, str)
+        try:
+            title, body = segment.split("\n", 1)
+            attributes = Norg.get_attributes(body)
+            #print(f"{title=}")
+            #print(f"{attributes=}")
+            return title, attributes
+        except:
+            return segment, {}
+        
+    @staticmethod
+    def get_attributes(segment: str) -> Dict[str, Any]:
+        regx = Regexes.item_split
+        try:
+            segments = re.split(regx, segment)[1:]
+            #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            #print(segments)
+            pairs = list(map(lambda s: s.split(": ", 1), segments))
+            #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            #print(pairs)
+            return dict(pairs) if pairs else {}
+        except:
+            print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            print(segment)
     
     def __str__(self) -> str:
         return f""

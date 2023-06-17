@@ -1,6 +1,8 @@
 from datetime import date, datetime
 import re
-from typing import List, Tuple, Union
+from typing import List, Tuple, Union, Optional
+
+from .regex import Regexes
 
 
 def now() -> str:
@@ -14,7 +16,9 @@ class PTime:
         self.__dict__.update(locals())
 
     @classmethod
-    def from_string(cls, date_string: str) -> "PTime":
+    def from_string(cls, date_string: Optional[str]) -> Optional["PTime"]:
+        if not date_string:
+            return None
         hour, minute = map(int, date_string.split(":"))
         return cls(hour, minute)
     
@@ -75,6 +79,16 @@ PDateInputType = Union["PDate", str, Tuple[int, int, int], int]
 class PDate(date):
     def copy(self):
         return PDate(self.year, self.month, self.day)
+    
+    @classmethod
+    def from_string(cls, date_str: str) -> Optional["PDate"]:
+        regx = Regexes.date
+        result = re.search(regx, date_str)
+        if result:
+            year, month, day = map(int, result.groups())
+            return cls(year, month, day)
+        else:
+            return None
     
     def __int__(self) -> int:
         return self.toordinal()
@@ -151,7 +165,7 @@ class PDateTime:
     def from_string(cls, date_string: str) -> "PTime":
         if not date_string:
             return cls(2023, 1, 1, 0, 0, 0)
-        regx = re.compile("[^\d]")
+        regx = Regexes.nondigit
         year, month, day, hour, minute, second = map(int, re.split(regx, date_string.strip()))
         return cls(year, month, day, hour, minute, second)
     

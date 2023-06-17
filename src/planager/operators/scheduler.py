@@ -1,12 +1,12 @@
 from typing import List, Optional
 from planager import entities
 from planager.operators.patchers import SchedulePatcher
-from planager.config import config
+from planager.config import ConfigType, config
 from planager.utils.datetime_extensions import PDate
 
 
 class Scheduler:
-    def __init__(self, config):
+    def __init__(self, config: Optional[ConfigType] = None):
         ...
         self.patch_schedule = SchedulePatcher(config)
 

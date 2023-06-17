@@ -23,34 +23,50 @@ version: 0.1
 """
 
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, Iterator, List, Union
+
+from planager.utils.misc import tabularize
 
 
 #from planager.config import config
-from planager.entities import Entry
-from planager.utils.datetime_extensions import now
-from planager.utils.data.norg.norg_utils import Norg, norg_utils as norg
+from .entry import Entry
+from planager.utils.datetime_extensions import PDate, PTime, now
+from planager.utils.data.norg.norg_utils import Norg
+from planager.utils.data.norg import norg_utils as norg
 
 
 
 class AdHoc:
-    def __init__(self, title: str, entries: List[Entry]) -> None:
-        self.title = title
+    def __init__(self, entries: List[Entry] = []) -> None:
+        self.title = "Ad Hoc Entries"
+        self.entries = entries
         #self.author = config.author
 
-    def __getitem__(self, __name: str) -> Any:
-        schedule = ...
-        return schedule
+    def __iter__(self) -> Iterator[Entry]:
+        return iter(self.entries)
     
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
+    def __str__(self) -> str:
+        return self.pretty()
+    
+    def __repr__(self) -> str:
+        return self.__str__()
+    
+    def pretty(self, width: int = 80) -> str:
+        
+        topbeam = "┏" + (width - 2) * "━" + "┓"
+        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
+        #thickbeam = "┣" + (width - 2) * "━" + "┫"
+        #thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
+        top = tabularize(self.title, width, pad=1)
+        empty = tabularize("", width)
+        return "\n".join(("", topbeam, empty, top, empty, "")) + "\n".join(map(str, self.entries)) + bottombeam
 
-    def __getattr__(self, __name: str) -> Any:
-        schedule = ...
-        return schedule
+    # def __getitem__(self, __name: str) -> Any:
+    #     schedule = ...
+    #     return schedule
     
-    def __setattr__(self, __name: str, __value: Any) -> None:
-        ...
+    # def __setitem__(self, __name: str, __value: Any) -> None:
+    #     ...
     
     @classmethod
     def from_norg_workspace(cls, workspace_root: Path) -> "AdHoc":
@@ -90,18 +106,25 @@ class AdHoc:
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
-        file = workspace_dir / "routines.norg"
-        parsed: Dict = Norg.from_path(file)
+        file = workspace_dir / "adhoc.norg"
+        parsed = Norg.from_path(file)
         entries = []
-        for section in parsed["sections"]: #TODO
-            #attributes = Norg.parse_preasterix_attributes(section)
-            #items = map(lambda x: x["title"], Norg.parse_subsections(section))
+        for section in parsed.sections: 
+            attributes = Norg.get_attributes(section["text"])
             
             entries.append(
                 Entry(
-                    # section["title"], 
-                    # attributes, 
-                    # items,
+                    name=section["title"] or "<Placeholder Entry Name>", 
+                    start=PTime.from_string(attributes.get("start")), 
+                    end=PTime.from_string(attributes.get("end")), 
+                    priority=int(attributes.get("priority") or 0), 
+                    ismovable=bool(str(attributes.get("ismovable")).lower()=="true"), 
+                    notes=attributes.get("notes") or "",
+                    normaltime=attributes.get("normaltime"),
+                    idealtime=attributes.get("idealtime"),
+                    mintime=attributes.get("mintime"),
+                    maxtime=attributes.get("maxtime"),
+                    alignend=bool(str(attributes.get("alignend")).lower()=="true"),
                 )
             )
         return cls(entries)

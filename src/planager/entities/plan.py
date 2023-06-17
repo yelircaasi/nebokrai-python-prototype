@@ -3,9 +3,12 @@ from typing import Dict, List, Optional
 
 from planager.config import config
 from planager.config import _Config as ConfigType
-from planager.entities import Calendar, Project, Tasks
+from .calendar import Calendar
+from .project import Project
+from .task import Tasks
 from planager.utils.datetime_extensions import PDate
-from planager.utils.data.norg.norg_utils import Norg, norg_utils as norg
+from planager.utils.data.norg.norg_utils import Norg
+from planager.utils.data.norg import norg_utils as norg
 
 
 class Plan:
@@ -41,12 +44,13 @@ class PlanPatch:
 
 
 class PlanPatches:
-    def __init__(self) -> None:
-        ...
+    def __init__(self, patches: List[PlanPatch] = []) -> None:
+        self.patches = patches
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "PlanPatches":
-        file = workspace_dir / "roadmaps.norg"
-        parsed: Dict = Norg.from_path(file)
-        ...
+        # file = workspace_dir / "roadmaps.norg"
+        # parsed = Norg.from_path(file)
+        # ...
+        # return cls()
         return cls()

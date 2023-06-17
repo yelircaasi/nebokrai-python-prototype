@@ -1,6 +1,7 @@
 from pathlib import Path
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
+from planager.config import ConfigType
 from planager.entities import (
     AdHoc,
     Calendar,
@@ -28,8 +29,6 @@ from planager.operators import (
     Scheduler,
 )
 from planager.utils.datetime_extensions import PDateTime                                          # util:      1
-if TYPE_CHECKING:
-    from planager.config import _Config as ConfigType                                             # config: 
 
 
 class Universe:
@@ -41,6 +40,7 @@ class Universe:
     routines: Routines
     plan: Plan
     schedules: Schedules
+    calendar: Calendar
 
     planner: Planner
     scheduler: Scheduler
@@ -68,9 +68,9 @@ class Universe:
         self.planner   = Planner()
         self.scheduler = Scheduler()
         
-        self.plan_patches     = List[PlanPatch] = []
-        self.schedule_patches = List[SchedulePatch] = []
-        self.task_patches     = List[TaskPatch] = []
+        self.plan_patches:      List[PlanPatch] = []
+        self.schedule_patches:  List[SchedulePatch] = []
+        self.task_patches:      List[TaskPatch] = []
 
         self._last_update: Optional[PDateTime] = None
         self.deps_highlevel = {}
@@ -83,8 +83,8 @@ class Universe:
     def from_norg_workspace(
         cls, 
         workspace: Path, 
-        config: "ConfigType"
-        ) -> "Universe":
+        config: Optional[ConfigType] = None,
+    ) -> "Universe":
         
         univ = cls()
 
@@ -92,14 +92,15 @@ class Universe:
         univ.roadmaps         = Roadmaps.from_norg_workspace(workspace)
         univ.routines         = Routines.from_norg_workspace(workspace)
         univ.adhoc            = AdHoc.from_norg_workspace(workspace)
-        univ.plan_patches     = PlanPatches.from_norg_workspace(workspace)
-        univ.task_patches     = TaskPatches.from_norg_workspace(workspace)
-        univ.schedule_patches = SchedulePatches.from_norg_workspace(workspace)
+        univ.plan_patches     = PlanPatches.from_norg_workspace(workspace)      # STILL EMPTY
+        univ.task_patches     = TaskPatches.from_norg_workspace(workspace)      # STILL EMPTY
+        univ.schedule_patches = SchedulePatches.from_norg_workspace(workspace)  # STILL EMPTY
+        univ.calendar         = Calendar.from_norg_workspace(workspace)
         
         # operators
         univ.planner     = Planner(config)
         univ.scheduler   = Scheduler(config)
-        
+        '''
         # derivation
         univ.plan: Plan = univ.planner(
             univ.projects,
@@ -107,13 +108,14 @@ class Universe:
             univ.task_patches,
             univ.plan_patches,
         )
+        
         univ.schedules: Schedules = univ.scheduler(
             univ.plan, 
             univ.routines, 
             univ.adhoc, 
             univ.schedule_patches,
         )
-
+        '''
         return univ
 
     @classmethod
@@ -138,6 +140,25 @@ class Universe:
 
         ...
 
-    def reconfigure(self, conig: ConfigType) -> None:
+    def reconfigure(self, config: ConfigType) -> None:
 
+        ...
+
+    def __str__(self) -> str:
+        ...
+
+    def __getitem__(self, __key: Union[int, tuple]) -> Routine:
+        if isinstance(__key, int):
+            return self.roadmaps[__key]
+        match len(__key):
+            case 2:
+                r, p = __key
+                return self.roadmaps[r].projects[p]
+            case 3:
+                r, p, t = __key
+                return self.roadmaps[r].projects[p].tasks[t]
+            case _:
+                raise KeyError(f"Key '{__key}' invalid for 'Universe' object.")
+    
+    def __setitem__(self, __name: str, __value: Any) -> None:
         ...

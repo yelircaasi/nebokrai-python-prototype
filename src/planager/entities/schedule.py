@@ -8,7 +8,7 @@ from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
-from planager.utils.data.norg import make_norg_header, make_norg_body, make_norg_notes
+#from planager.utils.data.norg.norg_utils import make_norg_header
 from planager.utils.scheduling_helpers import add_entry_default
 from planager.entities import AdHoc, Plan, Routines
 from planager.utils.data.norg.norg_utils import Norg
@@ -56,11 +56,11 @@ class Schedule:
         schedule = cls()
         return schedule
     
-    def to_norg(self, path: Path) -> None:
-        header = make_norg_header()
+    #def to_norg(self, path: Path) -> None:
+        #header = make_norg_header()
         #body = "\n\n".join(map(Entry.to_norg, self.schedule[1:-1]))
         #notes = make_norg_notes()
-        ...
+        #...
 
     def to_json(self, path: Path) -> None:
         ...
@@ -174,7 +174,7 @@ class Schedule:
 
 
 class Schedules:
-    def __init__(self, schedules: Dict[Schedule] = {}) -> None:
+    def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
         self._schedules = schedules
 
     def __getitem__(self, __key: PDateInputType) -> Schedule:
@@ -219,7 +219,7 @@ class SchedulePatch:
 
 
 class SchedulePatches:
-    def __init__(self, schedules: Dict[Schedule] = {}) -> None:
+    def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
         ...
 
     def __getitem__(self, __key: PDateInputType) -> Schedule:
@@ -229,6 +229,9 @@ class SchedulePatches:
         ...
 
     @classmethod
-    def from_norg_workspace(workspace_root: Path) -> "SchedulePatches":
-        patches = ...
-        return patches
+    def from_norg_workspace(cls, workspace_dir: Path) -> "SchedulePatches":
+        # file = workspace_dir / "roadmaps.norg"
+        # parsed = Norg.from_path(file)
+        # ...
+        # return cls()
+        return cls()

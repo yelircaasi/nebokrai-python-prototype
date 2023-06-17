@@ -7,6 +7,7 @@ from .roadmap import Roadmap, Roadmaps
 from .routine import Routine, Routines
 from .schedule import Schedule, Schedules, SchedulePatch, SchedulePatches
 from .task import Task, Tasks, TaskPatch, TaskPatches
+from .universe import Universe
 
 __all__ = [
     AdHoc,
@@ -32,4 +33,5 @@ __all__ = [
     Tasks,
     TaskPatch,
     TaskPatches,
+    Universe,
 ]

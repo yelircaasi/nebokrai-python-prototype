@@ -2,11 +2,12 @@ import re
 from pathlib import Path
 
 #from planager import entities
-from planager.utils.data.norg.norg_utils import norg_utils as norg
+from .norg_utils import norg_utils as norg
+from ...regex import Regexes
 
 
 def read_schedule_as_list(filepath: Path) -> list:
-    regx = re.compile("(\d\d:\d\d) *\| *([^\n]+)")
+    regx = Regexes.time_bar_text
     doc = norg.get_dict_from_path(filepath)
     _schedule = doc["sections"]["1"]["subsections"]
     schedule = []

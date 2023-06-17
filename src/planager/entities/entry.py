@@ -11,7 +11,7 @@ class Entry:
             self, 
             name: str, 
             start: PTime, 
-            end: PTime, 
+            end: Optional[PTime] or None, 
             priority: int = 0, 
             ismovable: bool = True, 
             notes: str = "",
@@ -26,6 +26,8 @@ class Entry:
             self.end = start + normaltime
         elif end and (not normaltime):
             self.normaltime = start.timeto(end)
+        else:
+            self.normaltime = 30
         if idealtime is None:
             self.idealtime = int(1.5 * self.normaltime)
         if mintime is None:

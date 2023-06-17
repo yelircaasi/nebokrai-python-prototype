@@ -2,7 +2,8 @@ from typing import Any, Dict, List, Optional
 from itertools import islice
 
 from planager import entities
-from planager.operators import PlanPatcher, TaskPatcher
+from planager.config import ConfigType
+from planager.operators.patchers import PlanPatcher, TaskPatcher
 #from planager.config import config
 from planager.utils.datetime_extensions import PDate
 from planager.utils.algorithms.planning import ClusterType, SubplanType
@@ -10,7 +11,7 @@ from planager.utils.misc import expand_task_segments
 
 
 class Planner:
-    def __init__(self, config):
+    def __init__(self, config: Optional[ConfigType] = None):
         self.config = config
         self.patch_plan = PlanPatcher(config)
         self.patch_tasks = TaskPatcher(config)

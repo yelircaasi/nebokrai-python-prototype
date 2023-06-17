@@ -6,4 +6,5 @@ class _Config:
         pass
 
 
+ConfigType = _Config
 config = _Config()
