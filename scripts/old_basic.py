@@ -1,13 +1,5 @@
-from planager import (
-    Schedule,
-    Empty,
-    Entry,
-    FIRST_ENTRY,
-    LAST_ENTRY,
-    PDate,
-    PTime,
-)
-
+from planager import (FIRST_ENTRY, LAST_ENTRY, Empty, Entry, PDate, PTime,
+                      Schedule)
 
 sleep1 = Entry(...)
 sleep2 = Entry(...)

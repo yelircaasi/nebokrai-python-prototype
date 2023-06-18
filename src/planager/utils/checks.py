@@ -1,5 +1,5 @@
-from src.planager.entities.schedule import Schedule
 from planager.utils.datetime_extensions import PTime
+from src.planager.entities.schedule import Schedule
 
 
 def check_day_validity(schedule: Schedule) -> bool:

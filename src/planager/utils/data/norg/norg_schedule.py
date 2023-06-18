@@ -1,9 +1,9 @@
 import re
 from pathlib import Path
 
+from ...regex import Regexes
 # from planager import entities
 from .norg_utils import norg_utils as norg
-from ...regex import Regexes
 
 
 def read_schedule_as_list(filepath: Path) -> list:

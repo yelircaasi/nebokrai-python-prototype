@@ -1,7 +1,7 @@
 from typing import Optional
 
-from planager.config import ConfigType
 from planager import entities, operators
+from planager.config import ConfigType
 
 
 class PlanPatcher:

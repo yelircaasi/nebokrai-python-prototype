@@ -1,9 +1,8 @@
 import re
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from pathlib import Path
-from planager.utils.datetime_extensions import PDateTime, PTime, ZERODATETIME
-
+from planager.utils.datetime_extensions import ZERODATETIME, PDateTime, PTime
 from planager.utils.linewrap import wrap_string
 from planager.utils.regex import Regexes
 

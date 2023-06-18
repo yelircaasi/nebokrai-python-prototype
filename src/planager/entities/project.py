@@ -1,11 +1,12 @@
-from pathlib import Path
 import re
+from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
+from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.misc import expand_task_segments, tabularize
 from planager.utils.regex import Regexes
+
 from .task import Task, TaskPatches, Tasks
-from planager.utils.data.norg.norg_utils import Norg
 
 
 class Project:

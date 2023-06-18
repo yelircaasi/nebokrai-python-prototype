@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from typing import Optional, Tuple
+
 from planager.utils.datetime_extensions import PTime
 from planager.utils.misc import tabularize
 

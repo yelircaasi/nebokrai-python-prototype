@@ -3,7 +3,7 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional
 
 from planager.entities import Project, Projects
 from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.datetime_extensions import PDate, ZERODATE
+from planager.utils.datetime_extensions import ZERODATE, PDate
 from planager.utils.misc import tabularize
 
 

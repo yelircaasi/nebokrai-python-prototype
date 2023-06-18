@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Any, Dict, Union
 
-from planager.utils.data.norg.norg_utils import Norg
 from planager.entities import Roadmaps
+from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.misc import tabularize
 
 

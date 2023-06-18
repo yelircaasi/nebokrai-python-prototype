@@ -1,7 +1,8 @@
 from typing import List, Optional
+
 from planager import entities
-from planager.operators.patchers import SchedulePatcher
 from planager.config import ConfigType, config
+from planager.operators.patchers import SchedulePatcher
 from planager.utils.datetime_extensions import PDate
 
 

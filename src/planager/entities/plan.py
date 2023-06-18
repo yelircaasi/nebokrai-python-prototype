@@ -1,14 +1,15 @@
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
-from planager.config import config
 from planager.config import _Config as ConfigType
+from planager.config import config
+from planager.utils.data.norg import norg_utils as norg
+from planager.utils.data.norg.norg_utils import Norg
+from planager.utils.datetime_extensions import PDate
+
 from .calendar import Calendar
 from .project import Project
 from .task import Task, Tasks
-from planager.utils.datetime_extensions import PDate
-from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.data.norg import norg_utils as norg
 
 
 class Plan:

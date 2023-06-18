@@ -1,21 +1,17 @@
 from calendar import Calendar
-
 # from datetime import date, time
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
-from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from planager.entities import (FIRST_ENTRY, LAST_ENTRY, AdHoc, Empty, Entry,
+                               Plan, Roadmaps, Routines)
+from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
-
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
-
 # from planager.utils.data.norg.norg_utils import make_norg_header
 from planager.utils.scheduling_helpers import add_entry_default
-from planager.entities import AdHoc, Plan, Routines
-from planager.utils.data.norg.norg_utils import Norg
-from planager.entities import Roadmaps
 
 
 class AdjustmentType(Enum):

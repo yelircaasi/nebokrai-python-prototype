@@ -1,7 +1,7 @@
-from typing import Any
 from pathlib import Path
-from planager.utils.data.norg.norg_utils import Norg
+from typing import Any
 
+from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate
 
 

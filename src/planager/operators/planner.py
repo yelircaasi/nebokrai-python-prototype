@@ -1,13 +1,12 @@
-from typing import Any, Dict, List, Optional
 from itertools import islice
+from typing import Any, Dict, List, Optional
 
 from planager import entities
 from planager.config import ConfigType
 from planager.operators.patchers import PlanPatcher, TaskPatcher
-
+from planager.utils.algorithms.planning import ClusterType, SubplanType
 # from planager.config import config
 from planager.utils.datetime_extensions import PDate
-from planager.utils.algorithms.planning import ClusterType, SubplanType
 from planager.utils.misc import expand_task_segments
 
 
