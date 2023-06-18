@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 from planager.utils.data.norg.norg_utils import Norg
+from planager.utils.datetime_extensions import PDate
 from planager.utils.misc import expand_task_segments, tabularize
 from planager.utils.regex import Regexes
 
@@ -11,13 +12,38 @@ from .task import Task, TaskPatches, Tasks
 
 class Project:
     def __init__(
-        self, name: str, id: int, tasks: Union[List[str], str] = [], **kwargs
+        self,
+        name: str,
+        id: int,
+        tasks: Union[List[str], str] = [],
+        priority: int = 10,
+        start: Optional[PDate] = None,
+        end: Optional[PDate] = None,
+        interval: Union[int, None] = None,
+        cluster_size: int = 1,
+        duration: int = 30,
+        tags: set = set(),
+        description: str = "",
+        path: Union[str, Path] = "",
+        before: List[Tuple[int, int]] = [],
+        after: List[Tuple[int, int]] = [],
     ) -> None:
         self.name = name
         self.id = id
-        self._tasks = Tasks.from_string_iterable(
+        self._tasks: Tasks = Tasks.from_string_iterable(
             expand_task_segments(tasks) if isinstance(tasks, str) else tasks
         )
+        self.priority = priority
+        self.start = start
+        self.end = end
+        self.interval = interval
+        self.cluster_size = cluster_size
+        self.duration = duration
+        self.tags = tags
+        self.description = description
+        self.path = Path(path) if path else path
+        self.before = before
+        self.after = after
 
     def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
         ...
@@ -80,6 +106,12 @@ class Project:
             + empty
             + bottombeam
         )
+
+    def get_start(self) -> PDate:
+        return self.start or PDate.today() + 1
+
+    def get_end(self) -> PDate:
+        return self.end or PDate.today() + 365
 
 
 class Projects:

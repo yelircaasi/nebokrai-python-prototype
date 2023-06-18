@@ -10,10 +10,12 @@ def now() -> str:
 
 
 class PTime:
-    def __init__(self, hour=0, minute=0, isblank=False):
+    def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):
         if not (60 * hour + minute) in range(1441):
             raise ValueError("Time must be within 00:00..24:00")
-        self.__dict__.update(locals())
+        self.hour = hour
+        self.minute = minute
+        self.isblank = isblank
 
     @classmethod
     def from_string(cls, date_string: Optional[str]) -> Optional["PTime"]:

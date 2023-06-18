@@ -222,15 +222,15 @@ s = Schedules(schedules={})
 
 class SchedulePatch:
     def __init__(self) -> None:
-        self.x = ...
+        ...
 
 
 class SchedulePatches:
     def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
-        ...
+        self._patches: Dict[PDate, SchedulePatch] = {}
 
-    def __getitem__(self, __key: PDateInputType) -> Schedule:
-        ...
+    def __getitem__(self, __key: PDateInputType) -> SchedulePatch:
+        return self._patches[__key]
 
     def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
         ...
@@ -242,3 +242,11 @@ class SchedulePatches:
         # ...
         # return cls()
         return cls()
+
+    @property
+    def end_date(self) -> PDate:
+        return max(self._plan)
+
+    @property
+    def start_date(self) -> PDate:
+        return min(self._plan)

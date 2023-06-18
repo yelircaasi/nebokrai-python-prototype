@@ -40,6 +40,9 @@ class AdHoc:
         self.entries = entries
         # self.author = config.author
 
+        # NEW FORMAT
+        self._adhocs = {}
+
     def __iter__(self) -> Iterator[Entry]:
         return iter(self.entries)
 
@@ -135,3 +138,11 @@ class AdHoc:
 
     def to_html_str(self) -> str:
         ...
+
+    @property
+    def end_date(self) -> PDate:
+        return max(self._adhocs)
+
+    @property
+    def start_date(self) -> PDate:
+        return min(self._adhocs)

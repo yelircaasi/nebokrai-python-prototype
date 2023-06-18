@@ -42,8 +42,6 @@ def split_schedule(
 
 
 def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
-    for e in entries:
-        print(e)
     print(f"start: {start}")
     print(f"end:   {end}")
     entries = list(filter(lambda x: x.priority >= 0, entries))
@@ -58,7 +56,6 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
 
     newentries = []
     newlengths = [getnewlength(x) for x in entries]
-    # newlengths[0] += (total - sum(newlengths))
 
     entries_tail = []
     newentries_tail = []
@@ -71,7 +68,6 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
 
     tracker = start.copy()
     for entry, duration in zip(entries, newlengths):
-        print(tracker)
         entry.start = tracker.copy()
         tracker += duration
         entry.end = tracker.copy()
@@ -174,22 +170,14 @@ def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Ent
 
 
 def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
-    # print(before)
     movable_before = []
-    # if not before[0] == FIRST_ENTRY:
-    #     before.insert(0, FIRST_ENTRY)
     ismovable = before[-1].ismovable
     ind = -1
     while ismovable:
-        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        # print(ind)
-        # print(before[ind])
         movable_before.insert(0, before[ind])
         ismovable = before[ind - 1].ismovable
         ind -= 1
     before = before[: ind + 1]
-    # print("============ before")
-    # print(before)
     limit_before = PTime() if not before else before[-1].end
 
     return (before, movable_before, limit_before)
@@ -197,8 +185,6 @@ def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
 
 def split_after(after: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
     movable_after = []
-    # if not after[-1] == LAST_ENTRY:
-    #     after.append(LAST_ENTRY)
     ismovable = after[0].ismovable
     ind = 0
     while ismovable:
@@ -206,8 +192,6 @@ def split_after(after: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
         ismovable = after[ind + 1].ismovable
         ind += 1
     after = after[ind:]
-    # print("============ after")
-    # print(after)
     limit_after = PTime(24) if not after else after[0].start
 
     return (movable_after, after, limit_after)
@@ -284,11 +268,3 @@ def add_entry_default(entry: Entry, schedule: List[Entry]) -> List[Entry]:
 
     func = add_movable if entry.ismovable else add_immovable
     return func(entry, schedule)
-
-    # WITH OVERLAPS
-    # if all(map(lambda x: x.ismovable, overlaps)):
-    #     limit_overlap_before = entry.end
-    #     limit_overlap_after = entry.start
-    # else:
-    #     limit_overlap_before = min(map(lambda x: x.ismovable, overlaps)).start
-    #     limit_overlap_after = min(map(lambda x: x.ismovable, overlaps)).end

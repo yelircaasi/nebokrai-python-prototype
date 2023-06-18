@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 from planager.config import _Config as ConfigType
 from planager.utils.data.norg import norg_utils as norg
@@ -90,7 +90,9 @@ class Tasks:
         empty = tabularize("", width)
         names = "\n".join(
             map(
-                lambda x: tabularize(f"{format_number(x[0])}{x[1].name}", width),
+                lambda x: tabularize(
+                    f"{format_number(x[0])}{x[1].name} (ID {x[1].id})", width
+                ),
                 self._tasks.items(),
             )
         )
@@ -101,6 +103,9 @@ class Tasks:
             + empty
             + bottombeam
         )
+
+    def ids(self) -> Union[List[Tuple[int, int, int]], List[int]]:
+        return list(self._tasks)
 
     # def __getitem__(self, __name: str) -> Any:
     #     task = ...

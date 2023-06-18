@@ -173,9 +173,6 @@ class Norg:
 
     @classmethod
     def from_path(cls, norg_path: Path) -> "Norg":
-        # print(50 * '=')
-        # print(norg_path)
-        # print(50 * '=')
         with open(norg_path) as f:
             norg_str = f.read()
         norg_obj = cls.from_string(norg_str)
@@ -195,26 +192,17 @@ class Norg:
         regx_items = Regexes.item1_split
 
         search = re.search(regx_header_and_body, norg)
-        if not search:
-            print(100 * "&")
-            print(norg)
-            print(search)
-            print(regx_header_and_body)
         header, body = search.groups()
         body = "\n" + body
-        # print(body)
         lines = header.split("\n")
 
-        # print(lines)
         kwarg_dict = dict(map(lambda x: x.split(": ", 1), lines))
-        # print(kwarg_dict)
         kwarg_dict["id"] = int(kwarg_dict["id"])
         kwarg_dict["parent"] = int(kwarg_dict["parent"])
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
 
         def parse_section(section_str: str) -> Optional[Dict[str, Any]]:
             regx_subsections = Regexes.subsection_split
-            # section_str = section_str.strip()
             section_dict = {"title": "", "text": "", "subsections": []}
             res = re.search("\*?([^\n]+)", section_str)
             if not res:
@@ -231,7 +219,6 @@ class Norg:
         kwarg_dict.update(
             {"sections": list(map(parse_section, filter(bool, sections)))}
         )
-        # print(sections[0])
         kwarg_dict.update({"items": re.split(regx_items, sections[0])[1:]})
 
         return kwarg_dict
@@ -243,8 +230,6 @@ class Norg:
         if not search:
             return ("", "")
         s = search.groups()
-        # print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-        # print(s)
         link = [result for result in s if str(result).startswith("$/")][0]
         loc = s.index(link)
         text = s[(loc - 1) if (loc % 2) else (loc + 1)]
@@ -257,15 +242,12 @@ class Norg:
         regx1 = Regexes.asterix_split
         regx2 = Regexes.item_split
         section = re.split(regx1, section)[0]
-        # print(100 * "%")
-        # print(section)
         return dict(
             map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section)))
         )
 
     @staticmethod
     def parse_subsections(section: str) -> List[dict]:
-        print(f"{section=}")
         regx = Regexes.subsection_split
         try:
             title, body = section.split("\n", 1)
@@ -291,8 +273,6 @@ class Norg:
         try:
             title, body = segment.split("\n", 1)
             attributes = Norg.get_attributes(body)
-            # print(f"{title=}")
-            # print(f"{attributes=}")
             return title, attributes
         except:
             return segment, {}
@@ -302,11 +282,7 @@ class Norg:
         regx = Regexes.item_split
         try:
             segments = re.split(regx, segment)[1:]
-            # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-            # print(segments)
             pairs = list(map(lambda s: s.split(": ", 1), segments))
-            # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-            # print(pairs)
             return dict(pairs) if pairs else {}
         except:
             print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
@@ -317,11 +293,6 @@ class Norg:
 
     def __repr__(self) -> str:
         return self.__str__()
-
-
-# class DocType(Enum):
-#     ROADMAP = 1
-#     PROJECT = 2
 
 
 def parse_norg_str(norg_str: str) -> Norg:

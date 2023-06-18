@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from planager.entities import Project, Projects
 from planager.utils.data.norg.norg_utils import Norg
@@ -18,7 +18,7 @@ class Roadmap:
     ) -> None:
         self.name = name
         self.id = id
-        self.projects = projects
+        self._projects = projects
         self.updated = updated
         self.categories = categories
 
@@ -35,7 +35,7 @@ class Roadmap:
         return Roadmap(norg.title, norg.id, projects)
 
     def __iter__(self) -> Iterator[Project]:
-        return iter(self.projects)
+        return iter(self._projects)
 
     def __str__(self) -> str:
         return self.pretty()
@@ -51,13 +51,9 @@ class Roadmap:
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"{self.name} (ID {self.id})", width, pad=1)
         empty = tabularize("", width)
-        # projects = map(lambda x: tabularize(x, width), map(lambda r: format_number(r.id) + f"{r.name}", self.projects))
-        # for p in self.projects._projects.items():
-        #    print(p)
         projects = list(
-            map(lambda r: format_number(r.id) + f"{r.name}", self.projects.projects)
+            map(lambda r: format_number(r.id) + f"{r.name}", self._projects)
         )
-        # print(projects)
         projects = map(lambda x: tabularize(x, width), projects)
         return (
             "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
@@ -126,4 +122,11 @@ class Roadmaps:
                 _project = project.copy()
                 project.update_from_norg()
                 projects.add(project)
+        return projects
+
+    def get_projects(self) -> Dict[Tuple[int, int], Project]:
+        projects = {}
+        for roadmap_id, roadmap in self._roadmaps.items():
+            for project_id, project in roadmap._projects._projects.items():
+                projects.update({(roadmap_id, project_id): project})
         return projects

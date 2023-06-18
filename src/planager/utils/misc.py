@@ -23,11 +23,7 @@ def expand_task_segments(task_abbr: str) -> list:
             return list(map(str, range(1, int(block) + 1)))
 
         elif re.match(r"\w?\d\d?-", block):
-            try:
-                start, end = block.split("-")
-            except:
-                print(block)
-                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            start, end = block.split("-")
             if start.isnumeric() and end.isnumeric():
                 return list(map(str, range(int(start), int(end) + 1)))
             elif start.isalpha() and end.isalpha():
@@ -40,7 +36,6 @@ def expand_task_segments(task_abbr: str) -> list:
                     if end_isalpha and (start_letter != end_letter):
                         raise error
                     end_number = int(end[1:]) if end_isalpha else int(end)
-                    print(start_letter, end_letter, start_number, end_number)
 
                     return list(
                         map(

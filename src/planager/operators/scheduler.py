@@ -21,17 +21,18 @@ class Scheduler:
         end_date: Optional[PDate] = None,
     ) -> entities.Schedules:
         # schedule = make_schedule(agenda, routines, adhoc)
-        end_date = end_date or max(
-            plan.end_date(),
-            adhoc.end_date(),
-            schedule_patches.end_date(),
+        start_date_new = start_date or (PDate.today() + 1)
+        end_date_new: PDate = end_date or max(
+            plan.end_date,
+            adhoc.end_date,
+            schedule_patches.end_date,
         )
         schedules = entities.Schedules()
-        for date in start_date.range(end_date):
+        for date in start_date_new.range(end_date_new):
             schedule = entities.Schedule()
             schedule.add_routines(routines)
             schedule.add_from_plan(plan)
             schedule.add_adhoc(adhoc)
-            schedule = self.patch_schedule(self.config, schedule, schedule_patches)
-            schedules.add_schedule(schedule)
+            schedule = self.patch_schedule(schedule, schedule_patches[date])
+            schedules[date] = schedule
         return schedules

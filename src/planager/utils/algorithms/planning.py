@@ -1,10 +1,11 @@
 from enum import Enum
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple, Union
 
 from planager.utils.datetime_extensions import PDate
 
-ClusterType = List[List[int]]
-SubplanType = Dict[PDate, List[int]]
+ClusterType = List[Union[List[Tuple[int, int, int]], List[int]]]
+# SubplanType = Dict[PDate, List[int]]
+SubplanType = Dict[PDate, Union[List[int], List[Tuple[int, int, int]]]]
 
 
 ################################################################################
@@ -44,11 +45,9 @@ TODAY = PDate.today()
 #         self.ensure_day(d)
 #         day_tasks = [self.tasks[i] for i in self.days[d].tasks]
 #         day_tasks.sort(key=lambda t: t.priority.value, reverse=True)
-#         print(30 * "=" + "\n" + str(d) + "\n" + 30 * "=")  #!!
 #         max_load = self.days[d].max_load
 #         total_load = sum(map(lambda t: t.duration, day_tasks))
 #         while total_load > max_load:
-#             print(total_load)  #!!
 #             task_to_move = day_tasks.pop()
 #             id_to_move = task_to_move.id
 #             self.edit_task(id_to_move, "date", d + 1)
@@ -80,7 +79,6 @@ TODAY = PDate.today()
 #     self.ensure_day(d)
 #     while d <= end:
 #         self.ensure_day(d + 1)
-#         print(30 * "=" + "\n" + str(d) + "\n" + 30 * "=")  #!!
 #         day_tasks = [self.tasks[i] for i in self.days[d].tasks]
 #         day_tasks.sort(key=lambda t: t.priority.value, reverse=True)
 #         next_day_tasks = [self.tasks[i] for i in self.days[d + 1].tasks]
@@ -89,7 +87,6 @@ TODAY = PDate.today()
 #         total_load = sum(map(lambda t: t.duration, day_tasks))
 #         while abs(total_load - max_load) > 31:
 #             if total_load > max_load:
-#                 print(total_load)  #!!
 #                 task_to_move = day_tasks.pop()
 #                 id_to_move = task_to_move.id
 #                 self.edit_task(id_to_move, "date", d + 1)
@@ -97,7 +94,6 @@ TODAY = PDate.today()
 #                 if (max_load - total_load) > 31:
 #                     continue
 #             elif total_load < max_load:
-#                 print(total_load)  #!!
 #                 task_to_move = next_day_tasks.pop()
 #                 id_to_move = task_to_move.id
 #                 self.edit_task(id_to_move, "date", d + 1)

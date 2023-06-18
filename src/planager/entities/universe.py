@@ -81,15 +81,15 @@ class Universe:
         # operators
         univ.planner = Planner(config)
         univ.scheduler = Scheduler(config)
-
+        """
         # derivation
         univ.plan: Plan = univ.planner(
-            univ.projects,
+            univ.roadmaps,
             univ.calendar,
             univ.task_patches,
             univ.plan_patches,
         )
-        """
+        
         univ.schedules: Schedules = univ.scheduler(
             univ.plan, 
             univ.routines, 
@@ -100,11 +100,11 @@ class Universe:
         return univ
 
     @classmethod
-    def from_json_dir(cls, workspace: Path) -> "Universe":
+    def from_json(cls, json_dir: Path) -> "Universe":
         return cls()
 
     @classmethod
-    def from_html_dir(cls, workspace: Path) -> "Universe":
+    def from_html(cls, html_dir: Path) -> "Universe":
         return cls()
 
     def recalculate_norg(self) -> None:
@@ -122,7 +122,7 @@ class Universe:
     def __str__(self) -> str:
         ...
 
-    def __getitem__(self, __key: Union[int, tuple]) -> Routine:
+    def __getitem__(self, __key: Union[int, tuple]) -> Union[Routine, Project, Task]:
         if isinstance(__key, int):
             return self.roadmaps[__key]
         match len(__key):

@@ -157,9 +157,6 @@ class Empty(Entry):
         )
 
 
-# ent = Entry(PTime(5,30), PTime(6,20), "Workout", priority=30, notes="Running, pullups, pushups, medecine ball")
-# print(ent.pretty())
-
 FIRST_ENTRY = Entry(
     "First", start=PTime(), end=PTime(), ismovable=False, priority=-1.0, mintime=0
 )
