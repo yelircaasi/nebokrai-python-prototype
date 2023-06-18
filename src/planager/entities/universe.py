@@ -100,7 +100,7 @@ class Universe:
         # operators
         univ.planner     = Planner(config)
         univ.scheduler   = Scheduler(config)
-        '''
+        
         # derivation
         univ.plan: Plan = univ.planner(
             univ.projects,
@@ -108,7 +108,7 @@ class Universe:
             univ.task_patches,
             univ.plan_patches,
         )
-        
+        '''
         univ.schedules: Schedules = univ.scheduler(
             univ.plan, 
             univ.routines, 

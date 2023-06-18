@@ -35,10 +35,11 @@ class Planner:
         projects.order_by_dependency()
         
         for project in projects:
+            project_id = (project.parent, project.id)
             subplan: SubplanType = self.get_subplan_from_tasks(project.tasks, project, calendar)
-            plan.add_subplan(subplan, project.tasks)
+            plan.add_subplan(subplan, project.tasks, project_id)
         
-        plan = self.patch_plan(self.config, plan, plan_patches)
+        plan = self.patch_plan(plan, plan_patches)
 
         return plan
     

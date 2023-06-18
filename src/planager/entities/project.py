@@ -1,6 +1,6 @@
 from pathlib import Path
 import re
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 from planager.utils.misc import expand_task_segments, tabularize
 from planager.utils.regex import Regexes
@@ -83,6 +83,9 @@ class Projects:
     
     def add(self, project: Project) -> None:
         self._projects.update({project.id: project})
+
+    def __iter__(self) -> Iterable[Project]:
+        return iter(self._projects.values())
 
     def __getitem__(self, __id: Union[int, tuple]) -> Any:
         if isinstance(__id, int):

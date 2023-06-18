@@ -9,7 +9,6 @@ from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.data.norg import norg_utils as norg
 
 
-
 class Task:
     def __init__(self, name: str, id: int, priority: int = 10, **kwargs) -> None:
         self.name = name
@@ -34,7 +33,6 @@ class Task:
         empty = tabularize("", width)
         priority = tabularize(f"  Priority: {self.priority}", width)
         return "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, "")) + priority + '\n' + empty + bottombeam
-
 
 
 class Tasks:

@@ -217,7 +217,6 @@ class SchedulePatch:
     def __init__(self) -> None:
         self.x = ...
 
-
 class SchedulePatches:
     def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
         ...
