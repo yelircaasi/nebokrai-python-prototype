@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict
 
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate
@@ -21,7 +21,7 @@ class Day:
 
 class Calendar:
     def __init__(self) -> None:
-        self.days = {}
+        self.days: Dict[PDate, Day] = {}
 
     def __getitem__(self, __name: str) -> Any:
         item = ...

@@ -1,8 +1,11 @@
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Dict, Iterator, List, Optional, Union
 
 from planager.entities import Roadmaps
+from planager.entities.entry import Entry
+from planager.entities.task import Task
 from planager.utils.data.norg.norg_utils import Norg
+from planager.utils.datetime_extensions import PDate, PTime
 from planager.utils.misc import tabularize
 
 
@@ -46,6 +49,16 @@ class Routine:
             ]
         )
 
+    def valid_on(self, date: PDate) -> bool:
+        # TODO
+        return True
+
+    def as_entry(self, start: Optional[PTime]) -> Entry:
+        return Entry(self.name, start)  # TODO
+
+    def as_task(self) -> Task:
+        return Task(self.name, (-1, -1, -1), priority=self.priority)  # TODO
+
 
 class Routines:
     """
@@ -54,10 +67,13 @@ class Routines:
     """
 
     def __init__(self) -> None:
-        self.routines = []
+        self._routines: List[Routine] = []
+
+    def __iter__(self) -> Iterator[Routine]:
+        return iter(self._routines)
 
     def add(self, routine: Routine) -> None:
-        self.routines.append(routine)
+        self._routines.append(routine)
 
     def __str__(self) -> str:
         return self.pretty()
@@ -73,24 +89,18 @@ class Routines:
         empty = tabularize("", width)
         return (
             "\n".join(("", topbeam, empty, top, empty, ""))
-            + "\n".join(map(str, self.routines))
+            + "\n".join(map(str, self._routines))
             + bottombeam
         )
 
-    def __getitem__(self, __name: str) -> Routine:
-        routine = ...
-        return routine
+    # def __getitem__(self, __name: str) -> Routine:
+    #     return
 
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
-
-    @classmethod
-    def from_norg_workspace(cls, workspace_root: Path) -> "Routines":
-        routines = cls()
-        return routines
+    # def __setitem__(self, __name: str, __value: Any) -> None:
+    #     ...
 
     @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
+    def from_norg_workspace(cls, workspace_dir: Path) -> "Routines":
         file = workspace_dir / "routines.norg"
         parsed = Norg.from_path(file)
         routines = Routines()

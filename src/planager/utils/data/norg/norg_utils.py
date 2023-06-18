@@ -10,7 +10,7 @@ BOOL2STR = {True: "true", False: "false"}
 STR2BOOL = {"true": True, "false": False}
 
 
-def split_document(fp: Path) -> Tuple:
+def split_document(fp: Path) -> List[str]:
     regx = Regexes.section_split
     with open(fp) as f:
         return re.split(regx, f.read())
@@ -23,11 +23,11 @@ def make_header(**kwargs) -> str:
     return f"@document.meta\n{inner}\n@end"
 
 
-def get_kv(s: str) -> Tuple[str, str]:
-    return re.split(" *: *", s.strip(), 1)
+def get_kv(attr_str: str) -> List[List[str]]:
+    return [re.split(" *: *", s.strip(), 1) for s in re.split("\n\s*", attr_str)]
 
 
-def get_list_from_header(header: str) -> dict:
+def get_list_from_header(header: str) -> List[Dict[str, str]]:
     header_info = []
     for k, v in re.findall("([^:\n]+): ([^\n]*)\n", header):
         header_info.append({"key": k, "value": v})
@@ -35,19 +35,23 @@ def get_list_from_header(header: str) -> dict:
 
 
 def get_dict_from_section(section: str) -> dict:
-    section_dict = {}
-    title, body, subsections_str = re.search(
-        "\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL
-    ).groups()
+    section_dict: Dict[str, Union[dict, str, list]] = {}
+    result = re.search("\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL)
+    if result:
+        title, body, subsections_str = result.groups()
+    else:
+        return {}
     section_dict.update({"title": title, "body": body.strip(), "subsections": []})
     subsections = re.findall("\*\*\s+([^\n]+)\n+(.*?)", subsections_str, re.DOTALL)
+    subsect_list = []
     for title, body in subsections:
-        section_dict["subsections"].append({"title": title, "body": body.strip()})
+        subsect_list.append({"title": title, "body": body.strip()})
+    section_dict["subsections"] = subsect_list
     return section_dict
 
 
 def get_dict_from_path(fp: Path) -> Dict:
-    doc = {"header": {}, "sections": {}}
+    doc: Dict[str, Any] = {"header": {}, "sections": {}}
     header, *sections = split_document(fp)
     doc.update({"header": get_list_from_header(header)})
     for i, section in enumerate(sections):
@@ -57,7 +61,8 @@ def get_dict_from_path(fp: Path) -> Dict:
 
 def parse_norg_entry(entry: str):
     regx = Regexes.entry_old
-    groups = re.search(regx, entry).groups()
+    result = re.search(regx, entry)
+    groups = result.groups() if result else []
     if not len(groups) == 10:
         raise ValueError("Invalid norg entry format.")
     groupnames = [
@@ -169,7 +174,16 @@ class Norg:
         items: List[str] = [],
         path: Optional[Path] = None,
     ) -> None:
-        self.__dict__.update(**locals())
+        self.title = title
+        self.description = description
+        self.author = author
+        self.id = id
+        self.parent = parent
+        self.updated = updated
+        self.categories = categories
+        self.sections = sections
+        self.items = items
+        self.path = path
 
     @classmethod
     def from_path(cls, norg_path: Path) -> "Norg":
@@ -191,12 +205,12 @@ class Norg:
         regx_sections = Regexes.section_split
         regx_items = Regexes.item1_split
 
-        search = re.search(regx_header_and_body, norg)
-        header, body = search.groups()
+        result = re.search(regx_header_and_body, norg)
+        header, body = result.groups() if result else "", ""
         body = "\n" + body
-        lines = header.split("\n")
+        lines = str(header).split("\n")
 
-        kwarg_dict = dict(map(lambda x: x.split(": ", 1), lines))
+        kwarg_dict: Dict[str, Any] = dict(map(lambda x: x.split(": ", 1), lines))
         kwarg_dict["id"] = int(kwarg_dict["id"])
         kwarg_dict["parent"] = int(kwarg_dict["parent"])
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
@@ -224,16 +238,17 @@ class Norg:
         return kwarg_dict
 
     @staticmethod
-    def parse_link(s: str) -> str:
+    def parse_link(s: str) -> Tuple[str, str]:
         regx_link = Regexes.link
         search = re.search(regx_link, s)
         if not search:
             return ("", "")
-        s = search.groups()
-        link = [result for result in s if str(result).startswith("$/")][0]
-        loc = s.index(link)
-        text = s[(loc - 1) if (loc % 2) else (loc + 1)]
-        return (text, link)
+        else:
+            groups = search.groups() if search else []
+            link = [result for result in groups if str(result).startswith("$/")][0]
+            loc = s.index(link)
+            text = s[(loc - 1) if (loc % 2) else (loc + 1)]
+            return (text, link)
 
     @staticmethod
     def parse_preasterix_attributes(section: str) -> dict:
@@ -247,7 +262,7 @@ class Norg:
         )
 
     @staticmethod
-    def parse_subsections(section: str) -> List[dict]:
+    def parse_subsections(section: str) -> Dict[str, Any]:
         regx = Regexes.subsection_split
         try:
             title, body = section.split("\n", 1)
@@ -260,10 +275,11 @@ class Norg:
     def parse_item_with_attributes(item: str) -> dict:
         if not item.strip():
             print("Tried to parse empty item!")
-            return None
+            return {}
         regx1 = Regexes.first_line
         regx2 = Regexes.item_split
-        title = re.search(regx1, item).groups()[0]
+        result = re.search(regx1, item)
+        title = result.groups()[0] if result else "<placeholder title>"
         attributes = dict(map(lambda s: s.split(": ", 1), re.split(regx2, item)[1:]))
         return {"title": title, "attributes": attributes}
 
@@ -287,24 +303,13 @@ class Norg:
         except:
             print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
             print(segment)
+        return {}
 
     def __str__(self) -> str:
         return f""
 
     def __repr__(self) -> str:
         return self.__str__()
-
-
-def parse_norg_str(norg_str: str) -> Norg:
-    norg = {}
-
-    return norg
-
-
-def parse_norg_path(file: Path) -> Norg:
-    with open(file) as f:
-        norg_str = f.read()
-    return parse_norg_str(norg_str)
 
 
 # n = Norg.from_path(Path("/home/isaac/Learning/planager-data/projects/notes_reading_projects/b.norg"))

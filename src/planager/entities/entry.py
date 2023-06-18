@@ -1,7 +1,7 @@
 # from datetime import time
 
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
 
 from planager.utils.datetime_extensions import PTime
 from planager.utils.misc import tabularize
@@ -11,30 +11,35 @@ class Entry:
     def __init__(
         self,
         name: str,
-        start: PTime,
-        end: Optional[PTime] or None,
-        priority: int = 0,
+        start: Optional[PTime],
+        end: Optional[PTime] = None,
+        priority: Union[float, int] = 0,
         ismovable: bool = True,
         notes: str = "",
-        normaltime: Optional[int] = None,
-        idealtime: Optional[int] = None,
-        mintime: Optional[int] = None,
-        maxtime: Optional[int] = None,
+        normaltime: int = 30,
+        idealtime_opt: Optional[int] = None,
+        mintime_opt: Optional[int] = None,
+        maxtime_opt: Optional[int] = None,
         alignend: bool = False,
     ) -> None:
-        self.__dict__.update(locals())
+        self.name = name
+        self.start: PTime = start or PTime(8)
+        self.end: PTime = end or (self.start + 30)
+        self.priority = priority
+        self.ismovable = ismovable
+        self.notes = notes
+        self.normaltime = normaltime
+        self.idealtime: int = idealtime_opt or int(1.5 * self.normaltime)
+        self.mintime: int = mintime_opt or int(0.333 * self.normaltime)
+        self.maxtime: int = maxtime_opt or int(2 * self.normaltime)
+        self.alignend = alignend
+
         if normaltime and (not end):
-            self.end = start + normaltime
+            self.end = self.start + normaltime
         elif end and (not normaltime):
-            self.normaltime = start.timeto(end)
+            self.normaltime = self.start.timeto(end)
         else:
             self.normaltime = 30
-        if idealtime is None:
-            self.idealtime = int(1.5 * self.normaltime)
-        if mintime is None:
-            self.mintime = int(0.333 * self.normaltime)
-        if maxtime is None:
-            self.maxtime = int(2 * self.normaltime)
 
     def copy(self) -> "Entry":
         return Entry(
@@ -45,22 +50,25 @@ class Entry:
             ismovable=self.ismovable,
             notes=self.notes,
             normaltime=self.normaltime,
-            idealtime=self.idealtime,
-            mintime=self.mintime,
-            maxtime=self.maxtime,
+            idealtime_opt=self.idealtime,
+            mintime_opt=self.mintime,
+            maxtime_opt=self.maxtime,
             alignend=self.alignend,
         )
 
-    @classmethod
-    def from_norg(cls, path: Path) -> "Entry":
-        # dict = read_norg_day(path)
-        entry = cls()
-        return entry
+    # @classmethod
+    # def from_norg(cls, path: Path) -> "Entry":
+    #     # dict = read_norg_day(path)
+    #     entry = cls()
+    #     return entry
 
-    @classmethod
-    def from_json(cls, path: Path) -> "Entry":
-        schedule = cls()
-        return schedule
+    # @classmethod
+    # def from_json(cls, path: Path) -> "Entry":
+    #     schedule = cls()
+    #     return schedule
+
+    def spansize(self, entry2: "Entry") -> int:
+        return self.end.timeto(entry2.start)
 
     def to_norg(self, path: Path) -> None:
         ...
@@ -71,7 +79,7 @@ class Entry:
     def timespan(self) -> Tuple[PTime, PTime]:
         return (self.start, self.end)
 
-    def __eq__(self, entry2: "Entry") -> bool:
+    def __eq__(self, entry2: "Entry") -> bool:  # type: ignore
         return self.__str__() == str(entry2)
 
     def duration(self) -> int:
@@ -134,6 +142,7 @@ class Entry:
             return "surrounds"
         elif self.surrounded(entry2):
             return "surrounded"
+        return ""
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"
@@ -152,14 +161,25 @@ class Entry:
 
 class Empty(Entry):
     def __init__(self, start: PTime, end: PTime, time: Optional[int] = None):
+        _time = time or 60
         super().__init__(
-            "Empty", start=start, end=end, priority=-1.0, normaltime=time, mintime=0
+            "Empty",
+            start=start,
+            end=end,
+            priority=-1.0,
+            normaltime=_time,
+            mintime_opt=0,
         )
 
 
 FIRST_ENTRY = Entry(
-    "First", start=PTime(), end=PTime(), ismovable=False, priority=-1.0, mintime=0
+    "First", start=PTime(), end=PTime(), ismovable=False, priority=-1.0, mintime_opt=0
 )
 LAST_ENTRY = Entry(
-    "Last", start=PTime(24), end=PTime(24), ismovable=False, priority=-1.0, mintime=0
+    "Last",
+    start=PTime(24),
+    end=PTime(24),
+    ismovable=False,
+    priority=-1.0,
+    mintime_opt=0,
 )

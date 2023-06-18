@@ -2,17 +2,34 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from planager.config import ConfigType
-from planager.entities import (AdHoc, Calendar, Entry, Plan, PlanPatch,
-                               PlanPatches, Project, Projects, Roadmap,
-                               Roadmaps, Routine, Routines, Schedule,
-                               SchedulePatch, SchedulePatches, Schedules, Task,
-                               TaskPatch, TaskPatches, Tasks)
+from planager.entities import (
+    AdHoc,
+    Calendar,
+    Entry,
+    Plan,
+    PlanPatch,
+    PlanPatches,
+    Project,
+    Projects,
+    Roadmap,
+    Roadmaps,
+    Routine,
+    Routines,
+    Schedule,
+    SchedulePatch,
+    SchedulePatches,
+    Schedules,
+    Task,
+    TaskPatch,
+    TaskPatches,
+    Tasks,
+)
 from planager.operators import Planner, Scheduler
 from planager.utils.datetime_extensions import PDateTime  # util:      1
 
 
 class Universe:
-    files = []
+    files: List[str] = []
     roadmaps: Roadmaps
     adhoc: AdHoc
     projects: Projects
@@ -25,9 +42,9 @@ class Universe:
     planner: Planner
     scheduler: Scheduler
 
-    plan_patches: List[PlanPatch]
-    schedule_patches: List[SchedulePatch]
-    task_patches: List[TaskPatch]
+    plan_patches: PlanPatches
+    schedule_patches: SchedulePatches
+    task_patches: TaskPatches
     last_update: Optional[PDateTime]
     deps_highlevel: Dict
     deps_lowlevel: Dict
@@ -48,9 +65,9 @@ class Universe:
         self.planner = Planner()
         self.scheduler = Scheduler()
 
-        self.plan_patches: List[PlanPatch] = []
-        self.schedule_patches: List[SchedulePatch] = []
-        self.task_patches: List[TaskPatch] = []
+        self.plan_patches: PlanPatches = PlanPatches()
+        self.schedule_patches: SchedulePatches = SchedulePatches()
+        self.task_patches: TaskPatches = TaskPatches()
 
         self._last_update: Optional[PDateTime] = None
         self.deps_highlevel = {}
@@ -120,18 +137,18 @@ class Universe:
         ...
 
     def __str__(self) -> str:
-        ...
+        return ""  # TODO
 
-    def __getitem__(self, __key: Union[int, tuple]) -> Union[Routine, Project, Task]:
+    def __getitem__(self, __key: Union[int, tuple]) -> Union[Roadmap, Project, Task]:
         if isinstance(__key, int):
             return self.roadmaps[__key]
         match len(__key):
             case 2:
                 r, p = __key
-                return self.roadmaps[r].projects[p]
+                return self.roadmaps[r]._projects[p]
             case 3:
                 r, p, t = __key
-                return self.roadmaps[r].projects[p].tasks[t]
+                return self.roadmaps[r]._projects[p].tasks[t]
             case _:
                 raise KeyError(f"Key '{__key}' invalid for 'Universe' object.")
 

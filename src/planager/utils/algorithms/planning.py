@@ -3,9 +3,9 @@ from typing import Dict, List, Optional, Tuple, Union
 
 from planager.utils.datetime_extensions import PDate
 
-ClusterType = List[Union[List[Tuple[int, int, int]], List[int]]]
+ClusterType = List[List[Tuple[int, int, int]]]
 # SubplanType = Dict[PDate, List[int]]
-SubplanType = Dict[PDate, Union[List[int], List[Tuple[int, int, int]]]]
+SubplanType = Dict[PDate, List[Tuple[int, int, int]]]
 
 
 ################################################################################
@@ -108,5 +108,5 @@ TODAY = PDate.today()
 #     self.sort_days()
 
 
-def sort_days(days) -> None:
+def sort_days(days) -> dict:
     return dict(sorted([(k, v) for k, v in days.items()]))

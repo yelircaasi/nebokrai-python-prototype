@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.utils.datetime_extensions import PTime
@@ -54,13 +54,13 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
         newlength = max(ent.mintime, newlength)
         return newlength
 
-    newentries = []
+    newentries: List[Entry] = []
     newlengths = [getnewlength(x) for x in entries]
 
-    entries_tail = []
-    newentries_tail = []
-    newlengths_tail = []
-    alignend = entries[-1].alignend
+    entries_tail: List[Entry] = []
+    newentries_tail: List[Entry] = []
+    newlengths_tail: List[int] = []
+    alignend: bool = entries[-1].alignend
     while alignend:
         entries_tail.insert(0, entries.pop())
         newlengths_tail.insert(0, newlengths.pop())
@@ -95,11 +95,12 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
 def compress_weighted(
     entries: List[Entry], start: PTime, end: PTime, weights
 ) -> List[Entry]:
-    ...
+    raise NotImplemented
 
 
+"""
 def share_time(entry1: Entry, entry2: Entry):
-    start, end = entry1.spansize(entry2)
+    start, end = entry1.span(entry2)
     if entry1.overlaps_first(entry2):
         ...
     elif entry1.overlaps_second(entry2):
@@ -114,8 +115,10 @@ def resolve_1_collision(
     schedule = []
     overlap = overlaps[0]
     if overlap.priority <= 0:
-        pre = overlap.copy(end=entry.start)
-        post = overlap.copy(start=entry.end)
+        pre = overlap.copy()
+        pre.end=entry.start
+        post = overlap.copy()
+        post.start=entry.end
         return [pre, entry, post]
     elif entry.precedes(overlap) and (
         entry.mintime + overlap.mintime < entry.spansize(overlap)
@@ -133,6 +136,7 @@ def resolve_2_collisions(entry, before, overlaps, after) -> List[Entry]:
 def resolve_n_collisions(entry, before, overlaps, after) -> List[Entry]:
     schedule = []
     return schedule
+"""
 
 
 def entries_fit(entries: List[Entry], start: PTime, stop: PTime) -> bool:
@@ -158,7 +162,7 @@ def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> List[Entr
 
 
 def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Entry]:
-    newentries = []
+    newentries: List[Entry] = []
     tracker = start.copy()
     for entry in entries[::-1]:
         dur = entry.duration()
@@ -170,7 +174,7 @@ def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Ent
 
 
 def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
-    movable_before = []
+    movable_before: List[Entry] = []
     ismovable = before[-1].ismovable
     ind = -1
     while ismovable:
@@ -197,16 +201,16 @@ def split_after(after: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
     return (movable_after, after, limit_after)
 
 
-def add_over_empty(entry: Entry, empty: Empty) -> List[Entry]:
+def add_over_empty(entry: Entry, empty: Union[Empty, Entry]) -> List[Entry]:
     if entry.surrounded(empty):
         return [
             Empty(start=empty.start, end=entry.start),
             entry,
             Empty(start=entry.end, end=empty.end),
         ]
-    elif entry.shares_start_shorter():
+    elif entry.shares_start_shorter(empty):
         return [entry, Empty(start=entry.end, end=empty.end)]
-    elif entry.shares_end_shorter():
+    elif entry.shares_end_shorter(empty):
         return [Empty(start=empty.start, end=entry.start), entry]
     else:
         raise ValueError("Cannot add over empty entry which is shorter!")

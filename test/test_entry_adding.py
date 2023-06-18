@@ -338,7 +338,7 @@ class TestEntryAdding(unittest.TestCase):
         ]
         assert schedule.starts_str() == assert_times
 
-    def test_add_no_room_before(self):  # TODO
+    def test_OTHER_THING(self):  # TODO
         schedule = self.day1.copy()
         entry = Entry(
             name="Walk",

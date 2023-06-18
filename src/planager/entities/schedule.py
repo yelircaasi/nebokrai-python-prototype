@@ -1,15 +1,27 @@
 from calendar import Calendar
+
 # from datetime import date, time
 from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
-from planager.entities import (FIRST_ENTRY, LAST_ENTRY, AdHoc, Empty, Entry,
-                               Plan, Roadmaps, Routines)
+from planager.entities import (
+    FIRST_ENTRY,
+    LAST_ENTRY,
+    AdHoc,
+    Empty,
+    Entry,
+    Plan,
+    Roadmaps,
+    Routines,
+)
+from planager.entities.task import Tasks
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
+
 # from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
 from planager.utils.misc import tabularize
+
 # from planager.utils.data.norg.norg_utils import make_norg_header
 from planager.utils.scheduling_helpers import add_entry_default
 
@@ -37,10 +49,10 @@ class Schedule:
             Empty(start=PTime(), end=PTime(24)),
             LAST_ENTRY,
         ]
-        self.date = PDate(year, month, day)
-        self.width = width
+        self.date: PDate = PDate(year, month, day)
+        self.width: int = width
         self.AdjustmentType = AdjustmentType
-        self.overflow = []
+        self.overflow: List[Entry] = []
 
     def ensure_bookends(self) -> None:
         if not self.schedule[0] == FIRST_ENTRY:
@@ -154,21 +166,21 @@ class Schedule:
     def starts(self) -> List[PTime]:
         return [x.start for x in self.schedule]
 
-    def starts_str(self) -> List[PTime]:
+    def starts_str(self) -> List[str]:
         return [str(x.start) for x in self.schedule]
 
     def add_routines(self, routines: Routines) -> None:
         for routine in routines:
             if routine.valid_on(self.date):
-                self.add(routine.as_entry())
+                self.add(routine.as_entry(None))
 
-    def add_from_plan(self, plan: Plan) -> None:
+    def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:
         for task_id in plan[self.date]:
-            self.add(plan[task_id].as_entry())
+            self.add(tasks[task_id].as_entry(None))
 
     def add_adhoc(self, adhoc: AdHoc) -> None:
-        for entry_id in adhoc[self.date]:
-            self.add(entry_id)
+        for entry in adhoc[self.date]:
+            self.add(entry)
 
 
 # d = Schedule(2023, 5, 23)
@@ -181,7 +193,7 @@ class Schedule:
 
 
 class Schedules:
-    def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
+    def __init__(self, schedules: Dict[PDate, Schedule] = {}) -> None:
         self._schedules = schedules
 
     def __getitem__(self, __key: PDateInputType) -> Schedule:
@@ -194,10 +206,10 @@ class Schedules:
         self._schedules.update({__key: __value})
 
     @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
+    def from_norg_workspace(cls, workspace_dir: Path) -> "Schedules":
         file = workspace_dir / "roadmaps.norg"
-        parsed: Dict = Norg.from_path(file)
-        ...
+        parsed: Norg = Norg.from_path(file)
+        ...  # TODO
         return cls()
 
 
@@ -226,14 +238,15 @@ class SchedulePatch:
 
 
 class SchedulePatches:
-    def __init__(self, schedules: Dict[tuple, Schedule] = {}) -> None:
-        self._patches: Dict[PDate, SchedulePatch] = {}
+    def __init__(self, schedule_patches: Dict[PDate, SchedulePatch] = {}) -> None:
+        self._patches: Dict[PDate, SchedulePatch] = schedule_patches
 
     def __getitem__(self, __key: PDateInputType) -> SchedulePatch:
-        return self._patches[__key]
+        key = PDate.ensure_is_pdate(__key)
+        return self._patches[key]
 
-    def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
-        ...
+    # def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
+    #     ...
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "SchedulePatches":
@@ -245,8 +258,8 @@ class SchedulePatches:
 
     @property
     def end_date(self) -> PDate:
-        return max(self._plan)
+        return max(self._patches)
 
     @property
     def start_date(self) -> PDate:
-        return min(self._plan)
+        return min(self._patches)

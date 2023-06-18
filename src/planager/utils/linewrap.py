@@ -1,6 +1,6 @@
 def wrap_string(
     line: str,
-    width: str = 80,
+    width: int = 80,
     trailing_spaces: int = 2,
     borders: bool = False,
     border_char: str = "│",
@@ -16,5 +16,7 @@ def wrap_string(
     lines.append(trailing_spaces * " " + line)
     lines[0] = lines[0][trailing_spaces:]
     if borders:
-        lines = map(lambda s: f"{border_char} {s: <{width}} {border_char}", lines)
+        lines_ = list(
+            map(lambda s: f"{border_char} {s: <{width}} {border_char}", lines)
+        )
     return "\n".join(lines)

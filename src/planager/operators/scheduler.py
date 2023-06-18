@@ -14,6 +14,7 @@ class Scheduler:
     def __call__(
         self,
         plan: entities.Plan,
+        tasks: entities.Tasks,
         routines: entities.Routines,
         adhoc: entities.AdHoc,
         schedule_patches: entities.SchedulePatches,
@@ -31,7 +32,7 @@ class Scheduler:
         for date in start_date_new.range(end_date_new):
             schedule = entities.Schedule()
             schedule.add_routines(routines)
-            schedule.add_from_plan(plan)
+            schedule.add_from_plan(plan, tasks)
             schedule.add_adhoc(adhoc)
             schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule

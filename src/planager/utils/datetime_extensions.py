@@ -18,9 +18,9 @@ class PTime:
         self.isblank = isblank
 
     @classmethod
-    def from_string(cls, date_string: Optional[str]) -> Optional["PTime"]:
+    def from_string(cls, date_string: Optional[str]) -> "PTime":
         if not date_string:
-            return None
+            return cls()
         hour, minute = map(int, date_string.split(":"))
         return cls(hour, minute)
 
@@ -43,10 +43,10 @@ class PTime:
     def fromminutes(cls, mins: int) -> "PTime":
         return cls(*divmod(mins, 60))
 
-    def __add__(self, mins: int) -> "PDate":
+    def __add__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
 
-    def __sub__(self, mins: int) -> "PDate":
+    def __sub__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
 
     def __str__(self) -> str:
@@ -55,7 +55,7 @@ class PTime:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __eq__(self, ptime2: "PTime") -> bool:
+    def __eq__(self, ptime2: "PTime") -> bool:  # type: ignore
         return self.tominutes() == ptime2.tominutes()
 
     def __lt__(self, ptime2: "PTime") -> bool:
@@ -79,6 +79,40 @@ PDateInputType = Union["PDate", str, Tuple[int, int, int], int]
 
 
 class PDate(date):
+    def __init__(self, year: int, month: int, day: int) -> None:
+        self._year = year
+        self._month = month
+        self._day = day
+
+    @property
+    def year(self) -> int:
+        return self._year
+
+    @year.setter
+    def year(self, year: int) -> None:
+        self._year = year
+
+    @property
+    def month(self) -> int:
+        return self._month
+
+    @month.setter
+    def month(self, month: int) -> None:
+        self._month = month
+
+    @property
+    def day(self) -> int:
+        return self._day
+
+    @day.setter
+    def day(self, day: int) -> None:
+        self._day = day
+
+    # @classmethod
+    # def today(cls):
+    #     t = date.today()
+    #     return cls(t.year, t.month, t.today)
+
     def copy(self):
         return PDate(self.year, self.month, self.day)
 
@@ -95,10 +129,10 @@ class PDate(date):
     def __int__(self) -> int:
         return self.toordinal()
 
-    def __add__(self, days: int) -> "PDate":
+    def __add__(self, days: int) -> "PDate":  # type: ignore
         return PDate.fromordinal(self.toordinal() + days)
 
-    def __sub__(self, days: int) -> "PDate":
+    def __sub__(self, days: int) -> "PDate":  # type: ignore
         return PDate.fromordinal(self.toordinal() - days)
 
     def pretty(self):
@@ -200,12 +234,19 @@ class PDateTime:
     ):
         if not (60 * hour + minute + int(bool(second))) in range(1441):
             raise ValueError("Time must be within 00:00..24:00")
-        self.__dict__.update(locals())
+        self.year = year
+        self.month = month
+        self.day = day
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+        self.isblank = isblank
+
         self.date = PDate(year, month, day)
-        self.time = PTime()
+        self.time = PTime(self.hour, self.minute)
 
     @classmethod
-    def from_string(cls, date_string: str) -> "PTime":
+    def from_string(cls, date_string: str) -> "PDateTime":
         if not date_string:
             return cls(2023, 1, 1, 0, 0, 0)
         regx = Regexes.nondigit
@@ -232,41 +273,44 @@ class PDateTime:
     def timefrom(self, time2: "PTime") -> int:
         return self.tominutes() - time2.tominutes()
 
-    @classmethod
-    def fromminutes(cls, mins: int) -> "PTime":
-        return cls(*divmod(mins, 60))
+    # @classmethod
+    # def fromminutes(cls, mins: int) -> "PDateTime":
+    #     return #cls(*divmod(mins, 60))
 
-    def __add__(self, mins: int) -> "PDate":
-        return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
+    # def __add__(self, mins: int) -> "PDateTime":
+    #     #return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
+    #     raise NotImplementedError
 
-    def __sub__(self, mins: int) -> "PDate":
-        return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
+    # def __sub__(self, mins: int) -> "PDateTime":
+    #     #return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
+    #     raise NotImplementedError
 
     def __str__(self) -> str:
-        return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
+        # return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
+        raise NotImplementedError
 
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __eq__(self, pdt2: "PTime") -> bool:
+    def __eq__(self, pdt2: "PDateTime") -> bool:  # type: ignore
         return (self.date == pdt2.date) and (self.toseconds() == pdt2.toseconds())
 
-    def __lt__(self, pdt2: "PTime") -> bool:
+    def __lt__(self, pdt2: "PDateTime") -> bool:
         return (self.date < pdt2.date) or (
             (self.date == pdt2.date) and (self.toseconds() < pdt2.toseconds())
         )
 
-    def __gt__(self, pdt2: "PTime") -> bool:
+    def __gt__(self, pdt2: "PDateTime") -> bool:
         return (self.date > pdt2.date) or (
             (self.date == pdt2.date) and (self.toseconds() > pdt2.toseconds())
         )
 
-    def __le__(self, pdt2: "PTime") -> bool:
+    def __le__(self, pdt2: "PDateTime") -> bool:
         return (self.date < pdt2.date) or (
             (self.date == pdt2.date) and (self.toseconds() <= pdt2.toseconds())
         )
 
-    def __ge__(self, pdt2: "PTime") -> bool:
+    def __ge__(self, pdt2: "PDateTime") -> bool:
         return (self.date > pdt2.date) or (
             (self.date == pdt2.date) and (self.toseconds() >= pdt2.toseconds())
         )

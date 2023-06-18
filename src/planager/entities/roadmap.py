@@ -31,7 +31,7 @@ class Roadmap:
         norg = Norg.from_path(norg_path)
         projects = Projects()  # norg.title, norg.id)
         for id, item in enumerate(norg.items):
-            projects.add(Project.from_roadmap_item(item, id, norg_path))
+            projects.add(Project.from_roadmap_item(item, (norg.id, id), norg_path))
         return Roadmap(norg.title, norg.id, projects)
 
     def __iter__(self) -> Iterator[Project]:
@@ -51,8 +51,8 @@ class Roadmap:
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"{self.name} (ID {self.id})", width, pad=1)
         empty = tabularize("", width)
-        projects = list(
-            map(lambda r: format_number(r.id) + f"{r.name}", self._projects)
+        projects = map(
+            lambda r: format_number(r.id) + f"{r.name}", iter(self._projects)
         )
         projects = map(lambda x: tabularize(x, width), projects)
         return (
@@ -69,7 +69,9 @@ class Roadmaps:
         self, roadmaps: List[Roadmap] = [], workspace_dir: Optional[Path] = None
     ) -> None:
         self.workspace_dir = workspace_dir
-        self._roadmaps = {roadmap.id: roadmap for roadmap in roadmaps}
+        self._roadmaps: Dict[int, Roadmap] = {
+            roadmap.id: roadmap for roadmap in roadmaps
+        }
 
     def __getitem__(self, __key: int) -> Roadmap:
         return self._roadmaps[__key]
@@ -117,16 +119,21 @@ class Roadmaps:
 
     def open_projects_norg(self) -> Projects:
         projects = Projects()
-        for roadmap in self._roadmaps:
+        for roadmap in self._roadmaps.values():
             for project in roadmap:
                 _project = project.copy()
-                project.update_from_norg()
+                # TODO project.update_from_norg()
                 projects.add(project)
         return projects
 
     def get_projects(self) -> Dict[Tuple[int, int], Project]:
-        projects = {}
+        projects: Dict[Tuple[int, int], Project] = {}
         for roadmap_id, roadmap in self._roadmaps.items():
             for project_id, project in roadmap._projects._projects.items():
-                projects.update({(roadmap_id, project_id): project})
+                tuple_id: Tuple[int, int] = (
+                    (roadmap_id, project_id)
+                    if isinstance(project_id, int)
+                    else project_id
+                )
+                projects.update({tuple_id: project})
         return projects

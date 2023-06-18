@@ -1,17 +1,20 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from planager.config import _Config as ConfigType
+from planager.entities.entry import Entry
 from planager.utils.data.norg import norg_utils as norg
 from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.datetime_extensions import PDate
+from planager.utils.datetime_extensions import PDate, PTime
 from planager.utils.misc import tabularize
 
 from .calendar import Calendar
 
 
 class Task:
-    def __init__(self, name: str, id: int, priority: int = 10, **kwargs) -> None:
+    def __init__(
+        self, name: str, id: Tuple[int, int, int], priority: int = 10, **kwargs
+    ) -> None:
         self.name = name
         self.id = id
         self.priority = priority
@@ -40,36 +43,46 @@ class Task:
             + bottombeam
         )
 
+    def as_entry(self, start: Optional[PTime]) -> Entry:
+        # TODO
+        return Entry(self.name, start)
+
 
 class Tasks:
     def __init__(self) -> None:
-        self._tasks = {}
+        self._tasks: Dict[Tuple[int, int, int], Task] = {}
 
     def add(self, task: Task) -> None:
         self._tasks.update({task.id: task})
 
-    def __iter__(self) -> Iterable[Task]:
+    def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks.values())
 
-    def __getitem__(self, __key: int) -> Task:
+    def __getitem__(self, __key: Tuple[int, int, int]) -> Task:
         return self._tasks[__key]
 
     @classmethod
-    def from_norg_path(cls, norg_path: Path, **kwargs) -> "Tasks":
+    def from_norg_path(
+        cls, norg_path: Path, project_id: Tuple[int, int], **kwargs
+    ) -> "Tasks":
         tasks = cls()
         norg = Norg.from_path(norg_path)
         for id, item in enumerate(norg.items, start=1):
             parse = Norg.parse_item_with_attributes(item)
-            tasks.add(Task(parse["title"], id, **parse["attributes"]))
+            tasks.add(Task(parse["title"], (*project_id, id), **parse["attributes"]))
         return tasks
 
     @classmethod
     def from_string_iterable(
-        cls, task_list: List[str], priority: Optional[int] = None
+        cls,
+        task_list: List[str],
+        project_id: Tuple[int, int],
+        priority: Optional[int] = None,
     ) -> "Tasks":
         tasks = cls()
-        for id, name in enumerate(task_list, start=1):
-            name = name if isinstance(name, str) else name.name
+        for task_id, name in enumerate(task_list, start=1):
+            # name = name if isinstance(name, str) else name.name
+            id = (*project_id, task_id)
             task = Task(name, id, priority) if priority is not None else Task(name, id)
             tasks.add(task)
         return tasks
@@ -104,7 +117,7 @@ class Tasks:
             + bottombeam
         )
 
-    def ids(self) -> Union[List[Tuple[int, int, int]], List[int]]:
+    def ids(self) -> List[Tuple[int, int, int]]:
         return list(self._tasks)
 
     # def __getitem__(self, __name: str) -> Any:

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from planager.config import _Config as ConfigType
 from planager.config import config
@@ -24,36 +24,45 @@ class Plan:
         self._tasks: Dict[Tuple[int, int, int], Task] = {}
         self._plan: Dict[PDate, List[Tuple[int, int, int]]] = {}
 
-    # def add_tasks_from_project(self, project: Project) -> None:
-    #     ...
+    def __getitem__(self, __date: PDate) -> List[Tuple[int, int, int]]:
+        return self._plan[__date]
 
-    def add_tasks(tasks: Tasks) -> None:
-        ...
+    def __setitem__(self, __date: PDate, __tasks: List[Tuple[int, int, int]]) -> None:
+        self._plan.update({__date: __tasks})
+
+    # def add_tasks_from_project(self, project: Project) -> None:
+    #     TODO
+
+    def add_tasks(self, date: PDate, tasks: Union[Tasks, Iterable[Task]]) -> None:
+        task_ids = [task.id for task in tasks]
+        if date in self._plan:
+            task_ids = list(set(task_ids + self._plan[date]))
+        self._plan.update({date: task_ids})
 
     def add_subplan(
         self,
-        subplan: Dict[PDate, Union[List[int], List[Tuple[int, int, int]]]],
+        subplan: Dict[PDate, List[Tuple[int, int, int]]],
         tasks: Tasks,
-        plan_id: Optional[Tuple[int, int]] = None,
+        # plan_id: Optional[Tuple[int, int]] = None,
     ) -> None:
         id_ = list(subplan.values())[0][0]
-        if not (
-            (plan_id and isinstance(id_, int))
-            or ((not plan_id) and (isinstance(id_, tuple)))
-        ):
-            raise ValueError("plan_id and task id must be of compatible types.")
+        # if not (
+        #     (plan_id and isinstance(id_, int))
+        #     or ((not plan_id) and (isinstance(id_, tuple)))
+        # ):
+        #     raise ValueError("plan_id and task id must be of compatible types.")
 
         for task in tasks:
             print(task)
-            self._tasks.update({(*plan_id, task.id) if plan_id else task.id: task})
-        for date, task_list in subplan:
+            self._tasks.update({task.id: task})
+        for date, task_list in subplan.items():
             print(date)
             for task_id in task_list:
-                if isinstance(task_id, int):
-                    new_task_id: Tuple[int, int, int] = (*plan_id, task_id)
-                else:
-                    new_task_id: Tuple[int, int, int] = (*task_id,)
-                self._plan[date].append(new_task_id)
+                # if isinstance(task_id, int):
+                #     new_task_id: Tuple[int, int, int] = (*plan_id, task_id)
+                # else:
+                #     new_task_id: Tuple[int, int, int] = (*task_id,)
+                self._plan[date].append(task_id)
 
     @property
     def end_date(self) -> PDate:

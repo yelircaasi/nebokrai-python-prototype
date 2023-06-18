@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate
@@ -14,8 +14,8 @@ class Project:
     def __init__(
         self,
         name: str,
-        id: int,
-        tasks: Union[List[str], str] = [],
+        id: Tuple[int, int],
+        tasks: Union[List[str], str, Tasks] = [],
         priority: int = 10,
         start: Optional[PDate] = None,
         end: Optional[PDate] = None,
@@ -30,8 +30,13 @@ class Project:
     ) -> None:
         self.name = name
         self.id = id
-        self._tasks: Tasks = Tasks.from_string_iterable(
-            expand_task_segments(tasks) if isinstance(tasks, str) else tasks
+        self._tasks: Tasks = (
+            Tasks.from_string_iterable(
+                expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
+                project_id=id,
+            )
+            if not isinstance(tasks, Tasks)
+            else tasks
         )
         self.priority = priority
         self.start = start
@@ -45,24 +50,35 @@ class Project:
         self.before = before
         self.after = after
 
-    def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
-        ...
+    def copy(self) -> "Project":
+        copy = Project(self.name, self.id)
+        copy.__dict__.update(**self.__dict__)
+        return copy
 
-    def __getitem__(self, __key: int) -> Task:
+    # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
+    #     ...
+
+    def __getitem__(self, __key: Tuple[int, int, int]) -> Task:
         return self._tasks[__key]
 
     @classmethod
     def from_norg_path(cls, norg_path: Path, **kwargs) -> "Project":
         norg = Norg.from_path(norg_path)
-        tasks = Tasks.from_norg_path(norg_path)
+        project_id = (norg.parent, norg.id)
+        tasks = Tasks.from_norg_path(norg_path, project_id)
 
-        return cls(name=norg.title, id=norg.id, tasks=tasks, path=norg_path, **kwargs)
+        return cls(
+            name=norg.title, id=project_id, tasks=tasks, path=norg_path, **kwargs
+        )
 
     @classmethod
-    def from_roadmap_item(cls, item: str, id: int, roadmap_path: Path) -> "Project":
+    def from_roadmap_item(
+        cls, item: str, id: Tuple[int, int], roadmap_path: Path
+    ) -> "Project":
         # norg = Norg.from_path(norg_path)
         regx = Regexes.first_line
-        title = re.search(regx, item).groups()[0]
+        result = re.search(regx, item)
+        title = result.groups()[0] if result else ""
         attributes = Norg.get_attributes(item)
         priority = attributes.get("priority", 10)
         if "||" in title:
@@ -116,7 +132,7 @@ class Project:
 
 class Projects:
     def __init__(self, projects: List[Project] = []) -> None:
-        self._projects: Dict[Tuple, Project] = {
+        self._projects: Dict[Tuple[int, int], Project] = {
             project.id: project for project in projects
         }
         self._tasks: Tasks = self._get_tasks()
@@ -132,31 +148,31 @@ class Projects:
     def add(self, project: Project) -> None:
         self._projects.update({project.id: project})
 
-    def __iter__(self) -> Iterable[Project]:
+    def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())
 
-    def __getitem__(self, __id: Union[int, tuple]) -> Any:
-        if isinstance(__id, int):
-            return self._projects[__id]
+    def __getitem__(self, __id: Union[Tuple[int, int], Tuple[int, int, int]]) -> Any:
         if len(__id) == 2:
-            return self._projects[__id]
+            return self._projects[__id]  # type: ignore
         elif len(__id) == 3:
-            return self._tasks[__id]
+            return self._tasks[__id]  # type: ignore
         else:
             raise KeyError(f"Invalid key for `Projects`: {__id}.")
 
-    def __setitem__(self, __id: str, __value: Any) -> None:
+    def __setitem__(
+        self, __id: str, __value: Union[Tuple[int, int], Tuple[int, int, int]]
+    ) -> None:
         if len(__id) == 2:
-            self._projects.update({__id: __value})
+            self._projects.update({__id: __value})  # type: ignore
         elif len(__id) == 3:
-            return self._tasks.update({__id: __value})
+            return self._tasks.update({__id: __value})  # type: ignore
         else:
             raise KeyError(f"Invalid key for `Projects`: {__id}.")
 
     def _get_tasks(self) -> Tasks:
         tasks = Tasks()
-        for _project in self._projects:
-            for task in _project.get_tasks():
+        for _project in self._projects.values():
+            for task in _project._tasks:
                 tasks.add(task)
         return tasks
 

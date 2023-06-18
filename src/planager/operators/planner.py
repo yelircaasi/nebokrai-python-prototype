@@ -5,6 +5,7 @@ from planager import entities
 from planager.config import ConfigType
 from planager.operators.patchers import PlanPatcher, TaskPatcher
 from planager.utils.algorithms.planning import ClusterType, SubplanType
+
 # from planager.config import config
 from planager.utils.datetime_extensions import PDate
 from planager.utils.misc import expand_task_segments
@@ -35,7 +36,7 @@ class Planner:
             subplan: SubplanType = self.get_subplan_from_tasks(
                 project._tasks, project, calendar
             )
-            plan.add_subplan(subplan, project._tasks, project_id)
+            plan.add_subplan(subplan, project._tasks)
 
         plan = self.patch_plan(plan, plan_patch)
 
@@ -59,7 +60,7 @@ class Planner:
 
     @staticmethod
     def cluster_task_ids(
-        task_ids: Union[List[Tuple[int, int, int]], List[int]], cluster_size: int
+        task_ids: List[Tuple[int, int, int]], cluster_size: int
     ) -> ClusterType:
         n = cluster_size
         length = len(task_ids)

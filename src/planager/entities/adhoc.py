@@ -41,10 +41,13 @@ class AdHoc:
         # self.author = config.author
 
         # NEW FORMAT
-        self._adhocs = {}
+        self._adhocs: Dict[PDate, List[Entry]] = {}
 
     def __iter__(self) -> Iterator[Entry]:
         return iter(self.entries)
+
+    def __getitem__(self, __date: PDate) -> List[Entry]:
+        return self._adhocs[__date]
 
     def __str__(self) -> str:
         return self.pretty()
@@ -73,21 +76,19 @@ class AdHoc:
     #     ...
 
     @classmethod
-    def from_norg_workspace(cls, workspace_root: Path) -> "AdHoc":
-        adhoc = cls()
-        return adhoc
-
-    @classmethod
     def from_norg(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...
+        ...  # TODO
+        return cls()
 
     @classmethod
     def from_json(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...
+        ...  # TODO
+        return cls()
 
     @classmethod
     def from_html(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...
+        ...  # TODO
+        return cls()
 
     def to_norg(self, fp: Path) -> None:
         with open(fp, "w") as f:
@@ -107,6 +108,7 @@ class AdHoc:
             # author=self.author,
             updated=now(),
         )
+        return ""  # TODO
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
@@ -119,15 +121,15 @@ class AdHoc:
             entries.append(
                 Entry(
                     name=section["title"] or "<Placeholder Entry Name>",
-                    start=PTime.from_string(attributes.get("start")),
+                    start=PTime.from_string(attributes["start"]),
                     end=PTime.from_string(attributes.get("end")),
                     priority=int(attributes.get("priority") or 0),
                     ismovable=bool(str(attributes.get("ismovable")).lower() == "true"),
                     notes=attributes.get("notes") or "",
-                    normaltime=attributes.get("normaltime"),
-                    idealtime=attributes.get("idealtime"),
-                    mintime=attributes.get("mintime"),
-                    maxtime=attributes.get("maxtime"),
+                    normaltime=attributes.get("normaltime") or 30,
+                    idealtime_opt=attributes.get("idealtime"),
+                    mintime_opt=attributes.get("mintime"),
+                    maxtime_opt=attributes.get("maxtime"),
                     alignend=bool(str(attributes.get("alignend")).lower() == "true"),
                 )
             )
@@ -135,9 +137,11 @@ class AdHoc:
 
     def to_json_str(self) -> str:
         ...
+        return ""  # TODO
 
     def to_html_str(self) -> str:
         ...
+        return ""  # TODO
 
     @property
     def end_date(self) -> PDate:
