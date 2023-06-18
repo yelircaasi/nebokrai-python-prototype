@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict, List
 
-#from planager import entities
+# from planager import entities
 from planager.utils.data.norg.norg_utils import norg_utils as norg
 
 

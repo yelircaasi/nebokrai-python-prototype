@@ -7,21 +7,15 @@ ClusterType = List[List[int]]
 SubplanType = Dict[PDate, List[int]]
 
 
-
-    
-
-
-
-
-
-
 ################################################################################
+
 
 class Adjustment(Enum):
     ROLLOVER = 0
     RIGID = 1
     BALANCE = 2
     MANUAL = 3
+
 
 TODAY = PDate.today()
 
@@ -116,6 +110,7 @@ TODAY = PDate.today()
 # def adjust_loads_manual(self) -> None:
 
 #     self.sort_days()
+
 
 def sort_days(days) -> None:
     return dict(sorted([(k, v) for k, v in days.items()]))

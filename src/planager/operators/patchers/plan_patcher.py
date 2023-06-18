@@ -9,9 +9,7 @@ class PlanPatcher:
         pass
 
     def __call__(
-            self, 
-            plan: entities.Plan, 
-            plan_patches: entities.PlanPatch
-        ) -> entities.Plan:
+        self, plan: entities.Plan, plan_patches: entities.PlanPatch
+    ) -> entities.Plan:
         ...
         return plan

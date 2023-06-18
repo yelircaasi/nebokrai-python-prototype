@@ -1,6 +1,3 @@
-
-
-
 def main() -> None:
     print("main() ran successfully.")
 

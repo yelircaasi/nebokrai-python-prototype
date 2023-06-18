@@ -2,7 +2,7 @@ from planager import (
     Schedule,
     Empty,
     Entry,
-    FIRST_ENTRY, 
+    FIRST_ENTRY,
     LAST_ENTRY,
     PDate,
     PTime,
@@ -30,4 +30,3 @@ taskentry3 = Entry(...)
 added: bool = day.add_to_first_opening(taskentry1)
 added = day.add_to_last_opening(taskentry2) if added else False
 added = day.add_to_closest_opening(taskentry2) if added else False
-

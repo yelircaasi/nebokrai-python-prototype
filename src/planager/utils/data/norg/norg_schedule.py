@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-#from planager import entities
+# from planager import entities
 from .norg_utils import norg_utils as norg
 from ...regex import Regexes
 
@@ -19,9 +19,8 @@ def read_schedule_as_list(filepath: Path) -> list:
 
 
 def write_schedule(schedule: dict, filepath: Path) -> None:
-    header = norg.make_header(
-        title=schedule["title"])
+    header = norg.make_header(title=schedule["title"])
     schedule_str = schedule["schedule"]
-    
-    with open(filepath, 'w') as f:
+
+    with open(filepath, "w") as f:
         f.write(f"{header}\n\n{schedule}")

@@ -18,5 +18,3 @@ def derive_from_json(json_dir: Path) -> "Universe":
 
 def derive_from_html(html_dir: Path) -> "Universe":
     ...
-
-

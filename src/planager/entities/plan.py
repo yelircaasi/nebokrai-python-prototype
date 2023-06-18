@@ -13,10 +13,10 @@ from planager.utils.data.norg import norg_utils as norg
 
 class Plan:
     def __init__(
-            self,
-            config: Optional[ConfigType] = None,
-            calendar: Optional[Calendar] = None,
-        ) -> None:
+        self,
+        config: Optional[ConfigType] = None,
+        calendar: Optional[Calendar] = None,
+    ) -> None:
         self._config = config
         self._calendar = calendar
         self._tasks: Dict[Tuple[int, int, int], Task] = {}
@@ -29,19 +29,18 @@ class Plan:
         ...
 
     def add_subplan(
-            self,
+        self,
         subplan: Dict[PDate, Union[List[int], List[Tuple[int, int, int]]]],
         tasks: Tasks,
-        plan_id: Optional[Tuple[int, int]] = None
+        plan_id: Optional[Tuple[int, int]] = None,
     ) -> None:
-        
         id_ = list(subplan.values())[0][0]
         if not (
-            (plan_id and isinstance(id_, int)) or \
-            ((not plan_id) and (isinstance(id_, tuple)))
+            (plan_id and isinstance(id_, int))
+            or ((not plan_id) and (isinstance(id_, tuple)))
         ):
             raise ValueError("plan_id and task id must be of compatible types.")
-        
+
         for task in tasks:
             self._tasks.update({(*plan_id, task.id) if plan_id else task.id: task})
         for date, task_list in subplan:
@@ -49,8 +48,6 @@ class Plan:
                 if isinstance[task_id]:
                     task_id = (*plan_id, task_id)
                 self._plan[date].append(task_id)
-        
-
 
 
 class PlanPatch:

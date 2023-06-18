@@ -42,7 +42,12 @@ def expand_task_segments(task_abbr: str) -> list:
                     end_number = int(end[1:]) if end_isalpha else int(end)
                     print(start_letter, end_letter, start_number, end_number)
 
-                    return list(map(lambda num: start_letter + str(num), range(start_number, end_number + 1)))
+                    return list(
+                        map(
+                            lambda num: start_letter + str(num),
+                            range(start_number, end_number + 1),
+                        )
+                    )
                 except:
                     raise error
             else:

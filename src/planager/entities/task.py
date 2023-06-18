@@ -18,21 +18,26 @@ class Task:
 
     def __str__(self) -> str:
         return self.pretty()
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def pretty(self, width: int = 80) -> str:
-        
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        #thickbeam = "┣" + (width - 2) * "━" + "┫"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"Task: {self.name} (ID {self.id})", width, pad=1)
         empty = tabularize("", width)
         priority = tabularize(f"  Priority: {self.priority}", width)
-        return "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, "")) + priority + '\n' + empty + bottombeam
+        return (
+            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
+            + priority
+            + "\n"
+            + empty
+            + bottombeam
+        )
 
 
 class Tasks:
@@ -56,40 +61,50 @@ class Tasks:
             parse = Norg.parse_item_with_attributes(item)
             tasks.add(Task(parse["title"], id, **parse["attributes"]))
         return tasks
-        
+
     @classmethod
-    def from_string_iterable(cls, task_list: List[str], priority: Optional[int] = None) -> "Tasks":
+    def from_string_iterable(
+        cls, task_list: List[str], priority: Optional[int] = None
+    ) -> "Tasks":
         tasks = cls()
         for id, name in enumerate(task_list, start=1):
-            name  = name if isinstance(name, str) else name.name
+            name = name if isinstance(name, str) else name.name
             task = Task(name, id, priority) if priority is not None else Task(name, id)
             tasks.add(task)
         return tasks
 
     def __str__(self) -> str:
         return self.pretty()
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def pretty(self, width: int = 80) -> str:
-        
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        #thickbeam = "┣" + (width - 2) * "━" + "┫"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize("Tasks", width, pad=1)
         empty = tabularize("", width)
-        names = "\n".join(map(lambda x: tabularize(f"{format_number(x[0])}{x[1].name}", width), self._tasks.items()))
-        return "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, "")) + names + '\n' + empty + bottombeam
+        names = "\n".join(
+            map(
+                lambda x: tabularize(f"{format_number(x[0])}{x[1].name}", width),
+                self._tasks.items(),
+            )
+        )
+        return (
+            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
+            + names
+            + "\n"
+            + empty
+            + bottombeam
+        )
 
-
-        
     # def __getitem__(self, __name: str) -> Any:
     #     task = ...
     #     return task
-    
+
     # def __setitem__(self, __name: str, __value: Any) -> None:
     #     ...
 
@@ -106,10 +121,10 @@ class TaskPatches:
     def __getitem__(self, __name: str) -> Any:
         task = ...
         return task
-    
+
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
-    
+
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "TaskPatches":
         # file = workspace_dir / "roadmaps.norg"

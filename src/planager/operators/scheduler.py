@@ -11,19 +11,20 @@ class Scheduler:
         self.patch_schedule = SchedulePatcher(config)
 
     def __call__(
-            
-            self, 
-            plan: entities.Plan,
-            routines: entities.Routines,
-            adhoc: entities.AdHoc,
-            schedule_patches: entities.SchedulePatches,
-            start_date: Optional[PDate] = PDate.today() + 1,
-            end_date: Optional[PDate] = None,
-        
-        ) -> entities.Schedules:
-
-        #schedule = make_schedule(agenda, routines, adhoc)
-        end_date = end_date or max(plan.end_date(), adhoc.end_date(), schedule_patches.end_date(),)
+        self,
+        plan: entities.Plan,
+        routines: entities.Routines,
+        adhoc: entities.AdHoc,
+        schedule_patches: entities.SchedulePatches,
+        start_date: Optional[PDate] = PDate.today() + 1,
+        end_date: Optional[PDate] = None,
+    ) -> entities.Schedules:
+        # schedule = make_schedule(agenda, routines, adhoc)
+        end_date = end_date or max(
+            plan.end_date(),
+            adhoc.end_date(),
+            schedule_patches.end_date(),
+        )
         schedules = entities.Schedules()
         for date in start_date.range(end_date):
             schedule = entities.Schedule()

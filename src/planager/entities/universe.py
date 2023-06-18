@@ -28,7 +28,7 @@ from planager.operators import (
     Planner,
     Scheduler,
 )
-from planager.utils.datetime_extensions import PDateTime                                          # util:      1
+from planager.utils.datetime_extensions import PDateTime  # util:      1
 
 
 class Universe:
@@ -44,7 +44,7 @@ class Universe:
 
     planner: Planner
     scheduler: Scheduler
-        
+
     plan_patches: List[PlanPatch]
     schedule_patches: List[SchedulePatch]
     task_patches: List[TaskPatch]
@@ -54,23 +54,23 @@ class Universe:
     norg_workspace: Optional[Path]
     json_dir: Optional[Path]
     html_dir: Optional[Path]
-    
+
     def __init__(self) -> None:
         self.files = []
-        self.roadmaps   = Roadmaps()
-        self.adhoc      = AdHoc()
-        self.projects   = Projects()
-        self.tasks      = Tasks()
-        self.routines   = Routines()
+        self.roadmaps = Roadmaps()
+        self.adhoc = AdHoc()
+        self.projects = Projects()
+        self.tasks = Tasks()
+        self.routines = Routines()
         self.plan: Plan = Plan()
-        self.schedules  = Schedules()
+        self.schedules = Schedules()
 
-        self.planner   = Planner()
+        self.planner = Planner()
         self.scheduler = Scheduler()
-        
-        self.plan_patches:      List[PlanPatch] = []
-        self.schedule_patches:  List[SchedulePatch] = []
-        self.task_patches:      List[TaskPatch] = []
+
+        self.plan_patches: List[PlanPatch] = []
+        self.schedule_patches: List[SchedulePatch] = []
+        self.task_patches: List[TaskPatch] = []
 
         self._last_update: Optional[PDateTime] = None
         self.deps_highlevel = {}
@@ -81,26 +81,27 @@ class Universe:
 
     @classmethod
     def from_norg_workspace(
-        cls, 
-        workspace: Path, 
+        cls,
+        workspace: Path,
         config: Optional[ConfigType] = None,
     ) -> "Universe":
-        
         univ = cls()
 
         # direct reading
-        univ.roadmaps         = Roadmaps.from_norg_workspace(workspace)
-        univ.routines         = Routines.from_norg_workspace(workspace)
-        univ.adhoc            = AdHoc.from_norg_workspace(workspace)
-        univ.plan_patches     = PlanPatches.from_norg_workspace(workspace)      # STILL EMPTY
-        univ.task_patches     = TaskPatches.from_norg_workspace(workspace)      # STILL EMPTY
-        univ.schedule_patches = SchedulePatches.from_norg_workspace(workspace)  # STILL EMPTY
-        univ.calendar         = Calendar.from_norg_workspace(workspace)
-        
+        univ.roadmaps = Roadmaps.from_norg_workspace(workspace)
+        univ.routines = Routines.from_norg_workspace(workspace)
+        univ.adhoc = AdHoc.from_norg_workspace(workspace)
+        univ.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
+        univ.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
+        univ.schedule_patches = SchedulePatches.from_norg_workspace(
+            workspace
+        )  # STILL EMPTY
+        univ.calendar = Calendar.from_norg_workspace(workspace)
+
         # operators
-        univ.planner     = Planner(config)
-        univ.scheduler   = Scheduler(config)
-        
+        univ.planner = Planner(config)
+        univ.scheduler = Scheduler(config)
+
         # derivation
         univ.plan: Plan = univ.planner(
             univ.projects,
@@ -108,40 +109,34 @@ class Universe:
             univ.task_patches,
             univ.plan_patches,
         )
-        '''
+        """
         univ.schedules: Schedules = univ.scheduler(
             univ.plan, 
             univ.routines, 
             univ.adhoc, 
             univ.schedule_patches,
         )
-        '''
+        """
         return univ
 
     @classmethod
     def from_json_dir(cls, workspace: Path) -> "Universe":
-
         return cls()
-    
+
     @classmethod
     def from_html_dir(cls, workspace: Path) -> "Universe":
-
         return cls()
 
     def recalculate_norg(self) -> None:
-
         ...
 
     def recalculate_json(self) -> None:
-
         ...
 
     def recalculate_html(self) -> None:
-
         ...
 
     def reconfigure(self, config: ConfigType) -> None:
-
         ...
 
     def __str__(self) -> str:
@@ -159,6 +154,6 @@ class Universe:
                 return self.roadmaps[r].projects[p].tasks[t]
             case _:
                 raise KeyError(f"Key '{__key}' invalid for 'Universe' object.")
-    
+
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...

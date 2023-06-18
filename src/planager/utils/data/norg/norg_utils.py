@@ -18,7 +18,9 @@ def split_document(fp: Path) -> Tuple:
 
 
 def make_header(**kwargs) -> str:
-    inner = "\n".join(map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items())))
+    inner = "\n".join(
+        map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items()))
+    )
     return f"@document.meta\n{inner}\n@end"
 
 
@@ -35,7 +37,9 @@ def get_list_from_header(header: str) -> dict:
 
 def get_dict_from_section(section: str) -> dict:
     section_dict = {}
-    title, body, subsections_str = re.search("\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL).groups()
+    title, body, subsections_str = re.search(
+        "\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL
+    ).groups()
     section_dict.update({"title": title, "body": body.strip(), "subsections": []})
     subsections = re.findall("\*\*\s+([^\n]+)\n+(.*?)", subsections_str, re.DOTALL)
     for title, body in subsections:
@@ -71,7 +75,7 @@ def parse_norg_entry(entry: str):
     ]
     booldict = STR2BOOL
     kwdict = dict(zip(groupnames, groups))
-    kwdict["notes"] = re.sub("\s+", ' ', kwdict["notes"]).strip()
+    kwdict["notes"] = re.sub("\s+", " ", kwdict["notes"]).strip()
     kwdict["start"] = PTime.from_string(kwdict["start"])
     for integer in ["normaltime", "idealtime", "mintime", "maxtime"]:
         kwdict[integer] = int(kwdict[integer])
@@ -79,11 +83,12 @@ def parse_norg_entry(entry: str):
         kwdict[boolean] = booldict[kwdict[boolean]]
     return kwdict
 
+
 def parse_norg_header():
     ...
 
 
-def parse_norg_notes(): 
+def parse_norg_notes():
     ...
 
 
@@ -98,7 +103,7 @@ def make_norg_entry(
     mintime: int,
     maxtime: int,
     alignend: bool,
-    ) -> str:
+) -> str:
     booldict = BOOL2STR
     notes = wrap_string(notes, width=102, trailing_spaces=18)
     return "\n".join(
@@ -119,11 +124,11 @@ def make_norg_entry(
 
 
 def make_norg_header(
-        title: str, 
-        author: str = "yelircaasi", 
-        categories: List[str] = [], 
-        version: Union[float, str] = "0.1"
-    ) -> str:
+    title: str,
+    author: str = "yelircaasi",
+    categories: List[str] = [],
+    version: Union[float, str] = "0.1",
+) -> str:
     return "\n".join(
         (
             "@document.meta",
@@ -141,9 +146,7 @@ def make_norg_header(
     )
 
 
-def make_norg_notes(
-        notes: str
-    ) -> str:
+def make_norg_notes(notes: str) -> str:
     notes = wrap_string(notes, width=120, trailing_spaces=0)
     return f"* Notes\n\n{notes}\n"
 
@@ -171,20 +174,19 @@ class Norg:
 
     @classmethod
     def from_path(cls, norg_path: Path) -> "Norg":
-        #print(50 * '=')
-        #print(norg_path)
-        #print(50 * '=')
+        # print(50 * '=')
+        # print(norg_path)
+        # print(50 * '=')
         with open(norg_path) as f:
             norg_str = f.read()
         norg_obj = cls.from_string(norg_str)
         norg_obj.path = norg_path
         return norg_obj
-    
+
     @classmethod
     def from_string(cls, norg_str) -> "Norg":
-        
         kwarg_dict = cls.parse_norg_str(norg_str)
-        
+
         return cls(**kwarg_dict)
 
     @staticmethod
@@ -192,7 +194,7 @@ class Norg:
         regx_header_and_body = Regexes.header_and_body
         regx_sections = Regexes.section_split
         regx_items = Regexes.item1_split
-        
+
         search = re.search(regx_header_and_body, norg)
         if not search:
             print(100 * "&")
@@ -200,20 +202,20 @@ class Norg:
             print(search)
             print(regx_header_and_body)
         header, body = search.groups()
-        body= '\n' + body
-        #print(body)
+        body = "\n" + body
+        # print(body)
         lines = header.split("\n")
-        
-        #print(lines)
+
+        # print(lines)
         kwarg_dict = dict(map(lambda x: x.split(": ", 1), lines))
-        #print(kwarg_dict)
+        # print(kwarg_dict)
         kwarg_dict["id"] = int(kwarg_dict["id"])
         kwarg_dict["parent"] = int(kwarg_dict["parent"])
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
-        
+
         def parse_section(section_str: str) -> Optional[Dict[str, Any]]:
             regx_subsections = Regexes.subsection_split
-            #section_str = section_str.strip()
+            # section_str = section_str.strip()
             section_dict = {"title": "", "text": "", "subsections": []}
             res = re.search("\*?([^\n]+)", section_str)
             if not res:
@@ -221,16 +223,20 @@ class Norg:
             section_dict["title"] = res.groups()[0].strip()
             res = re.search("\n(.*?)\n?\*+ ", section_str)
             section_dict["text"] = "" if not res else res.groups()[0].strip()
-            section_dict["subsections"] = list(map(str.strip, re.split(regx_subsections, section_str)[1:]))
+            section_dict["subsections"] = list(
+                map(str.strip, re.split(regx_subsections, section_str)[1:])
+            )
             return section_dict
 
         sections = re.split(regx_sections, body)
-        kwarg_dict.update({"sections": list(map(parse_section, filter(bool, sections)))})
-        #print(sections[0])
+        kwarg_dict.update(
+            {"sections": list(map(parse_section, filter(bool, sections)))}
+        )
+        # print(sections[0])
         kwarg_dict.update({"items": re.split(regx_items, sections[0])[1:]})
 
         return kwarg_dict
-    
+
     @staticmethod
     def parse_link(s: str) -> str:
         regx_link = Regexes.link
@@ -244,7 +250,7 @@ class Norg:
         loc = s.index(link)
         text = s[(loc - 1) if (loc % 2) else (loc + 1)]
         return (text, link)
-    
+
     @staticmethod
     def parse_preasterix_attributes(section: str) -> dict:
         if not section:
@@ -254,8 +260,10 @@ class Norg:
         section = re.split(regx1, section)[0]
         # print(100 * "%")
         # print(section)
-        return dict(map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section))))
-        
+        return dict(
+            map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section)))
+        )
+
     @staticmethod
     def parse_subsections(section: str) -> List[dict]:
         print(f"{section=}")
@@ -266,7 +274,7 @@ class Norg:
             return {"title": title, "subsections": subsections}
         except:
             return {"title": section}
-        
+
     @staticmethod
     def parse_item_with_attributes(item: str) -> dict:
         if not item.strip():
@@ -277,52 +285,51 @@ class Norg:
         title = re.search(regx1, item).groups()[0]
         attributes = dict(map(lambda s: s.split(": ", 1), re.split(regx2, item)[1:]))
         return {"title": title, "attributes": attributes}
-        
+
     @staticmethod
     def parse_title_and_attributes(segment: str) -> Tuple[str, dict]:
         assert isinstance(segment, str)
         try:
             title, body = segment.split("\n", 1)
             attributes = Norg.get_attributes(body)
-            #print(f"{title=}")
-            #print(f"{attributes=}")
+            # print(f"{title=}")
+            # print(f"{attributes=}")
             return title, attributes
         except:
             return segment, {}
-        
+
     @staticmethod
     def get_attributes(segment: str) -> Dict[str, Any]:
         regx = Regexes.item_split
         try:
             segments = re.split(regx, segment)[1:]
-            #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-            #print(segments)
+            # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            # print(segments)
             pairs = list(map(lambda s: s.split(": ", 1), segments))
-            #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-            #print(pairs)
+            # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+            # print(pairs)
             return dict(pairs) if pairs else {}
         except:
             print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
             print(segment)
-    
+
     def __str__(self) -> str:
         return f""
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
-    
+
 
 # class DocType(Enum):
 #     ROADMAP = 1
 #     PROJECT = 2
 
 
-
 def parse_norg_str(norg_str: str) -> Norg:
     norg = {}
-    
+
     return norg
+
 
 def parse_norg_path(file: Path) -> Norg:
     with open(file) as f:

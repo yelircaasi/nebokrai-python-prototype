@@ -7,9 +7,9 @@ from planager.utils.datetime_extensions import PDate
 
 class Day:
     def __init__(
-        self, 
-        date: PDate, 
-        max_load: int = 240, 
+        self,
+        date: PDate,
+        max_load: int = 240,
         routines: list = ["morning", "midday" "evening"],
         **kwargs,
     ) -> None:
@@ -18,6 +18,7 @@ class Day:
         self.routines = routines
         self.__dict__.update(**kwargs)
 
+
 class Calendar:
     def __init__(self) -> None:
         self.days = {}
@@ -25,16 +26,16 @@ class Calendar:
     def __getitem__(self, __name: str) -> Any:
         item = ...
         return item
-    
+
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
 
     def start(self) -> PDate:
         return min(self.days)
-    
+
     def end(self) -> PDate:
         return max(self.days)
-    
+
     def add(self, day: Day) -> None:
         self.days.update({day.date: day})
 
@@ -48,8 +49,5 @@ class Calendar:
             attributes = Norg.get_attributes(section["text"])
             date = PDate.from_string(date)
             cal.add(Day(date, **attributes))
-            
+
         return cal
-    
-    
-    

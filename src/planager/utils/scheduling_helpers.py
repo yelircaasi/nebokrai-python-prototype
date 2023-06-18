@@ -1,11 +1,13 @@
-from typing import List, Tuple 
+from typing import List, Tuple
 
 from planager.entities import Empty, Entry, FIRST_ENTRY, LAST_ENTRY
 from planager.utils.datetime_extensions import PTime
 from planager.utils.misc import round5
 
 
-def get_overlaps(entry: Entry, schedule: List[Entry], include_empty: bool = True) -> List[Entry]:
+def get_overlaps(
+    entry: Entry, schedule: List[Entry], include_empty: bool = True
+) -> List[Entry]:
     if include_empty:
         return list(filter(entry.overlaps, schedule))
     return list(filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, schedule)))
@@ -19,14 +21,20 @@ def slot_is_empty(overlaps: List[Entry]) -> bool:
     return is_empty
 
 
-def split_schedule_old(entry: Entry, schedule: List[Entry]) -> Tuple[List[Entry], List[Entry], List[Entry]]:
+def split_schedule_old(
+    entry: Entry, schedule: List[Entry]
+) -> Tuple[List[Entry], List[Entry], List[Entry]]:
     before = list(filter(entry.after, schedule))
     after = list(filter(entry.before, schedule))
-    overlaps = list(filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, schedule)))
+    overlaps = list(
+        filter(entry.overlaps, filter(lambda ent: ent.priority >= 0, schedule))
+    )
     return before, after, overlaps
 
 
-def split_schedule(entry: Entry, schedule: List[Entry]) -> Tuple[List[Entry], List[Entry]]:
+def split_schedule(
+    entry: Entry, schedule: List[Entry]
+) -> Tuple[List[Entry], List[Entry]]:
     _schedule = [x.copy() for x in schedule]
     before = list(filter(entry.after, _schedule))
     after = list(filter(entry.before, _schedule))
@@ -47,11 +55,11 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
         newlength = min(ent.maxtime, newlength)
         newlength = max(ent.mintime, newlength)
         return newlength
-    
+
     newentries = []
     newlengths = [getnewlength(x) for x in entries]
-    #newlengths[0] += (total - sum(newlengths))
-    
+    # newlengths[0] += (total - sum(newlengths))
+
     entries_tail = []
     newentries_tail = []
     newlengths_tail = []
@@ -65,7 +73,7 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
     for entry, duration in zip(entries, newlengths):
         print(tracker)
         entry.start = tracker.copy()
-        tracker += duration 
+        tracker += duration
         entry.end = tracker.copy()
         newentries.append(entry)
 
@@ -73,7 +81,7 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
         tracker = end.copy()
         for entry, duration in zip(entries_tail[::-1], newlengths_tail[::-1]):
             entry.end = tracker.copy()
-            tracker -= duration 
+            tracker -= duration
             entry.start = tracker.copy()
             newentries_tail.insert(0, entry)
 
@@ -88,7 +96,9 @@ def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
     return newentries + newentries_tail
 
 
-def compress_weighted(entries: List[Entry], start: PTime, end: PTime, weights) -> List[Entry]:
+def compress_weighted(
+    entries: List[Entry], start: PTime, end: PTime, weights
+) -> List[Entry]:
     ...
 
 
@@ -98,24 +108,22 @@ def share_time(entry1: Entry, entry2: Entry):
         ...
     elif entry1.overlaps_second(entry2):
         ...
-    
+
     return entry1, entry2
 
 
 def resolve_1_collision(
-    entry: Entry, 
-    before: List[Entry], 
-    overlaps: List[Entry], 
-    after: List[Entry]
-    ) -> List[Entry]:
-
+    entry: Entry, before: List[Entry], overlaps: List[Entry], after: List[Entry]
+) -> List[Entry]:
     schedule = []
     overlap = overlaps[0]
     if overlap.priority <= 0:
         pre = overlap.copy(end=entry.start)
         post = overlap.copy(start=entry.end)
         return [pre, entry, post]
-    elif entry.precedes(overlap) and (entry.mintime + overlap.mintime < entry.spansize(overlap)):
+    elif entry.precedes(overlap) and (
+        entry.mintime + overlap.mintime < entry.spansize(overlap)
+    ):
         entry, overlap = share_time(entry, overlap)
 
     return schedule
@@ -133,12 +141,12 @@ def resolve_n_collisions(entry, before, overlaps, after) -> List[Entry]:
 
 def entries_fit(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     total_min = sum(map(lambda x: x.mintime, filter(Entry.hasmass, entries)))
-    return (start.timeto(stop) >= total_min)
+    return start.timeto(stop) >= total_min
 
 
 def entries_fit_spare(entries: List[Entry], start: PTime, stop: PTime) -> bool:
     total_max = sum(map(lambda x: x.maxtime, filter(Entry.hasmass, entries)))
-    return (start.timeto(stop) >= total_max)
+    return start.timeto(stop) >= total_max
 
 
 def adjust_forward(entries: List[Entry], start: PTime, stop: PTime) -> List[Entry]:
@@ -166,22 +174,22 @@ def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Ent
 
 
 def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
-    #print(before)
+    # print(before)
     movable_before = []
     # if not before[0] == FIRST_ENTRY:
     #     before.insert(0, FIRST_ENTRY)
     ismovable = before[-1].ismovable
     ind = -1
     while ismovable:
-        #print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-        #print(ind)
-        #print(before[ind])
+        # print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        # print(ind)
+        # print(before[ind])
         movable_before.insert(0, before[ind])
         ismovable = before[ind - 1].ismovable
         ind -= 1
-    before = before[:ind + 1]
-    #print("============ before")
-    #print(before)
+    before = before[: ind + 1]
+    # print("============ before")
+    # print(before)
     limit_before = PTime() if not before else before[-1].end
 
     return (before, movable_before, limit_before)
@@ -198,8 +206,8 @@ def split_after(after: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
         ismovable = after[ind + 1].ismovable
         ind += 1
     after = after[ind:]
-    #print("============ after")
-    #print(after)
+    # print("============ after")
+    # print(after)
     limit_after = PTime(24) if not after else after[0].start
 
     return (movable_after, after, limit_after)
@@ -210,18 +218,12 @@ def add_over_empty(entry: Entry, empty: Empty) -> List[Entry]:
         return [
             Empty(start=empty.start, end=entry.start),
             entry,
-            Empty(start=entry.end, end=empty.end)
+            Empty(start=entry.end, end=empty.end),
         ]
     elif entry.shares_start_shorter():
-        return [
-            entry,
-            Empty(start=entry.end, end=empty.end)
-        ]
+        return [entry, Empty(start=entry.end, end=empty.end)]
     elif entry.shares_end_shorter():
-        return [
-            Empty(start=empty.start, end=entry.start),
-            entry
-        ]
+        return [Empty(start=empty.start, end=entry.start), entry]
     else:
         raise ValueError("Cannot add over empty entry which is shorter!")
         return [empty]
@@ -229,7 +231,7 @@ def add_over_empty(entry: Entry, empty: Empty) -> List[Entry]:
 
 def add_movable(entry: Entry, schedule: List[Entry]):
     before, after = split_schedule(entry, schedule)
-    
+
     before, movable_before, limit_before = split_before(before)
     movable_after, after, limit_after = split_after(after)
     inbetween = movable_before + [entry] + movable_after
@@ -242,12 +244,9 @@ def add_movable(entry: Entry, schedule: List[Entry]):
         return schedule
 
 
-
-
-
 def add_immovable(entry: Entry, schedule: List[Entry]):
     before, after = split_schedule(entry, schedule)
-    
+
     before, movable_before, limit_before = split_before(before)
     movable_after, after, limit_after = split_after(after)
 
@@ -255,7 +254,7 @@ def add_immovable(entry: Entry, schedule: List[Entry]):
     fit_after = entries_fit(movable_after, entry.end, limit_after)
     if not (fit_before and fit_after):
         print("Not enough room to add task.")
-        return 
+        return
 
     spare_before = entries_fit_spare(movable_before, limit_before, entry.start)
     if spare_before:
@@ -267,7 +266,7 @@ def add_immovable(entry: Entry, schedule: List[Entry]):
         movable_after = adjust_forward(movable_after, entry.end, limit_after)
     else:
         movable_after = compress(movable_after, entry.end, limit_after)
-    
+
     # NEED TO CONSOLIDATE HERE
     return before + movable_before + [entry] + movable_after + after
 
@@ -285,13 +284,11 @@ def add_entry_default(entry: Entry, schedule: List[Entry]) -> List[Entry]:
 
     func = add_movable if entry.ismovable else add_immovable
     return func(entry, schedule)
-    
-    #WITH OVERLAPS
+
+    # WITH OVERLAPS
     # if all(map(lambda x: x.ismovable, overlaps)):
     #     limit_overlap_before = entry.end
     #     limit_overlap_after = entry.start
     # else:
     #     limit_overlap_before = min(map(lambda x: x.ismovable, overlaps)).start
     #     limit_overlap_after = min(map(lambda x: x.ismovable, overlaps)).end
-    
-

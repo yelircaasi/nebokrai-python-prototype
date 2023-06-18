@@ -9,11 +9,10 @@ from planager.utils.misc import tabularize
 class Routine:
     def __init__(
         self,
-        name: str, 
-        attributes: dict, 
+        name: str,
+        attributes: dict,
         items: list,
     ) -> None:
-        
         self.name = name
         self.items = items
         if attributes:
@@ -23,27 +22,37 @@ class Routine:
         if not attributes.get("notes"):
             self.notes = ""
 
-
     def __str__(self) -> str:
         return self.pretty()
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def pretty(self, width: int = 80) -> str:
-        
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
-        header = thickbeam + tabularize(f"{self.name}", width) + "\n" + tabularize(f"  Priority: {self.priority}", width) + thinbeam
+        header = (
+            thickbeam
+            + tabularize(f"{self.name}", width)
+            + "\n"
+            + tabularize(f"  Priority: {self.priority}", width)
+            + thinbeam
+        )
         format_number = lambda s: (len(str(s)) == 1) * " " + f"{s} │ "
-        return header + "\n".join([tabularize(format_number(i) * (len(s) > 0) + s, width, pad=1) for i, s in enumerate((self.items + [""]), start=1)])
+        return header + "\n".join(
+            [
+                tabularize(format_number(i) * (len(s) > 0) + s, width, pad=1)
+                for i, s in enumerate((self.items + [""]), start=1)
+            ]
+        )
 
 
 class Routines:
     """
-    Container class for routines, designed to be 
+    Container class for routines, designed to be
 
     """
+
     def __init__(self) -> None:
         self.routines = []
 
@@ -52,22 +61,26 @@ class Routines:
 
     def __str__(self) -> str:
         return self.pretty()
-    
+
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        #thickbeam = "┣" + (width - 2) * "━" + "┫"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         top = tabularize("Routines", width, pad=1)
         empty = tabularize("", width)
-        return "\n".join(("", topbeam, empty, top, empty, "")) + "\n".join(map(str, self.routines)) + bottombeam
+        return (
+            "\n".join(("", topbeam, empty, top, empty, ""))
+            + "\n".join(map(str, self.routines))
+            + bottombeam
+        )
 
     def __getitem__(self, __name: str) -> Routine:
         routine = ...
         return routine
-    
+
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
 
@@ -75,7 +88,7 @@ class Routines:
     def from_norg_workspace(cls, workspace_root: Path) -> "Routines":
         routines = cls()
         return routines
-    
+
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
         file = workspace_dir / "routines.norg"
@@ -84,15 +97,13 @@ class Routines:
         for section in parsed.sections:
             title = section["title"]
             attributes = Norg.parse_preasterix_attributes(section["text"])
-            #items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
+            # items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
             items = section["subsections"]
             routines.add(
                 Routine(
-                    section["title"], 
-                    attributes, 
+                    section["title"],
+                    attributes,
                     items,
                 )
             )
         return routines
-
-    
