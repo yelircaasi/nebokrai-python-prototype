@@ -116,13 +116,14 @@ class AdHoc:
         parsed = Norg.from_path(file)
         entries = []
         for section in parsed.sections:
-            attributes = Norg.get_attributes(section["text"])
-
+            # attributes = Norg.get_attributes(section["text"])
+            attributes = section["attributes"]
+            start = PTime.from_string(attributes["start"])
             entries.append(
                 Entry(
                     name=section["title"] or "<Placeholder Entry Name>",
-                    start=PTime.from_string(attributes["start"]),
-                    end=PTime.from_string(attributes.get("end")),
+                    start=start,
+                    end=PTime.from_string(attributes.get("end")) or start + 30,
                     priority=int(attributes.get("priority") or 0),
                     ismovable=bool(str(attributes.get("ismovable")).lower() == "true"),
                     notes=attributes.get("notes") or "",

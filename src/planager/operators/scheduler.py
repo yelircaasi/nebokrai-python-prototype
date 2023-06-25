@@ -22,7 +22,7 @@ class Scheduler:
         end_date: Optional[PDate] = None,
     ) -> entities.Schedules:
         # schedule = make_schedule(agenda, routines, adhoc)
-        start_date_new = start_date or (PDate.today() + 1)
+        start_date_new = start_date or (PDate.tomorrow())
         end_date_new: PDate = end_date or max(
             plan.end_date,
             adhoc.end_date,

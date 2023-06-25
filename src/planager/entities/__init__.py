@@ -7,7 +7,7 @@ from .roadmap import Roadmap, Roadmaps
 from .routine import Routine, Routines
 from .schedule import Schedule, SchedulePatch, SchedulePatches, Schedules
 from .task import Task, TaskPatch, TaskPatches, Tasks
-from .universe import Universe
+from .planager import Planager
 
 __all__ = [
     "AdHoc",

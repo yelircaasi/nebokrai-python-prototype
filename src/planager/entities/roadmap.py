@@ -73,6 +73,9 @@ class Roadmaps:
             roadmap.id: roadmap for roadmap in roadmaps
         }
 
+    def __iter__(self) -> Iterator[Roadmap]:
+        return iter(self._roadmaps.values())
+
     def __getitem__(self, __key: int) -> Roadmap:
         return self._roadmaps[__key]
 

@@ -81,16 +81,25 @@ class Planner:
         elif project.end:
             ndays = int(project.get_end()) - int(project.get_start())
             gap = int((ndays - nclusters) / (nclusters - 1))
+            print("end gap", project.name, project.name, gap)
         elif project.interval:
             gap = project.interval - 1
+            print("interval gap", project.name, project.start, gap)
         else:
+            print(project.name)
+            #print(project.__dict__)
             raise ValueError(
                 "Invalid parameter configuration. "
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
             )
 
-        start: PDate = project.start or PDate.today() + 1
+        start: PDate = project.start or PDate.tomorrow() + (hash(project.name) % 7)
         subplan: SubplanType = {
             start + (i + i * gap): cluster for i, cluster in enumerate(clusters)
         }
+        if not project.start: 
+            try:
+                print(min(subplan))
+            except:
+                print()
         return subplan

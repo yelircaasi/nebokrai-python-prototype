@@ -1,6 +1,6 @@
 import re
 from datetime import date, datetime
-from typing import List, Optional, Tuple, Union
+from typing import Any, List, Optional, Tuple, Union
 
 from .regex import Regexes
 
@@ -20,7 +20,9 @@ class PTime:
     @classmethod
     def from_string(cls, date_string: Optional[str]) -> "PTime":
         if not date_string:
-            return cls()
+            res = cls()
+            res.isblank = True
+            return res
         hour, minute = map(int, date_string.split(":"))
         return cls(hour, minute)
 
@@ -124,16 +126,17 @@ class PDate(date):
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
         else:
+            print(year, month, day)
             return None
 
     def __int__(self) -> int:
         return self.toordinal()
 
-    def __add__(self, days: int) -> "PDate":  # type: ignore
-        return PDate.fromordinal(self.toordinal() + days)
+    def __add__(self, days: Any) -> "PDate":  # type: ignore
+        return PDate.fromordinal(self.toordinal() + int(days))
 
-    def __sub__(self, days: int) -> "PDate":  # type: ignore
-        return PDate.fromordinal(self.toordinal() - days)
+    def __sub__(self, days: Any) -> "PDate":  # type: ignore
+        return PDate.fromordinal(self.toordinal() - int(days))
 
     def pretty(self):
         DAYS = {
@@ -173,11 +176,15 @@ class PDate(date):
 
     @classmethod
     def ensure_is_pdate(
-        cls, candidate: Union["PDate", str, Tuple[int, int, int], int]
+        cls, candidate: Union["PDate", str, Tuple[int, int, int], int], default: Optional["PDate"] = None
     ) -> "PDate":
+        if not candidate:
+            return default if default else None
         if isinstance(candidate, PDate):
             pass
         elif isinstance(candidate, str):
+            if not candidate.strip():
+                return default if default else None
             try:
                 candidate = PDate.fromisoformat(candidate)
             except:
@@ -219,6 +226,10 @@ class PDate(date):
             dates.reverse()
 
         return dates
+    
+    @classmethod
+    def tomorrow(cls) -> "PDate":
+        return cls.today() + 1
 
 
 class PDateTime:
@@ -253,6 +264,7 @@ class PDateTime:
         year, month, day, hour, minute, second = map(
             int, re.split(regx, date_string.strip())
         )
+        #print(year, month, day, hour, minute, second)
         return cls(year, month, day, hour, minute, second)
 
     def __bool__(self):
@@ -287,7 +299,7 @@ class PDateTime:
 
     def __str__(self) -> str:
         # return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
-        raise NotImplementedError
+        return f"{self.year}-{self.month}{self.day} {self.hour}:{self.minute}:{self.second}"
 
     def __repr__(self) -> str:
         return self.__str__()

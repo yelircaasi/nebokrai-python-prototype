@@ -13,11 +13,12 @@ from .calendar import Calendar
 
 class Task:
     def __init__(
-        self, name: str, id: Tuple[int, int, int], priority: int = 10, **kwargs
+        self, name: str, id: Tuple[int, int, int], priority: int = 10, project_name: str = "?", **kwargs
     ) -> None:
         self.name = name
         self.id = id
         self.priority = priority
+        self.project_name = project_name
         self.__dict__.update(**kwargs)
 
     def __str__(self) -> str:
@@ -63,13 +64,14 @@ class Tasks:
 
     @classmethod
     def from_norg_path(
-        cls, norg_path: Path, project_id: Tuple[int, int], **kwargs
+        cls, norg_path: Path, project_id: Tuple[int, int], project_name: str, **kwargs
     ) -> "Tasks":
+        assert project_name != "/"
         tasks = cls()
         norg = Norg.from_path(norg_path)
         for id, item in enumerate(norg.items, start=1):
             parse = Norg.parse_item_with_attributes(item)
-            tasks.add(Task(parse["title"], (*project_id, id), **parse["attributes"]))
+            tasks.add(Task(parse["title"], (*project_id, id), project_name=project_name, **parse["attributes"]))
         return tasks
 
     @classmethod
@@ -77,13 +79,14 @@ class Tasks:
         cls,
         task_list: List[str],
         project_id: Tuple[int, int],
+        project_name: str,
         priority: Optional[int] = None,
     ) -> "Tasks":
         tasks = cls()
         for task_id, name in enumerate(task_list, start=1):
             # name = name if isinstance(name, str) else name.name
             id = (*project_id, task_id)
-            task = Task(name, id, priority) if priority is not None else Task(name, id)
+            task = Task(name, id, priority) if priority is not None else Task(name, id, project_name=project_name)
             tasks.add(task)
         return tasks
 

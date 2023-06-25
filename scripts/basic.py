@@ -1,12 +1,18 @@
 from pathlib import Path
 
-import planager as p
+import planager
 
 ws = Path.expanduser(Path("~/Learning/planager-data"))
-u = p.Universe.from_norg_workspace(ws)
-print(u.adhoc)
-print(u.routines)
-print(u.roadmaps)
+p = planager.Planager.from_norg_workspace(ws)
+print(p.adhoc)
+print(p.routines)
+print(p.roadmaps)
+print(p.plan.start_date)
+print(p.plan.end_date)
+print()
+with open("/tmp/repr.txt", "w") as f:
+    f.write(str(p))
+# print(u)
 # print(u.roadmaps[1])
 # print(u.roadmaps[2])
 # print(u.roadmaps[0])

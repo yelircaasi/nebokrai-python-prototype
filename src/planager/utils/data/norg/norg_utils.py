@@ -206,24 +206,35 @@ class Norg:
         regx_items = Regexes.item1_split
 
         result = re.search(regx_header_and_body, norg)
-        header, body = result.groups() if result else "", ""
+        if result:
+            header, body = result.groups() if result else ("", "")
+        else:
+            return {}
         body = "\n" + body
         lines = str(header).split("\n")
 
         kwarg_dict: Dict[str, Any] = dict(map(lambda x: x.split(": ", 1), lines))
+
         kwarg_dict["id"] = int(kwarg_dict["id"])
         kwarg_dict["parent"] = int(kwarg_dict["parent"])
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
 
         def parse_section(section_str: str) -> Optional[Dict[str, Any]]:
             regx_subsections = Regexes.subsection_split
-            section_dict = {"title": "", "text": "", "subsections": []}
+            section_dict = {
+                "title": "",
+                "text": "",
+                "attributes": {},
+                "subsections": [],
+            }
             res = re.search("\*?([^\n]+)", section_str)
             if not res:
                 return None
             section_dict["title"] = res.groups()[0].strip()
-            res = re.search("\n(.*?)\n?\*+ ", section_str)
+            res = re.search("\n(.*?)\n?[\*]+ ", section_str)
             section_dict["text"] = "" if not res else res.groups()[0].strip()
+            regx = Regexes.attribute_pair
+            section_dict["attributes"] = dict(re.findall(regx, section_str))
             section_dict["subsections"] = list(
                 map(str.strip, re.split(regx_subsections, section_str)[1:])
             )
@@ -245,9 +256,12 @@ class Norg:
             return ("", "")
         else:
             groups = search.groups() if search else []
+            print(groups)
             link = [result for result in groups if str(result).startswith("$/")][0]
-            loc = s.index(link)
-            text = s[(loc - 1) if (loc % 2) else (loc + 1)]
+            loc = groups.index(link)
+            print(link, loc)
+            text = groups[(loc - 1) if (loc % 2) else (loc + 1)]
+            print(text, link)
             return (text, link)
 
     @staticmethod

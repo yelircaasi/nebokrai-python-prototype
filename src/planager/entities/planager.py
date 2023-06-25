@@ -28,7 +28,7 @@ from planager.operators import Planner, Scheduler
 from planager.utils.datetime_extensions import PDateTime  # util:      1
 
 
-class Universe:
+class Planager:
     files: List[str] = []
     roadmaps: Roadmaps
     adhoc: AdHoc
@@ -81,47 +81,47 @@ class Universe:
         cls,
         workspace: Path,
         config: Optional[ConfigType] = None,
-    ) -> "Universe":
-        univ = cls()
+    ) -> "Planager":
+        plgr= cls()
 
         # direct reading
-        univ.roadmaps = Roadmaps.from_norg_workspace(workspace)
-        univ.routines = Routines.from_norg_workspace(workspace)
-        univ.adhoc = AdHoc.from_norg_workspace(workspace)
-        univ.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
-        univ.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
-        univ.schedule_patches = SchedulePatches.from_norg_workspace(
+        plgr.roadmaps = Roadmaps.from_norg_workspace(workspace)
+        plgr.routines = Routines.from_norg_workspace(workspace)
+        plgr.adhoc = AdHoc.from_norg_workspace(workspace)
+        plgr.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
+        plgr.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
+        plgr.schedule_patches = SchedulePatches.from_norg_workspace(
             workspace
         )  # STILL EMPTY
-        univ.calendar = Calendar.from_norg_workspace(workspace)
+        plgr.calendar = Calendar.from_norg_workspace(workspace)
 
         # operators
-        univ.planner = Planner(config)
-        univ.scheduler = Scheduler(config)
-        """
-        # derivation
-        univ.plan: Plan = univ.planner(
-            univ.roadmaps,
-            univ.calendar,
-            univ.task_patches,
-            univ.plan_patches,
-        )
+        plgr.planner = Planner(config)
+        plgr.scheduler = Scheduler(config)
         
-        univ.schedules: Schedules = univ.scheduler(
-            univ.plan, 
-            univ.routines, 
-            univ.adhoc, 
-            univ.schedule_patches,
+        # derivation
+        plgr.plan: Plan = plgr.planner(
+            plgr.roadmaps,
+            plgr.calendar,
+            plgr.task_patches,
+            plgr.plan_patches,
         )
         """
-        return univ
+        plgr.schedules: Schedules = plgr.scheduler(
+            plgr.plan, 
+            plgr.routines, 
+            plgr.adhoc, 
+            plgr.schedule_patches,
+        )
+        """
+        return plgr
 
     @classmethod
-    def from_json(cls, json_dir: Path) -> "Universe":
+    def from_json(cls, json_dir: Path) -> "Planager":
         return cls()
 
     @classmethod
-    def from_html(cls, html_dir: Path) -> "Universe":
+    def from_html(cls, html_dir: Path) -> "Planager":
         return cls()
 
     def recalculate_norg(self) -> None:
@@ -137,7 +137,28 @@ class Universe:
         ...
 
     def __str__(self) -> str:
-        return ""  # TODO
+        return "\n\n".join(
+            (
+                self.roadmap_tree(),
+                str(self.routines),
+                str(self.adhoc),
+                str(self.plan),
+                #self.schedule,
+            )
+        )
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def roadmap_tree(self) -> str:
+        lines = []
+        for roadmap in self.roadmaps:
+            lines.append(f"{roadmap.name} (ID {roadmap.id})")
+            for project in roadmap:
+                lines.append(f"    {project.name} (ID {project.id})")
+                for task in project:
+                    lines.append(f"        {task.name} (ID {task.id})")
+        return "\n".join(lines)
 
     def __getitem__(self, __key: Union[int, tuple]) -> Union[Roadmap, Project, Task]:
         if isinstance(__key, int):
@@ -150,7 +171,7 @@ class Universe:
                 r, p, t = __key
                 return self.roadmaps[r]._projects[p].tasks[t]
             case _:
-                raise KeyError(f"Key '{__key}' invalid for 'Universe' object.")
+                raise KeyError(f"Key '{__key}' invalid for 'Planager' object.")
 
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
