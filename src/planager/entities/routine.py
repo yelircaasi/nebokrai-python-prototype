@@ -1,23 +1,26 @@
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional, Union
 
-from planager.entities import Roadmaps
-from planager.entities.entry import Entry
-from planager.entities.task import Task
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PTime
 from planager.utils.misc import tabularize
+
+from .entry import Entry
+from .roadmap import Roadmaps
+from .task import Task
 
 
 class Routine:
     def __init__(
         self,
         name: str,
+        routine_num: int,
         attributes: dict,
         items: list,
     ) -> None:
         self.name = name
         self.items = items
+        self.id = (-1, 0, routine_num)
         if attributes:
             self.__dict__.update(attributes)
         if not attributes.get("priority"):
@@ -57,7 +60,7 @@ class Routine:
         return Entry(self.name, start)  # TODO
 
     def as_task(self) -> Task:
-        return Task(self.name, (-1, -1, -1), priority=self.priority)  # TODO
+        return Task(self.name, self.id, priority=self.priority)  # TODO
 
 
 class Routines:
@@ -93,8 +96,8 @@ class Routines:
             + bottombeam
         )
 
-    # def __getitem__(self, __name: str) -> Routine:
-    #     return
+    def __getitem__(self, __index: str) -> Routine:
+        return self._routines[__index]
 
     # def __setitem__(self, __name: str, __value: Any) -> None:
     #     ...
@@ -104,7 +107,7 @@ class Routines:
         file = workspace_dir / "routines.norg"
         parsed = Norg.from_path(file)
         routines = Routines()
-        for section in parsed.sections:
+        for i, section in enumerate(parsed.sections):
             title = section["title"]
             attributes = Norg.parse_preasterix_attributes(section["text"])
             # items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
@@ -112,6 +115,7 @@ class Routines:
             routines.add(
                 Routine(
                     section["title"],
+                    i,
                     attributes,
                     items,
                 )

@@ -5,17 +5,6 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Union
 
-from planager.entities import (
-    FIRST_ENTRY,
-    LAST_ENTRY,
-    AdHoc,
-    Empty,
-    Entry,
-    Plan,
-    Roadmaps,
-    Routines,
-)
-from planager.entities.task import Tasks
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
 
@@ -24,6 +13,13 @@ from planager.utils.misc import tabularize
 
 # from planager.utils.data.norg.norg_utils import make_norg_header
 from planager.utils.scheduling_helpers import add_entry_default
+
+from .adhoc import AdHoc
+from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from .plan import Plan
+from .roadmap import Roadmaps
+from .routine import Routines
+from .task import Tasks
 
 
 class AdjustmentType(Enum):
@@ -104,7 +100,9 @@ class Schedule:
             case AdjustmentType.COMPROMISE:
                 raise NotImplementedError
             case _:
-                print("Invalid adjustment type.")
+                raise ValueError("Invalid adjustment type.")
+
+        self.ensure_bookends()
 
     def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
         before = filter(entry.after, self.schedule)
@@ -212,6 +210,12 @@ class Schedules:
         ...  # TODO
         return cls()
 
+    def __str__(self) -> str:
+        return "\n".join(map(str, self._schedules.values()))
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
 
 """
 t = PDate.today()
@@ -243,7 +247,7 @@ class SchedulePatches:
 
     def __getitem__(self, __key: PDateInputType) -> SchedulePatch:
         key = PDate.ensure_is_pdate(__key)
-        return self._patches[key]
+        return self._patches.get(__key, SchedulePatch())
 
     # def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
     #     ...
@@ -258,8 +262,12 @@ class SchedulePatches:
 
     @property
     def end_date(self) -> PDate:
+        if not self._patches:
+            return PDate.tomorrow()
         return max(self._patches)
 
     @property
     def start_date(self) -> PDate:
+        if not self._patches:
+            return PDate.tomorrow()
         return min(self._patches)

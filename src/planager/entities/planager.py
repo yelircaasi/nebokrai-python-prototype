@@ -2,30 +2,18 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
 from planager.config import ConfigType
-from planager.entities import (
-    AdHoc,
-    Calendar,
-    Entry,
-    Plan,
-    PlanPatch,
-    PlanPatches,
-    Project,
-    Projects,
-    Roadmap,
-    Roadmaps,
-    Routine,
-    Routines,
-    Schedule,
-    SchedulePatch,
-    SchedulePatches,
-    Schedules,
-    Task,
-    TaskPatch,
-    TaskPatches,
-    Tasks,
-)
 from planager.operators import Planner, Scheduler
 from planager.utils.datetime_extensions import PDateTime  # util:      1
+
+from .adhoc import AdHoc
+from .calendar import Calendar
+from .entry import Entry
+from .plan import Plan, PlanPatch, PlanPatches
+from .project import Project, Projects
+from .roadmap import Roadmap, Roadmaps
+from .routine import Routine, Routines
+from .schedule import Schedule, SchedulePatch, SchedulePatches, Schedules
+from .task import Task, TaskPatch, TaskPatches, Tasks
 
 
 class Planager:
@@ -82,7 +70,7 @@ class Planager:
         workspace: Path,
         config: Optional[ConfigType] = None,
     ) -> "Planager":
-        plgr= cls()
+        plgr = cls()
 
         # direct reading
         plgr.roadmaps = Roadmaps.from_norg_workspace(workspace)
@@ -94,11 +82,12 @@ class Planager:
             workspace
         )  # STILL EMPTY
         plgr.calendar = Calendar.from_norg_workspace(workspace)
+        plgr.tasks = Tasks.from_roadmaps(plgr.roadmaps)
 
         # operators
         plgr.planner = Planner(config)
         plgr.scheduler = Scheduler(config)
-        
+
         # derivation
         plgr.plan: Plan = plgr.planner(
             plgr.roadmaps,
@@ -106,14 +95,13 @@ class Planager:
             plgr.task_patches,
             plgr.plan_patches,
         )
-        """
         plgr.schedules: Schedules = plgr.scheduler(
-            plgr.plan, 
-            plgr.routines, 
-            plgr.adhoc, 
+            plgr.plan,
+            plgr.tasks,
+            plgr.routines,
+            plgr.adhoc,
             plgr.schedule_patches,
         )
-        """
         return plgr
 
     @classmethod
@@ -143,7 +131,7 @@ class Planager:
                 str(self.routines),
                 str(self.adhoc),
                 str(self.plan),
-                #self.schedule,
+                # self.schedule,
             )
         )
 

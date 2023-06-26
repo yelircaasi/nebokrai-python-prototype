@@ -1,5 +1,4 @@
 def main() -> int:
-    print("main() ran successfully.")
     return 0
 
 

@@ -10,8 +10,10 @@ print(p.roadmaps)
 print(p.plan.start_date)
 print(p.plan.end_date)
 print()
-with open("/tmp/repr.txt", "w") as f:
+with open("/tmp/plan.txt", "w") as f:
     f.write(str(p))
+with open("/tmp/schedules.txt", "w") as f:
+    f.write(str(p.schedules))
 # print(u)
 # print(u.roadmaps[1])
 # print(u.roadmaps[2])

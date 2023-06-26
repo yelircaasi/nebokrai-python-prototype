@@ -1,8 +1,12 @@
 from itertools import islice
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from planager import entities
 from planager.config import ConfigType
+from planager.entities.calendar import Calendar
+from planager.entities.plan import Plan, PlanPatch
+from planager.entities.project import Project
+from planager.entities.roadmap import Roadmaps
+from planager.entities.task import TaskPatches, Tasks
 from planager.operators.patchers import PlanPatcher, TaskPatcher
 from planager.utils.algorithms.planning import ClusterType, SubplanType
 
@@ -19,12 +23,12 @@ class Planner:
 
     def __call__(
         self,
-        roadmaps: entities.Roadmaps,
-        calendar: entities.Calendar,
-        task_patches: Optional[entities.TaskPatches] = None,
-        plan_patch: Optional[entities.PlanPatch] = None,
-    ) -> entities.Plan:
-        plan = entities.Plan(
+        roadmaps: Roadmaps,
+        calendar: Calendar,
+        task_patches: Optional[TaskPatches] = None,
+        plan_patch: Optional[PlanPatch] = None,
+    ) -> Plan:
+        plan = Plan(
             config=self.config,
             calendar=calendar,
         )
@@ -44,9 +48,9 @@ class Planner:
 
     def get_subplan_from_tasks(
         self,
-        tasks: entities.Tasks,
-        project: entities.Project,
-        calendar: entities.Calendar,
+        tasks: Tasks,
+        project: Project,
+        calendar: Calendar,
     ) -> SubplanType:
         start: Optional[PDate] = project.start
         end: Optional[PDate] = project.end
@@ -72,8 +76,8 @@ class Planner:
     @staticmethod
     def allocate_in_time(
         clusters: ClusterType,
-        tasks: entities.Tasks,
-        project: entities.Project,
+        tasks: Tasks,
+        project: Project,
     ) -> SubplanType:
         nclusters = len(clusters)
         if len(clusters) == 1:
@@ -81,13 +85,10 @@ class Planner:
         elif project.end:
             ndays = int(project.get_end()) - int(project.get_start())
             gap = int((ndays - nclusters) / (nclusters - 1))
-            print("end gap", project.name, project.name, gap)
         elif project.interval:
             gap = project.interval - 1
-            print("interval gap", project.name, project.start, gap)
         else:
             print(project.name)
-            #print(project.__dict__)
             raise ValueError(
                 "Invalid parameter configuration. "
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
@@ -97,9 +98,5 @@ class Planner:
         subplan: SubplanType = {
             start + (i + i * gap): cluster for i, cluster in enumerate(clusters)
         }
-        if not project.start: 
-            try:
-                print(min(subplan))
-            except:
-                print()
+
         return subplan

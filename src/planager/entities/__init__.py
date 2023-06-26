@@ -2,12 +2,12 @@ from .adhoc import AdHoc
 from .calendar import Calendar
 from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .plan import Plan, PlanPatch, PlanPatches
+from .planager import Planager
 from .project import Project, Projects
 from .roadmap import Roadmap, Roadmaps
 from .routine import Routine, Routines
 from .schedule import Schedule, SchedulePatch, SchedulePatches, Schedules
 from .task import Task, TaskPatch, TaskPatches, Tasks
-from .planager import Planager
 
 __all__ = [
     "AdHoc",

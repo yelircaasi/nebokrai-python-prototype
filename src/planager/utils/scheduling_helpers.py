@@ -42,8 +42,6 @@ def split_schedule(
 
 
 def compress(entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
-    print(f"start: {start}")
-    print(f"end:   {end}")
     entries = list(filter(lambda x: x.priority >= 0, entries))
     total = start.timeto(end)
     scale = total / sum(map(Entry.duration, entries))
@@ -225,7 +223,7 @@ def add_movable(entry: Entry, schedule: List[Entry]):
     inbetween = movable_before + [entry] + movable_after
     compressed = compress(inbetween, limit_before, limit_after)
     if compressed:
-        print("Entry successfully added.")
+        # print("Entry successfully added.")
         return before + compressed + after
     else:
         print("Entry could not be added!")
@@ -259,7 +257,12 @@ def add_immovable(entry: Entry, schedule: List[Entry]):
     return before + movable_before + [entry] + movable_after + after
 
 
+# TODO
 def add_entry_default(entry: Entry, schedule: List[Entry]) -> List[Entry]:
+    """
+    Algorithm in natural language:
+    TODO
+    """
     # formerly push_aside
     overlaps = get_overlaps(entry, schedule)
     if slot_is_empty(overlaps):
@@ -271,4 +274,5 @@ def add_entry_default(entry: Entry, schedule: List[Entry]) -> List[Entry]:
         return schedule
 
     func = add_movable if entry.ismovable else add_immovable
+    # assert False
     return func(entry, schedule)

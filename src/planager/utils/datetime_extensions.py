@@ -176,7 +176,9 @@ class PDate(date):
 
     @classmethod
     def ensure_is_pdate(
-        cls, candidate: Union["PDate", str, Tuple[int, int, int], int], default: Optional["PDate"] = None
+        cls,
+        candidate: Union["PDate", str, Tuple[int, int, int], int],
+        default: Optional["PDate"] = None,
     ) -> "PDate":
         if not candidate:
             return default if default else None
@@ -226,7 +228,7 @@ class PDate(date):
             dates.reverse()
 
         return dates
-    
+
     @classmethod
     def tomorrow(cls) -> "PDate":
         return cls.today() + 1
@@ -264,7 +266,7 @@ class PDateTime:
         year, month, day, hour, minute, second = map(
             int, re.split(regx, date_string.strip())
         )
-        #print(year, month, day, hour, minute, second)
+        # print(year, month, day, hour, minute, second)
         return cls(year, month, day, hour, minute, second)
 
     def __bool__(self):

@@ -34,15 +34,14 @@ class Project:
         self._tasks: Tasks = (
             Tasks.from_string_iterable(
                 expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
-                project_id=id, project_name=name,
+                project_id=id,
+                project_name=name,
             )
             if not isinstance(tasks, Tasks)
             else tasks
         )
         self.priority = priority
         self.start = start or PDate.tomorrow() + (hash(self.name) % 60)
-        if "Notion" in self.name:
-            print("==================================================", self.name)
         self.end = PDate.ensure_is_pdate(end)
         self.interval = interval
         self.cluster_size = cluster_size
@@ -70,24 +69,23 @@ class Project:
 
     @classmethod
     def from_norg_path(
-        cls, norg_path: Path, project_name: str, **kwargs,
+        cls,
+        norg_path: Path,
+        project_name: str,
+        **kwargs,
     ) -> "Project":
         norg = Norg.from_path(norg_path)
         project_id = (norg.parent, norg.id)
         tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
-        #print("////////////////////////////", norg.title)
-        c =  cls(
+        c = cls(
             name=norg.title,
             id=project_id,
             tasks=tasks,
-            #path=norg_path,
+            # path=norg_path,
             **kwargs,
-            #notes=norg.notes,
+            # notes=norg.notes,
         )
-        #if c.start is None:
-        #    print("$$$$$$$$$$$$$$$$$$$$$$4", norg.__dict__)
         return c
-
 
     @classmethod
     def from_roadmap_item(
@@ -101,13 +99,11 @@ class Project:
         priority = attributes.get("priority", 10)
         if "||" in title:
             name, tasks = re.split("\s*\|\|\s*", title)
-            #print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", attributes["start"])
-            # tasks = map(lambda x: Task(x[1], x[0], priority=priority), enumerate(tasks))
-            #print(PDate.today() + 7)
-            c = cls(
-                name, 
-                id, 
-                tasks, 
+
+            return cls(
+                name,
+                id,
+                tasks,
                 priority=attributes.get("priority", 10),
                 start=PDate.ensure_is_pdate(attributes.get("start")),
                 end=attributes.get("end"),
@@ -121,8 +117,7 @@ class Project:
                 before=attributes.get("before", []),
                 after=attributes.get("after", []),
             )
-            print(c.start)
-            return c
+
         else:
             project_name, link = Norg.parse_link(item)
             if link:
@@ -130,10 +125,9 @@ class Project:
                 try:
                     assert path.exists()
                 except:
-                    print("-------------")
-                    print(path)
+                    raise IOError(f"Path does not exist: {path}.")
                 return cls.from_norg_path(
-                    path, 
+                    path,
                     project_name,
                     priority=attributes.get("priority", 10),
                     start=PDate.ensure_is_pdate(attributes.get("start")),
@@ -180,9 +174,7 @@ class Project:
         )
 
     def get_start(self) -> PDate:
-        #print(" ---------------------------------- ", self.start)
         ret = self.start or PDate.tomorrow() + (hash(self.name) % 60)
-        #print(ret)
         return ret
 
     def get_end(self) -> PDate:

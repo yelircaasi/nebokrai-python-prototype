@@ -2,19 +2,28 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from planager.config import _Config as ConfigType
-from planager.entities.entry import Entry
+
+# from .roadmap import Roadmaps
 from planager.utils.data.norg import norg_utils as norg
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PTime
 from planager.utils.misc import tabularize
 
 from .calendar import Calendar
+from .entry import Entry
 
 
 class Task:
     def __init__(
-        self, name: str, id: Tuple[int, int, int], priority: int = 10, project_name: str = "?", **kwargs
+        self,
+        name: str,
+        id: Tuple[int, int, int],
+        priority: int = 10,
+        project_name: str = "?",
+        **kwargs,
     ) -> None:
+        assert len(id) == 3
+
         self.name = name
         self.id = id
         self.priority = priority
@@ -33,7 +42,11 @@ class Task:
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"Task: {self.name} (ID {self.id})", width, pad=1)
+        top = tabularize(
+            f"Task: {self.project_name[:30]} :: {self.name} (ID {self.id})",
+            width,
+            pad=1,
+        )
         empty = tabularize("", width)
         priority = tabularize(f"  Priority: {self.priority}", width)
         return (
@@ -71,7 +84,14 @@ class Tasks:
         norg = Norg.from_path(norg_path)
         for id, item in enumerate(norg.items, start=1):
             parse = Norg.parse_item_with_attributes(item)
-            tasks.add(Task(parse["title"], (*project_id, id), project_name=project_name, **parse["attributes"]))
+            tasks.add(
+                Task(
+                    parse["title"],
+                    (*project_id, id),
+                    project_name=project_name,
+                    **parse["attributes"],
+                )
+            )
         return tasks
 
     @classmethod
@@ -86,7 +106,11 @@ class Tasks:
         for task_id, name in enumerate(task_list, start=1):
             # name = name if isinstance(name, str) else name.name
             id = (*project_id, task_id)
-            task = Task(name, id, priority) if priority is not None else Task(name, id, project_name=project_name)
+            task = (
+                Task(name, id, priority)
+                if priority is not None
+                else Task(name, id, project_name=project_name)
+            )
             tasks.add(task)
         return tasks
 
@@ -122,6 +146,15 @@ class Tasks:
 
     def ids(self) -> List[Tuple[int, int, int]]:
         return list(self._tasks)
+
+    @classmethod
+    def from_roadmaps(cls, roadmaps: Iterable[Iterable["Task"]]) -> "Tasks":
+        new_tasks = Tasks()
+        for roadmap in roadmaps:
+            for project in roadmap:
+                for task in project:
+                    new_tasks._tasks.update({task.id: task})
+        return new_tasks
 
     # def __getitem__(self, __name: str) -> Any:
     #     task = ...

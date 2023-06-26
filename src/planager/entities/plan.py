@@ -25,7 +25,7 @@ class Plan:
         self._plan: Dict[PDate, List[Tuple[int, int, int]]] = {}
 
     def __getitem__(self, __date: PDate) -> List[Tuple[int, int, int]]:
-        return self._plan[__date]
+        return self._plan.get(__date, [])
 
     def __setitem__(self, __date: PDate, __tasks: List[Tuple[int, int, int]]) -> None:
         self._plan.update({__date: __tasks})
@@ -55,10 +55,8 @@ class Plan:
         #     raise ValueError("plan_id and task id must be of compatible types.")
 
         for task in tasks:
-            #print(task)
             self._tasks.update({task.id: task})
         for date, task_list in subplan.items():
-            #print(date)
             for task_id in task_list:
                 # if isinstance(task_id, int):
                 #     new_task_id: Tuple[int, int, int] = (*plan_id, task_id)
@@ -70,7 +68,7 @@ class Plan:
     def ensure_date(self, date: PDate):
         if not date in self._plan.keys():
             self._plan.update({date: []})
-    
+
     @property
     def end_date(self) -> PDate:
         return max(self._plan)
@@ -78,17 +76,21 @@ class Plan:
     @property
     def start_date(self) -> PDate:
         return min(self._plan)
-    
+
     def __str__(self) -> str:
-        nl = '\n'
+        nl = "\n"
         box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
         task_repr = lambda t: f"[{t.project_name[:40]}] :: {t.name}"
-        return '\n'.join((f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[id] for id in b]))}" for a, b in sorted(self._plan.items())))
-    
+        return "\n".join(
+            (
+                f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[id] for id in b]))}"
+                for a, b in sorted(self._plan.items())
+            )
+        )
+
     def __repr__(self) -> str:
-        #print("plan")
         return self.__str__()
-        
+
 
 class PlanPatch:
     def __init__(self) -> None:

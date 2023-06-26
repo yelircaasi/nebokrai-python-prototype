@@ -47,7 +47,7 @@ class AdHoc:
         return iter(self.entries)
 
     def __getitem__(self, __date: PDate) -> List[Entry]:
-        return self._adhocs[__date]
+        return self._adhocs.get(__date, [])
 
     def __str__(self) -> str:
         return self.pretty()
@@ -146,8 +146,12 @@ class AdHoc:
 
     @property
     def end_date(self) -> PDate:
+        if not self._adhocs:
+            return PDate.tomorrow()
         return max(self._adhocs)
 
     @property
     def start_date(self) -> PDate:
+        if not self._adhocs:
+            return PDate.tomorrow()
         return min(self._adhocs)

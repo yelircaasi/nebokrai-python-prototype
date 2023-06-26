@@ -1,10 +1,11 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from planager.entities import Project, Projects
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import ZERODATE, PDate
 from planager.utils.misc import tabularize
+
+from .project import Project, Projects
 
 
 class Roadmap:
@@ -114,7 +115,6 @@ class Roadmaps:
         parsed = Norg.from_path(file)
         roadmap_list = []
         for item in parsed.items:
-            # print(item)
             _, link = Norg.parse_link(item)
             path = workspace_dir / link.replace("$/", "")
             roadmap_list.append(Roadmap.from_norg_path(path))
