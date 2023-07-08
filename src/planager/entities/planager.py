@@ -89,13 +89,14 @@ class Planager:
         plgr.scheduler = Scheduler(config)
 
         # derivation
-        plgr.plan: Plan = plgr.planner(
+        plgr.plan = plgr.planner(
             plgr.roadmaps,
             plgr.calendar,
             plgr.task_patches,
             plgr.plan_patches,
         )
-        plgr.schedules: Schedules = plgr.scheduler(
+        print(plgr.schedules)
+        plgr.schedules = plgr.scheduler(
             plgr.plan,
             plgr.tasks,
             plgr.routines,

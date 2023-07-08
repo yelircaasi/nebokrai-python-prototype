@@ -40,4 +40,5 @@ class Scheduler:
             # schedule.add_adhoc(adhoc)
             # schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule
+            print(len(schedules))
         return schedules

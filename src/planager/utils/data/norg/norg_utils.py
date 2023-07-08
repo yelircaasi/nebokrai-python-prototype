@@ -256,12 +256,9 @@ class Norg:
             return ("", "")
         else:
             groups = search.groups() if search else []
-            print(groups)
             link = [result for result in groups if str(result).startswith("$/")][0]
             loc = groups.index(link)
-            print(link, loc)
             text = groups[(loc - 1) if (loc % 2) else (loc + 1)]
-            print(text, link)
             return (text, link)
 
     @staticmethod

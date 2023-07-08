@@ -27,3 +27,67 @@ To create a system that takes into account all obligations, goals, and values to
 3. From the store of long-term roadmaps and projects and their corresponding tasks, tasks are assigned according to schedule and priority.
 4. When there are conflicts or too many tasks to fit in the available time, these are to be resolved first automatically according to the settings. 
 5. The irresoluble conflicts or overloads are then resolved manually, but only by editing the declrations, upon which the schedule is recomputed.
+
+## Notes
+
+✓ rename universe to Planager
+
+-> add `order` attribute to Entry, such that tasks can be ordered temporally independently of priority
+
+-> fix attributes of routines (such as maxtime) for proper initialization
+
+-> adhoc is counterpart to plan, containing tasks (but one-off, non-derivable) -> adhoc folder containing a file for each day
+
+-> calendar is direct parent of schedules, containing entries and day parameters -> calendar folder containing a file for each day
+
+### Signal module:
+
+dependencies:
+
+* planager.tracking
+* planager.schedule
+* semaphore (Python package)
+
+### Entry Adding
+
+An Entry object can be added to a Schedule object from one of 5 origins:
+
+* from Calendar (base schedules)
+* from plan via explicit declaration in project file
+* from plan via project expansion from roadmap file
+* from AdHoc, from adhoc file
+* from Routines, from routines file
+
+
+### Habits / metrics to track:
+
+all foods (with times)
+time breaking fast
+last time eating
+bool: entirely plant-based? entirely non-processed?
+food score
+
+cold shower
+daily walk (5x/week)
+run (5x/week) - with recorded data
+sets of pushups
+sets of pullups
+stretching
+wisdom literature
+last use of phone
+
+number of texts sent
+emails clean? (both) bookmarks clean?
+journal
+cleanliness & orderliness of apartment
+bool: mast
+
+
+30 minutes doing absolutely nothing
+bool: getting lost in a good book
+quality of meditation
+something new I learned
+which languages I used
+
+
+TRACKING: manually via neorg, or via semaphore. One file per metric for easy tracking; move dates more than 30 days old to the old store (more efficient format?)

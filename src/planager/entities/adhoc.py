@@ -128,9 +128,9 @@ class AdHoc:
                     ismovable=bool(str(attributes.get("ismovable")).lower() == "true"),
                     notes=attributes.get("notes") or "",
                     normaltime=attributes.get("normaltime") or 30,
-                    idealtime_opt=attributes.get("idealtime"),
-                    mintime_opt=attributes.get("mintime"),
-                    maxtime_opt=attributes.get("maxtime"),
+                    idealtime=attributes.get("idealtime"),
+                    mintime=attributes.get("mintime"),
+                    maxtime=attributes.get("maxtime"),
                     alignend=bool(str(attributes.get("alignend")).lower() == "true"),
                 )
             )

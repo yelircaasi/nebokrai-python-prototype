@@ -1,22 +1,22 @@
 from pathlib import Path
 
-from planager.entities import Universe
+from planager.entities import Planager
 
 
-def derive() -> "Universe":
-    return Universe()
+def derive() -> "Planager":
+    return Planager()
 
 
-def derive_from_norg(norg_workspace: Path) -> "Universe":
-    universe = Universe.from_norg_workspace(norg_workspace)
-    return universe
+def derive_from_norg(norg_workspace: Path) -> "Planager":
+    plgr = Planager.from_norg_workspace(norg_workspace)
+    return plgr
 
 
-def derive_from_json(json_dir: Path) -> "Universe":
-    universe = Universe.from_json(json_dir)
-    return universe
+def derive_from_json(json_dir: Path) -> "Planager":
+    plgr = Planager.from_json(json_dir)
+    return plgr
 
 
-def derive_from_html(html_dir: Path) -> "Universe":
-    universe = Universe.from_html(html_dir)
-    return universe
+def derive_from_html(html_dir: Path) -> "Planager":
+    plgr = Planager.from_html(html_dir)
+    return plgr

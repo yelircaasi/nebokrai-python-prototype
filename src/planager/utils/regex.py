@@ -35,4 +35,4 @@ class Regexes:
     )
     # number_dot_split: re.Pattern = ...
     link: re.Pattern = re.compile("\[(.*?)\]\{\:(.+?)\:\}|\{\:(.+?)\:\}\[(.+?)\]")
-    attribute_pair: re.Pattern = "\n?\s*[-~]{1,2} (\w+): ([^\n]*)"
+    attribute_pair: re.Pattern = re.compile("\n?\s*[-~]{1,2} (\w+): ([^\n]*)")

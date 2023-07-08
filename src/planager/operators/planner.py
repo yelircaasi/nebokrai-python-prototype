@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from planager.config import ConfigType
 from planager.entities.calendar import Calendar
-from planager.entities.plan import Plan, PlanPatch
+from planager.entities.plan import Plan, PlanPatch, PlanPatches
 from planager.entities.project import Project
 from planager.entities.roadmap import Roadmaps
 from planager.entities.task import TaskPatches, Tasks
@@ -26,7 +26,7 @@ class Planner:
         roadmaps: Roadmaps,
         calendar: Calendar,
         task_patches: Optional[TaskPatches] = None,
-        plan_patch: Optional[PlanPatch] = None,
+        plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
         plan = Plan(
             config=self.config,
@@ -42,7 +42,7 @@ class Planner:
             )
             plan.add_subplan(subplan, project._tasks)
 
-        plan = self.patch_plan(plan, plan_patch)
+        plan = self.patch_plan(plan, plan_patches)
 
         return plan
 

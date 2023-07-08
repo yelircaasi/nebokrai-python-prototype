@@ -3,7 +3,7 @@ from typing import Any, Dict, Iterator, List, Optional, Union
 
 from planager.utils.data.norg.norg_utils import Norg
 from planager.utils.datetime_extensions import PDate, PTime
-from planager.utils.misc import tabularize
+from planager.utils.misc import round5, tabularize
 
 from .entry import Entry
 from .roadmap import Roadmaps
@@ -21,12 +21,16 @@ class Routine:
         self.name = name
         self.items = items
         self.id = (-1, 0, routine_num)
+        
         if attributes:
             self.__dict__.update(attributes)
-        if not attributes.get("priority"):
-            self.priority = 80
-        if not attributes.get("notes"):
-            self.notes = ""
+        self.priority = attributes.get("priority") or 80
+        self.priority = int(self.priority)
+        self.notes = attributes.get("notes") or ""
+        self.normaltime = attributes.get("normaltime", 60)
+        self.mintime = attributes.get("mintime", round5(self.normaltime / 4))
+        self.mintime = attributes.get("mintime", round5(self.normaltime * 2))
+
 
     def __str__(self) -> str:
         return self.pretty()
@@ -57,7 +61,7 @@ class Routine:
         return True
 
     def as_entry(self, start: Optional[PTime]) -> Entry:
-        return Entry(self.name, start)  # TODO
+        return Entry(self.name, start, priority=self.priority)  # TODO
 
     def as_task(self) -> Task:
         return Task(self.name, self.id, priority=self.priority)  # TODO
@@ -96,8 +100,8 @@ class Routines:
             + bottombeam
         )
 
-    def __getitem__(self, __index: str) -> Routine:
-        return self._routines[__index]
+    def __getitem__(self, __name: str) -> Routine: 
+        return list(filter(lambda x: x.name == __name, self._routines))[0]
 
     # def __setitem__(self, __name: str, __value: Any) -> None:
     #     ...
@@ -109,15 +113,18 @@ class Routines:
         routines = Routines()
         for i, section in enumerate(parsed.sections):
             title = section["title"]
-            attributes = Norg.parse_preasterix_attributes(section["text"])
+            # attributes = Norg.parse_preasterix_attributes(section["text"])
+            attributes = section["attributes"]
             # items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
             items = section["subsections"]
             routines.add(
                 Routine(
-                    section["title"],
+                    title,
                     i,
                     attributes,
                     items,
                 )
             )
+        for routine in routines:
+            print(routine.priority)
         return routines

@@ -148,7 +148,7 @@ class Tasks:
         return list(self._tasks)
 
     @classmethod
-    def from_roadmaps(cls, roadmaps: Iterable[Iterable["Task"]]) -> "Tasks":
+    def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
         new_tasks = Tasks()
         for roadmap in roadmaps:
             for project in roadmap:

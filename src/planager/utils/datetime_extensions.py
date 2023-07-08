@@ -77,7 +77,7 @@ class PTime:
 # t + 357
 
 
-PDateInputType = Union["PDate", str, Tuple[int, int, int], int]
+PDateInputType = Optional[Union["PDate", str, Tuple[int, int, int], int]]
 
 
 class PDate(date):
@@ -126,7 +126,7 @@ class PDate(date):
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
         else:
-            print(year, month, day)
+            print(date_str)
             return None
 
     def __int__(self) -> int:
@@ -177,9 +177,9 @@ class PDate(date):
     @classmethod
     def ensure_is_pdate(
         cls,
-        candidate: Union["PDate", str, Tuple[int, int, int], int],
+        candidate: Union["PDate", str, Tuple[int, int, int], int, None],
         default: Optional["PDate"] = None,
-    ) -> "PDate":
+    ) -> Union["PDate", None]:
         if not candidate:
             return default if default else None
         if isinstance(candidate, PDate):

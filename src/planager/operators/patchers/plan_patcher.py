@@ -9,8 +9,8 @@ class PlanPatcher:
         self._config = config
 
     def __call__(
-        self, plan: entities.Plan, plan_patch: Optional[entities.PlanPatch]
+        self, plan: entities.Plan, plan_patches: Optional[entities.PlanPatches]
     ) -> entities.Plan:
-        if not plan_patch:
+        if not plan_patches:
             return plan
         return plan  # TODO
