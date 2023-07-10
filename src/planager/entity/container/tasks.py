@@ -1,11 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from planager.config import _Config as ConfigType
-from planager.util.data.norg.norg_util import Norg
-from planager.util.display.repr import tabularize
-from planager.util.pdatetime import PDate, PTime
-
+from ...util import ConfigType, Norg, PDate, PTime, tabularize
 from ..base.task import Task
 
 
@@ -28,9 +24,9 @@ class Tasks:
     ) -> "Tasks":
         assert project_name != "/"
         tasks = cls()
-        norg = Norg.from_path(norg_path)
-        for id, item in enumerate(norg.items, start=1):
-            parse = Norg.parse_item_with_attributes(item)
+        norg_obj = Norg.from_path(norg_path)
+        for id, item in enumerate(norg_obj.items, start=1):
+            parse = norg_obj.parse_item_with_attributes(item)
             tasks.add(
                 Task(
                     parse["title"],

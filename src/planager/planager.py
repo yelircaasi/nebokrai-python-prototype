@@ -1,23 +1,24 @@
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
-from .config import ConfigType
-from .entity.base.adhoc import AdHoc
-from .entity.base.calendar import Calendar
-from .entity.base.plan import Plan
-from .entity.base.project import Project
-from .entity.base.roadmap import Roadmap
-from .entity.base.task import Task
-from .entity.container.projects import Projects
-from .entity.container.roadmaps import Roadmaps
-from .entity.container.routines import Routines
-from .entity.container.schedules import Schedules
-from .entity.container.tasks import Tasks
-from .entity.patch.plan_patch import PlanPatches
-from .entity.patch.schedule_patch import SchedulePatches
-from .entity.patch.task_patch import TaskPatches
-from .operators import Planner, Scheduler
-from .util.pdatetime import PDateTime  # util:      1
+from .entity import (
+    AdHoc,
+    Calendar,
+    Plan,
+    PlanPatches,
+    Project,
+    Projects,
+    Roadmap,
+    Roadmaps,
+    Routines,
+    SchedulePatches,
+    Schedules,
+    Task,
+    TaskPatches,
+    Tasks,
+)
+from .operator import Planner, Scheduler
+from .util import ConfigType, PDateTime
 
 
 class Planager:
@@ -51,15 +52,15 @@ class Planager:
         self.projects = Projects()
         self.tasks = Tasks()
         self.routines = Routines()
-        self.plan: Plan = Plan()
+        self.plan = Plan()
         self.schedules = Schedules()
 
         self.planner = Planner()
         self.scheduler = Scheduler()
 
-        self.plan_patches: PlanPatches = PlanPatches()
-        self.schedule_patches: SchedulePatches = SchedulePatches()
-        self.task_patches: TaskPatches = TaskPatches()
+        self.plan_patches = PlanPatches()
+        self.schedule_patches = SchedulePatches()
+        self.task_patches = TaskPatches()
 
         self._last_update: Optional[PDateTime] = None
         self.deps_highlevel = {}
@@ -82,9 +83,7 @@ class Planager:
         plgr.adhoc = AdHoc.from_norg_workspace(workspace)
         plgr.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
         plgr.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
-        plgr.schedule_patches = SchedulePatches.from_norg_workspace(
-            workspace
-        )  # STILL EMPTY
+        plgr.schedule_patches = SchedulePatches.from_norg_workspace(workspace)
         plgr.calendar = Calendar.from_norg_workspace(workspace)
         plgr.tasks = Tasks.from_roadmaps(plgr.roadmaps)
 
@@ -95,6 +94,7 @@ class Planager:
         # derivation
         plgr.plan = plgr.planner(
             plgr.roadmaps,
+            plgr.tasks,
             plgr.calendar,
             plgr.task_patches,
             plgr.plan_patches,
@@ -168,3 +168,69 @@ class Planager:
 
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...
+
+    @staticmethod
+    def setup_from_norg_workspace(
+        workspace: Path,
+    ) -> Tuple[
+        Calendar,
+        Roadmaps,
+        Routines,
+        AdHoc,
+        PlanPatches,
+        SchedulePatches,
+        TaskPatches,
+    ]:
+        """
+        Obtains all declaration information needed to perform a derivation.
+        """
+        calendar = Calendar.from_norg_workspace(workspace)
+        roadmaps = Roadmaps.from_norg_workspace(workspace)
+        routines = Routines.from_norg_workspace(workspace)
+        adhoc = AdHoc.from_norg_workspace(workspace)
+        plan_patches = PlanPatches.from_norg_workspace(workspace)
+        schedule_patches = SchedulePatches.from_norg_workspace(workspace)
+        task_patches = TaskPatches.from_norg_workspace(workspace)
+        return (
+            calendar,
+            roadmaps,
+            routines,
+            adhoc,
+            plan_patches,
+            schedule_patches,
+            task_patches,
+        )
+
+    @staticmethod
+    def derive(
+        planner: Planner,
+        scheduler: Scheduler,
+        calendar: Calendar,
+        roadmaps: Roadmaps,
+        routines: Routines,
+        adhoc: AdHoc,
+        plan_patches: PlanPatches,
+        schedule_patches: SchedulePatches,
+        task_patches: TaskPatches,
+    ) -> Tuple[Plan, Schedules]:
+        """
+        Derives plan and schedules from declarations.
+        """
+
+        tasks = Tasks.from_roadmaps(roadmaps)
+        plan = planner(roadmaps, tasks, calendar, task_patches, plan_patches)
+        schedules = scheduler(
+            plan,
+            tasks,
+            routines,
+            adhoc,
+            schedule_patches,
+            calendar.start_date,
+            calendar.end_date,
+        )
+        return (plan, schedules)
+
+    def write_norg(self) -> None:
+        """
+        Writes derivation to norg workspace.
+        """

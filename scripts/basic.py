@@ -1,7 +1,7 @@
 from pathlib import Path
 
-import planager
-from planager.util.pdatetime import PDate
+from planager import planager
+from planager.util import PDate
 
 tm = PDate.tomorrow()
 ws = Path.expanduser(Path("~/Learning/planager-data"))

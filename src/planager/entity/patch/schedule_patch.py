@@ -2,10 +2,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from ...util.data.norg.norg_util import Norg
-from ...util.display.repr import tabularize
-from ...util.misc import round5
-from ...util.pdatetime import PDate, PDateInputType, PTime
+from ...util import Norg, PDate, PDateInputType, PTime, round5, tabularize
 
 
 class SchedulePatch:

@@ -1,4 +1,3 @@
-from ..planager import Planager
 from .base.adhoc import AdHoc
 from .base.calendar import Calendar
 from .base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry

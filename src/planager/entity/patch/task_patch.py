@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from ...util.display.repr import tabularize
+from ...util import tabularize
 
 
 class TaskPatch:

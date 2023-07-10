@@ -1,20 +1,18 @@
 from itertools import islice
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from ..config import ConfigType
-from ..entity.base.calendar import Calendar
-from ..entity.base.plan import Plan
-from ..entity.base.project import Project
-from ..entity.container.roadmaps import Roadmaps
-from ..entity.container.tasks import Tasks
-from ..entity.patch.plan_patch import PlanPatch, PlanPatches
-from ..entity.patch.task_patch import TaskPatches
-from ..operators.patcher import PlanPatcher, TaskPatcher
-from ..util.algorithm.planning import ClusterType, SubplanType
-from ..util.misc import expand_task_segments
-
-# from ...config import config
-from ..util.pdatetime import PDate
+from ..entity import (
+    Calendar,
+    Plan,
+    PlanPatch,
+    PlanPatches,
+    Project,
+    Roadmaps,
+    TaskPatches,
+    Tasks,
+)
+from ..util import ClusterType, ConfigType, PDate, SubplanType, expand_task_segments
+from .patcher import PlanPatcher, TaskPatcher
 
 
 class Planner:
@@ -26,6 +24,7 @@ class Planner:
     def __call__(
         self,
         roadmaps: Roadmaps,
+        tasks: Tasks,
         calendar: Calendar,
         task_patches: Optional[TaskPatches] = None,
         plan_patches: Optional[PlanPatches] = None,

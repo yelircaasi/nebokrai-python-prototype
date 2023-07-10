@@ -1,10 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.display.repr import tabularize
-from planager.util.pdatetime import ZERODATE, PDate
-
+from ...util import ZERODATE, Norg, PDate, tabularize
 from ..base.project import Project
 from ..base.roadmap import Roadmap
 from ..container.projects import Projects

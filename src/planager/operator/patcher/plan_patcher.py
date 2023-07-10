@@ -1,8 +1,7 @@
 from typing import Optional
 
-from ...config import ConfigType
-from ...entity.base.plan import Plan
-from ...entity.patch.plan_patch import PlanPatches
+from ...entity import Plan, PlanPatches
+from ...util import ConfigType
 
 
 class PlanPatcher:

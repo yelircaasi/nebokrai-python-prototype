@@ -1,6 +1,4 @@
-from .patcher.plan_patcher import PlanPatcher
-from .patcher.schedule_patcher import SchedulePatcher
-from .patcher.task_patcher import TaskPatcher
+from .patcher import PlanPatcher, SchedulePatcher, TaskPatcher
 from .planner import Planner
 from .scheduler import Scheduler
 

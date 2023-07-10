@@ -1,11 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from planager.config import _Config as ConfigType
-from planager.util.data.norg.norg_util import Norg
-from planager.util.display.repr import tabularize
-from planager.util.pdatetime import PDate, PTime
-
+from ...util import ConfigType, Norg, PDate, PTime, tabularize
 from .entry import Entry
 
 

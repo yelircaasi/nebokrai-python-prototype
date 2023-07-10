@@ -2,162 +2,12 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from ...display.linewrap import wrap_string
+from ...display import wrap_string
 from ...pdatetime import ZERODATETIME, PDateTime, PTime
 from ...regex import Regexes
 
 BOOL2STR = {True: "true", False: "false"}
 STR2BOOL = {"true": True, "false": False}
-
-
-def split_document(fp: Path) -> List[str]:
-    regx = Regexes.section_split
-    with open(fp) as f:
-        return re.split(regx, f.read())
-
-
-def make_header(**kwargs) -> str:
-    inner = "\n".join(
-        map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items()))
-    )
-    return f"@document.meta\n{inner}\n@end"
-
-
-def get_kv(attr_str: str) -> List[List[str]]:
-    return [re.split(" *: *", s.strip(), 1) for s in re.split("\n\s*", attr_str)]
-
-
-def get_list_from_header(header: str) -> List[Dict[str, str]]:
-    header_info = []
-    for k, v in re.findall("([^:\n]+): ([^\n]*)\n", header):
-        header_info.append({"key": k, "value": v})
-    return header_info
-
-
-def get_dict_from_section(section: str) -> dict:
-    section_dict: Dict[str, Union[dict, str, list]] = {}
-    result = re.search("\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL)
-    if result:
-        title, body, subsections_str = result.groups()
-    else:
-        return {}
-    section_dict.update({"title": title, "body": body.strip(), "subsections": []})
-    subsections = re.findall("\*\*\s+([^\n]+)\n+(.*?)", subsections_str, re.DOTALL)
-    subsect_list = []
-    for title, body in subsections:
-        subsect_list.append({"title": title, "body": body.strip()})
-    section_dict["subsections"] = subsect_list
-    return section_dict
-
-
-def get_dict_from_path(fp: Path) -> Dict:
-    doc: Dict[str, Any] = {"header": {}, "sections": {}}
-    header, *sections = split_document(fp)
-    doc.update({"header": get_list_from_header(header)})
-    for i, section in enumerate(sections):
-        doc["sections"].update({str(i + 1), get_dict_from_section(section)})
-    return doc
-
-
-def parse_norg_entry(entry: str):
-    regx = Regexes.entry_old
-    result = re.search(regx, entry)
-    groups = result.groups() if result else []
-    if not len(groups) == 10:
-        raise ValueError("Invalid norg entry format.")
-    groupnames = [
-        "start",
-        "name",
-        "priority",
-        "ismovable",
-        "notes",
-        "normaltime",
-        "idealtime",
-        "mintime",
-        "maxtime",
-        "alignend",
-    ]
-    booldict = STR2BOOL
-    kwdict = dict(zip(groupnames, groups))
-    kwdict["notes"] = re.sub("\s+", " ", kwdict["notes"]).strip()
-    kwdict["start"] = PTime.from_string(kwdict["start"])
-    for integer in ["normaltime", "idealtime", "mintime", "maxtime"]:
-        kwdict[integer] = int(kwdict[integer])
-    for boolean in ["ismovable", "alignend"]:
-        kwdict[boolean] = booldict[kwdict[boolean]]
-    return kwdict
-
-
-def parse_norg_header():
-    ...
-
-
-def parse_norg_notes():
-    ...
-
-
-def make_norg_entry(
-    name: str,
-    start: Any,
-    priority: int,
-    ismovable: bool,
-    notes: str,
-    normaltime: int,
-    idealtime: int,
-    mintime: int,
-    maxtime: int,
-    alignend: bool,
-) -> str:
-    booldict = BOOL2STR
-    notes = wrap_string(notes, width=102, trailing_spaces=18)
-    return "\n".join(
-        (
-            f"** {str(start)} | {name}",
-            "",
-            f"  - priority:   {priority}",
-            f"  - ismovable:  {booldict[ismovable]}",
-            f"  - notes:      {notes}",
-            f"  - normaltime: {normaltime}",
-            f"  - idealtime:  {idealtime}",
-            f"  - mintime:    {mintime}",
-            f"  - maxtime:    {maxtime}",
-            f"  - alignend:   {booldict[alignend]}",
-            "",
-        )
-    )
-
-
-def make_norg_header(
-    title: str,
-    author: str = "yelircaasi",
-    categories: List[str] = [],
-    version: Union[float, str] = "0.1",
-) -> str:
-    return "\n".join(
-        (
-            "@document.meta",
-            f"title: {title}",
-            f"authors: [{author}]",
-            f"categories: {', '.join(categories)}",
-            f"version: {str(version)}",
-            "@end",
-            "",
-            ".toc",
-            "",
-            "* Schedule",
-            "",
-        )
-    )
-
-
-def make_norg_notes(notes: str) -> str:
-    notes = wrap_string(notes, width=120, trailing_spaces=0)
-    return f"* Notes\n\n{notes}\n"
-
-
-def get_norg_entries(norg_str):
-    regx = Regexes.entry_split_old
-    return re.split(regx, norg_str.split("* Notes")[0])[1:]
 
 
 class Norg:
@@ -321,6 +171,156 @@ class Norg:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @staticmethod
+    def split_document(fp: Path) -> List[str]:
+        regx = Regexes.section_split
+        with open(fp) as f:
+            return re.split(regx, f.read())
+
+    @staticmethod
+    def make_header(**kwargs) -> str:
+        inner = "\n".join(
+            map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items()))
+        )
+        return f"@document.meta\n{inner}\n@end"
+
+    @staticmethod
+    def get_kv(attr_str: str) -> List[List[str]]:
+        return [re.split(" *: *", s.strip(), 1) for s in re.split("\n\s*", attr_str)]
+
+    @staticmethod
+    def get_list_from_header(header: str) -> List[Dict[str, str]]:
+        header_info = []
+        for k, v in re.findall("([^:\n]+): ([^\n]*)\n", header):
+            header_info.append({"key": k, "value": v})
+        return header_info
+
+    @staticmethod
+    def get_dict_from_section(section: str) -> dict:
+        section_dict: Dict[str, Union[dict, str, list]] = {}
+        result = re.search("\s*(^[^\n]+)\n*(.*)(\*\*.*)", section, re.DOTALL)
+        if result:
+            title, body, subsections_str = result.groups()
+        else:
+            return {}
+        section_dict.update({"title": title, "body": body.strip(), "subsections": []})
+        subsections = re.findall("\*\*\s+([^\n]+)\n+(.*?)", subsections_str, re.DOTALL)
+        subsect_list = []
+        for title, body in subsections:
+            subsect_list.append({"title": title, "body": body.strip()})
+        section_dict["subsections"] = subsect_list
+        return section_dict
+
+    @staticmethod
+    def get_dict_from_path(fp: Path) -> Dict:
+        doc: Dict[str, Any] = {"header": {}, "sections": {}}
+        header, *sections = Norg.split_document(fp)
+        doc.update({"header": Norg.get_list_from_header(header)})
+        for i, section in enumerate(sections):
+            doc["sections"].update({str(i + 1), Norg.get_dict_from_section(section)})
+        return doc
+
+    @staticmethod
+    def parse_norg_entry(entry: str):
+        regx = Regexes.entry_old
+        result = re.search(regx, entry)
+        groups = result.groups() if result else []
+        if not len(groups) == 10:
+            raise ValueError("Invalid norg entry format.")
+        groupnames = [
+            "start",
+            "name",
+            "priority",
+            "ismovable",
+            "notes",
+            "normaltime",
+            "idealtime",
+            "mintime",
+            "maxtime",
+            "alignend",
+        ]
+        booldict = STR2BOOL
+        kwdict = dict(zip(groupnames, groups))
+        kwdict["notes"] = re.sub("\s+", " ", kwdict["notes"]).strip()
+        kwdict["start"] = PTime.from_string(kwdict["start"])
+        for integer in ["normaltime", "idealtime", "mintime", "maxtime"]:
+            kwdict[integer] = int(kwdict[integer])
+        for boolean in ["ismovable", "alignend"]:
+            kwdict[boolean] = booldict[kwdict[boolean]]
+        return kwdict
+
+    @staticmethod
+    def parse_norg_header():
+        ...
+
+    @staticmethod
+    def parse_norg_notes():
+        ...
+
+    @staticmethod
+    def make_norg_entry(
+        name: str,
+        start: Any,
+        priority: int,
+        ismovable: bool,
+        notes: str,
+        normaltime: int,
+        idealtime: int,
+        mintime: int,
+        maxtime: int,
+        alignend: bool,
+    ) -> str:
+        booldict = BOOL2STR
+        notes = wrap_string(notes, width=102, trailing_spaces=18)
+        return "\n".join(
+            (
+                f"** {str(start)} | {name}",
+                "",
+                f"  - priority:   {priority}",
+                f"  - ismovable:  {booldict[ismovable]}",
+                f"  - notes:      {notes}",
+                f"  - normaltime: {normaltime}",
+                f"  - idealtime:  {idealtime}",
+                f"  - mintime:    {mintime}",
+                f"  - maxtime:    {maxtime}",
+                f"  - alignend:   {booldict[alignend]}",
+                "",
+            )
+        )
+
+    @staticmethod
+    def make_norg_header(
+        title: str,
+        author: str = "yelircaasi",
+        categories: List[str] = [],
+        version: Union[float, str] = "0.1",
+    ) -> str:
+        return "\n".join(
+            (
+                "@document.meta",
+                f"title: {title}",
+                f"authors: [{author}]",
+                f"categories: {', '.join(categories)}",
+                f"version: {str(version)}",
+                "@end",
+                "",
+                ".toc",
+                "",
+                "* Schedule",
+                "",
+            )
+        )
+
+    @staticmethod
+    def make_norg_notes(notes: str) -> str:
+        notes = wrap_string(notes, width=120, trailing_spaces=0)
+        return f"* Notes\n\n{notes}\n"
+
+    @staticmethod
+    def get_norg_entries(norg_str):
+        regx = Regexes.entry_split_old
+        return re.split(regx, norg_str.split("* Notes")[0])[1:]
 
 
 # n = Norg.from_path(Path("/home/isaac/Learning/planager-data/projects/notes_reading_projects/b.norg"))

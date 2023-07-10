@@ -4,9 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Regexes:
-    date: re.Pattern = re.compile("(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
     first_line: re.Pattern = re.compile("^\s*(.*)\s*")
-    nondigit: re.Pattern = re.compile("[^\d]")
     time_bar_text: re.Pattern = re.compile("(\d\d:\d\d) *\| *([^\n]+)")
     section_split: re.Pattern = re.compile("\n+\s*\*\s+")  # \s+")
     subsection_split: re.Pattern = re.compile("\n+\s*\*\*\s+")

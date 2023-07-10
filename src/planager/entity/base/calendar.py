@@ -1,8 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.pdatetime import PDate
+from ...util import Norg, PDate
 
 
 class Day:
@@ -51,3 +50,11 @@ class Calendar:
             cal.add(Day(date, **attributes))
 
         return cal
+
+    @property
+    def start_date(self) -> PDate:
+        return min(self.days)
+
+    @property
+    def end_date(self) -> PDate:
+        return max(self.days)

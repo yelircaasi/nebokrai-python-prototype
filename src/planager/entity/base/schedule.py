@@ -2,12 +2,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from ...util.data.norg.norg_util import Norg
-from ...util.display.repr import tabularize
-
-# from ...util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
-from ...util.misc import round5
-from ...util.pdatetime import PDate, PDateInputType, PTime
+from ...util import Norg, PDate, PDateInputType, PTime, round5, tabularize
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .adhoc import AdHoc
@@ -413,6 +408,22 @@ class Schedule:
     def time_weight_from_prio(self, prio: Union[int, float]) -> float:
         interval = self.weight_interval_max - self.weight_interval_min
         return self.weight_interval_min + interval * self.prio_transform(prio)
+
+    def is_valid(self) -> bool:
+        if len(self.schedule) == 1:
+            adjacency = True
+        else:
+            adjacency = all(
+                map(
+                    lambda x: x[0].end == x[1].start,
+                    zip(self.schedule[:-1], self.schedule[1:]),
+                )
+            )
+        return (
+            adjacency
+            and (self.schedule[0].start == PTime())
+            and (self.schedule[-1].end == PTime(24))
+        )
 
 
 # d = Schedule(2023, 5, 23)

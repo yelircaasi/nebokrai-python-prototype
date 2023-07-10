@@ -1,8 +1,6 @@
 from typing import Optional
 
-from ...util.display.repr import tabularize
-from ...util.misc import round5
-from ...util.pdatetime import PDate, PTime
+from ...util import PDate, PTime, round5, tabularize
 from .entry import Entry
 from .task import Task
 

@@ -25,10 +25,7 @@ version: 0.1
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Union
 
-from ...util.data.norg import norg_util as norg
-from ...util.data.norg.norg_util import Norg
-from ...util.display.repr import tabularize
-from ...util.pdatetime import PDate, PTime, now
+from ...util import Norg, PDate, PTime, now, tabularize
 from .entry import Entry
 
 
@@ -101,7 +98,7 @@ class AdHoc:
             f.write(self.to_html_str())
 
     def to_norg_str(self) -> str:
-        header = norg.make_header(
+        header = Norg.make_header(
             title=self.title,
             # author=self.author,
             updated=now(),

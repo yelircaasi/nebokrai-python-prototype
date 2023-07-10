@@ -2,8 +2,6 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
-from .regex import Regexes
-
 
 def now() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -73,14 +71,9 @@ class PTime:
         return self.tominutes() >= ptime2.tominutes()
 
 
-# t = PTime(4, 31)
-# t + 357
-
-
-PDateInputType = Optional[Union["PDate", str, Tuple[int, int, int], int]]
-
-
 class PDate(date):
+    date_regex: re.Pattern = re.compile("(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
+
     def __init__(self, year: int, month: int, day: int) -> None:
         self._year = year
         self._month = month
@@ -120,8 +113,7 @@ class PDate(date):
 
     @classmethod
     def from_string(cls, date_str: str) -> Optional["PDate"]:
-        regx = Regexes.date
-        result = re.search(regx, date_str)
+        result = re.search(cls.date_regex, date_str)
         if result:
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
@@ -235,6 +227,8 @@ class PDate(date):
 
 
 class PDateTime:
+    nondigit_regex: re.Pattern = re.compile("[^\d]")
+
     def __init__(
         self,
         year: int,
@@ -262,9 +256,8 @@ class PDateTime:
     def from_string(cls, date_string: str) -> "PDateTime":
         if not date_string:
             return cls(2023, 1, 1, 0, 0, 0)
-        regx = Regexes.nondigit
         year, month, day, hour, minute, second = map(
-            int, re.split(regx, date_string.strip())
+            int, re.split(cls.nondigit_regex, date_string.strip())
         )
         # print(year, month, day, hour, minute, second)
         return cls(year, month, day, hour, minute, second)
@@ -330,8 +323,10 @@ class PDateTime:
         )
 
 
-# dt = PDateTime(2023, 6, 15, 15, 30, 30)
-# print(PDateTime.from_string(str(dt)))
-
 ZERODATE = PDate(2023, 1, 1)
 ZERODATETIME = PDateTime(2023, 1, 1, 0, 0, 0)
+TODAY = PDate.today()
+
+
+def sort_days(days) -> dict:
+    return dict(sorted([(k, v) for k, v in days.items()]))

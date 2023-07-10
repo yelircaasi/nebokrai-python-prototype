@@ -1,15 +1,9 @@
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
-from ...config import _Config as ConfigType
-from ...config import config
-from ...util.algorithm.planning import SubplanType
-from ...util.data.norg import norg_util as norg
-from ...util.data.norg.norg_util import Norg
-from ...util.pdatetime import PDate
+from ...util import ConfigType, PDate
 from ..container.tasks import Tasks
 from .calendar import Calendar
-from .project import Project
 from .task import Task
 
 

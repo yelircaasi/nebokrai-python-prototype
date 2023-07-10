@@ -1,9 +1,7 @@
 from pathlib import Path
 from typing import Iterator, List
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.display.repr import tabularize
-
+from ...util import Norg, tabularize
 from ..base.routine import Routine
 
 

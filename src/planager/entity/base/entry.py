@@ -3,9 +3,7 @@
 from pathlib import Path
 from typing import Optional, Set, Tuple, Union
 
-from ...util.display.repr import tabularize
-from ...util.misc import round5
-from ...util.pdatetime import PTime
+from ...util import PTime, round5, tabularize
 
 
 class Entry:

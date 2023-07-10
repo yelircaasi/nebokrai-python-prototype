@@ -2,11 +2,7 @@ import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from ...util.data.norg.norg_util import Norg
-from ...util.display.repr import tabularize
-from ...util.misc import expand_task_segments
-from ...util.pdatetime import PDate
-from ...util.regex import Regexes
+from ...util import Norg, PDate, Regexes, expand_task_segments, tabularize
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -75,11 +71,11 @@ class Project:
         project_name: str,
         **kwargs,
     ) -> "Project":
-        norg = Norg.from_path(norg_path)
-        project_id = (norg.parent, norg.id)
+        norg_obj = Norg.from_path(norg_path)
+        project_id = (norg_obj.parent, norg_obj.id)
         tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
         c = cls(
-            name=norg.title,
+            name=norg_obj.title,
             id=project_id,
             tasks=tasks,
             # path=norg_path,

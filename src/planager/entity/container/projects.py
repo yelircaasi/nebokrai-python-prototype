@@ -1,7 +1,6 @@
 from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
-from planager.util.display.repr import tabularize
-
+from ...util import tabularize
 from ..base.project import Project
 from ..container.tasks import Tasks
 from ..patch.task_patch import TaskPatches

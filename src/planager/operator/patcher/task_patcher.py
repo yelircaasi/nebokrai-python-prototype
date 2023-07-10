@@ -1,8 +1,7 @@
 from typing import Optional
 
-from ...config import ConfigType
-from ...entity.base.task import Task
-from ...entity.patch.task_patch import TaskPatch
+from ...entity import Task, TaskPatch
+from ...util import ConfigType
 
 
 class TaskPatcher:

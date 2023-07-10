@@ -1,8 +1,9 @@
+"""
 from typing import List, Tuple, Union
 
 from ...entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from ...util.misc import round5
-from ...util.pdatetime import PTime
+from ...util import round5
+from ...util import PTime
 
 p = lambda s: print(50 * "=" + s + 50 * "=")  # ---
 
@@ -355,3 +356,4 @@ def add_entry_default(
         return schedule[:pos] + add_over_empty(entry, empty) + schedule[pos + 1 :]
     func = add_movable if entry.ismovable else add_immovable
     return func(entry, schedule)
+"""

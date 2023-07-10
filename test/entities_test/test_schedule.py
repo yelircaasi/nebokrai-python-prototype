@@ -1,10 +1,9 @@
 import pytest
-
-from planager.entity.base import schedule
+from planager.entity import Schedule
 
 
 class TestSchedule:
-    sched1 = schedule.Schedule()
+    sched1 = Schedule()
 
     def test_init(self):
         assert True

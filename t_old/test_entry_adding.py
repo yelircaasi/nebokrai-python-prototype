@@ -12,7 +12,7 @@ Case to test:
 import unittest
 
 from planager.entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry, Schedule
-from planager.util.pdatetime import PTime
+from planager.util import PTime
 
 
 class TestEntryAdding(unittest.TestCase):
