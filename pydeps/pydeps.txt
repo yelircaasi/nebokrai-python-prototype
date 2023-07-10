@@ -1,0 +1,561 @@
+{
+    "__main__": {
+        "bacon": 0,
+        "imports": [
+            "planager",
+            "planager.__main__",
+            "planager.config",
+            "planager.derivation",
+            "planager.entity",
+            "planager.entity.container",
+            "planager.entity.container.entries",
+            "planager.entity.container.projects",
+            "planager.entity.container.roadmaps",
+            "planager.entity.container.routines",
+            "planager.entity.container.schedules",
+            "planager.entity.container.tasks",
+            "planager.entity.patch",
+            "planager.entity.patch.plan_patch",
+            "planager.entity.patch.schedule_patch",
+            "planager.entity.patch.task_patch",
+            "planager.operator",
+            "planager.operator.patcher",
+            "planager.operator.patcher.plan_patcher",
+            "planager.operator.patcher.schedule_patcher",
+            "planager.operator.patcher.task_patcher",
+            "planager.operator.planner",
+            "planager.operator.scheduler",
+            "planager.planager",
+            "planager.tracking",
+            "planager.util",
+            "planager.util.data",
+            "planager.util.data.html",
+            "planager.util.data.html.html_util",
+            "planager.util.data.json",
+            "planager.util.data.json.json_util",
+            "planager.util.data.norg",
+            "planager.util.data.norg.norg_util",
+            "planager.util.display",
+            "planager.util.display.linewrap",
+            "planager.util.display.repr",
+            "planager.util.misc",
+            "planager.util.pdatetime",
+            "planager.util.regex",
+            "planager.util.type"
+        ],
+        "name": "__main__",
+        "path": null
+    },
+    "planager": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.__main__",
+            "planager.util"
+        ],
+        "name": "planager",
+        "path": "/home/isaac/Learning/planager-py/src/planager/__init__.py"
+    },
+    "planager.__main__": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__"
+        ],
+        "imports": [
+            "planager",
+            "planager.derivation"
+        ],
+        "name": "planager.__main__",
+        "path": "/home/isaac/Learning/planager-py/src/planager/__main__.py"
+    },
+    "planager.config": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.derivation",
+            "planager.util.type"
+        ],
+        "name": "planager.config",
+        "path": "/home/isaac/Learning/planager-py/src/planager/config.py"
+    },
+    "planager.derivation": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.__main__"
+        ],
+        "imports": [
+            "planager.config",
+            "planager.planager"
+        ],
+        "name": "planager.derivation",
+        "path": "/home/isaac/Learning/planager-py/src/planager/derivation/__init__.py"
+    },
+    "planager.entity": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator.patcher.plan_patcher",
+            "planager.operator.patcher.schedule_patcher",
+            "planager.operator.patcher.task_patcher",
+            "planager.operator.planner",
+            "planager.operator.scheduler",
+            "planager.planager"
+        ],
+        "imports": [
+            "planager.entity.container",
+            "planager.entity.container.projects",
+            "planager.entity.container.roadmaps",
+            "planager.entity.container.routines",
+            "planager.entity.container.schedules",
+            "planager.entity.container.tasks",
+            "planager.entity.patch",
+            "planager.entity.patch.plan_patch",
+            "planager.entity.patch.schedule_patch",
+            "planager.entity.patch.task_patch"
+        ],
+        "name": "planager.entity",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/__init__.py"
+    },
+    "planager.entity.container": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity",
+            "planager.entity.container.projects",
+            "planager.entity.container.roadmaps",
+            "planager.entity.patch.plan_patch"
+        ],
+        "name": "planager.entity.container",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/__init__.py"
+    },
+    "planager.entity.container.entries": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__"
+        ],
+        "name": "planager.entity.container.entries",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/entries.py"
+    },
+    "planager.entity.container.projects": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity",
+            "planager.entity.container.roadmaps"
+        ],
+        "imports": [
+            "planager.entity.container",
+            "planager.entity.container.tasks",
+            "planager.entity.patch",
+            "planager.entity.patch.task_patch",
+            "planager.util"
+        ],
+        "name": "planager.entity.container.projects",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/projects.py"
+    },
+    "planager.entity.container.roadmaps": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity"
+        ],
+        "imports": [
+            "planager.entity.container",
+            "planager.entity.container.projects",
+            "planager.util"
+        ],
+        "name": "planager.entity.container.roadmaps",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/roadmaps.py"
+    },
+    "planager.entity.container.routines": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.entity.container.routines",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/routines.py"
+    },
+    "planager.entity.container.schedules": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.entity.container.schedules",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/schedules.py"
+    },
+    "planager.entity.container.tasks": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity",
+            "planager.entity.container.projects",
+            "planager.entity.patch.plan_patch"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.entity.container.tasks",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/tasks.py"
+    },
+    "planager.entity.patch": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity",
+            "planager.entity.container.projects"
+        ],
+        "name": "planager.entity.patch",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/patch/__init__.py"
+    },
+    "planager.entity.patch.plan_patch": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity"
+        ],
+        "imports": [
+            "planager.entity.container",
+            "planager.entity.container.tasks",
+            "planager.util"
+        ],
+        "name": "planager.entity.patch.plan_patch",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/patch/plan_patch.py"
+    },
+    "planager.entity.patch.schedule_patch": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.entity.patch.schedule_patch",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/patch/schedule_patch.py"
+    },
+    "planager.entity.patch.task_patch": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity",
+            "planager.entity.container.projects"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.entity.patch.task_patch",
+        "path": "/home/isaac/Learning/planager-py/src/planager/entity/patch/task_patch.py"
+    },
+    "planager.operator": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.planager"
+        ],
+        "imports": [
+            "planager.operator.patcher",
+            "planager.operator.planner",
+            "planager.operator.scheduler"
+        ],
+        "name": "planager.operator",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/__init__.py"
+    },
+    "planager.operator.patcher": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator",
+            "planager.operator.planner",
+            "planager.operator.scheduler"
+        ],
+        "imports": [
+            "planager.operator.patcher.plan_patcher",
+            "planager.operator.patcher.schedule_patcher",
+            "planager.operator.patcher.task_patcher"
+        ],
+        "name": "planager.operator.patcher",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/patcher/__init__.py"
+    },
+    "planager.operator.patcher.plan_patcher": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator.patcher"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.util"
+        ],
+        "name": "planager.operator.patcher.plan_patcher",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/patcher/plan_patcher.py"
+    },
+    "planager.operator.patcher.schedule_patcher": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator.patcher"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.util"
+        ],
+        "name": "planager.operator.patcher.schedule_patcher",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/patcher/schedule_patcher.py"
+    },
+    "planager.operator.patcher.task_patcher": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator.patcher"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.util"
+        ],
+        "name": "planager.operator.patcher.task_patcher",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/patcher/task_patcher.py"
+    },
+    "planager.operator.planner": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.operator.patcher",
+            "planager.util"
+        ],
+        "name": "planager.operator.planner",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/planner.py"
+    },
+    "planager.operator.scheduler": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.operator"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.operator.patcher",
+            "planager.util"
+        ],
+        "name": "planager.operator.scheduler",
+        "path": "/home/isaac/Learning/planager-py/src/planager/operator/scheduler.py"
+    },
+    "planager.planager": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.derivation"
+        ],
+        "imports": [
+            "planager.entity",
+            "planager.operator",
+            "planager.util"
+        ],
+        "name": "planager.planager",
+        "path": "/home/isaac/Learning/planager-py/src/planager/planager.py"
+    },
+    "planager.tracking": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__"
+        ],
+        "name": "planager.tracking",
+        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/__init__.py"
+    },
+    "planager.util": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity.container.projects",
+            "planager.entity.container.roadmaps",
+            "planager.entity.container.routines",
+            "planager.entity.container.schedules",
+            "planager.entity.container.tasks",
+            "planager.entity.patch.plan_patch",
+            "planager.entity.patch.schedule_patch",
+            "planager.entity.patch.task_patch",
+            "planager.operator.patcher.plan_patcher",
+            "planager.operator.patcher.schedule_patcher",
+            "planager.operator.patcher.task_patcher",
+            "planager.operator.planner",
+            "planager.operator.scheduler",
+            "planager.planager",
+            "planager.util"
+        ],
+        "imports": [
+            "planager",
+            "planager.util",
+            "planager.util.data",
+            "planager.util.display",
+            "planager.util.misc",
+            "planager.util.pdatetime",
+            "planager.util.regex",
+            "planager.util.type"
+        ],
+        "name": "planager.util",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/__init__.py"
+    },
+    "planager.util.data": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "imports": [
+            "planager.util.data.html",
+            "planager.util.data.html.html_util",
+            "planager.util.data.json",
+            "planager.util.data.json.json_util",
+            "planager.util.data.norg",
+            "planager.util.data.norg.norg_util"
+        ],
+        "name": "planager.util.data",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/__init__.py"
+    },
+    "planager.util.data.html": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "name": "planager.util.data.html",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/html/__init__.py"
+    },
+    "planager.util.data.html.html_util": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "name": "planager.util.data.html.html_util",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/html/html_util.py"
+    },
+    "planager.util.data.json": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "name": "planager.util.data.json",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/json/__init__.py"
+    },
+    "planager.util.data.json.json_util": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "name": "planager.util.data.json.json_util",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/json/json_util.py"
+    },
+    "planager.util.data.norg": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "name": "planager.util.data.norg",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/norg/__init__.py"
+    },
+    "planager.util.data.norg.norg_util": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.data"
+        ],
+        "imports": [
+            "planager.util.display",
+            "planager.util.pdatetime",
+            "planager.util.regex"
+        ],
+        "name": "planager.util.data.norg.norg_util",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/data/norg/norg_util.py"
+    },
+    "planager.util.display": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util",
+            "planager.util.data.norg.norg_util"
+        ],
+        "imports": [
+            "planager.util.display.linewrap",
+            "planager.util.display.repr"
+        ],
+        "name": "planager.util.display",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/display/__init__.py"
+    },
+    "planager.util.display.linewrap": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.display"
+        ],
+        "name": "planager.util.display.linewrap",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/display/linewrap.py"
+    },
+    "planager.util.display.repr": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.display"
+        ],
+        "name": "planager.util.display.repr",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/display/repr.py"
+    },
+    "planager.util.misc": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "name": "planager.util.misc",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/misc.py"
+    },
+    "planager.util.pdatetime": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util",
+            "planager.util.data.norg.norg_util",
+            "planager.util.type"
+        ],
+        "name": "planager.util.pdatetime",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/pdatetime.py"
+    },
+    "planager.util.regex": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util",
+            "planager.util.data.norg.norg_util"
+        ],
+        "name": "planager.util.regex",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/regex.py"
+    },
+    "planager.util.type": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "imports": [
+            "planager.config",
+            "planager.util.pdatetime"
+        ],
+        "name": "planager.util.type",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/type.py"
+    }
+}
