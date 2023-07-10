@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, List, Optional, Tuple, Union
 
-from planager.util.datetime_extensions import PDate
+from ...util.pdatetime import PDate
 
 ClusterType = List[List[Tuple[int, int, int]]]
 # SubplanType = Dict[PDate, List[int]]

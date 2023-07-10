@@ -2,11 +2,11 @@ import re
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate
-from planager.util.misc import expand_task_segments, tabularize
-from planager.util.regex import Regexes
-
+from ...util.data.norg.norg_util import Norg
+from ...util.display.repr import tabularize
+from ...util.misc import expand_task_segments
+from ...util.pdatetime import PDate
+from ...util.regex import Regexes
 from ..container.tasks import Tasks
 from .task import Task
 

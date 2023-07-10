@@ -2,12 +2,13 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from planager.util.datetime_extensions import ZERODATETIME, PDateTime, PTime
-from planager.util.linewrap import wrap_string
-from planager.util.regex import Regexes
+from ...display.linewrap import wrap_string
+from ...pdatetime import ZERODATETIME, PDateTime, PTime
+from ...regex import Regexes
 
 BOOL2STR = {True: "true", False: "false"}
 STR2BOOL = {"true": True, "false": False}
+
 
 def split_document(fp: Path) -> List[str]:
     regx = Regexes.section_split

@@ -1,12 +1,12 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate, PDateInputType
+from ...util.data.norg.norg_util import Norg
+from ...util.display.repr import tabularize
 
-# from planager.util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
-from planager.util.misc import round5, tabularize
-
+# from ...util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
+from ...util.misc import round5
+from ...util.pdatetime import PDate, PDateInputType
 from ..base.schedule import Schedule
 
 

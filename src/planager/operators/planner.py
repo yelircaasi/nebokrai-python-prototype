@@ -9,12 +9,12 @@ from ..entity.container.roadmaps import Roadmaps
 from ..entity.container.tasks import Tasks
 from ..entity.patch.plan_patch import PlanPatch, PlanPatches
 from ..entity.patch.task_patch import TaskPatches
-from ..operators.patchers import PlanPatcher, TaskPatcher
+from ..operators.patcher import PlanPatcher, TaskPatcher
 from ..util.algorithm.planning import ClusterType, SubplanType
+from ..util.misc import expand_task_segments
 
-# from planager.config import config
-from planager.util.datetime_extensions import PDate
-from planager.util.misc import expand_task_segments
+# from ...config import config
+from ..util.pdatetime import PDate
 
 
 class Planner:

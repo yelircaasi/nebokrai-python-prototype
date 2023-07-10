@@ -2,12 +2,12 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate, PDateInputType, PTime
+from ...util.data.norg.norg_util import Norg
+from ...util.display.repr import tabularize
 
-# from planager.util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
-from planager.util.misc import round5, tabularize
-
+# from ...util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
+from ...util.misc import round5
+from ...util.pdatetime import PDate, PDateInputType, PTime
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .adhoc import AdHoc

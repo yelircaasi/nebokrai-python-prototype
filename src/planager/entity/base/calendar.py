@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Any, Dict
 
 from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate
+from planager.util.pdatetime import PDate
 
 
 class Day:

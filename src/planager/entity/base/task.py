@@ -3,8 +3,8 @@ from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from planager.config import _Config as ConfigType
 from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate, PTime
-from planager.util.misc import tabularize
+from planager.util.display.repr import tabularize
+from planager.util.pdatetime import PDate, PTime
 
 from .entry import Entry
 

@@ -2,9 +2,10 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from planager.util.data.norg.norg_util import Norg
-from planager.util.datetime_extensions import PDate, PDateInputType, PTime
-from planager.util.misc import round5, tabularize
+from ...util.data.norg.norg_util import Norg
+from ...util.display.repr import tabularize
+from ...util.misc import round5
+from ...util.pdatetime import PDate, PDateInputType, PTime
 
 
 class SchedulePatch:

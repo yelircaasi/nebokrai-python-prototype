@@ -1,8 +1,8 @@
 from typing import Optional
 
-from planager.util.datetime_extensions import PDate, PTime
-from planager.util.misc import round5, tabularize
-
+from ...util.display.repr import tabularize
+from ...util.misc import round5
+from ...util.pdatetime import PDate, PTime
 from .entry import Entry
 from .task import Task
 

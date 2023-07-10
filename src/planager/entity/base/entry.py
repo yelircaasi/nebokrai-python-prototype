@@ -3,8 +3,9 @@
 from pathlib import Path
 from typing import Optional, Set, Tuple, Union
 
-from planager.util.datetime_extensions import PTime
-from planager.util.misc import round5, tabularize
+from ...util.display.repr import tabularize
+from ...util.misc import round5
+from ...util.pdatetime import PTime
 
 
 class Entry:

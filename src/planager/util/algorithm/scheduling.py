@@ -1,8 +1,8 @@
 from typing import List, Tuple, Union
 
-from planager.entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from planager.util.datetime_extensions import PTime
-from planager.util.misc import round5
+from ...entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from ...util.misc import round5
+from ...util.pdatetime import PTime
 
 p = lambda s: print(50 * "=" + s + 50 * "=")  # ---
 

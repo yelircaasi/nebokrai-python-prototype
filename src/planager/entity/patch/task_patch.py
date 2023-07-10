@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from planager.util.misc import tabularize
+from ...util.display.repr import tabularize
 
 
 class TaskPatch:

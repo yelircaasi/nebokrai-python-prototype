@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Iterator, List
 
 from planager.util.data.norg.norg_util import Norg
-from planager.util.misc import tabularize
+from planager.util.display.repr import tabularize
 
 from ..base.routine import Routine
 
