@@ -11,8 +11,8 @@ Case to test:
 """
 import unittest
 
-from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry, Schedule
-from planager.utils.datetime_extensions import PTime
+from planager.entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry, Schedule
+from planager.util.datetime_extensions import PTime
 
 
 class TestEntryAdding(unittest.TestCase):

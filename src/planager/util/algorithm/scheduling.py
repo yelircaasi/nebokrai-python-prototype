@@ -1,8 +1,8 @@
 from typing import List, Tuple, Union
 
-from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from planager.utils.datetime_extensions import PTime
-from planager.utils.misc import round5
+from planager.entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from planager.util.datetime_extensions import PTime
+from planager.util.misc import round5
 
 p = lambda s: print(50 * "=" + s + 50 * "=")  # ---
 
@@ -320,7 +320,7 @@ def add_entry_default_(entry: Entry, schedule: List[Entry]) -> List[Entry]:
     """
     print(entry.__dict__)
     # ---------------------------------------------------------------------------
-    
+
     overlaps = get_overlaps(entry, schedule)
     if slot_is_empty(overlaps):
         print("slot_is_empty")

@@ -6,7 +6,7 @@ Python prototype of a tool for planning, prioritizing, and tracking. Designed by
 To create a system that takes into account all obligations, goals, and values to optimally allocate time. This system should be:
 
 * purely functional: the same inputs will always result in the same outputs, with no side-effects
-* declarative: the entities (tasks, etc.) and settings I delare provide a complete specification of my system; I say 'what' and the software tells me 'when'.
+* declarative: the entities.base (tasks, etc.) and settings I delare provide a complete specification of my system; I say 'what' and the software tells me 'when'.
 * simple and intuitive to use
 * robust: when circumstances change, I can adjust the plans via the interface provided (as opposed to internal hacking) and carry on without problems
 * integrated: planager provides an all-encompassing system to keep all aspects of my life in order
@@ -20,13 +20,29 @@ To create a system that takes into account all obligations, goals, and values to
 * sequences: an alias for a list of tasks which are always to be performed together (typically sequentially), such as a morning or evening routine; handled identically to a task
 * option set: a group of alternatives, from which I select one (or more); handled identically to a task
 
+## Planning Algorithm:
+
+Get daily time available from calendar. 
+Then fill up each day according to priority. 
+When a task is displaced, log the displacement ( -> work on helpful error messages).
+
 ## Overview of Vanilla Scheduling Algorithm
 
-1. A default schedule is specified, which contains recurring activities and activities blocked out.
+1. A base schedule is specified in the calendar, which contains recurring activities and activities blocked out.
 2. From planning (typically quarterly and weekly), non-recurring "big rock" activities are added, each with a priority level that determines which takes precedence among a set of items competing for the same time. 
 3. From the store of long-term roadmaps and projects and their corresponding tasks, tasks are assigned according to schedule and priority.
 4. When there are conflicts or too many tasks to fit in the available time, these are to be resolved first automatically according to the settings. 
 5. The irresoluble conflicts or overloads are then resolved manually, but only by editing the declrations, upon which the schedule is recomputed.
+
+Creates a schedule (i.e. entry list) from a list of entries. Steps:
+    1) check whether the entries fit in a day
+    2) get the compression factor, i.e. how much, on average, the entries need to be compacted in order to fit
+    3) separate entries into fixed (immovable) and flex (movable)
+    4) add the fixed entried to the schedule
+    5) identify the gaps
+    6) fill in the gaps with the flex items TODO
+    7) resize between fixed points to remove small empty patches (where possible)
+    TODO: add alignend functionality (but first get it working without)
 
 ## Notes
 

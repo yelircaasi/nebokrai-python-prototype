@@ -1,24 +1,18 @@
-from calendar import Calendar
-
-# from datetime import date, time
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-# from planager.utils.data.norg.norg_utils import make_norg_header
-# from planager.utils.algorithms.scheduling import add_entry_default
-from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.datetime_extensions import PDate, PDateInputType, PTime
+from planager.util.data.norg.norg_util import Norg
+from planager.util.datetime_extensions import PDate, PDateInputType, PTime
 
-# from planager.utils.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
-from planager.utils.misc import round5, tabularize
+# from planager.util.scheduling_helpers import resolve_1_collision, resolve_2_collisions, resolve_n_collisions
+from planager.util.misc import round5, tabularize
 
+from ..container.routines import Routines
+from ..container.tasks import Tasks
 from .adhoc import AdHoc
 from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .plan import Plan
-from .roadmap import Roadmaps
-from .routine import Routines
-from .task import Tasks
 
 
 class AdjustmentType(Enum):
@@ -90,12 +84,12 @@ class Schedule:
         newschedule.__dict__.update(self.__dict__)
         return newschedule
 
-    # def add_OLD(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
-    #     self.ensure_bookends()
-    #     self.schedule.sort(key=lambda x: x.start)
+        # def add_OLD(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
+        #     self.ensure_bookends()
+        #     self.schedule.sort(key=lambda x: x.start)
 
-    #     self.schedule = add_entry_default(entry, self.schedule)
-    #     print(len(self.schedule))
+        #     self.schedule = add_entry_default(entry, self.schedule)
+        #     print(len(self.schedule))
 
         # match adjustment:
         #     case AdjustmentType.AUTO:
@@ -116,26 +110,26 @@ class Schedule:
 
         self.ensure_bookends()
 
-    def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO) -> None:
-        before = filter(entry.after, self.schedule)
-        after = filter(entry.before, self.schedule)
-        overlaps = filter(entry.overlaps, self.schedule)
+    # def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO) -> None:
+    #     before = filter(entry.after, self.schedule)
+    #     after = filter(entry.before, self.schedule)
+    #     overlaps = filter(entry.overlaps, self.schedule)
 
-        match adjustment:
-            case AdjustmentType.AUTO:
-                ...
-            case AdjustmentType.CLIP:
-                raise NotImplemented
-            case AdjustmentType.SHIFT:
-                raise NotImplemented
-            case AdjustmentType.COMPRESS:
-                raise NotImplemented
-            case AdjustmentType.COMPROMISE:
-                raise NotImplemented
-            case _:
-                print("Invalid adjustment type.")
+    #     match adjustment:
+    #         case AdjustmentType.AUTO:
+    #             ...
+    #         case AdjustmentType.CLIP:
+    #             raise NotImplemented
+    #         case AdjustmentType.SHIFT:
+    #             raise NotImplemented
+    #         case AdjustmentType.COMPRESS:
+    #             raise NotImplemented
+    #         case AdjustmentType.COMPROMISE:
+    #             raise NotImplemented
+    #         case _:
+    #             print("Invalid adjustment type.")
 
-        self.schedule = [Entry("", PTime())] # TODO
+    #     self.schedule = [Entry("", PTime())] # TODO
 
     def __repr__(self) -> str:
         topbeam = "┏" + (self.width - 2) * "━" + "┓"
@@ -198,57 +192,59 @@ class Schedule:
             self.add(entry)
 
     def add(self, entry: Entry) -> None:
-        assert self.can_be_added(entry) #TODO
+        assert self.can_be_added(entry)  # TODO
         blocks_ind = min(self.get_inds_of_relevant_blocks(entry))
         if blocks_ind:
             self.add_to_blocks_by_index(entry, blocks_ind)
         else:
-            position = self.get_insert_position(entry)
-            self.insert_entry(entry, position) # TODO
+            # position = self.get_insert_position(entry)
+            # self.insert_entry(entry, position) # TODO
+            self.schedule = self.allocate_in_time(self.schedule + [entry])
 
     def get_inds_of_relevant_blocks(self, entry: Entry) -> List[int]:
         categories: set = entry.categories
-        
+
         def check(entry_: Entry) -> bool:
             return bool(categories.intersection(entry_.blocks))
-        
+
         relevant = filter(check, self.schedule)
         return list(map(lambda x: self.schedule.index(x), relevant))
-    
+
     def add_to_blocks_by_index(self, entry, blocks_ind) -> None:
         new_entries = self.add_over_blocks(entry, self.schedule[blocks_ind])
-        self.schedule = self.schedule[:blocks_ind] + new_entries + self.schedule[blocks_ind + 1:]
+        self.schedule = (
+            self.schedule[:blocks_ind] + new_entries + self.schedule[blocks_ind + 1 :]
+        )
 
     def can_be_added(self, entry: Entry) -> bool:
         assert self.overlaps_are_movable(entry)
-        if entry.ismovable:
-            possible = True # TODO
-            return possible
-        else:
-            possible = True # TODO
-            return possible
+        if not entry.ismovable:
+            overlaps = self.get_overlaps(entry)
+            if not all(map(lambda x: x.ismovable, overlaps)):
+                return False
+        return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
 
-    def get_insert_position(self, entry: Entry) -> int:
-        if entry.ismovable:
-            pos = 0 #TODO
-        else:
-            pos = 0 # TODO
-        return pos
-    
-    def insert_entry(self, entry: Entry, position: int) -> None:
-        if entry.ismovable:
-            schedule: List[Entry] = [] #TODO
-        else:
-            schedule = [] # TODO
-        self.schedule = schedule
+    # def get_insert_position(self, entry: Entry) -> int:
+    #     if entry.ismovable:
+    #         pos = 0 #TODO
+    #     else:
+    #         pos = 0 # TODO
+    #     return pos
+
+    # def insert_entry(self, entry: Entry, position: int) -> None:
+    #     if entry.ismovable:
+    #         schedule: List[Entry] = [] #TODO
+    #     else:
+    #         schedule = [] # TODO
+    #     self.schedule = schedule
 
     def get_overlaps(self, entry: Entry) -> List[Entry]:
-        return [] # TODO
+        return list(filter(lambda x: entry.overlaps(x), self.schedule))
 
     def overlaps_are_movable(self, entry: Entry) -> bool:
         overlaps = self.get_overlaps(entry)
         return all(map(lambda x: x.ismovable, overlaps))
-    
+
     def allocate_in_time(self, entries: List[Entry]) -> List[Entry]:
         """
         Creates a schedule (i.e. entry list) from a list of entries. Steps:
@@ -262,7 +258,9 @@ class Schedule:
           TODO: add alignend functionality (but first get it working without)
         """
         assert self.entry_list_fits(entries)
-        compression_factor = round((24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3)
+        compression_factor = round(
+            (24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3
+        )
 
         entries_fixed, entries_flex = self.get_fixed_and_flex(entries)
         schedule = [FIRST_ENTRY, *entries_fixed, LAST_ENTRY]
@@ -282,20 +280,28 @@ class Schedule:
 
     @staticmethod
     def get_fixed_and_flex(entries: List[Entry]) -> Tuple[List[Entry], List[Entry]]:
-        entries_fixed = sorted(list(filter(lambda x: not x.ismovable, entries)), key=lambda x: (x.order, x.priority))
-        entries_flex = sorted(list(filter(lambda x: x.ismovable, entries)), key=lambda x: (x.order, x.priority))
+        entries_fixed = sorted(
+            list(filter(lambda x: not x.ismovable, entries)),
+            key=lambda x: (x.order, x.priority),
+        )
+        entries_flex = sorted(
+            list(filter(lambda x: x.ismovable, entries)),
+            key=lambda x: (x.order, x.priority),
+        )
         return entries_fixed, entries_flex
-            
+
     @staticmethod
     def entry_list_fits(entries: List[Entry]) -> bool:
-        return (sum(map(lambda x: x.mintime, entries)) < (24 * 60))
+        return sum(map(lambda x: x.mintime, entries)) < (24 * 60)
 
     @staticmethod
     def get_gaps(sched: List[Entry]) -> List[Empty]:
         pairs = zip(sched[:-1], sched[1:])
         return [Empty(start=a.end, end=b.start) for a, b in pairs]
-        
-    def get_fixed_groups(self, sched: List[Entry]) -> List[Tuple[List[Entry], PTime, PTime]]:
+
+    def get_fixed_groups(
+        self, sched: List[Entry]
+    ) -> List[Tuple[List[Entry], PTime, PTime]]:
         ret: List = []
         entries_fixed, _ = self.get_fixed_and_flex(sched)
         fixed_indices = list(map(lambda entry: sched.index(entry), entries_fixed))
@@ -303,7 +309,7 @@ class Schedule:
             fixed_indices.insert(0, 0)
         fixed_indices.append(len(sched))
         for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
-            group: List[Entry] = sched[a: b]
+            group: List[Entry] = sched[a:b]
             if group:
                 start: PTime = group[0].start
                 ret.append([group, start, PTime()])
@@ -313,23 +319,33 @@ class Schedule:
             ret[0][1], ret[-1][2] = PTime(0), PTime(24)
         return [(a, b, c) for a, b, c in ret]
 
-    def fill_gaps(self, sched: List[Entry], flex_entries: List[Entry], compression_factor: float = 1.0) -> List[Entry]:
+    def fill_gaps(
+        self,
+        sched: List[Entry],
+        flex_entries: List[Entry],
+        compression_factor: float = 1.0,
+    ) -> List[Entry]:
         while flex_entries:
             flex = flex_entries.pop(0)
             gaps = self.get_gaps(sched)
-            
+
             i = 0
             while i < len(gaps):
                 gap = gaps[i]
                 if gap.fits(flex, ratio=compression_factor):
                     flex.start = gap.start
                     duration = round5(compression_factor * flex.normaltime)
-                    duration = round5(max(flex.mintime, self.time_weight_from_prio(flex.priority) * duration))
+                    duration = round5(
+                        max(
+                            flex.mintime,
+                            self.time_weight_from_prio(flex.priority) * duration,
+                        )
+                    )
                     flex.end = flex.start + duration
                     sched.insert(i + 1, flex)
                 i += 1
         return sched
-    
+
     def smooth_between_fixed(self, sched: List[Entry]) -> List[Entry]:
         ret = []
         groups = self.get_fixed_groups(sched)
@@ -338,14 +354,15 @@ class Schedule:
             ret.extend(smoothed)
         return ret
 
-    def smooth_entries(self, entries: List[Entry], start: PTime, end: PTime) -> List[Entry]:
-    
+    def smooth_entries(
+        self, entries: List[Entry], start: PTime, end: PTime
+    ) -> List[Entry]:
         ret = []
         total = start.timeto(end)
 
         underfilled = sum(map(lambda x: x.maxtime, entries)) < total
         time_tmp = entries[0].start.copy()
-        
+
         if underfilled:
             time_tmp = entries[0].start.copy()
             for entry in entries:
@@ -356,42 +373,46 @@ class Schedule:
             empty = Empty(start=ret[-1].end, end=end)
             ret.append(empty)
             return ret
-        
+
         # weighted adjustment
         total_duration = sum(map(Entry.duration, entries))
         ratio = total / total_duration
         for entry in entries:
             duration: int = entry.duration()
             weight = self.time_weight_from_prio(entry.priority)
-            duration = max(min(round5(weight * ratio * duration), entry.maxtime), entry.mintime)
+            duration = max(
+                min(round5(weight * ratio * duration), entry.maxtime), entry.mintime
+            )
             entry.start = time_tmp.copy()
             time_tmp += duration
             entry.end = time_tmp.copy()
             ret.append(entry)
-        
+
         # make sure it fits exactly
         total_duration = sum(map(Entry.duration, ret))
         ratio = total / total_duration
-        lengths = list(map(lambda x: max(min(round5(ratio * x), entry.maxtime), entry.mintime), map(Entry.duration, ret)))
+        lengths = list(
+            map(
+                lambda x: max(min(round5(ratio * x), entry.maxtime), entry.mintime),
+                map(Entry.duration, ret),
+            )
+        )
         total_duration = sum(lengths)
         diff = total - total_duration
         extremum = min if (diff > 0) else max
         ind_to_adjust = ret.index(extremum(ret, key=lambda x: x.priority))
-        ret[ind_to_adjust].end += diff # TODO: add safeguard to respect mintime and mintime
+        ret[
+            ind_to_adjust
+        ].end += diff  # TODO: add safeguard to respect mintime and mintime
         for ind in range(ind_to_adjust + 1, len(ret)):
             ret[ind].start += diff
             ret[ind].end += diff
-        
+
         return ret
 
     def time_weight_from_prio(self, prio: Union[int, float]) -> float:
         interval = self.weight_interval_max - self.weight_interval_min
         return self.weight_interval_min + interval * self.prio_transform(prio)
-
-
-
-
-
 
 
 # d = Schedule(2023, 5, 23)
@@ -401,95 +422,3 @@ class Schedule:
 #     Entry(name="R & R", start=PTime(9,15), end=PTime(9,50)),
 #     Entry(name="Last Entry for the schedule: reading at my own discretion", start=PTime(17,30), end=PTime(19,15), priority=10)
 # ]
-
-
-class Schedules:
-    def __init__(self, schedules: Dict[PDate, Schedule] = {}) -> None:
-        self._schedules: Dict[PDate, Schedule] = schedules
-
-    def __getitem__(self, __key: PDateInputType) -> Schedule:
-        __key = PDate.ensure_is_pdate(__key)
-        if not __key:
-            raise ValueError(f"Date not in schedules: {str(__key)}")
-        return self._schedules[__key]
-
-    def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
-        assert isinstance(__value, Schedule)
-        __key = PDate.ensure_is_pdate(__key)
-        if not __key:
-            raise ValueError(f"Date not in schedules: {str(__key)}")
-        self._schedules.update({__key: __value})
-
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Schedules":
-        file = workspace_dir / "roadmaps.norg"
-        parsed: Norg = Norg.from_path(file)
-        ...  # TODO
-        return cls()
-
-    def __str__(self) -> str:
-        return "\n".join(map(str, self._schedules.values()))
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-    def __len__(self) -> int:
-        return len(self._schedules)
-
-
-"""
-t = PDate.today()
-scheds = {t: "today's schedule}
-s = Schedules(schedules={})
-"""
-
-
-# def __getattr__(self, __name: str) -> Any:
-#     if __name in self.__dict__:
-#         return self.__dict__[__name]
-#     elif __name in self._schedules:
-#         return self._schedules[__name]
-#     else:
-#         raise ValueError("Invalid attribute.")
-
-# def __setattr__(self, __name: str, __value: Any) -> None:
-#     pass
-
-
-class SchedulePatch:
-    def __init__(self) -> None:
-        ...
-
-
-class SchedulePatches:
-    def __init__(self, schedule_patches: Dict[PDate, SchedulePatch] = {}) -> None:
-        self._patches: Dict[PDate, SchedulePatch] = schedule_patches
-
-    def __getitem__(self, __key: PDateInputType) -> SchedulePatch:
-        __key = PDate.ensure_is_pdate(__key)
-        if not __key:
-            raise ValueError(f"Date not in schedules: {str(__key)}")
-        return self._patches.get(__key, SchedulePatch())
-
-    # def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
-    #     ...
-
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "SchedulePatches":
-        # file = workspace_dir / "roadmaps.norg"
-        # parsed = Norg.from_path(file)
-        # ...
-        # return cls()
-        return cls()
-
-    @property
-    def end_date(self) -> PDate:
-        if not self._patches:
-            return PDate.tomorrow()
-        return max(self._patches)
-
-    @property
-    def start_date(self) -> PDate:
-        if not self._patches:
-            return PDate.tomorrow()
-        return min(self._patches)

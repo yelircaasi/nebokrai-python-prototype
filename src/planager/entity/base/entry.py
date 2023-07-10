@@ -3,8 +3,8 @@
 from pathlib import Path
 from typing import Optional, Set, Tuple, Union
 
-from planager.utils.datetime_extensions import PTime
-from planager.utils.misc import round5, tabularize
+from planager.util.datetime_extensions import PTime
+from planager.util.misc import round5, tabularize
 
 
 class Entry:
@@ -23,7 +23,7 @@ class Entry:
         mintime: Optional[int] = None,
         maxtime: Optional[int] = None,
         alignend: bool = False,
-        order: int = 50, 
+        order: int = 50,
     ) -> None:
         self.name = name
         self.start: PTime = start or PTime(8)
@@ -73,7 +73,7 @@ class Entry:
             alignend=self.alignend,
         )
 
-    def __eq__(self, __other: object) -> bool: 
+    def __eq__(self, __other: object) -> bool:
         return self.__dict__ == __other.__dict__
 
     # @classmethod
@@ -183,7 +183,7 @@ class Entry:
 
     def __repr__(self) -> str:
         return self.pretty()
-    
+
     def fits(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return self.duration() >= max(__entry.mintime, ratio * __entry.normaltime)
 
@@ -196,7 +196,7 @@ class Empty(Entry):
             start=start,
             end=end,
             priority=-1.0,
-            blocks = {"wildcard"},
+            blocks={"wildcard"},
             normaltime=_time,
             mintime=0,
         )

@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.datetime_extensions import PDate
+from planager.util.data.norg.norg_util import Norg
+from planager.util.datetime_extensions import PDate
 
 
 class Day:

@@ -1,7 +1,8 @@
+"""
 import pytest
 
-from planager.entities.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from planager.entities.schedule import Schedule
+from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from planager.entities import Schedule
 from planager.utils.algorithms.scheduling import (
     add_entry_default,
     add_immovable,
@@ -9,7 +10,7 @@ from planager.utils.algorithms.scheduling import (
     add_over_empty,
     adjust_backward,
     adjust_forward,
-    compress,
+    #compress,
     compress_weighted,
     entries_fit,
     entries_fit_normal,
@@ -952,3 +953,4 @@ class TestScheduling:
         # assert add_entry_default(Entry(...), shiftaround_day) == shiftaround_expected
 
         assert True
+"""

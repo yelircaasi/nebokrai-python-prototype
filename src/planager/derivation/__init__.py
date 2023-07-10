@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from planager.entities import Planager
+from planager.entity import Planager
 
 
 def derive() -> "Planager":

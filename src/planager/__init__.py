@@ -1,5 +1,5 @@
-from planager.entities import FIRST_ENTRY, LAST_ENTRY, Empty, Entry, Planager, Schedule
-from planager.utils.datetime_extensions import PDate, PDateTime, PTime
+from planager.entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry, Planager, Schedule
+from planager.util.datetime_extensions import PDate, PDateTime, PTime
 
 __all__ = [
     "Empty",

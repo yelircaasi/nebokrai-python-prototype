@@ -1,7 +1,8 @@
 from typing import Optional
 
-from planager import entities, operators
 from planager.config import ConfigType
+from ...entity.base.plan import Plan
+from ...entity.patch.plan_patch import PlanPatches
 
 
 class PlanPatcher:
@@ -9,8 +10,8 @@ class PlanPatcher:
         self._config = config
 
     def __call__(
-        self, plan: entities.Plan, plan_patches: Optional[entities.PlanPatches]
-    ) -> entities.Plan:
+        self, plan: Plan, plan_patches: Optional[PlanPatches]
+    ) -> Plan:
         if not plan_patches:
             return plan
         return plan  # TODO

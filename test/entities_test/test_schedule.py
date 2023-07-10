@@ -1,6 +1,6 @@
 import pytest
 
-from planager.entities import schedule
+from planager.entity.base import schedule
 
 
 class TestSchedule:

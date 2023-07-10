@@ -1,7 +1,8 @@
 from typing import Optional
 
 from planager.config import ConfigType
-from planager.entities.schedule import Schedule, SchedulePatch
+from planager.entity.base.schedule import Schedule
+from planager.entity.patch.schedule_patch import SchedulePatch
 
 
 class SchedulePatcher:

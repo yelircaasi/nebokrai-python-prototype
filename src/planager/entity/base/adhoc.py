@@ -25,10 +25,10 @@ version: 0.1
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Union
 
-from planager.utils.data.norg import norg_utils as norg
-from planager.utils.data.norg.norg_utils import Norg
-from planager.utils.datetime_extensions import PDate, PTime, now
-from planager.utils.misc import tabularize
+from planager.util.data.norg import norg_util as norg
+from planager.util.data.norg.norg_util import Norg
+from planager.util.datetime_extensions import PDate, PTime, now
+from planager.util.misc import tabularize
 
 # from planager.config import config
 from .entry import Entry

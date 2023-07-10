@@ -1,7 +1,8 @@
 from typing import Optional
 
 from planager.config import ConfigType
-from planager.entities.task import Task, TaskPatch
+from planager.entity.base.task import Task
+from planager.entity.patch.task_patch import TaskPatch
 
 
 class TaskPatcher:

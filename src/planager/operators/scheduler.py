@@ -1,13 +1,15 @@
 from typing import List, Optional
 
-from planager.config import ConfigType, config
-from planager.entities.adhoc import AdHoc
-from planager.entities.plan import Plan
-from planager.entities.routine import Routines
-from planager.entities.schedule import Schedule, SchedulePatches, Schedules
-from planager.entities.task import Tasks
-from planager.operators.patchers import SchedulePatcher
-from planager.utils.datetime_extensions import PDate
+from ..config import ConfigType
+from ..entity.base.adhoc import AdHoc
+from ..entity.base.plan import Plan
+from ..entity.base.schedule import Schedule
+from ..entity.container.routines import Routines
+from ..entity.container.schedules import Schedules
+from ..entity.container.tasks import Tasks
+from ..entity.patch.schedule_patch import SchedulePatches
+from ..operators.patchers import SchedulePatcher
+from ..util.datetime_extensions import PDate
 
 
 class Scheduler:

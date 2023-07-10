@@ -1,18 +1,20 @@
 from itertools import islice
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from planager.config import ConfigType
-from planager.entities.calendar import Calendar
-from planager.entities.plan import Plan, PlanPatch, PlanPatches
-from planager.entities.project import Project
-from planager.entities.roadmap import Roadmaps
-from planager.entities.task import TaskPatches, Tasks
-from planager.operators.patchers import PlanPatcher, TaskPatcher
-from planager.utils.algorithms.planning import ClusterType, SubplanType
+from ..config import ConfigType
+from ..entity.base.calendar import Calendar
+from ..entity.base.plan import Plan
+from ..entity.base.project import Project
+from ..entity.container.roadmaps import Roadmaps
+from ..entity.container.tasks import Tasks
+from ..entity.patch.plan_patch import PlanPatch, PlanPatches
+from ..entity.patch.task_patch import TaskPatches
+from ..operators.patchers import PlanPatcher, TaskPatcher
+from ..util.algorithm.planning import ClusterType, SubplanType
 
 # from planager.config import config
-from planager.utils.datetime_extensions import PDate
-from planager.utils.misc import expand_task_segments
+from planager.util.datetime_extensions import PDate
+from planager.util.misc import expand_task_segments
 
 
 class Planner:

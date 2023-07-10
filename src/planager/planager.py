@@ -1,19 +1,23 @@
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
 
-from planager.config import ConfigType
-from planager.operators import Planner, Scheduler
-from planager.utils.datetime_extensions import PDateTime  # util:      1
-
-from .adhoc import AdHoc
-from .calendar import Calendar
-from .entry import Entry
-from .plan import Plan, PlanPatch, PlanPatches
-from .project import Project, Projects
-from .roadmap import Roadmap, Roadmaps
-from .routine import Routine, Routines
-from .schedule import Schedule, SchedulePatch, SchedulePatches, Schedules
-from .task import Task, TaskPatch, TaskPatches, Tasks
+from .config import ConfigType
+from .entity.base.adhoc import AdHoc
+from .entity.base.calendar import Calendar
+from .entity.base.plan import Plan
+from .entity.base.project import Project
+from .entity.base.roadmap import Roadmap
+from .entity.base.task import Task
+from .entity.container.projects import Projects
+from .entity.container.roadmaps import Roadmaps
+from .entity.container.routines import Routines
+from .entity.container.schedules import Schedules
+from .entity.container.tasks import Tasks
+from .entity.patch.plan_patch import PlanPatches
+from .entity.patch.schedule_patch import SchedulePatches
+from .entity.patch.task_patch import TaskPatches
+from .operators import Planner, Scheduler
+from .util.datetime_extensions import PDateTime  # util:      1
 
 
 class Planager:
