@@ -37,6 +37,10 @@ class Norg:
 
     @classmethod
     def from_path(cls, norg_path: Path) -> "Norg":
+        """
+        Reads and parses a .norg file into a Norg class.
+        Norg.from_string() does most of the heavy lifting here.
+        """
         with open(norg_path) as f:
             norg_str = f.read()
         norg_obj = cls.from_string(norg_str)
@@ -47,15 +51,25 @@ class Norg:
     def from_string(cls, norg_str) -> "Norg":
         kwarg_dict = cls.parse_norg_str(norg_str)
 
-        return cls(**kwarg_dict)
+        return cls(
+            title=kwarg_dict["title"],
+            description=kwarg_dict["description"],
+            author=kwarg_dict["author"],
+            id=kwarg_dict["id"],
+            parent=kwarg_dict["parent"],
+            updated=kwarg_dict["updated"],
+            categories=kwarg_dict["categories"],
+            sections=kwarg_dict["sections"],
+            items=kwarg_dict["items"],
+        )
 
     @staticmethod
-    def parse_norg_str(norg: str) -> Dict[str, Any]:
+    def parse_norg_str(norg_str: str) -> Dict[str, Any]:
         regx_header_and_body = Regexes.header_and_body
         regx_sections = Regexes.section_split
         regx_items = Regexes.item1_split
 
-        result = re.search(regx_header_and_body, norg)
+        result = re.search(regx_header_and_body, norg_str)
         if result:
             header, body = result.groups() if result else ("", "")
         else:
@@ -179,10 +193,31 @@ class Norg:
             return re.split(regx, f.read())
 
     @staticmethod
-    def make_header(**kwargs) -> str:
-        inner = "\n".join(
-            map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items()))
+    def make_header(
+        title: str,
+        id: str,
+        parent: str,
+        updated: str = PDateTime.now_str(),
+        author: str = "yelircaasi",
+        description: str = "",
+        categories: Union[str, list] = "",
+    ) -> str:
+        # inner = "\n".join(
+        #     map(": ".join, map(lambda kv: (kv[0], str(kv[1])), kwargs.items()))
+        # )
+        categories = (
+            ", ".join(categories) if isinstance(categories, list) else categories
         )
+        kv_pairs = [
+            f"title: {title}",
+            f"id: {id}",
+            f"parent: {parent}",
+            f"updated: {updated}",
+            f"author: {author}",
+            f"description: {description}",
+            f"categories: {categories}",
+        ]
+        inner = "\n".join(filter(bool, kv_pairs))
         return f"@document.meta\n{inner}\n@end"
 
     @staticmethod

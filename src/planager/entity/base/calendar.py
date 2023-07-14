@@ -10,12 +10,12 @@ class Day:
         date: PDate,
         max_load: int = 240,
         routines: list = ["morning", "midday" "evening"],
-        **kwargs,
+        # **kwargs,
     ) -> None:
         self.date = date
         self.max_load = max_load
         self.routines = routines
-        self.__dict__.update(**kwargs)
+        # self.__dict__.update(**kwargs)
 
 
 class Calendar:

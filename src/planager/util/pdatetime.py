@@ -5,10 +5,6 @@ from typing import Any, List, Optional, Tuple, Union
 from .type import PDateInputType
 
 
-def now() -> str:
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-
 class PTime:
     def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):
         if not (60 * hour + minute) in range(1441):
@@ -253,6 +249,15 @@ class PDateTime:
 
         self.date = PDate(year, month, day)
         self.time = PTime(self.hour, self.minute)
+
+    @classmethod
+    def now_str(cls) -> str:
+        return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    @classmethod
+    def now(cls) -> "PDateTime":
+        n = datetime.now()
+        return cls(n.year, n.month, n.day, n.hour, n.minute, n.second)
 
     @classmethod
     def from_string(cls, date_string: str) -> "PDateTime":

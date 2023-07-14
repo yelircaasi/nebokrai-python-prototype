@@ -69,7 +69,18 @@ class Project:
         cls,
         norg_path: Path,
         project_name: str,
-        **kwargs,
+        priority: int = 10,
+        start: Optional[PDate] = None,
+        end: Optional[PDate] = None,
+        interval: int = 7,
+        cluster_size: int = 1,
+        duration: int = 30,
+        tags: set = set(),
+        description: str = "",
+        notes: str = "",
+        before: List[Tuple[str, str]] = [],
+        after: List[Tuple[str, str]] = [],
+        # **kwargs,
     ) -> "Project":
         norg_obj = Norg.from_path(norg_path)
         project_id = (norg_obj.parent, norg_obj.id)
@@ -78,9 +89,18 @@ class Project:
             name=norg_obj.title,
             id=project_id,
             tasks=tasks,
-            # path=norg_path,
-            **kwargs,
-            # notes=norg.notes,
+            priority=priority,
+            start=start,
+            end=end,
+            interval=interval,
+            cluster_size=cluster_size,
+            duration=duration,
+            tags=tags,
+            description=description,
+            notes=notes,
+            path=norg_path,
+            before=before,
+            after=after,
         )
         return c
 
@@ -135,7 +155,6 @@ class Project:
                     tags=set(attributes.get("tags", [])),
                     description=attributes.get("description", ""),
                     notes=attributes.get("notes", ""),
-                    path=attributes.get("path", ""),
                     before=attributes.get("before", []),
                     after=attributes.get("after", []),
                 )

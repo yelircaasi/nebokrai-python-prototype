@@ -25,24 +25,25 @@ version: 0.1
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Union
 
-from ...util import Norg, PDate, PTime, now, tabularize
+from ...util import Norg, PDate, PTime, tabularize
 from .entry import Entry
+from ..container.entries import Entries
 
 
 class AdHoc:
-    def __init__(self, entries: List[Entry] = []) -> None:
+    def __init__(self, entries: Entries = Entries()) -> None:
         self.title = "Ad Hoc Entries"
         self.entries = entries
         # self.author = config.author
 
         # NEW FORMAT
-        self._adhocs: Dict[PDate, List[Entry]] = {}
+        self._adhocs: Dict[PDate, Entries] = {}
 
     def __iter__(self) -> Iterator[Entry]:
         return iter(self.entries)
 
-    def __getitem__(self, __date: PDate) -> List[Entry]:
-        return self._adhocs.get(__date, [])
+    def __getitem__(self, __date: PDate) -> Entries:
+        return self._adhocs.get(__date, Entries())
 
     def __str__(self) -> str:
         return self.pretty()
@@ -86,8 +87,9 @@ class AdHoc:
         return cls()
 
     def to_norg(self, fp: Path) -> None:
-        with open(fp, "w") as f:
-            f.write(self.to_norg_str())
+        # with open(fp, "w") as f:
+        #     f.write(self.to_norg_str())
+        ...  # TODO
 
     def to_json(self, fp: Path) -> None:
         with open(fp, "w") as f:
@@ -97,19 +99,19 @@ class AdHoc:
         with open(fp, "w") as f:
             f.write(self.to_html_str())
 
-    def to_norg_str(self) -> str:
-        header = Norg.make_header(
-            title=self.title,
-            # author=self.author,
-            updated=now(),
-        )
-        return ""  # TODO
+    # def to_norg_str(self) -> str:
+    #     header = Norg.make_header(
+    #         title=self.title,
+    #         # author=self.author,
+    #         updated=now(),
+    #     )
+    #     return ""  # TODO
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
         file = workspace_dir / "adhoc.norg"
         parsed = Norg.from_path(file)
-        entries = []
+        entries = Entries()
         for section in parsed.sections:
             # attributes = Norg.get_attributes(section["text"])
             attributes = section["attributes"]

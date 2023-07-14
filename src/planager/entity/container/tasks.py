@@ -20,7 +20,10 @@ class Tasks:
 
     @classmethod
     def from_norg_path(
-        cls, norg_path: Path, project_id: Tuple[str, str], project_name: str, **kwargs
+        cls,
+        norg_path: Path,
+        project_id: Tuple[str, str],
+        project_name: str,  # **kwargs
     ) -> "Tasks":
         assert project_name != "/"
         tasks = cls()

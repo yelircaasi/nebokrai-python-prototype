@@ -2,7 +2,7 @@ from . import data, display, misc, type
 from .data import Norg
 from .display import tabularize
 from .misc import expand_task_segments, round5
-from .pdatetime import TODAY, ZERODATE, ZERODATETIME, PDate, PDateTime, PTime, now
+from .pdatetime import TODAY, ZERODATE, ZERODATETIME, PDate, PDateTime, PTime
 from .regex import Regexes
 from .type import ClusterType, ConfigType, PDateInputType, SubplanType
 
@@ -17,8 +17,6 @@ __all__ = [
     "ZERODATETIME",
     "data",
     "misc",
-    "pdatetime",
-    "now",
     "PDate",
     "PTime",
     "PDateTime",

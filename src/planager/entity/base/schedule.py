@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from ...util import Norg, PDate, PDateInputType, PTime, round5, tabularize
+from ..container.entries import Entries
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .adhoc import AdHoc
@@ -25,7 +26,7 @@ class Schedule:
         year: int = PDate.today().year,
         month: int = PDate.today().month,
         day: int = PDate.today().day,
-        schedule: Optional[List[Entry]] = None,
+        schedule: Optional[Entries] = None,
         width: int = 80,
         weight_interval_min: float = 0.8,
         weight_interval_max: float = 1.2,
@@ -34,19 +35,21 @@ class Schedule:
         self.date: PDate = PDate(year, month, day)
         self.width: int = width
         self.AdjustmentType = AdjustmentType
-        self.overflow: List[Entry] = []
+        self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
         self.prio_transform: Callable = lambda x: x
 
-    def make_default_day(self) -> List[Entry]:
-        return [
-            FIRST_ENTRY,
-            Entry("Sleep", PTime(0), end=PTime(5), priority=70, ismovable=False),
-            Empty(start=PTime(5), end=PTime(21)),
-            Entry("Sleep", PTime(21), end=PTime(24), priority=70, ismovable=False),
-            LAST_ENTRY,
-        ]
+    def make_default_day(self) -> Entries:
+        return Entries(
+            [
+                FIRST_ENTRY,
+                Entry("Sleep", PTime(0), end=PTime(5), priority=70, ismovable=False),
+                Empty(start=PTime(5), end=PTime(21)),
+                Entry("Sleep", PTime(21), end=PTime(24), priority=70, ismovable=False),
+                LAST_ENTRY,
+            ]
+        )
 
     def ensure_bookends(self) -> None:
         if not self.schedule[0] == FIRST_ENTRY:
@@ -188,9 +191,9 @@ class Schedule:
 
     def add(self, entry: Entry) -> None:
         assert self.can_be_added(entry)  # TODO
-        blocks_ind = min(self.get_inds_of_relevant_blocks(entry))
-        if blocks_ind:
-            self.add_to_blocks_by_index(entry, blocks_ind)
+        block_ind = min(self.get_inds_of_relevant_blocks(entry))
+        if block_ind:
+            self.add_to_block_by_index(entry, block_ind)
         else:
             # position = self.get_insert_position(entry)
             # self.insert_entry(entry, position) # TODO
@@ -205,10 +208,12 @@ class Schedule:
         relevant = filter(check, self.schedule)
         return list(map(lambda x: self.schedule.index(x), relevant))
 
-    def add_to_blocks_by_index(self, entry, blocks_ind) -> None:
-        new_entries = self.add_over_blocks(entry, self.schedule[blocks_ind])
+    def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None:
+        new_entries = self.add_over_block(entry, self.schedule[block_ind])
         self.schedule = (
-            self.schedule[:blocks_ind] + new_entries + self.schedule[blocks_ind + 1 :]
+            self.schedule.slice(None, block_ind)
+            + new_entries
+            + self.schedule.slice(block_ind + 1, None)
         )
 
     def can_be_added(self, entry: Entry) -> bool:
@@ -228,19 +233,19 @@ class Schedule:
 
     # def insert_entry(self, entry: Entry, position: int) -> None:
     #     if entry.ismovable:
-    #         schedule: List[Entry] = [] #TODO
+    #         schedule: Entries = [] #TODO
     #     else:
     #         schedule = [] # TODO
     #     self.schedule = schedule
 
-    def get_overlaps(self, entry: Entry) -> List[Entry]:
-        return list(filter(lambda x: entry.overlaps(x), self.schedule))
+    def get_overlaps(self, entry: Entry) -> Entries:
+        return Entries(filter(lambda x: entry.overlaps(x), self.schedule))
 
     def overlaps_are_movable(self, entry: Entry) -> bool:
         overlaps = self.get_overlaps(entry)
         return all(map(lambda x: x.ismovable, overlaps))
 
-    def allocate_in_time(self, entries: List[Entry]) -> List[Entry]:
+    def allocate_in_time(self, entries: Entries) -> Entries:
         """
         Creates a schedule (i.e. entry list) from a list of entries. Steps:
           1) check whether the entries fit in a day
@@ -258,7 +263,7 @@ class Schedule:
         )
 
         entries_fixed, entries_flex = self.get_fixed_and_flex(entries)
-        schedule = [FIRST_ENTRY, *entries_fixed, LAST_ENTRY]
+        schedule = Entries([FIRST_ENTRY, *entries_fixed, LAST_ENTRY])
 
         schedule = self.fill_gaps(schedule, entries_flex, compression_factor)
         schedule = self.smooth_between_fixed(schedule)
@@ -266,37 +271,39 @@ class Schedule:
         return schedule
 
     @staticmethod
-    def add_over_blocks(entry: Entry, blocks: Entry) -> List[Entry]:
+    def add_over_block(entry: Entry, block: Entry) -> Entries:
         entry_dur = entry.duration()
-        entry.start = blocks.start
-        entry.end = min(blocks.end, blocks.start + entry_dur)
-        blocks.start = entry.end
-        return [entry, blocks]
+        entry.start = block.start
+        entry.end = min(block.end, block.start + entry_dur)
+        block.start = entry.end
+        return Entries([entry, block])
 
     @staticmethod
-    def get_fixed_and_flex(entries: List[Entry]) -> Tuple[List[Entry], List[Entry]]:
-        entries_fixed = sorted(
-            list(filter(lambda x: not x.ismovable, entries)),
-            key=lambda x: (x.order, x.priority),
+    def get_fixed_and_flex(entries: Entries) -> Tuple[Entries, Entries]:
+        entries_fixed = Entries(
+            sorted(
+                list(filter(lambda x: not x.ismovable, entries)),
+                key=lambda x: (x.order, x.priority),
+            )
         )
-        entries_flex = sorted(
-            list(filter(lambda x: x.ismovable, entries)),
-            key=lambda x: (x.order, x.priority),
+        entries_flex = Entries(
+            sorted(
+                list(filter(lambda x: x.ismovable, entries)),
+                key=lambda x: (x.order, x.priority),
+            )
         )
         return entries_fixed, entries_flex
 
     @staticmethod
-    def entry_list_fits(entries: List[Entry]) -> bool:
+    def entry_list_fits(entries: Entries) -> bool:
         return sum(map(lambda x: x.mintime, entries)) < (24 * 60)
 
     @staticmethod
-    def get_gaps(sched: List[Entry]) -> List[Empty]:
-        pairs = zip(sched[:-1], sched[1:])
+    def get_gaps(sched: Entries) -> List[Empty]:
+        pairs = zip(sched.slice(None, -1), sched.slice(1, None))
         return [Empty(start=a.end, end=b.start) for a, b in pairs]
 
-    def get_fixed_groups(
-        self, sched: List[Entry]
-    ) -> List[Tuple[List[Entry], PTime, PTime]]:
+    def get_fixed_groups(self, sched: Entries) -> List[Tuple[Entries, PTime, PTime]]:
         ret: List = []
         entries_fixed, _ = self.get_fixed_and_flex(sched)
         fixed_indices = list(map(lambda entry: sched.index(entry), entries_fixed))
@@ -304,7 +311,7 @@ class Schedule:
             fixed_indices.insert(0, 0)
         fixed_indices.append(len(sched))
         for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
-            group: List[Entry] = sched[a:b]
+            group: Entries = sched.slice(a, b)
             if group:
                 start: PTime = group[0].start
                 ret.append([group, start, PTime()])
@@ -316,10 +323,10 @@ class Schedule:
 
     def fill_gaps(
         self,
-        sched: List[Entry],
-        flex_entries: List[Entry],
+        sched: Entries,
+        flex_entries: Entries,
         compression_factor: float = 1.0,
-    ) -> List[Entry]:
+    ) -> Entries:
         while flex_entries:
             flex = flex_entries.pop(0)
             gaps = self.get_gaps(sched)
@@ -341,18 +348,16 @@ class Schedule:
                 i += 1
         return sched
 
-    def smooth_between_fixed(self, sched: List[Entry]) -> List[Entry]:
-        ret = []
+    def smooth_between_fixed(self, sched: Entries) -> Entries:
+        ret: Entries = Entries()
         groups = self.get_fixed_groups(sched)
         for group, start, end in groups:
-            smoothed: List[Entry] = self.smooth_entries(group, start, end)
+            smoothed: Entries = self.smooth_entries(group, start, end)
             ret.extend(smoothed)
         return ret
 
-    def smooth_entries(
-        self, entries: List[Entry], start: PTime, end: PTime
-    ) -> List[Entry]:
-        ret = []
+    def smooth_entries(self, entries: Entries, start: PTime, end: PTime) -> Entries:
+        ret: Entries = Entries()
         total = start.timeto(end)
 
         underfilled = sum(map(lambda x: x.maxtime, entries)) < total
@@ -396,9 +401,8 @@ class Schedule:
         diff = total - total_duration
         extremum = min if (diff > 0) else max
         ind_to_adjust = ret.index(extremum(ret, key=lambda x: x.priority))
-        ret[
-            ind_to_adjust
-        ].end += diff  # TODO: add safeguard to respect mintime and mintime
+        ret[ind_to_adjust].end += diff
+        # TODO: add safeguard to respect mintime and mintime
         for ind in range(ind_to_adjust + 1, len(ret)):
             ret[ind].start += diff
             ret[ind].end += diff
@@ -416,7 +420,7 @@ class Schedule:
             adjacency = all(
                 map(
                     lambda x: x[0].end == x[1].start,
-                    zip(self.schedule[:-1], self.schedule[1:]),
+                    zip(self.schedule.slice(None, -1), self.schedule.slice(1, None)),
                 )
             )
         return (

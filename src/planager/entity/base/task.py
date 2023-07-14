@@ -12,7 +12,7 @@ class Task:
         id: Tuple[str, str, str],
         priority: int = 10,
         project_name: str = "?",
-        **kwargs,
+        # **kwargs,
     ) -> None:
         assert len(id) == 3
 
@@ -20,7 +20,7 @@ class Task:
         self.id = id
         self.priority = priority
         self.project_name = project_name
-        self.__dict__.update(**kwargs)
+        # self.__dict__.update(**kwargs)
 
     def __str__(self) -> str:
         return self.pretty()
