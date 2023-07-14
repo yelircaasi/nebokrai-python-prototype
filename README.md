@@ -122,7 +122,7 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 [✓] remove ambiguity (**kwargs) in norg reading
 
-[ ] migrate List[Entry] to Entries
+[✓] migrate List[Entry] to Entries
 
 [ ] move internal norg dicts to classes for better verification
 

@@ -88,18 +88,18 @@ class AdHoc:
 
     def to_norg(self, fp: Path) -> None:
         # with open(fp, "w") as f:
-        #     f.write(self.to_norg_str())
+        #     f.write(self.to_norg_string())
         ...  # TODO
 
     def to_json(self, fp: Path) -> None:
         with open(fp, "w") as f:
-            f.write(self.to_json_str())
+            f.write(self.to_json_string())
 
     def to_html(self, fp: Path) -> None:
         with open(fp, "w") as f:
-            f.write(self.to_html_str())
+            f.write(self.to_html_string())
 
-    # def to_norg_str(self) -> str:
+    # def to_norg_string(self) -> str:
     #     header = Norg.make_header(
     #         title=self.title,
     #         # author=self.author,
@@ -110,34 +110,34 @@ class AdHoc:
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
         file = workspace_dir / "adhoc.norg"
-        parsed = Norg.from_path(file)
+        norg = Norg.from_path(file)
         entries = Entries()
-        for section in parsed.sections:
-            # attributes = Norg.get_attributes(section["text"])
-            attributes = section["attributes"]
-            start = PTime.from_string(attributes["start"])
+        for item in norg.items:
+            # attributes = Norg.get_attributes(item["text"])
+            # attributes = item.attributes
+            start = item.get_start_time()
             entries.append(
                 Entry(
-                    name=section["title"] or "<Placeholder Entry Name>",
+                    name=item.get_name() or "<Placeholder Entry Name>",
                     start=start,
-                    end=PTime.from_string(attributes.get("end")) or start + 30,
-                    priority=int(attributes.get("priority") or 0),
-                    ismovable=bool(str(attributes.get("ismovable")).lower() == "true"),
-                    notes=attributes.get("notes") or "",
-                    normaltime=attributes.get("normaltime") or 30,
-                    idealtime=attributes.get("idealtime"),
-                    mintime=attributes.get("mintime"),
-                    maxtime=attributes.get("maxtime"),
-                    alignend=bool(str(attributes.get("alignend")).lower() == "true"),
+                    end=item.get_end_time() or (start + 30 if start else None),
+                    priority=item.get_priority() or 10,
+                    ismovable=bool(item.get_ismovable()),
+                    notes=item.get_notes() or "",
+                    normaltime=item.get_normaltime() or 30,
+                    idealtime=item.get_idealtime(),
+                    mintime=item.get_mintime(),
+                    maxtime=item.get_maxtime(),
+                    alignend=item.get_alignend() or False,
                 )
             )
         return cls(entries)
 
-    def to_json_str(self) -> str:
+    def to_json_string(self) -> str:
         ...
         return ""  # TODO
 
-    def to_html_str(self) -> str:
+    def to_html_string(self) -> str:
         ...
         return ""  # TODO
 

@@ -44,24 +44,26 @@ class Routines:
     # def __setitem__(self, __name: str, __value: Any) -> None:
     #     ...
 
+
+""" needs a full rewrite: one routine per file, as with projects
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "Routines":
         file = workspace_dir / "routines.norg"
         parsed = Norg.from_path(file)
         routines = Routines()
         for section in parsed.sections:
-            title = section["title"]
+            title = section.title
             # attributes = Norg.parse_preasterix_attributes(section["text"])
-            attributes = section["attributes"]
+            # attributes = section["attributes"]
             # items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
-            items = section["subsections"]
+            items = section.subsections
             routines.add(
                 Routine(
                     title,
-                    attributes,
                     items,
                 )
             )
         for routine in routines:
             print(routine.priority)
         return routines
+"""

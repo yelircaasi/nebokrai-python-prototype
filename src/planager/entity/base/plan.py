@@ -28,7 +28,7 @@ class Plan:
     #     TODO
 
     def add_tasks(self, date: PDate, tasks: Union[Tasks, Iterable[Task]]) -> None:
-        task_ids = [task.id for task in tasks]
+        task_ids = [task.task_id for task in tasks]
         if date in self._plan:
             task_ids = list(set(task_ids + self._plan[date]))
         self._plan.update({date: task_ids})
@@ -49,7 +49,7 @@ class Plan:
         #     raise ValueError("plan_id and task id must be of compatible types.")
 
         for task in tasks:
-            self._tasks.update({task.id: task})
+            self._tasks.update({task.task_id: task})
         for date, task_list in subplan.items():
             for task_id in task_list:
                 # if isinstance(task_id, int):
@@ -77,7 +77,7 @@ class Plan:
         task_repr = lambda t: f"[{t.project_name[:40]}] :: {t.name}"
         return "\n".join(
             (
-                f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[id] for id in b]))}"
+                f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[task_id] for task_id in b]))}"
                 for a, b in sorted(self._plan.items())
             )
         )

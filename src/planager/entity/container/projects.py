@@ -9,7 +9,7 @@ from ..patch.task_patch import TaskPatches
 class Projects:
     def __init__(self, projects: List[Project] = []) -> None:
         self._projects: Dict[Tuple[str, str], Project] = {
-            project.id: project for project in projects
+            p.project_id: p for p in projects
         }
         self._tasks: Tasks = self._get_tasks()
 
@@ -22,7 +22,7 @@ class Projects:
         raise ValueError("Cannot directly set projects attribute.")
 
     def add(self, project: Project) -> None:
-        self._projects.update({project.id: project})
+        self._projects.update({project.project_id: project})
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())
@@ -74,7 +74,10 @@ class Projects:
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         names = map(
             lambda x: tabularize(x, width),
-            map(lambda r: format_number(r.id) + f"{r.name}", self._projects.values()),
+            map(
+                lambda p: format_number(p.project_id) + f"{p.name}",
+                self._projects.values(),
+            ),
         )
         return (
             "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))

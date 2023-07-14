@@ -2,7 +2,7 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
-from .type import PDateInputType
+from .type import PDateInputType, PTimeInputType
 
 
 class PTime:
@@ -21,6 +21,40 @@ class PTime:
             return res
         hour, minute = map(int, date_string.split(":"))
         return cls(hour, minute)
+
+    @classmethod
+    def ensure_is_ptime(
+        cls,
+        candidate: PTimeInputType,
+        default: Optional["PTime"] = None,
+    ) -> Union["PTime", None]:
+        if not candidate:
+            return default if default else None
+        if isinstance(candidate, PTime):
+            pass
+        elif isinstance(candidate, str):
+            if not candidate.strip():
+                return default if default else None
+            try:
+                return PTime.fromisoformat(candidate)
+            except:
+                raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
+        elif isinstance(candidate, tuple):
+            try:
+                hour, minute = map(int, candidate)
+                return PTime(hour, minute)
+            except:
+                raise ValueError(f"Invalid input for `PTime` class: '{str(candidate)}'")
+        elif isinstance(candidate, int):
+            try:
+                candidate = PTime(candidate)
+            except:
+                raise ValueError(f"Invalid input for `PTime` class: '{str(candidate)}'")
+        else:
+            raise ValueError(
+                f"Invalid input type for `PTime` class: '{type(candidate)}' (value: '{candidate}')"
+            )
+        return candidate
 
     def __bool__(self):
         return not self.isblank
@@ -67,6 +101,11 @@ class PTime:
 
     def __ge__(self, ptime2: "PTime") -> bool:
         return self.tominutes() >= ptime2.tominutes()
+
+    @classmethod
+    def fromisoformat(cls, __str: str) -> "PTime":
+        hour, minute = map(int, __str.split("-"))
+        return cls(hour, minute)
 
 
 class PDate(date):
@@ -183,12 +222,12 @@ class PDate(date):
                 raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
         elif isinstance(candidate, tuple):
             try:
-                candidate = PDate(*candidate)
+                return PDate(*map(int, candidate))
             except:
                 raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
         elif isinstance(candidate, int):
             try:
-                candidate = PDate.today() + candidate
+                return PDate.today() + candidate
             except:
                 raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
         else:

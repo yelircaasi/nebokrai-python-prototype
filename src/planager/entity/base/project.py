@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
 
 from ...util import Norg, PDate, Regexes, expand_task_segments, tabularize
 from ..container.tasks import Tasks
@@ -11,7 +11,7 @@ class Project:
     def __init__(
         self,
         name: str,
-        id: Tuple[str, str],
+        project_id: Tuple[str, str],
         tasks: Union[List[str], str, Tasks] = [],
         priority: int = 10,
         start: Optional[PDate] = None,
@@ -22,16 +22,20 @@ class Project:
         tags: set = set(),
         description: str = "",
         notes: str = "",
-        path: Union[str, Path] = "",
-        before: List[Tuple[str, str]] = [],
-        after: List[Tuple[str, str]] = [],
+        path: Optional[Path] = None,
+        before: Set[
+            Tuple[str, ...]
+        ] = set(),  # not maximally strong, but avoids a mypy headache
+        after: Set[
+            Tuple[str, ...]
+        ] = set(),  # not maximally strong, but avoids a mypy headache
     ) -> None:
         self.name = name
-        self.id = id
+        self.project_id = project_id
         self._tasks: Tasks = (
             Tasks.from_string_iterable(
                 expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
-                project_id=id,
+                project_id=project_id,
                 project_name=name,
             )
             if not isinstance(tasks, Tasks)
@@ -51,7 +55,7 @@ class Project:
         self.after = after
 
     def copy(self) -> "Project":
-        copy = Project(self.name, self.id)
+        copy = Project(self.name, self.project_id)
         copy.__dict__.update(self.__dict__)
         return copy
 
@@ -78,16 +82,16 @@ class Project:
         tags: set = set(),
         description: str = "",
         notes: str = "",
-        before: List[Tuple[str, str]] = [],
-        after: List[Tuple[str, str]] = [],
+        before: Set[Tuple[str, ...]] = set(),
+        after: Set[Tuple[str, ...]] = set(),
         # **kwargs,
     ) -> "Project":
         norg_obj = Norg.from_path(norg_path)
-        project_id = (norg_obj.parent, norg_obj.id)
+        project_id = (norg_obj.parent, norg_obj.doc_id)
         tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
         c = cls(
             name=norg_obj.title,
-            id=project_id,
+            project_id=project_id,
             tasks=tasks,
             priority=priority,
             start=start,
@@ -106,57 +110,55 @@ class Project:
 
     @classmethod
     def from_roadmap_item(
-        cls, item: str, id: Tuple[str, str], roadmap_path: Path
+        cls, norg_item_string: str, roadmap_id: str, roadmap_path: Path
     ) -> "Project":
         # norg = Norg.from_path(norg_path)
         regx = Regexes.first_line
-        result = re.search(regx, item)
+        result = re.search(regx, norg_item_string)
         title = result.groups()[0] if result else ""
-        attributes = Norg.get_attributes(item)
-        priority = attributes.get("priority", 10)
+        item = Norg.from_string(norg_item_string).items[0]
         if "||" in title:
             name, tasks = re.split("\s*\|\|\s*", title)
-
             return cls(
-                name,
-                id,
-                tasks,
-                priority=attributes.get("priority", 10),
-                start=PDate.ensure_is_pdate(attributes.get("start")),
-                end=attributes.get("end"),
-                interval=attributes.get("interval", 7),
-                cluster_size=int(attributes.get("cluster_size", 1)),
-                duration=int(attributes.get("duration", 30)),
-                tags=set(attributes.get("tags", [])),
-                description=attributes.get("description", ""),
-                notes=attributes.get("notes", ""),
-                path=attributes.get("path", ""),
-                before=attributes.get("before", []),
-                after=attributes.get("after", []),
+                name=item.get_name() or "<Placeholder Project Name>",
+                project_id=(roadmap_id, item.get_id() or "<Roadmap Placeholder ID>"),
+                tasks=[],  # TODO
+                priority=item.get_priority() or 10,
+                start=item.get_start_date() or PDate.today() + 7,
+                end=item.get_end_date() or PDate.today() + 107,
+                interval=item.get_interval() or 7,
+                cluster_size=item.get_cluster_size() or 1,
+                duration=item.get_duration() or 30,
+                tags=item.get_tags() or set(),
+                description=item.get_description() or "",
+                notes=item.get_notes(),
+                path=item.get_path(),
+                before=item.get_before() or set(),
+                after=item.get_after() or set(),
             )
 
         else:
-            project_name, link = Norg.parse_link(item)
+            project_name, link = Norg.parse_link(item.name)
             if link:
-                path = roadmap_path.parent.parent / link.replace("$/", "")
+                norg_path = roadmap_path.parent.parent / link.replace("$/", "")
                 try:
-                    assert path.exists()
+                    assert norg_path.exists()
                 except:
-                    raise IOError(f"Path does not exist: {path}.")
+                    raise IOError(f"Path does not exist: {norg_path}.")
                 return cls.from_norg_path(
-                    path,
-                    project_name,
-                    priority=attributes.get("priority", 10),
-                    start=PDate.ensure_is_pdate(attributes.get("start")),
-                    end=attributes.get("end"),
-                    interval=attributes.get("interval", 7),
-                    cluster_size=int(attributes.get("cluster_size", 1)),
-                    duration=int(attributes.get("duration", 30)),
-                    tags=set(attributes.get("tags", [])),
-                    description=attributes.get("description", ""),
-                    notes=attributes.get("notes", ""),
-                    before=attributes.get("before", []),
-                    after=attributes.get("after", []),
+                    norg_path=norg_path,
+                    project_name=project_name,
+                    priority=item.get_priority() or 10,
+                    start=item.get_start_date() or PDate.today() + 7,
+                    end=item.get_end_date() or PDate.today() + 107,
+                    interval=item.get_interval() or 7,
+                    cluster_size=item.get_cluster_size() or 1,
+                    duration=item.get_duration() or 30,
+                    tags=item.get_tags(),
+                    description=item.get_description(),
+                    notes=item.get_notes(),
+                    before=item.get_before(),
+                    after=item.get_after(),
                 )
             else:
                 raise ValueError(f"No path found in roadmap item: {item}.")
@@ -173,11 +175,11 @@ class Project:
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"Project: {self.name} (ID {self.id})", width, pad=1)
+        top = tabularize(f"Project: {self.name} (ID {self.project_id})", width, pad=1)
         empty = tabularize("", width)
         tasks = map(
             lambda x: tabularize(
-                f"{format_number(x.id)}{x.name} (priority {x.priority})", width
+                f"{format_number(x.task_id)}{x.name} (priority {x.priority})", width
             ),
             self._tasks,
         )

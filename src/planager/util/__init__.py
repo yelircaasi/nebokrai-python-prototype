@@ -1,5 +1,5 @@
 from . import data, display, misc, type
-from .data import Norg
+from .data import HTML, JSON, Norg
 from .display import tabularize
 from .misc import expand_task_segments, round5
 from .pdatetime import TODAY, ZERODATE, ZERODATETIME, PDate, PDateTime, PTime
@@ -20,6 +20,8 @@ __all__ = [
     "PDate",
     "PTime",
     "PDateTime",
+    "HTML",
+    "JSON",
     "Norg",
     "round5",
     "tabularize",

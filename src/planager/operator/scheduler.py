@@ -29,7 +29,7 @@ class Scheduler:
         )
         schedules = Schedules()
         for date in start_date_new.range(end_date_new):
-            schedule = Schedule(date.year, date.month, date.day)
+            schedule = Schedule(date)
             schedule.add_routines(routines)
             # schedule.add_from_plan(plan, tasks)
             # schedule.add_adhoc(adhoc)

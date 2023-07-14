@@ -10,7 +10,7 @@ class Tasks:
         self._tasks: Dict[Tuple[str, str, str], Task] = {}
 
     def add(self, task: Task) -> None:
-        self._tasks.update({task.id: task})
+        self._tasks.update({task.task_id: task})
 
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks.values())
@@ -28,14 +28,16 @@ class Tasks:
         assert project_name != "/"
         tasks = cls()
         norg_obj = Norg.from_path(norg_path)
-        for id, item in enumerate(norg_obj.items, start=1):
-            parse = norg_obj.parse_item_with_attributes(item)
+        for item in norg_obj.items:
+            item_id = item.name
+            assert item_id, f"Item must have a name: {str(item)}"
+            priority = int(str(item.priority)) if str(item.priority).isdigit() else 10
             tasks.add(
                 Task(
-                    parse["title"],
-                    (*project_id, str(id)),
+                    name=item.name,
+                    task_id=(*project_id, item_id),
                     project_name=project_name,
-                    **parse["attributes"],
+                    priority=priority,
                 )
             )
         return tasks
@@ -49,13 +51,13 @@ class Tasks:
         priority: Optional[int] = None,
     ) -> "Tasks":
         tasks = cls()
-        for task_id, name in enumerate(task_list, start=1):
+        for task_id_, name in enumerate(task_list, start=1):
             # name = name if isinstance(name, str) else name.name
-            id = (*project_id, str(task_id))
+            task_id = (*project_id, str(task_id_))
             task = (
-                Task(name, id, priority)
+                Task(name, task_id, priority)
                 if priority is not None
-                else Task(name, id, project_name=project_name)
+                else Task(name, task_id, project_name=project_name)
             )
             tasks.add(task)
         return tasks
@@ -77,7 +79,7 @@ class Tasks:
         names = "\n".join(
             map(
                 lambda x: tabularize(
-                    f"{format_number(x[0])}{x[1].name} (ID {x[1].id})", width
+                    f"{format_number(x[0])}{x[1].name} (ID {x[1].task_id})", width
                 ),
                 self._tasks.items(),
             )
@@ -99,5 +101,5 @@ class Tasks:
         for roadmap in roadmaps:
             for project in roadmap:
                 for task in project:
-                    new_tasks._tasks.update({task.id: task})
+                    new_tasks._tasks.update({task.task_id: task})
         return new_tasks

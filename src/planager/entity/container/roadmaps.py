@@ -13,7 +13,7 @@ class Roadmaps:
     ) -> None:
         self.workspace_dir = workspace_dir
         self._roadmaps: Dict[str, Roadmap] = {
-            roadmap.id: roadmap for roadmap in roadmaps
+            roadmap.roadmap_id: roadmap for roadmap in roadmaps
         }
 
     def __iter__(self) -> Iterator[Roadmap]:
@@ -41,7 +41,10 @@ class Roadmaps:
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         names = map(
             lambda x: tabularize(x.replace(" Roadmap", ""), width),
-            map(lambda r: format_number(r.id) + f"{r.name}", self._roadmaps.values()),
+            map(
+                lambda r: format_number(r.roadmap_id) + f"{r.name}",
+                self._roadmaps.values(),
+            ),
         )
         return (
             "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
@@ -57,7 +60,7 @@ class Roadmaps:
         parsed = Norg.from_path(file)
         roadmap_list = []
         for item in parsed.items:
-            _, link = Norg.parse_link(item)
+            _, link = Norg.parse_link(item.name)
             path = workspace_dir / link.replace("$/", "")
             roadmap_list.append(Roadmap.from_norg_path(path))
         return cls(roadmap_list, workspace_dir)

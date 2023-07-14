@@ -12,7 +12,7 @@ class Entries:
 
     def slice(
         self, __start: Optional[int], __stop: Optional[int]
-    ) -> "Entries":  # type-idempotent; use .entry() to get a single entry by index
+    ) -> "Entries":  # type-idempotent; use indexing to get a single entry
         return Entries(entries=self._entries[__start:__stop])
 
     def __getitem__(self, __index: int) -> Entry:

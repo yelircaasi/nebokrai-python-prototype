@@ -2,7 +2,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from ...util import Norg, PDate, PDateInputType, PTime, round5, tabularize
+from ...util import HTML, JSON, Norg, PDate, PDateInputType, PTime, round5, tabularize
 from ..container.entries import Entries
 from ..container.routines import Routines
 from ..container.tasks import Tasks
@@ -23,22 +23,20 @@ class AdjustmentType(Enum):
 class Schedule:
     def __init__(
         self,
-        year: int = PDate.today().year,
-        month: int = PDate.today().month,
-        day: int = PDate.today().day,
+        date: Optional[PDate] = None,
         schedule: Optional[Entries] = None,
         width: int = 80,
         weight_interval_min: float = 0.8,
         weight_interval_max: float = 1.2,
     ) -> None:
         self.schedule = schedule or self.make_default_day()
-        self.date: PDate = PDate(year, month, day)
+        self.date: PDate = date or PDate.today() + 1
         self.width: int = width
         self.AdjustmentType = AdjustmentType
         self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
-        self.prio_transform: Callable = lambda x: x
+        self.prio_transform: Callable = lambda x: (x / 100) ** 1.5
 
     def make_default_day(self) -> Entries:
         return Entries(
@@ -52,6 +50,10 @@ class Schedule:
         )
 
     def ensure_bookends(self) -> None:
+        """
+        Verifies that the first and last entries in the schedule are the corresponding placeholder
+          entries.
+        """
         if not self.schedule[0] == FIRST_ENTRY:
             self.schedule.insert(0, FIRST_ENTRY)
         if not self.schedule[-1] == LAST_ENTRY:
@@ -68,14 +70,29 @@ class Schedule:
         schedule = cls()
         return schedule
 
-    # def to_norg(self, path: Path) -> None:
-    # header = make_norg_header()
-    # body = "\n\n".join(map(Entry.to_norg, self.schedule[1:-1]))
-    # notes = make_norg_notes()
-    # ...
+    def to_norg(self, path: Path) -> None:
+        norg = self.as_norg()
+        with open(path, "w") as f:
+            f.write(norg.as_norg_string())
 
     def to_json(self, path: Path) -> None:
-        ...
+        json_obj = self.as_json()
+        with open(path, "w") as f:
+            f.write(json_obj.as_json_string())
+
+    def to_html(self, path: Path) -> None:
+        html_obj = self.as_html()
+        with open(path, "w") as f:
+            f.write(html_obj.as_html_string())
+
+    def as_norg(self) -> Norg:
+        return Norg()  # TODO
+
+    def as_json(self) -> JSON:
+        return JSON()  # TODO
+
+    def as_html(self) -> HTML:
+        return HTML()  # TODO
 
     def copy(self):
         newschedule = Schedule()

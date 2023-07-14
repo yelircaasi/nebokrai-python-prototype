@@ -9,21 +9,21 @@ class Routine:
     def __init__(
         self,
         name: str,
-        attributes: dict,
-        items: list,
+        items: list = [],
+        priority: int = 80,
+        notes: str = "",
+        normaltime: Optional[int] = None,
+        mintime: Optional[int] = None,
+        maxtime: Optional[int] = None,
     ) -> None:
         self.name = name
         self.items = items
-        self.id = ("routine", "", name)
-
-        if attributes:
-            self.__dict__.update(attributes)
-        self.priority = attributes.get("priority") or 80
-        self.priority = int(self.priority)
-        self.notes = attributes.get("notes") or ""
-        self.normaltime = attributes.get("normaltime", 60)
-        self.mintime = attributes.get("mintime", round5(self.normaltime / 4))
-        self.mintime = attributes.get("mintime", round5(self.normaltime * 2))
+        self.routine_id = ("routine", "", name)
+        self.priority = int(priority) or 80
+        self.notes = notes
+        self.normaltime = normaltime or 60
+        self.mintime = mintime or round5(self.normaltime / 4)
+        self.maxtime = maxtime or round5(self.normaltime * 2)
 
     def __str__(self) -> str:
         return self.pretty()
@@ -57,4 +57,4 @@ class Routine:
         return Entry(self.name, start, priority=self.priority)  # TODO
 
     def as_task(self) -> Task:
-        return Task(self.name, self.id, priority=self.priority)  # TODO
+        return Task(self.name, self.routine_id, priority=self.priority)  # TODO

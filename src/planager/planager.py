@@ -79,7 +79,7 @@ class Planager:
 
         # direct reading
         plgr.roadmaps = Roadmaps.from_norg_workspace(workspace)
-        plgr.routines = Routines.from_norg_workspace(workspace)
+        # plgr.routines = Routines.from_norg_workspace(workspace) #TODO
         plgr.adhoc = AdHoc.from_norg_workspace(workspace)
         plgr.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
         plgr.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
@@ -146,11 +146,11 @@ class Planager:
     def roadmap_tree(self) -> str:
         lines = []
         for roadmap in self.roadmaps:
-            lines.append(f"{roadmap.name} (ID {roadmap.id})")
+            lines.append(f"{roadmap.name} (ID {roadmap.roadmap_id})")
             for project in roadmap:
-                lines.append(f"    {project.name} (ID {project.id})")
+                lines.append(f"    {project.name} (ID {project.project_id})")
                 for task in project:
-                    lines.append(f"        {task.name} (ID {task.id})")
+                    lines.append(f"        {task.name} (ID {task.task_id})")
         return "\n".join(lines)
 
     def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
@@ -186,7 +186,7 @@ class Planager:
         """
         calendar = Calendar.from_norg_workspace(workspace)
         roadmaps = Roadmaps.from_norg_workspace(workspace)
-        routines = Routines.from_norg_workspace(workspace)
+        routines = Routines()  # Routines.from_norg_workspace(workspace) #TODO
         adhoc = AdHoc.from_norg_workspace(workspace)
         plan_patches = PlanPatches.from_norg_workspace(workspace)
         schedule_patches = SchedulePatches.from_norg_workspace(workspace)

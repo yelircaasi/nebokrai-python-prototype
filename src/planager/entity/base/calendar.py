@@ -42,12 +42,21 @@ class Calendar:
     def from_norg_workspace(cls, workspace_dir: Path) -> "Calendar":
         cal = Calendar()
         file = workspace_dir / "calendar.norg"
-        parsed = Norg.from_path(file)
-        for section in parsed.sections:
-            date = section["title"]
-            attributes = Norg.get_attributes(section["text"])
-            date = PDate.from_string(date)
-            cal.add(Day(date, **attributes))
+        norg = Norg.from_path(file)
+        for item in norg.items:
+            date_str = item.name
+            pdate = PDate.from_string(date_str)
+            if pdate:
+                date = pdate
+            else:
+                raise ValueError("Date not parsable: {date_str}")
+            # attributes = section.get_attributes(section.text)
+            cal.add(
+                Day(
+                    date,
+                    # **attributes
+                )
+            )
 
         return cal
 

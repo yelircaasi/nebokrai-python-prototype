@@ -5,6 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class Regexes:
     first_line: re.Pattern = re.compile("^\s*(.*)\s*")
+    item_title: re.Pattern = re.compile("[^\s~-].+")
     time_bar_text: re.Pattern = re.compile("(\d\d:\d\d) *\| *([^\n]+)")
     section_split: re.Pattern = re.compile("\n+\s*\*\s+")  # \s+")
     subsection_split: re.Pattern = re.compile("\n+\s*\*\*\s+")

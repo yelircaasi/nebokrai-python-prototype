@@ -9,15 +9,15 @@ class Task:
     def __init__(
         self,
         name: str,
-        id: Tuple[str, str, str],
+        task_id: Tuple[str, str, str],
         priority: int = 10,
         project_name: str = "?",
         # **kwargs,
     ) -> None:
-        assert len(id) == 3
+        assert len(task_id) == 3
 
         self.name = name
-        self.id = id
+        self.task_id = task_id
         self.priority = priority
         self.project_name = project_name
         # self.__dict__.update(**kwargs)
@@ -35,7 +35,7 @@ class Task:
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(
-            f"Task: {self.project_name[:30]} :: {self.name} (ID {self.id})",
+            f"Task: {self.project_name[:30]} :: {self.name} (ID {self.task_id})",
             width,
             pad=1,
         )
