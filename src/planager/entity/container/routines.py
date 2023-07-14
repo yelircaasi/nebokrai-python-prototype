@@ -49,7 +49,7 @@ class Routines:
         file = workspace_dir / "routines.norg"
         parsed = Norg.from_path(file)
         routines = Routines()
-        for i, section in enumerate(parsed.sections):
+        for section in parsed.sections:
             title = section["title"]
             # attributes = Norg.parse_preasterix_attributes(section["text"])
             attributes = section["attributes"]
@@ -58,7 +58,6 @@ class Routines:
             routines.add(
                 Routine(
                     title,
-                    i,
                     attributes,
                     items,
                 )

@@ -10,7 +10,7 @@ class Roadmap:
     def __init__(
         self,
         name: str,
-        id: int,
+        id: str,
         projects: Projects,
         updated: PDate = ZERODATE,
         categories: Iterable[str] = [],
@@ -30,7 +30,7 @@ class Roadmap:
         norg = Norg.from_path(norg_path)
         projects = Projects()  # norg.title, norg.id)
         for id, item in enumerate(norg.items):
-            projects.add(Project.from_roadmap_item(item, (norg.id, id), norg_path))
+            projects.add(Project.from_roadmap_item(item, (norg.id, str(id)), norg_path))
         return Roadmap(norg.title, norg.id, projects)
 
     def __iter__(self) -> Iterator[Project]:

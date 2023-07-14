@@ -2,9 +2,9 @@ import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
-from ...display import wrap_string
-from ...pdatetime import ZERODATETIME, PDateTime, PTime
-from ...regex import Regexes
+from ..display import wrap_string
+from ..pdatetime import ZERODATETIME, PDateTime, PTime
+from ..regex import Regexes
 
 BOOL2STR = {True: "true", False: "false"}
 STR2BOOL = {"true": True, "false": False}
@@ -16,8 +16,8 @@ class Norg:
         title: str = "",
         description: str = "",
         author: str = "",
-        id: int = -1,
-        parent: int = -1,
+        id: str = "none",
+        parent: str = "none",
         updated: PDateTime = ZERODATETIME,
         categories: str = "",
         sections: dict = {},
@@ -65,8 +65,8 @@ class Norg:
 
         kwarg_dict: Dict[str, Any] = dict(map(lambda x: x.split(": ", 1), lines))
 
-        kwarg_dict["id"] = int(kwarg_dict["id"])
-        kwarg_dict["parent"] = int(kwarg_dict["parent"])
+        kwarg_dict["id"] = kwarg_dict["id"]
+        kwarg_dict["parent"] = kwarg_dict["parent"]
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])
 
         def parse_section(section_str: str) -> Optional[Dict[str, Any]]:

@@ -7,7 +7,7 @@ from ..base.task import Task
 
 class Tasks:
     def __init__(self) -> None:
-        self._tasks: Dict[Tuple[int, int, int], Task] = {}
+        self._tasks: Dict[Tuple[str, str, str], Task] = {}
 
     def add(self, task: Task) -> None:
         self._tasks.update({task.id: task})
@@ -15,12 +15,12 @@ class Tasks:
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks.values())
 
-    def __getitem__(self, __key: Tuple[int, int, int]) -> Task:
+    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
         return self._tasks[__key]
 
     @classmethod
     def from_norg_path(
-        cls, norg_path: Path, project_id: Tuple[int, int], project_name: str, **kwargs
+        cls, norg_path: Path, project_id: Tuple[str, str], project_name: str, **kwargs
     ) -> "Tasks":
         assert project_name != "/"
         tasks = cls()
@@ -30,7 +30,7 @@ class Tasks:
             tasks.add(
                 Task(
                     parse["title"],
-                    (*project_id, id),
+                    (*project_id, str(id)),
                     project_name=project_name,
                     **parse["attributes"],
                 )
@@ -41,14 +41,14 @@ class Tasks:
     def from_string_iterable(
         cls,
         task_list: List[str],
-        project_id: Tuple[int, int],
+        project_id: Tuple[str, str],
         project_name: str,
         priority: Optional[int] = None,
     ) -> "Tasks":
         tasks = cls()
         for task_id, name in enumerate(task_list, start=1):
             # name = name if isinstance(name, str) else name.name
-            id = (*project_id, task_id)
+            id = (*project_id, str(task_id))
             task = (
                 Task(name, id, priority)
                 if priority is not None
@@ -87,7 +87,7 @@ class Tasks:
             + bottombeam
         )
 
-    def ids(self) -> List[Tuple[int, int, int]]:
+    def ids(self) -> List[Tuple[str, str, str]]:
         return list(self._tasks)
 
     @classmethod

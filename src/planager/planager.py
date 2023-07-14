@@ -153,8 +153,8 @@ class Planager:
                     lines.append(f"        {task.name} (ID {task.id})")
         return "\n".join(lines)
 
-    def __getitem__(self, __key: Union[int, tuple]) -> Union[Roadmap, Project, Task]:
-        if isinstance(__key, int):
+    def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
+        if isinstance(__key, str):
             return self.roadmaps[__key]
         match len(__key):
             case 2:

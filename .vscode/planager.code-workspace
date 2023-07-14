@@ -9,14 +9,14 @@
         {
             "path": "../../planager-data"
         },
-        {
-            "path": "../../ganttouchthis-py"
-        },
-        {
-            "path": "../../ganttouchthis-data"
-        },
-        {
-            "path": "../../notion-extensions"
-        },
+        // {
+        //     "path": "../../ganttouchthis-py"
+        // },
+        // {
+        //     "path": "../../ganttouchthis-data"
+        // },
+        // {
+        //     "path": "../../notion-extensions"
+        // },
     ],
 }

@@ -106,7 +106,7 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 [✓] rename universe to Planager
 
-[✓] add `order` attribute to Entry, such that tasks can be ordered temporally independently of priority
+[✓] add `order` attribute to Entry, such that tasks can be ordered temporally indgependently of priority
 
 [✓] fix attributes of routines (such as maxtime) for proper initialization
 
@@ -116,7 +116,19 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 [✓] fix all mypy errors
 
-[ ] visualize with [pydeps](https://github.com/thebjorn/pydeps) and refactor accordingly
+[✓] visualize with [pydeps](https://github.com/thebjorn/pydeps) and refactor accordingly
+
+[ ] 
+
+[ ] 
+
+[ ] 
+
+[ ] 
+
+[ ] 
+
+[ ] add support for norg task status (for completed)
 
 [ ] clean up and solidify norg readers and writers
 

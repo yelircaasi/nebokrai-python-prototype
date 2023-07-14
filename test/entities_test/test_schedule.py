@@ -1,4 +1,5 @@
 import pytest
+
 from planager.entity import Schedule
 
 

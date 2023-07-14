@@ -12,14 +12,14 @@ class Roadmaps:
         self, roadmaps: List[Roadmap] = [], workspace_dir: Optional[Path] = None
     ) -> None:
         self.workspace_dir = workspace_dir
-        self._roadmaps: Dict[int, Roadmap] = {
+        self._roadmaps: Dict[str, Roadmap] = {
             roadmap.id: roadmap for roadmap in roadmaps
         }
 
     def __iter__(self) -> Iterator[Roadmap]:
         return iter(self._roadmaps.values())
 
-    def __getitem__(self, __key: int) -> Roadmap:
+    def __getitem__(self, __key: str) -> Roadmap:
         return self._roadmaps[__key]
 
     def __setitem__(self, __name: str, __value: Any) -> None:
@@ -71,11 +71,11 @@ class Roadmaps:
                 projects.add(project)
         return projects
 
-    def get_projects(self) -> Dict[Tuple[int, int], Project]:
-        projects: Dict[Tuple[int, int], Project] = {}
+    def get_projects(self) -> Dict[Tuple[str, str], Project]:
+        projects: Dict[Tuple[str, str], Project] = {}
         for roadmap_id, roadmap in self._roadmaps.items():
             for project_id, project in roadmap._projects._projects.items():
-                tuple_id: Tuple[int, int] = (
+                tuple_id: Tuple[str, str] = (
                     (roadmap_id, project_id)
                     if isinstance(project_id, int)
                     else project_id

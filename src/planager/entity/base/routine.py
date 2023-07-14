@@ -9,13 +9,12 @@ class Routine:
     def __init__(
         self,
         name: str,
-        routine_num: int,
         attributes: dict,
         items: list,
     ) -> None:
         self.name = name
         self.items = items
-        self.id = (-1, 0, routine_num)
+        self.id = ("routine", "", name)
 
         if attributes:
             self.__dict__.update(attributes)

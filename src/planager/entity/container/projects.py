@@ -8,7 +8,7 @@ from ..patch.task_patch import TaskPatches
 
 class Projects:
     def __init__(self, projects: List[Project] = []) -> None:
-        self._projects: Dict[Tuple[int, int], Project] = {
+        self._projects: Dict[Tuple[str, str], Project] = {
             project.id: project for project in projects
         }
         self._tasks: Tasks = self._get_tasks()
@@ -27,7 +27,7 @@ class Projects:
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())
 
-    def __getitem__(self, __id: Union[Tuple[int, int], Tuple[int, int, int]]) -> Any:
+    def __getitem__(self, __id: Union[Tuple[str, str], Tuple[str, str, str]]) -> Any:
         if len(__id) == 2:
             return self._projects[__id]  # type: ignore
         elif len(__id) == 3:
@@ -36,7 +36,7 @@ class Projects:
             raise KeyError(f"Invalid key for `Projects`: {__id}.")
 
     def __setitem__(
-        self, __id: str, __value: Union[Tuple[int, int], Tuple[int, int, int]]
+        self, __id: str, __value: Union[Tuple[str, str], Tuple[str, str, str]]
     ) -> None:
         if len(__id) == 2:
             self._projects.update({__id: __value})  # type: ignore

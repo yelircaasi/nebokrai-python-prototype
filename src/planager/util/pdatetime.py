@@ -2,6 +2,8 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
+from .type import PDateInputType
+
 
 def now() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -169,7 +171,7 @@ class PDate(date):
     @classmethod
     def ensure_is_pdate(
         cls,
-        candidate: Union["PDate", str, Tuple[int, int, int], int, None],
+        candidate: PDateInputType,
         default: Optional["PDate"] = None,
     ) -> Union["PDate", None]:
         if not candidate:

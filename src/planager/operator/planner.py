@@ -65,7 +65,7 @@ class Planner:
 
     @staticmethod
     def cluster_task_ids(
-        task_ids: List[Tuple[int, int, int]], cluster_size: int
+        task_ids: List[Tuple[str, str, str]], cluster_size: int
     ) -> ClusterType:
         n = cluster_size
         length = len(task_ids)

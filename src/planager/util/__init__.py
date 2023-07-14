@@ -10,7 +10,7 @@ __all__ = [
     "ConfigType",
     "ClusterType",
     "PDateInputType",
-    "SubPlanType",
+    "SubplanType",
     "Regexes",
     "TODAY",
     "ZERODATE",
@@ -24,5 +24,6 @@ __all__ = [
     "PDateTime",
     "Norg",
     "round5",
+    "tabularize",
     "expand_task_segments",
 ]

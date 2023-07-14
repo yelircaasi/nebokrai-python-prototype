@@ -15,13 +15,13 @@ class Plan:
     ) -> None:
         self._config = config
         self._calendar = calendar
-        self._tasks: Dict[Tuple[int, int, int], Task] = {}
-        self._plan: Dict[PDate, List[Tuple[int, int, int]]] = {}
+        self._tasks: Dict[Tuple[str, str, str], Task] = {}
+        self._plan: Dict[PDate, List[Tuple[str, str, str]]] = {}
 
-    def __getitem__(self, __date: PDate) -> List[Tuple[int, int, int]]:
+    def __getitem__(self, __date: PDate) -> List[Tuple[str, str, str]]:
         return self._plan.get(__date, [])
 
-    def __setitem__(self, __date: PDate, __tasks: List[Tuple[int, int, int]]) -> None:
+    def __setitem__(self, __date: PDate, __tasks: List[Tuple[str, str, str]]) -> None:
         self._plan.update({__date: __tasks})
 
     # def add_tasks_from_project(self, project: Project) -> None:
@@ -35,9 +35,9 @@ class Plan:
 
     def add_subplan(
         self,
-        subplan: Dict[PDate, List[Tuple[int, int, int]]],
+        subplan: Dict[PDate, List[Tuple[str, str, str]]],
         tasks: Tasks,
-        # plan_id: Optional[Tuple[int, int]] = None,
+        # plan_id: Optional[Tuple[str, str]] = None,
     ) -> None:
         if not subplan:
             return
@@ -53,9 +53,9 @@ class Plan:
         for date, task_list in subplan.items():
             for task_id in task_list:
                 # if isinstance(task_id, int):
-                #     new_task_id: Tuple[int, int, int] = (*plan_id, task_id)
+                #     new_task_id: Tuple[str, str, str] = (*plan_id, task_id)
                 # else:
-                #     new_task_id: Tuple[int, int, int] = (*task_id,)
+                #     new_task_id: Tuple[str, str, str] = (*task_id,)
                 self.ensure_date(date)
                 self._plan[date].append(task_id)
 

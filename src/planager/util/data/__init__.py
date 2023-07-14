@@ -1,5 +1,5 @@
-from .html.html_util import HTML
-from .json.json_util import JSON
-from .norg.norg_util import Norg
+from .html import HTML
+from .json import JSON
+from .norg import Norg
 
 __all__ = ["HTML", "JSON", "Norg"]

@@ -11,7 +11,7 @@ class Project:
     def __init__(
         self,
         name: str,
-        id: Tuple[int, int],
+        id: Tuple[str, str],
         tasks: Union[List[str], str, Tasks] = [],
         priority: int = 10,
         start: Optional[PDate] = None,
@@ -23,8 +23,8 @@ class Project:
         description: str = "",
         notes: str = "",
         path: Union[str, Path] = "",
-        before: List[Tuple[int, int]] = [],
-        after: List[Tuple[int, int]] = [],
+        before: List[Tuple[str, str]] = [],
+        after: List[Tuple[str, str]] = [],
     ) -> None:
         self.name = name
         self.id = id
@@ -61,7 +61,7 @@ class Project:
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
-    def __getitem__(self, __key: Tuple[int, int, int]) -> Task:
+    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
         return self._tasks[__key]
 
     @classmethod
@@ -86,7 +86,7 @@ class Project:
 
     @classmethod
     def from_roadmap_item(
-        cls, item: str, id: Tuple[int, int], roadmap_path: Path
+        cls, item: str, id: Tuple[str, str], roadmap_path: Path
     ) -> "Project":
         # norg = Norg.from_path(norg_path)
         regx = Regexes.first_line

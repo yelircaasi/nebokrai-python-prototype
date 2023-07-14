@@ -9,7 +9,7 @@ class Task:
     def __init__(
         self,
         name: str,
-        id: Tuple[int, int, int],
+        id: Tuple[str, str, str],
         priority: int = 10,
         project_name: str = "?",
         **kwargs,
