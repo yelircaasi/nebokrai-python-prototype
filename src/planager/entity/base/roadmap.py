@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from ...util import ZERODATE, Norg, PDate, Regexes, tabularize
+from ...util import Norg, PDate, Regexes, tabularize
 from ..container.projects import Projects
 from .project import Project
 
@@ -12,7 +12,7 @@ class Roadmap:
         name: str,
         roadmap_id: str,
         projects: Projects,
-        updated: PDate = ZERODATE,
+        updated: PDate = PDate.today() + 7,
         categories: Iterable[str] = [],
     ) -> None:
         self.name = name

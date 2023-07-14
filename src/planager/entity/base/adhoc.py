@@ -26,8 +26,8 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, List, Union
 
 from ...util import Norg, PDate, PTime, tabularize
-from .entry import Entry
 from ..container.entries import Entries
+from .entry import Entry
 
 
 class AdHoc:

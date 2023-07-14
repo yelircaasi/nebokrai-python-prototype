@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 from ...display import wrap_string
-from ...pdatetime import ZERODATETIME, PDateTime, PTime
+from ...pdatetime import PDateTime, PTime
 from ...regex import Regexes
 
 # from .norg_section import NorgSection, NorgSections
@@ -19,7 +19,7 @@ class Norg:
         author: str = "",
         doc_id: str = "none",
         parent: str = "none",
-        updated: PDateTime = ZERODATETIME,
+        updated: PDateTime = PDateTime.now(),
         categories: str = "",
         # sections: NorgSections = NorgSections(),
         items: NorgItems = NorgItems(),

@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
-from ...util import ZERODATE, Norg, PDate, tabularize
+from ...util import Norg, PDate, tabularize
 from ..base.project import Project
 from ..base.roadmap import Roadmap
 from ..container.projects import Projects
