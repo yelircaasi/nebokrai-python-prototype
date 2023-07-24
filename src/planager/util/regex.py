@@ -18,6 +18,6 @@ class Regexes:
         r"@document.meta\n(.+)\n@end\n*(\n.*)", re.DOTALL
     )
     link_namefirst: re.Pattern = re.compile(r"\[(.*?)\]\{\:(.+?)\:\}")
-    link_namelast: re.Pattern = re.compile(r"\{\:(.+?)\:\}\[(.+?)\]")
+    # link_namelast: re.Pattern = re.compile(r"\{\:(.+?)\:\}\[(.+?)\]")
     attribute_pair: re.Pattern = re.compile(r"\n?\s*[-~]{1,2} (\w+): ([^\n]*)")
-    name_and_segments: re.Pattern = re.compile(r"(.+?)\s+\|\|\s+([^\n]+)\s+")
+    name_and_segments: re.Pattern = re.compile(r"(.+?)\s+\|\|\s+([^\n]+)\s*")

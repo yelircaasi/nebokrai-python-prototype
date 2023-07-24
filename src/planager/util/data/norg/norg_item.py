@@ -2,7 +2,7 @@ from pathlib import Path
 import re
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
 
-from .norg_link import NorgLink
+from .norg_item_head import NorgItemHead
 from ...display import wrap_string
 from ...pdatetime import PDate, PDateTime, PTime
 from ...regex import Regexes
@@ -18,12 +18,15 @@ class NorgItem:
         True: True,
         False: False,
     }
+    DONEDICT = {'x': True, ' ': False, '✓': True}
 
     def __init__(
         self,
-        head: Union[str, NorgLink],
-        # path: Optional[Union[str, Path]] = None,
-        # link: Optional[str] = None,
+        head: Optional[Union[str, NorgItemHead]] = None,
+        name: Optional[str] = None,
+        path: Optional[Union[str, Path]] = None,
+        link: Optional[str] = None,
+        status: Optional[str] = None,
         item_id: Optional[Union[str, Tuple[str, ...]]] = None,
         parent: Optional[Union[str, Tuple[str, ...]]] = None,
         start: Optional[Union[str, PDate, PTime]] = None,
@@ -43,9 +46,18 @@ class NorgItem:
         alignend: Optional[Union[str, bool]] = None,
         before: Optional[Union[str, Set[Tuple[str, ...]]]] = None,
         after: Optional[Union[str, Set[Tuple[str, ...]]]] = None,
-        segment_string: Optional[str] = None,
     ) -> None:
-        self._head: NorgLink = self.convert_head(head)
+        self._head: NorgItemHead = self.convert_head(head)
+        if name: 
+            self._head.name = name
+        if not self._head.name:
+            raise ValueError("Nameless item is invalid.")
+        if path: 
+            self._head.path = path
+        if link:
+            self._head.link = link
+        if status:
+            self._head.status = status
         self.item_id: Optional[Tuple[str, ...]] = self.convert_tuple(item_id)
         self.parent: Optional[Tuple[str, ...]] = self.convert_tuple(parent)
         self._start: Optional[Union[PDate, PTime, str]] = start if start else None
@@ -65,22 +77,11 @@ class NorgItem:
         self.alignend: Optional[bool] = self.convert_bool(alignend)
         self.before: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(before)
         self.after: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(after)
-        self.segment_string: Optional[str] = segment_string
-
+        
     @classmethod
     def from_string(cls, norg_str) -> "NorgItem":
-        name_raw, segment_string = None, None
-        if "||" in norg_str:
-            s = re.search(Regexes.name_and_segments, norg_str)
-            if s:
-                name_raw, segment_string = s.groups()
-        else:
-            s = re.search(Regexes.item_title, norg_str.strip())
-            if s:
-                name_raw = s.group(0)
-        if name_raw is None:
-            raise ValueError(f"Norg item must have a name. Item string: '{norg_str}'")
-        head = NorgLink.from_string(name_raw)
+        
+        head = NorgItemHead.from_string(norg_str)
 
         attributes = dict(re.findall(Regexes.attribute_pair, norg_str))
 
@@ -107,7 +108,6 @@ class NorgItem:
             alignend=attributes.get("alignend"),
             before=attributes.get("before"),
             after=attributes.get("after"),
-            segment_string=segment_string,
         )
 
     # @staticmethod
@@ -173,8 +173,10 @@ class NorgItem:
     #     return kwdict
 
     @staticmethod
-    def convert_head(head: Optional[Union[NorgLink, str]]):
-        return NorgLink(head) if isinstance(head, str) else head
+    def convert_head(head: Optional[Union[NorgItemHead, str]]):
+        if head is None:
+            return NorgItemHead("")
+        return NorgItemHead(head) if isinstance(head, str) else head
 
     @property
     def name(self) -> str:
@@ -187,6 +189,18 @@ class NorgItem:
     @property
     def link(self) -> Optional[str]:
         return self._head.link
+    
+    @property
+    def isdone(self) -> bool:
+        return self.DONEDICT[self.status]
+    
+    @property
+    def status(self) -> str:
+        return self._head.status
+    
+    @property
+    def segment_string(self) -> Optional[str]:
+        return self._head.segment_string
 
     @staticmethod
     def convert_tuple(
@@ -338,8 +352,8 @@ class NorgItem:
             attributes = []
 
         head = str(self._head)
-        if self.segment_string:
-            head = f"{head} || {self.segment_string}"
+        # if self.segment_string:
+        #     head = f"{head} || {self.segment_string}"
         attribute_string = "\n  -- ".join(attributes)
 
         return f"~ {head}{attribute_string}"

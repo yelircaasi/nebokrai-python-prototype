@@ -4,16 +4,16 @@ description: Test Description
 categories: 
 id: Test Doc ID
 parent: Test Parent
-updated: 2023-07-24 14:29:38
+updated: 2023-07-24 16:27:31
 author: Test Author
 @end
 
-~ Item 1
+~ ( ) Item A
   -- priority: 50
   -- notes: Notes on Item A
   -- after: Q
 
-~ Item 2
+~ (x) [Item B]{:Item B Link:} || 1-10,B
   -- parent: A :: B :: C
   -- start: 2023-08-14
   -- end: 09:20

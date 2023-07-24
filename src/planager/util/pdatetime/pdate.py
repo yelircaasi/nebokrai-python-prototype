@@ -45,7 +45,6 @@ class PDate(date):
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
         else:
-            print(date_str)
             return None
 
     def __int__(self) -> int:

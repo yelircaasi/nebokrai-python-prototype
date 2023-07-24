@@ -15,14 +15,18 @@ doc_id = "Test Doc ID"
 parent = "Test Parent"
 updated = PDateTime.now()
 categories = ""
-item_a_name = "Item 1"
-item_b_name = "Item 2"
+item_a_name = "Item A"
+item_b_name = "Item B"
 
+item_a_status = ' '
 priority_a = 50
 notes_a = "Notes on Item A"
 after_a_set: Set[Tuple[str, ...]] = {("Q",)}
 after_a_str = "Q"
 
+item_b_status = 'x'
+item_b_segment_string = "1-10,B"
+item_b_link = "Item B Link"
 parent_b_str = "A :: B :: C"
 parent_b_tuple: Tuple[str, ...] = ("A", "B", "C")
 start_b_str = "2023-08-14"
@@ -60,12 +64,12 @@ updated: {str(updated)}
 author: {author}
 @end
 
-~ {item_a_name}
+~ ({item_a_status}) {item_a_name}
   -- priority: {priority_a}
   -- notes: {notes_a}
   -- after: {after_a_str}
 
-~ {item_b_name}
+~ ({item_b_status}) [{item_b_name}]{{:{item_b_link}:}} || {item_b_segment_string}
   -- parent: {parent_b_str}
   -- start: {start_b_str}
   -- end: {end_b_str}
@@ -116,7 +120,9 @@ def test_norg_init() -> None:
                 item_a_name, priority=priority_a, notes=notes_a, after=after_a_set
             ),
             NorgItem(
-                item_b_name,
+                name=item_b_name,
+                link=item_b_link,
+                status=item_b_status,
                 ismovable=ismovable_b_bool,
                 maxtime=maxtime_b,
                 before=before_b_set,
@@ -149,11 +155,14 @@ def test_norg_init() -> None:
     item_b = norg1.items[1]
 
     assert item_a.name == item_a_name
+    assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
     assert item_a.after == after_a_set
 
-    assert item_a.name == item_a_name
+    assert item_b.name == item_b_name
+    assert item_b.status == item_b_status
+    assert item_b.link == item_b_link
     assert item_b.ismovable == ismovable_b_bool
     assert item_b.maxtime == maxtime_b
     assert item_b.before == before_b_set
@@ -176,10 +185,14 @@ def test_norg_from_path() -> None:
     item_b = norg1.items[1]
 
     assert item_a.name == item_a_name
+    assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
     assert item_a.after == after_a_set
 
+    assert item_b.name == item_b_name
+    assert item_b.status == item_b_status
+    assert item_b.link == item_b_link
     assert item_b.parent == parent_b_tuple
     assert item_b.start_date == start_b_date
     assert item_b.end_time == end_b_time
@@ -217,10 +230,14 @@ def test_norg_from_string() -> None:
     item_b = norg1.items[1]
 
     assert item_a.name == item_a_name
+    assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
     assert item_a.after == after_a_set
 
+    assert item_b.name == item_b_name
+    assert item_b.status == item_b_status
+    assert item_b.link == item_b_link
     assert item_b.parent == parent_b_tuple
     assert item_b.start_date == start_b_date
     assert item_b.end_time == end_b_time
@@ -239,11 +256,7 @@ def test_norg_from_string() -> None:
     assert item_b.alignend == alignend_b_bool
     assert item_b.before == before_b_set
     assert item_b.after == after_b_set
-    print(item_b.start_time)
-    print(item_b.start_date)
-    print(item_b.end_time)
-    print(item_b.end_date)
-
+    
 
 def test_norg_str() -> None:
     norg1 = Norg.from_string(norg_string1)

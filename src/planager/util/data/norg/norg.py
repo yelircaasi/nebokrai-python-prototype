@@ -7,7 +7,7 @@ from ...pdatetime import PDateTime
 from ...regex import Regexes
 
 from .norg_item import NorgItem, NorgItems
-from .norg_link import NorgLink
+from .norg_item_head import NorgItemHead
 
 
 class Norg:
@@ -94,7 +94,6 @@ class Norg:
             with open("/tmp/x.norg", "w") as f:
                 f.write(body)
 
-        print(100 * "7")
         n = NorgItems.from_string(body)
         with open("/tmp/w.norg", "w") as f:
             f.write("------")
@@ -161,8 +160,8 @@ class Norg:
         return NorgItems(*args, **kwargs)
 
     @staticmethod
-    def norg_link(*args, **kwargs) -> NorgLink:
-        return NorgLink(*args, **kwargs)
+    def norg_link(*args, **kwargs) -> NorgItemHead:
+        return NorgItemHead(*args, **kwargs)
 
     # @staticmethod
     # def split_document(fp: Path) -> List[str]:
