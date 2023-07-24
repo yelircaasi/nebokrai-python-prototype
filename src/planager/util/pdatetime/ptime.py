@@ -2,8 +2,6 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
-from ..type import PDateInputType, PTimeInputType
-
 
 class PTime:
     def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):
@@ -25,13 +23,13 @@ class PTime:
     @classmethod
     def ensure_is_ptime(
         cls,
-        candidate: PTimeInputType,
+        candidate: Any,
         default: Optional["PTime"] = None,
     ) -> Union["PTime", None]:
         if not candidate:
             return default if default else None
         if isinstance(candidate, PTime):
-            pass
+            return candidate
         elif isinstance(candidate, str):
             if not candidate.strip():
                 return default if default else None
@@ -54,7 +52,7 @@ class PTime:
             raise ValueError(
                 f"Invalid input type for `PTime` class: '{type(candidate)}' (value: '{candidate}')"
             )
-        return candidate
+        return None
 
     def __bool__(self):
         return not self.isblank
@@ -87,8 +85,10 @@ class PTime:
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __eq__(self, ptime2: "PTime") -> bool:  # type: ignore
-        return self.tominutes() == ptime2.tominutes()
+    def __eq__(self, ptime2: Any) -> bool:  # type: ignore
+        if isinstance(ptime2, PTime):
+            return self.tominutes() == ptime2.tominutes()
+        return False
 
     def __lt__(self, ptime2: "PTime") -> bool:
         return self.tominutes() < ptime2.tominutes()
@@ -104,5 +104,5 @@ class PTime:
 
     @classmethod
     def fromisoformat(cls, __str: str) -> "PTime":
-        hour, minute = map(int, __str.split("-"))
+        hour, minute = map(int, __str.split(":"))
         return cls(hour, minute)

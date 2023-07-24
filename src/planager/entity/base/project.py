@@ -30,7 +30,7 @@ class Project:
             Tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
     ) -> None:
-        self.name = name
+        self.name = Norg.norg_link(name).name
         self.project_id = project_id
         self._tasks: Tasks = (
             Tasks.from_string_iterable(
@@ -112,56 +112,25 @@ class Project:
     def from_roadmap_item(
         cls, norg_item_string: str, roadmap_id: str, roadmap_path: Path
     ) -> "Project":
-        # norg = Norg.from_path(norg_path)
-        regx = Regexes.first_line
-        result = re.search(regx, norg_item_string)
-        title = result.groups()[0] if result else ""
-        item = Norg.from_string(norg_item_string).items[0]
-        if "||" in title:
-            name, tasks = re.split("\s*\|\|\s*", title)
-            return cls(
-                name=item.get_name() or "<Placeholder Project Name>",
-                project_id=(roadmap_id, item.get_id() or "<Roadmap Placeholder ID>"),
-                tasks=[],  # TODO
-                priority=item.get_priority() or 10,
-                start=item.get_start_date() or PDate.today() + 7,
-                end=item.get_end_date() or PDate.today() + 107,
-                interval=item.get_interval() or 7,
-                cluster_size=item.get_cluster_size() or 1,
-                duration=item.get_duration() or 30,
-                tags=item.get_tags() or set(),
-                description=item.get_description() or "",
-                notes=item.get_notes(),
-                path=item.get_path(),
-                before=item.get_before() or set(),
-                after=item.get_after() or set(),
-            )
-
-        else:
-            project_name, link = Norg.parse_link(item.name)
-            if link:
-                norg_path = roadmap_path.parent.parent / link.replace("$/", "")
-                try:
-                    assert norg_path.exists()
-                except:
-                    raise IOError(f"Path does not exist: {norg_path}.")
-                return cls.from_norg_path(
-                    norg_path=norg_path,
-                    project_name=project_name,
-                    priority=item.get_priority() or 10,
-                    start=item.get_start_date() or PDate.today() + 7,
-                    end=item.get_end_date() or PDate.today() + 107,
-                    interval=item.get_interval() or 7,
-                    cluster_size=item.get_cluster_size() or 1,
-                    duration=item.get_duration() or 30,
-                    tags=item.get_tags(),
-                    description=item.get_description(),
-                    notes=item.get_notes(),
-                    before=item.get_before(),
-                    after=item.get_after(),
-                )
-            else:
-                raise ValueError(f"No path found in roadmap item: {item}.")
+        item = Norg.norg_item_from_string(norg_item_string)
+        item_id = item.item_id[-1] if item.item_id else None
+        return cls(
+            name=item.name or "<Placeholder Project Name>",
+            project_id=(roadmap_id, item_id or "<Roadmap Placeholder ID>"),
+            tasks=[],  # TODO
+            priority=item.priority or 10,
+            start=item.start_date or PDate.today() + 7,
+            end=item.end_date or PDate.today() + 107,
+            interval=item.interval or 7,
+            cluster_size=item.cluster_size or 1,
+            duration=item.duration or 30,
+            tags=item.tags or set(),
+            description=item.description or "",
+            notes=item.notes or "",
+            path=item.path,
+            before=item.before or set(),
+            after=item.after or set(),
+        )
 
     def __str__(self) -> str:
         return self.pretty()

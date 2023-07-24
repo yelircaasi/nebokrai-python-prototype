@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Dict
 
-from ...util import Norg, PDate, PDateInputType, round5, tabularize
+from ...util import Norg, PDate, round5, tabularize
 from ..base.schedule import Schedule
 
 
@@ -9,13 +9,13 @@ class Schedules:
     def __init__(self, schedules: Dict[PDate, Schedule] = {}) -> None:
         self._schedules: Dict[PDate, Schedule] = schedules
 
-    def __getitem__(self, __key: PDateInputType) -> Schedule:
+    def __getitem__(self, __key: Any) -> Schedule:
         __key = PDate.ensure_is_pdate(__key)
         if not __key:
             raise ValueError(f"Date not in schedules: {str(__key)}")
         return self._schedules[__key]
 
-    def __setitem__(self, __key: PDateInputType, __value: Any) -> None:
+    def __setitem__(self, __key: Any, __value: Any) -> None:
         assert isinstance(__value, Schedule)
         __key = PDate.ensure_is_pdate(__key)
         if not __key:

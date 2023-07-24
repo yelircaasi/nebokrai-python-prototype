@@ -2,11 +2,9 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
-from ..type import PDateInputType, PTimeInputType
-
 
 class PDate(date):
-    date_regex: re.Pattern = re.compile("(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
+    date_regex: re.Pattern = re.compile(r"(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
 
     def __init__(self, year: int, month: int, day: int) -> None:
         self._year = year
@@ -37,11 +35,6 @@ class PDate(date):
     def day(self, day: int) -> None:
         self._day = day
 
-    # @classmethod
-    # def today(cls):
-    #     t = date.today()
-    #     return cls(t.year, t.month, t.today)
-
     def copy(self):
         return PDate(self.year, self.month, self.day)
 
@@ -58,7 +51,7 @@ class PDate(date):
     def __int__(self) -> int:
         return self.toordinal()
 
-    def __add__(self, days: Any) -> "PDate":  # type: ignore
+    def __add__(self, days: Any) -> "PDate":
         return PDate.fromordinal(self.toordinal() + int(days))
 
     def __sub__(self, days: Any) -> "PDate":  # type: ignore
@@ -103,18 +96,18 @@ class PDate(date):
     @classmethod
     def ensure_is_pdate(
         cls,
-        candidate: PDateInputType,
+        candidate: Any,
         default: Optional["PDate"] = None,
     ) -> Union["PDate", None]:
         if not candidate:
             return default if default else None
         if isinstance(candidate, PDate):
-            pass
+            return candidate
         elif isinstance(candidate, str):
             if not candidate.strip():
                 return default if default else None
             try:
-                candidate = PDate.fromisoformat(candidate)
+                return PDate.fromisoformat(candidate)
             except:
                 raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
         elif isinstance(candidate, tuple):
@@ -131,7 +124,7 @@ class PDate(date):
             raise ValueError(
                 f"Invalid input type for `PDate` class: '{type(candidate)}' (value: '{candidate}')"
             )
-        return candidate
+        return None
 
     def range(self, date2: "PDate", inclusive: bool = True) -> List["PDate"]:
         date1 = self.copy()

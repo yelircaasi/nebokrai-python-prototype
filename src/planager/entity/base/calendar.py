@@ -45,7 +45,7 @@ class Calendar:
         norg = Norg.from_path(file)
         for item in norg.items:
             date_str = item.name
-            pdate = PDate.from_string(date_str)
+            pdate = PDate.from_string(str(date_str))
             if pdate:
                 date = pdate
             else:

@@ -1,9 +1,8 @@
 import re
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Union
 
-from ...display import wrap_string
-from ...pdatetime import PDateTime, PTime
-from ...regex import Regexes
+"""
+from .pdatetime import PDateTime
 
 
 class NorgHeader:
@@ -72,3 +71,4 @@ class NorgHeader:
                 "",
             )
         )
+"""

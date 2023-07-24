@@ -115,20 +115,20 @@ class AdHoc:
         for item in norg.items:
             # attributes = Norg.get_attributes(item["text"])
             # attributes = item.attributes
-            start = item.get_start_time()
+            start = item.start_time
             entries.append(
                 Entry(
-                    name=item.get_name() or "<Placeholder Entry Name>",
+                    name=item.name or "<Placeholder Entry Name>",
                     start=start,
-                    end=item.get_end_time() or (start + 30 if start else None),
-                    priority=item.get_priority() or 10,
-                    ismovable=bool(item.get_ismovable()),
-                    notes=item.get_notes() or "",
-                    normaltime=item.get_normaltime() or 30,
-                    idealtime=item.get_idealtime(),
-                    mintime=item.get_mintime(),
-                    maxtime=item.get_maxtime(),
-                    alignend=item.get_alignend() or False,
+                    end=item.end_time or (start + 30 if start else None),
+                    priority=item.priority or 10,
+                    ismovable=bool(item.ismovable),
+                    notes=item.notes or "",
+                    normaltime=item.normaltime or 30,
+                    idealtime=item.idealtime,
+                    mintime=item.mintime,
+                    maxtime=item.maxtime,
+                    alignend=item.alignend or False,
                 )
             )
         return cls(entries)

@@ -2,13 +2,13 @@ import re
 from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
-from ..type import PDateInputType, PTimeInputType
+# from ..type import Any, PTimeInputType
 from .pdate import PDate
 from .ptime import PTime
 
 
 class PDateTime:
-    nondigit_regex: re.Pattern = re.compile("[^\d]")
+    nondigit_regex: re.Pattern = re.compile(r"[^\d]")
 
     def __init__(
         self,
@@ -84,7 +84,7 @@ class PDateTime:
 
     def __str__(self) -> str:
         # return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
-        return f"{self.year}-{self.month}{self.day} {self.hour}:{self.minute}:{self.second}"
+        return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
 
     def __repr__(self) -> str:
         return self.__str__()

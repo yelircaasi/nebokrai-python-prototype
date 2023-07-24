@@ -2,7 +2,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
-from ...util import HTML, JSON, Norg, PDate, PDateInputType, PTime, round5, tabularize
+from ...util import HTML, JSON, Norg, PDate, PTime, round5, tabularize
 from ..container.entries import Entries
 from ..container.routines import Routines
 from ..container.tasks import Tasks
@@ -73,7 +73,7 @@ class Schedule:
     def to_norg(self, path: Path) -> None:
         norg = self.as_norg()
         with open(path, "w") as f:
-            f.write(norg.as_norg_string())
+            f.write(str(norg))
 
     def to_json(self, path: Path) -> None:
         json_obj = self.as_json()

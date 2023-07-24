@@ -57,12 +57,13 @@ class Roadmaps:
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
         file = workspace_dir / "roadmaps.norg"
-        parsed = Norg.from_path(file)
+        norg = Norg.from_path(file)
         roadmap_list = []
-        for item in parsed.items:
-            _, link = Norg.parse_link(item.name)
-            path = workspace_dir / link.replace("$/", "")
-            roadmap_list.append(Roadmap.from_norg_path(path))
+        for item in norg.items:
+            if item.path:
+                roadmap_list.append(Roadmap.from_norg_path(item.path))
+            else:
+                raise ValueError(f"Roadmap item must have a path link: {str(item)}")
         return cls(roadmap_list, workspace_dir)
 
     def open_projects_norg(self) -> Projects:

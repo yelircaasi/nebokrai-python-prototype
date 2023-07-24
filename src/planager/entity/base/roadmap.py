@@ -30,27 +30,28 @@ class Roadmap:
         norg = Norg.from_path(norg_path)
         projects = Projects()  # norg.title, norg.doc_id)
         for item in norg.items:
+            item_id = item.item_id[-1] if item.item_id else None
             projects.add(
                 # Project(item, (norg.doc_id, str(item.item_id)), norg_path))
                 Project(
-                    item.get_name() or "<Placeholder Project Name>",
+                    item.name or "<Placeholder Project Name>",
                     project_id=(
                         norg.doc_id,
-                        item.get_id() or "<Placeholder Project ID>",
+                        item_id or "<Placeholder Project ID>",
                     ),
                     tasks=[],  # TODO
-                    priority=item.get_priority() or 10,
-                    start=item.get_start_date() or PDate.today() + 7,
-                    end=item.get_end_date() or PDate.today() + 107,
-                    interval=item.get_interval() or 7,
-                    cluster_size=item.get_cluster_size() or 1,
-                    duration=item.get_duration() or 30,
-                    tags=item.get_tags() or set(),
-                    description=item.get_description() or "",
-                    notes=item.get_notes(),
-                    path=item.get_path(),
-                    before=item.get_before() or set(),
-                    after=item.get_after() or set(),
+                    priority=item.priority or 10,
+                    start=item.start_date or PDate.today() + 7,
+                    end=item.end_date or PDate.today() + 107,
+                    interval=item.interval or 7,
+                    cluster_size=item.cluster_size or 1,
+                    duration=item.duration or 30,
+                    tags=item.tags or set(),
+                    description=item.description or "",
+                    notes=item.notes or "",
+                    path=item.path,
+                    before=item.before or set(),
+                    after=item.after or set(),
                 )
             )
         return Roadmap(norg.title, norg.doc_id, projects)

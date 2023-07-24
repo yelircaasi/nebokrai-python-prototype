@@ -11,8 +11,10 @@ from ..entity import (
     TaskPatches,
     Tasks,
 )
-from ..util import ClusterType, ConfigType, PDate, SubplanType, expand_task_segments
+from ..util import ClusterType, ConfigType, PDate, expand_task_segments
 from .patcher import PlanPatcher, TaskPatcher
+
+SubplanType = Dict[PDate, List[Tuple[str, str, str]]]
 
 
 class Planner:

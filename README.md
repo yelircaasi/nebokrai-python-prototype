@@ -104,280 +104,267 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 ## Roadmap
 
-[✓] rename universe to Planager
+* [✓] rename universe to Planager
 
-[✓] add `order` attribute to Entry, such that tasks can be ordered temporally indgependently of priority
+* [✓] add `order` attribute to Entry, such that tasks can be ordered temporally indgependently of priority
 
-[✓] fix attributes of routines (such as maxtime) for proper initialization
+* [✓] fix attributes of routines (such as maxtime) for proper initialization
 
-[✓] major refactoring to separate by entity types and remove plurals from module names
+* [✓] major refactoring to separate by entity types and remove plurals from module names
 
-[✓] clean up imports to make relative wherever possible
+* [✓] clean up imports to make relative wherever possible
 
-[✓] fix all mypy errors
+* [✓] fix all mypy errors
 
-[✓] visualize with [pydeps](https://github.com/thebjorn/pydeps) and refactor accordingly
+* [✓] visualize with [pydeps](https://github.com/thebjorn/pydeps) and refactor accordingly
 
-[✓] fix id to be string
+* [✓] fix id to be string
 
-[✓] remove ambiguity (**kwargs) in norg reading
+* [✓] remove ambiguity (**kwargs) in norg reading
 
-[✓] migrate List[Entry] to Entries
+* [✓] migrate List[Entry] to Entries
 
-[ ] move internal norg dicts to classes for better verification
+* [✓] move internal norg dicts to classes for better verification
 
-[ ] create norg visualization via `__repr__`
+* [ ] create norg visualization via `__repr__`
 
-[ ] 
+* [ ] write tests for each class, function, and method (see checklist)
 
-[ ] add support for norg task status (for completed)
+* [ ] add support for norg task status (for completed)
 
-[ ] clean up and solidify norg readers and writers
+* [ ] clean up and solidify norg readers and writers
 
-[ ] add json readers and writers
+* [ ] add json readers and writers
 
-[ ] add html readers and writers
+* [ ] add html readers and writers
 
-[ ] write tests for each class, function, and method
+* [ ] write logger
 
-[ ] write logger
+* [ ] add logging to entire library
 
-[ ] add logging to entire library
+* [ ] get planning working as expected
 
-[ ] get planning working as expected
+* [ ] get scheduling working as expected
 
-[ ] get scheduling working as expected
+* [ ] make adhoc counterpart to plan, containing tasks (but one-off, non-derivable) -> adhoc folder containing a file for each day
 
-[ ] make adhoc counterpart to plan, containing tasks (but one-off, non-derivable) -> adhoc folder containing a file for each day
+* [ ] calendar is direct parent of schedules, containing entries and day parameters -> calendar folder containing a file for each day
 
-[ ] calendar is direct parent of schedules, containing entries and day parameters -> calendar folder containing a file for each day
+* [ ] add tracking module mvp
 
-[ ] add tracking module mvp
-
-[ ] write signal package for messaging
+* [ ] write signal package for messaging
 
 
 ## Checklist
 
-[ ] planager.util
-    [ ] planager.util.__init__
-        [ ] written
-        [ ] tested
-    [ ] planager.util.data
-        [ ] planager.util.data.__init__
-            [ ] written
-            [ ] tested
-        [ ] planager.util.data.norg
-            [ ] planager.util.data.norg.norg.Norg
-                [ ] written
-                [ ] tested
-            [ ] planager.util.data.norg.norg_item.NorgItem
-                [ ] written
-                [ ] tested
-            [ ] planager.util.data.norg.norg_item.NorgItems
-                [ ] written
-                [ ] tested
-            [ ] planager.util.data.norg.norg_section.NorgSection
-                [ ] written
-                [ ] tested
-            [ ] planager.util.data.norg.norg_section.NorgSections
-                [ ] written
-                [ ] tested
-            [ ] planager.util.data.norg.norg_header.NorgHeader
-                [ ] written
-                [ ] tested
-        [ ] planager.util.data.html.html.HTML
-            [ ] written
-            [ ] tested
-        [ ] planager.util.data.json.json.JSON
-            [ ] written
-            [ ] tested
-    [ ] planager.util.display
-        [ ] planager.util.display.__init__
-            [ ] written
-            [ ] tested
-        [ ] planager.util.display.linewrap.wrap_string
-            [ ] written
-            [ ] tested
-        [ ] planager.util.display.repr.tabularize
-            [ ] written
-            [ ] tested
-    [ ] planager.util.pdatetime
-        [ ] planager.util.pdatetime.__init__
-            [ ] written
-            [ ] tested
-        [ ] planager.util.pdatetime.pdate.PDate
-            [ ] written
-            [ ] tested
-        [ ] planager.util.pdatetime.pdatetime.PDateTime
-            [ ] written
-            [ ] tested
-        [ ] planager.util.pdatetime.ptime.PTime
-            [ ] written
-            [ ] tested
-    [ ] planager.util.misc
-        [ ] planager.util.misc.round5
-            [ ] written
-            [ ] tested
-        [ ] planager.util.misc.expand_task_segments
-            [ ] written
-            [ ] tested
-    [ ] planager.util.regex
-        [ ] planager.util.regex.Regexes
-            [ ] planager.util.regex.Regexes.first_line
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.item_title
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.time_bar_text
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.section_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.subsection_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.asterix_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.item_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.item1_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.item2_split
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.entry_split_old
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.header_and_body
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.link
-                [ ] written
-                [ ] tested
-            [ ] planager.util.regex.Regexes.attribute_pair
-                [ ] written
-                [ ] tested
-    [ ] planager.util.type
-        [ ] planager.util.type.ClusterType
-            [ ] written
-            [ ] tested
-        [ ] planager.util.type.SubplanType
-            [ ] written
-            [ ] tested
-        [ ] planager.util.type.PDateInputType
-            [ ] written
-            [ ] tested
-        [ ] planager.util.type.PTimeInputType
-            [ ] written
-            [ ] tested
-[ ] planager.entity
-    [ ] planager.entity.base
-        [ ] planager.entity.base.__init__
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.adhoc.AdHoc
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.calendar.Calendar
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.entry.Entry
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.plan.Plan
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.project.Project
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.roadmap.Roadmap
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.routine.Routine
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.schedule.Schedule
-            [ ] written
-            [ ] tested
-        [ ] planager.entity.base.task.Task
-            [ ] written
-            [ ] tested
-[ ] planager.container
-    [ ] planager.container.__init__
-        [ ] written
-        [ ] tested
-    [ ] planager.container.entries.Entries
-        [ ] written
-        [ ] tested
-    [ ] planager.container.projects.Projects
-        [ ] written
-        [ ] tested
-    [ ] planager.container.roadmaps.Roadmaps
-        [ ] written
-        [ ] tested
-    [ ] planager.container.routines.Routines
-        [ ] written
-        [ ] tested
-    [ ] planager.container.schedules.Schedules
-        [ ] written
-        [ ] tested
-    [ ] planager.container.tasks.Tasks
-        [ ] written
-        [ ] tested
-[ ] planager.patch
-    [ ] planager.patch.__init__
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.plan_patch.PlanPatch
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.plan_patch.PlanPatches
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.schedule_patch.SchedulePatch
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.schedule_patch.SchedulePatches
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.task_patch.TaskPatch
-        [ ] written
-        [ ] tested
-    [ ] planager.patch.task_patch.TaskPatches
-        [ ] written
-        [ ] tested
-[ ] planager.operator
-    [ ] planager.__init__.__all__
-        [ ] written
-        [ ] tested    
-    [ ] planager.patch.task_patch.TaskPatch
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.planner
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.scheduler
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.patcher.__init__
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.patcher.PlanPatcher
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.patcher.SchedulePatcher
-        [ ] written
-        [ ] tested
-    [ ] planager.operator.patcher.TaskPatcher
-        [ ] written
-        [ ] tested
-[ ] planager.tracking
-    [ ] planager.tracking.__init__
+*  [ ] planager.util
+*     [✓] planager.util.__init__
+*         [✓] written
+*         [-] tested
+*     [ ] planager.util.data
+*         [✓] planager.util.data.__init__
+*             [✓] written
+*             [-] tested
+*         [ ] planager.util.data.norg
+*             [✓] planager.util.data.norg.norg.Norg
+*                 [✓] written
+*                 [✓] tested
+*             [ ] planager.util.data.norg.norg_item.NorgItem
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.data.norg.norg_item.NorgItems
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.data.norg.norg_header.NorgHeader
+*                 [ ] written
+*                 [ ] tested
+*         [ ] planager.util.data.html.html.HTML
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.data.json.json.JSON
+*             [ ] written
+*             [ ] tested
+*     [ ] planager.util.display
+*         [ ] planager.util.display.__init__
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.display.linewrap.wrap_string
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.display.repr.tabularize
+*             [ ] written
+*             [ ] tested
+*     [ ] planager.util.pdatetime
+*         [ ] planager.util.pdatetime.__init__
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.pdatetime.pdate.PDate
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.pdatetime.pdatetime.PDateTime
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.pdatetime.ptime.PTime
+*             [ ] written
+*             [ ] tested
+*     [ ] planager.util.misc
+*         [ ] planager.util.misc.round5
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.misc.expand_task_segments
+*             [ ] written
+*             [ ] tested
+*     [ ] planager.util.regex
+*         [ ] planager.util.regex.Regexes
+*             [ ] planager.util.regex.Regexes.first_line
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.item_title
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.time_bar_text
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.section_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.subsection_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.asterix_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.item_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.item1_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.item2_split
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.entry_split_old
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.header_and_body
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.link
+*                 [ ] written
+*                 [ ] tested
+*             [ ] planager.util.regex.Regexes.attribute_pair
+*                 [ ] written
+*                 [ ] tested
+*     [ ] planager.util.type
+*         [ ] planager.util.type.ClusterType
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.util.type.ConfigType
+*             [ ] written
+*             [ ] tested
+* [ ] planager.entity
+*     [ ] planager.entity.base
+*         [ ] planager.entity.base.__init__
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.adhoc.AdHoc
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.calendar.Calendar
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.entry.Entry
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.plan.Plan
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.project.Project
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.roadmap.Roadmap
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.routine.Routine
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.schedule.Schedule
+*             [ ] written
+*             [ ] tested
+*         [ ] planager.entity.base.task.Task
+*             [ ] written
+*             [ ] tested
+* [ ] planager.container
+*     [ ] planager.container.__init__
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.entries.Entries
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.projects.Projects
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.roadmaps.Roadmaps
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.routines.Routines
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.schedules.Schedules
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.container.tasks.Tasks
+*         [ ] written
+*         [ ] tested
+* [ ] planager.patch
+*     [ ] planager.patch.__init__
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.plan_patch.PlanPatch
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.plan_patch.PlanPatches
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.schedule_patch.SchedulePatch
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.schedule_patch.SchedulePatches
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.task_patch.TaskPatch
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.patch.task_patch.TaskPatches
+*         [ ] written
+*         [ ] tested
+* [ ] planager.operator
+*     [ ] planager.__init__.__all__
+*         [ ] written
+*         [ ] tested    
+*     [ ] planager.patch.task_patch.TaskPatch
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.planner
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.scheduler
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.patcher.__init__
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.patcher.PlanPatcher
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.patcher.SchedulePatcher
+*         [ ] written
+*         [ ] tested
+*     [ ] planager.operator.patcher.TaskPatcher
+*         [ ] written
+*         [ ] tested
+* [ ] planager.tracking
+*     [ ] planager.tracking.__init__
 
-[ ] 
+* [ ] 
+  
