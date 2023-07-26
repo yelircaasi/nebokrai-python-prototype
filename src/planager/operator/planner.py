@@ -26,7 +26,6 @@ class Planner:
     def __call__(
         self,
         roadmaps: Roadmaps,
-        tasks: Tasks,
         calendar: Calendar,
         task_patches: Optional[TaskPatches] = None,
         plan_patches: Optional[PlanPatches] = None,
@@ -36,39 +35,42 @@ class Planner:
             calendar=calendar,
         )
         projects = roadmaps.get_projects()
-        # TODO projects.patch_tasks(self.patch_tasks)
-        # TODO projects.order_by_dependency()
+        projects.patch_tasks(self.patch_tasks)
+        projects.order_by_dependency()
 
-        for project_id, project in projects.items():
-            subplan: SubplanType = self.get_subplan_from_tasks(
-                project._tasks, project, calendar
+        for project in projects.values():
+            subplan: SubplanType = self.get_subplan_from_project(
+                project, calendar
             )
             plan.add_subplan(subplan, project._tasks)
+        plan.reorder_by_precedence()
 
         plan = self.patch_plan(plan, plan_patches)
 
         return plan
 
-    def get_subplan_from_tasks(
+    def get_subplan_from_project(
         self,
-        tasks: Tasks,
         project: Project,
         calendar: Calendar,
     ) -> SubplanType:
-        start: Optional[PDate] = project.start
-        end: Optional[PDate] = project.end
-        cluster_size: int = project.cluster_size
-        interval: Optional[int] = project.interval
-
-        clusters: ClusterType = self.cluster_task_ids(tasks.ids(), cluster_size)
-        subplan: SubplanType = self.allocate_in_time(clusters, tasks, project)
+        """
+        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged with 
+        """
+        
+        clusters: ClusterType = self.cluster_task_ids(project.get_task_ids(), project.cluster_size)
+        subplan: SubplanType = self.allocate_in_time(clusters, project)
 
         return subplan
 
     @staticmethod
     def cluster_task_ids(
-        task_ids: List[Tuple[str, str, str]], cluster_size: int
+        task_ids: List[Tuple[str, str, str]],
+        cluster_size: int
     ) -> ClusterType:
+        """
+        Divides a list of tasks into k clusters of size `cluster_size`.
+        """
         n = cluster_size
         length = len(task_ids)
         quotient, remainder = divmod(length, n)
@@ -78,10 +80,12 @@ class Planner:
 
     @staticmethod
     def allocate_in_time(
-        clusters: ClusterType,
-        tasks: Tasks,
         project: Project,
+        clusters: ClusterType,
     ) -> SubplanType:
+        """
+        Spaces out a list of clusters between a start and end date, given some interval.
+        """
         nclusters = len(clusters)
         if len(clusters) == 1:
             return {project.get_start(): clusters[0]}

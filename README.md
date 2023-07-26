@@ -67,6 +67,24 @@ An Entry object can be added to a Schedule object from one of 5 origins:
 * from AdHoc, from adhoc file
 * from Routines, from routines file
 
+### Project and Task Dependency Logic
+
+* use only `.after` attribute; `.before` superfluous
+* add `.tmpdate` (or maybe `.placeholder_date`) attribute to tasks for sorting; default NullDate to allow for easy complex comparisons
+* 2-pass approach for planning: first regular planning to assign tmpdate, then adjust for dependencies
+* use special sorting (`__gt__ , __lt__, __ge__, __le__`) that first looks at `.after`, then at `.tmpdate`
+
+### Blocking Logic
+
+* blocks like 'work' that other smaller, more specific tasks can be scheduled on top of
+* Blocks come from Calendar, AdHoc, Routines
+* Potentially also from regular (roadmap-originating) tasks
+* used to 'collapse' durations together for planning and scheduling
+
+### Task 'Stacking'
+
+* combining tasks that can be done simultaneously, such as listening to a podcast on the way home
+* also allows 'time collapsing' during planning, scheduling with require something new and custom
 
 ### Habits / metrics to track:
 
@@ -126,11 +144,23 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 * [✓] move internal norg dicts to classes for better verification
 
-* [ ] create norg visualization via `__repr__`
+* [✓] create norg visualization via `__repr__`
+
+* [✓] add support for norg task status (for completed)
+
+* [✓] add blocking logic
+
+* [✓] add basic dependency logic for projects and tasks, integrated in planning
+
+* [ ] add basic dependency logic for entries, integrated in scheduling
 
 * [ ] write tests for each class, function, and method (see checklist)
 
-* [ ] add support for norg task status (for completed)
+* [ ] refine dependency logic for projects and tasks, integrated in planning
+
+* [ ] refine dependency logic for entries, integrated in scheduling
+
+* [ ] add task stacking logic
 
 * [ ] clean up and solidify norg readers and writers
 

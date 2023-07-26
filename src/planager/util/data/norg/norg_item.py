@@ -76,7 +76,7 @@ class NorgItem:
         self.description: Optional[str] = description
         self.alignend: Optional[bool] = self.convert_bool(alignend)
         self.before: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(before)
-        self.after: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(after)
+        self.dependencies: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(after)
         
     @classmethod
     def from_string(cls, norg_str) -> "NorgItem":
@@ -342,9 +342,9 @@ class NorgItem:
                 sorted(map(lambda t: " :: ".join(sorted(t)), self.before))
             )
             attributes.append(f"before: {before}")
-        if self.after is not None:
+        if self.dependencies is not None:
             after: str = ", ".join(
-                sorted(map(lambda t: " :: ".join(sorted(t)), self.after))
+                sorted(map(lambda t: " :: ".join(sorted(t)), self.dependencies))
             )
             attributes.append(f"after: {after}")
 

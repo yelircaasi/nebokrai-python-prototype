@@ -109,9 +109,6 @@ norg_string7 = """
 """
 
 path1 = Path(__file__).parent.parent.parent / "data" / "norg1.norg"
-with open(path1, "w") as f:
-    f.write(norg_string1)
-
 
 def test_norg_init() -> None:
     items = NorgItems(
@@ -140,9 +137,7 @@ def test_norg_init() -> None:
         categories=categories,
         items=items,
     )
-    with open("/tmp/a.norg", "w") as f:
-        f.write(str(norg1))
-
+    
     assert norg1.title == title
     assert norg1.description == description
     assert norg1.author == author
@@ -158,7 +153,7 @@ def test_norg_init() -> None:
     assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
-    assert item_a.after == after_a_set
+    assert item_a.dependencies == after_a_set
 
     assert item_b.name == item_b_name
     assert item_b.status == item_b_status
@@ -170,9 +165,7 @@ def test_norg_init() -> None:
 
 def test_norg_from_path() -> None:
     norg1 = Norg.from_path(path1)
-    with open("/tmp/b.norg", "w") as f:
-        f.write(str(norg1))
-
+    
     assert norg1.title == title
     assert norg1.description == description
     assert norg1.author == author
@@ -188,7 +181,7 @@ def test_norg_from_path() -> None:
     assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
-    assert item_a.after == after_a_set
+    assert item_a.dependencies == after_a_set
 
     assert item_b.name == item_b_name
     assert item_b.status == item_b_status
@@ -210,14 +203,12 @@ def test_norg_from_path() -> None:
     assert item_b.description == description_b
     assert item_b.alignend == alignend_b_bool
     assert item_b.before == before_b_set
-    assert item_b.after == after_b_set
+    assert item_b.dependencies == after_b_set
 
 
 def test_norg_from_string() -> None:
     norg1 = Norg.from_string(norg_string1)
-    with open("/tmp/c.norg", "w") as f:
-        f.write(str(norg1))
-
+    
     assert norg1.title == title
     assert norg1.description == description
     assert norg1.author == author
@@ -233,7 +224,7 @@ def test_norg_from_string() -> None:
     assert item_a.status == item_a_status
     assert item_a.priority == priority_a
     assert item_a.notes == notes_a
-    assert item_a.after == after_a_set
+    assert item_a.dependencies == after_a_set
 
     assert item_b.name == item_b_name
     assert item_b.status == item_b_status
@@ -255,16 +246,12 @@ def test_norg_from_string() -> None:
     assert item_b.description == description_b
     assert item_b.alignend == alignend_b_bool
     assert item_b.before == before_b_set
-    assert item_b.after == after_b_set
+    assert item_b.dependencies == after_b_set
     
 
 def test_norg_str() -> None:
     norg1 = Norg.from_string(norg_string1)
-    with open("/tmp/norg_string1.norg", "w") as f:
-        f.write(norg_string1)
-    with open("/tmp/norg1.norg", "w") as f:
-        f.write(str(norg1))
-
+    
     assert norg_string1 == str(norg1)
 
 

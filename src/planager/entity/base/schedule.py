@@ -126,7 +126,7 @@ class Schedule:
         self.ensure_bookends()
 
     # def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO) -> None:
-    #     before = filter(entry.after, self.schedule)
+    #     before = filter(entry.dependencies, self.schedule)
     #     after = filter(entry.before, self.schedule)
     #     overlaps = filter(entry.overlaps, self.schedule)
 

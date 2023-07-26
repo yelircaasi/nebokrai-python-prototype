@@ -29,6 +29,7 @@ class Project:
         after: Set[
             Tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
+        categories: Set[str] = {},
     ) -> None:
         self.name = Norg.norg_link(name).name
         self.project_id = project_id
@@ -52,7 +53,8 @@ class Project:
         self.notes = notes
         self.path = Path(path) if path else path
         self.before = before
-        self.after = after
+        self.dependencies = after
+        self.categories = categories
 
     def copy(self) -> "Project":
         copy = Project(self.name, self.project_id)
@@ -129,7 +131,7 @@ class Project:
             notes=item.notes or "",
             path=item.path,
             before=item.before or set(),
-            after=item.after or set(),
+            after=item.dependencies or set(),
         )
 
     def __str__(self) -> str:

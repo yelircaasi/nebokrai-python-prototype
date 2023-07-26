@@ -59,7 +59,7 @@ class NorgItem:
         self.before: Optional[Tuple[str, ...]] = (
             set(re.split(", *", before)) if before else None
         )
-        self.after: Optional[Tuple[str, ...]] = (
+        self.dependencies: Optional[Tuple[str, ...]] = (
             set(re.split(", *", after)) if after else None
         )
 
@@ -260,10 +260,10 @@ class NorgItem:
         return self.before
 
     def get_after(self) -> Set[Tuple[str, ...]]:
-        if not self.after:
+        if not self.dependencies:
             return set()
         return set(
-            map(lambda x: tuple(re.split(" ?:: ?", x)), re.split(", ?", self.after))
+            map(lambda x: tuple(re.split(" ?:: ?", x)), re.split(", ?", self.dependencies))
         )
 
 

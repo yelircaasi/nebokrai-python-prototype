@@ -157,7 +157,7 @@ class Entry:
     def temporal_relationship(self, entry2: "Entry") -> str:
         if self.before(entry2):
             return "before"
-        elif self.after(entry2):
+        elif self.dependencies(entry2):
             return "after"
         elif self.overlaps_first(entry2):
             return "overlaps_first"

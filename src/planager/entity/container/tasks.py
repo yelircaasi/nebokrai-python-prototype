@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
 
 from ...util import ConfigType, Norg, PDate, PTime, tabularize
 from ..base.task import Task
@@ -49,6 +49,7 @@ class Tasks:
         project_id: Tuple[str, str],
         project_name: str,
         priority: Optional[int] = None,
+        after: Set[Tuple[str, ...]] = set()
     ) -> "Tasks":
         tasks = cls()
         for task_id_, name in enumerate(task_list, start=1):

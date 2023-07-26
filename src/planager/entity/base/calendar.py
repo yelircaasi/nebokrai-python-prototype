@@ -2,20 +2,22 @@ from pathlib import Path
 from typing import Any, Dict
 
 from ...util import Norg, PDate
+from ..container.entries import Entries
 
 
 class Day:
     def __init__(
         self,
         date: PDate,
+        entries: Entries = Entries(),
         max_load: int = 240,
         routines: list = ["morning", "midday" "evening"],
-        # **kwargs,
+
     ) -> None:
         self.date = date
+        self.entries = entries
         self.max_load = max_load
         self.routines = routines
-        # self.__dict__.update(**kwargs)
 
 
 class Calendar:

@@ -150,3 +150,39 @@ class PDate(date):
     @classmethod
     def tomorrow(cls) -> "PDate":
         return cls.today() + 1
+    
+    @staticmethod
+    def nonedate() -> "NoneDate":
+        return NoneDate()
+
+    def __eq__(self, __other: Any) -> bool:
+        return self.__int__ == int(__other)
+    
+    def __lt__(self, __other: Any) -> bool:
+        return self.__int__ < int(__other)
+    
+    def __gt__(self, __other: Any) -> bool:
+        return self.__int__ > int(__other)
+    
+    def __le__(self, __other: Any) -> bool:
+        return self.__int__ <= int(__other)
+    
+    def __ge__(self, __other: Any) -> bool:
+        return self.__int__ >= int(__other)
+
+
+class NoneDate:
+    def __eq__(self, __other: Any) -> bool:
+        return self.__dict__ == __other.__dict__
+    
+    def __lt__(self, __other: Any) -> bool:
+        return False
+    
+    def __gt__(self, __other: Any) -> bool:
+        return False
+    
+    def __le__(self, __other: Any) -> bool:
+        return True
+    
+    def __ge__(self, __other: Any) -> bool:
+        return True

@@ -21,10 +21,6 @@ class Roadmap:
         self.updated = updated
         self.categories = categories
 
-    # @classmethod
-    # def from_norg_workspace(self, workspace_dir: Path) -> "Roadmap":
-    #     ...
-
     @classmethod
     def from_norg_path(self, norg_path: Path) -> "Roadmap":
         norg = Norg.from_path(norg_path)
@@ -32,7 +28,6 @@ class Roadmap:
         for item in norg.items:
             item_id = item.item_id[-1] if item.item_id else None
             projects.add(
-                # Project(item, (norg.doc_id, str(item.item_id)), norg_path))
                 Project(
                     item.name or "<Placeholder Project Name>",
                     project_id=(
@@ -51,7 +46,7 @@ class Roadmap:
                     notes=item.notes or "",
                     path=item.path,
                     before=item.before or set(),
-                    after=item.after or set(),
+                    after=item.dependencies or set(),
                 )
             )
         return Roadmap(norg.title, norg.doc_id, projects)
@@ -68,7 +63,6 @@ class Roadmap:
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"{self.name} (ID {self.roadmap_id})", width, pad=1)
