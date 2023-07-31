@@ -69,7 +69,7 @@ class Projects:
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Projects", width, pad=1)
+        top = tabularize("Projects", width)
         empty = tabularize("", width)
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         names = map(

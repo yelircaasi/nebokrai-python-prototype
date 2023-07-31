@@ -29,9 +29,9 @@ class Project:
         after: Set[
             Tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
-        categories: Set[str] = {},
+        categories: Set[str] = set(),
     ) -> None:
-        self.name = Norg.norg_link(name).name
+        self.name = Norg.norg_item_head(name).name
         self.project_id = project_id
         self._tasks: Tasks = (
             Tasks.from_string_iterable(
@@ -63,12 +63,6 @@ class Project:
 
     # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
     #     ...
-
-    def __iter__(self) -> Iterator[Task]:
-        return iter(self._tasks)
-
-    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
-        return self._tasks[__key]
 
     @classmethod
     def from_norg_path(
@@ -134,19 +128,23 @@ class Project:
             after=item.dependencies or set(),
         )
 
-    def __str__(self) -> str:
-        return self.pretty()
+    def get_start(self) -> PDate:
+        return self.start or PDate.tomorrow() + (hash(self.name) % 60)
 
-    def __repr__(self) -> str:
-        return self.__str__()
+    def get_end(self) -> PDate:
+        return self.get_start() + 365
 
+    @property
+    def task_ids(self) -> List[Tuple[str, str, str]]:
+        return self._tasks.task_ids
+    
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"Project: {self.name} (ID {self.project_id})", width, pad=1)
+        top = tabularize(f"Project: {self.name} (ID {self.project_id})", width)
         empty = tabularize("", width)
         tasks = map(
             lambda x: tabularize(
@@ -162,9 +160,14 @@ class Project:
             + bottombeam
         )
 
-    def get_start(self) -> PDate:
-        ret = self.start or PDate.tomorrow() + (hash(self.name) % 60)
-        return ret
+    def __str__(self) -> str:
+        return self.pretty()
 
-    def get_end(self) -> PDate:
-        return self.end or PDate.tomorrow() + 365
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __iter__(self) -> Iterator[Task]:
+        return iter(self._tasks)
+
+    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
+        return self._tasks[__key]

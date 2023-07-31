@@ -11,15 +11,6 @@ from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .plan import Plan
 
 
-class AdjustmentType(Enum):
-    AUTO = 0  # methods figure it out, based on priority and properties
-    CLIP = 1  # higher-priority entry takes precedence and lower-priority activity makes way
-    SHIFT = 2  #
-    COMPRESS = 3  #
-    COMPROMISE = 4  #
-    DISPLACE = 5  #
-
-
 class Schedule:
     def __init__(
         self,
@@ -32,11 +23,15 @@ class Schedule:
         self.schedule = schedule or self.make_default_day()
         self.date: PDate = date or PDate.today() + 1
         self.width: int = width
-        self.AdjustmentType = AdjustmentType
         self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
         self.prio_transform: Callable = lambda x: (x / 100) ** 1.5
+
+    def copy(self):
+        newschedule = Schedule()
+        newschedule.__dict__.update(self.__dict__)
+        return newschedule
 
     def make_default_day(self) -> Entries:
         return Entries(
@@ -49,16 +44,6 @@ class Schedule:
             ]
         )
 
-    def ensure_bookends(self) -> None:
-        """
-        Verifies that the first and last entries in the schedule are the corresponding placeholder
-          entries.
-        """
-        if not self.schedule[0] == FIRST_ENTRY:
-            self.schedule.insert(0, FIRST_ENTRY)
-        if not self.schedule[-1] == LAST_ENTRY:
-            self.schedule.append(LAST_ENTRY)
-
     @classmethod
     def from_norg(cls, path: Path) -> "Schedule":
         # dict = read_norg_day(path)
@@ -67,6 +52,11 @@ class Schedule:
 
     @classmethod
     def from_json(cls, path: Path) -> "Schedule":
+        schedule = cls()
+        return schedule
+
+    @classmethod
+    def from_html(cls, path: Path) -> "Schedule":
         schedule = cls()
         return schedule
 
@@ -94,76 +84,55 @@ class Schedule:
     def as_html(self) -> HTML:
         return HTML()  # TODO
 
-    def copy(self):
-        newschedule = Schedule()
-        newschedule.__dict__.update(self.__dict__)
-        return newschedule
+    def add(self, entry: Entry) -> None:
+        assert self.can_be_added(entry)  # TODO
+        block_ind = min(self.get_inds_of_relevant_blocks(entry))
+        if block_ind:
+            self.add_to_block_by_index(entry, block_ind)
+        else:
+            self.schedule = self.allocate_in_time(self.schedule + [entry])
 
-        # def add_OLD(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO):
-        #     self.ensure_bookends()
-        #     self.schedule.sort(key=lambda x: x.start)
+    def remove(self, entry: Entry) -> None:
+        ...
 
-        #     self.schedule = add_entry_default(entry, self.schedule)
-        #     print(len(self.schedule))
+    def names(self) -> List[str]:
+        return [x.name for x in self.schedule]
 
-        # match adjustment:
-        #     case AdjustmentType.AUTO:
-        #         self.schedule = add_entry_default(entry, self.schedule)
+    def starts(self) -> List[PTime]:
+        return [x.start for x in self.schedule]
 
-        #         # TODO: integrate collision handling into before and after logic
+    def starts_strings(self) -> List[str]:
+        return [str(x.start) for x in self.schedule]
 
-        #     case AdjustmentType.CLIP:
-        #         raise NotImplemented
-        #     case AdjustmentType.SHIFT:
-        #         raise NotImplemented
-        #     case AdjustmentType.COMPRESS:
-        #         raise NotImplemented
-        #     case AdjustmentType.COMPROMISE:
-        #         raise NotImplementedError
-        #     case _:
-        #         raise ValueError("Invalid adjustment type.")
+    def add_routines(self, routines: Routines) -> None: #  -> KEEP
+        for routine in routines:
+            if routine.valid_on(self.date):
+                print("===========", routine.name)
+                self.add(routine.as_entry(None))
+                print(self)
+            else:
+                print(f"Not valid on {self.date}.")
+        raise ValueError  # ---
 
-        self.ensure_bookends()
+    def add_from_plan(self, plan: Plan, tasks: Tasks) -> None: #  -> KEEP
+        for task_id in plan[self.date]:
+            self.add(tasks[task_id].as_entry(None))
 
-    # def remove(self, entry: Entry, adjustment: AdjustmentType = AdjustmentType.AUTO) -> None:
-    #     before = filter(entry.dependencies, self.schedule)
-    #     after = filter(entry.before, self.schedule)
-    #     overlaps = filter(entry.overlaps, self.schedule)
+    def add_adhoc(self, adhoc: AdHoc) -> None: #  -> KEEP
+        for entry in adhoc[self.date]:
+            self.add(entry)
 
-    #     match adjustment:
-    #         case AdjustmentType.AUTO:
-    #             ...
-    #         case AdjustmentType.CLIP:
-    #             raise NotImplemented
-    #         case AdjustmentType.SHIFT:
-    #             raise NotImplemented
-    #         case AdjustmentType.COMPRESS:
-    #             raise NotImplemented
-    #         case AdjustmentType.COMPROMISE:
-    #             raise NotImplemented
-    #         case _:
-    #             print("Invalid adjustment type.")
+    def ensure_bookends(self) -> None: # MOVE TO ENTRIES?
+        """
+        Verifies that the first and last entries in the schedule are the corresponding placeholder
+          entries.
+        """
+        if not self.schedule[0] == FIRST_ENTRY:
+            self.schedule.insert(0, FIRST_ENTRY)
+        if not self.schedule[-1] == LAST_ENTRY:
+            self.schedule.append(LAST_ENTRY)
 
-    #     self.schedule = [Entry("", PTime())] # TODO
-
-    def __repr__(self) -> str:
-        topbeam = "┏" + (self.width - 2) * "━" + "┓"
-        date = tabularize(self.date.pretty(), self.width)
-        bottombeam = "┗" + (self.width - 2) * "━" + "┛"
-
-        lines = []
-        lines.append(topbeam)
-        lines.append(date)
-        for entry in self.schedule:
-            if entry.priority >= 0:
-                lines.append(entry.pretty())
-        lines.append(bottombeam)
-        return "\n".join(lines)
-
-    def __str__(self) -> str:
-        return self.__repr__()
-
-    def ispartitioned(self):
+    def ispartitioned(self): # MOVE TO ENTRIES?
         if len(self.schedule) == 1:
             adjacency = True
         else:
@@ -179,44 +148,7 @@ class Schedule:
             and (self.schedule[-1].end == PTime(24))
         )
 
-    def names(self) -> List[str]:
-        return [x.name for x in self.schedule]
-
-    def starts(self) -> List[PTime]:
-        return [x.start for x in self.schedule]
-
-    def starts_str(self) -> List[str]:
-        return [str(x.start) for x in self.schedule]
-
-    def add_routines(self, routines: Routines) -> None:
-        for routine in routines:
-            if routine.valid_on(self.date):
-                print("===========", routine.name)
-                self.add(routine.as_entry(None))
-                print(self)
-            else:
-                print(f"Not valid on {self.date}.")
-        raise ValueError  # ---
-
-    def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:
-        for task_id in plan[self.date]:
-            self.add(tasks[task_id].as_entry(None))
-
-    def add_adhoc(self, adhoc: AdHoc) -> None:
-        for entry in adhoc[self.date]:
-            self.add(entry)
-
-    def add(self, entry: Entry) -> None:
-        assert self.can_be_added(entry)  # TODO
-        block_ind = min(self.get_inds_of_relevant_blocks(entry))
-        if block_ind:
-            self.add_to_block_by_index(entry, block_ind)
-        else:
-            # position = self.get_insert_position(entry)
-            # self.insert_entry(entry, position) # TODO
-            self.schedule = self.allocate_in_time(self.schedule + [entry])
-
-    def get_inds_of_relevant_blocks(self, entry: Entry) -> List[int]:
+    def get_inds_of_relevant_blocks(self, entry: Entry) -> List[int]:  # MOVE TO ENTRIES?
         categories: set = entry.categories
 
         def check(entry_: Entry) -> bool:
@@ -225,7 +157,7 @@ class Schedule:
         relevant = filter(check, self.schedule)
         return list(map(lambda x: self.schedule.index(x), relevant))
 
-    def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None:
+    def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None: # MOVE TO ENTRIES?
         new_entries = self.add_over_block(entry, self.schedule[block_ind])
         self.schedule = (
             self.schedule.slice(None, block_ind)
@@ -233,7 +165,7 @@ class Schedule:
             + self.schedule.slice(block_ind + 1, None)
         )
 
-    def can_be_added(self, entry: Entry) -> bool:
+    def can_be_added(self, entry: Entry) -> bool: # MOVE TO ENTRIES?
         assert self.overlaps_are_movable(entry)
         if not entry.ismovable:
             overlaps = self.get_overlaps(entry)
@@ -241,28 +173,14 @@ class Schedule:
                 return False
         return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
 
-    # def get_insert_position(self, entry: Entry) -> int:
-    #     if entry.ismovable:
-    #         pos = 0 #TODO
-    #     else:
-    #         pos = 0 # TODO
-    #     return pos
-
-    # def insert_entry(self, entry: Entry, position: int) -> None:
-    #     if entry.ismovable:
-    #         schedule: Entries = [] #TODO
-    #     else:
-    #         schedule = [] # TODO
-    #     self.schedule = schedule
-
-    def get_overlaps(self, entry: Entry) -> Entries:
+    def get_overlaps(self, entry: Entry) -> Entries: # MOVE TO ENTRIES?
         return Entries(filter(lambda x: entry.overlaps(x), self.schedule))
 
-    def overlaps_are_movable(self, entry: Entry) -> bool:
+    def overlaps_are_movable(self, entry: Entry) -> bool: # MOVE TO ENTRIES?
         overlaps = self.get_overlaps(entry)
         return all(map(lambda x: x.ismovable, overlaps))
 
-    def allocate_in_time(self, entries: Entries) -> Entries:
+    def allocate_in_time(self, entries: Entries) -> Entries: # MOVE TO ENTRIES?
         """
         Creates a schedule (i.e. entry list) from a list of entries. Steps:
           1) check whether the entries fit in a day
@@ -288,7 +206,7 @@ class Schedule:
         return schedule
 
     @staticmethod
-    def add_over_block(entry: Entry, block: Entry) -> Entries:
+    def add_over_block(entry: Entry, block: Entry) -> Entries: # MOVE TO ENTRIES? -> KEEP
         entry_dur = entry.duration()
         entry.start = block.start
         entry.end = min(block.end, block.start + entry_dur)
@@ -296,7 +214,7 @@ class Schedule:
         return Entries([entry, block])
 
     @staticmethod
-    def get_fixed_and_flex(entries: Entries) -> Tuple[Entries, Entries]:
+    def get_fixed_and_flex(entries: Entries) -> Tuple[Entries, Entries]: # MOVE TO ENTRIES?
         entries_fixed = Entries(
             sorted(
                 list(filter(lambda x: not x.ismovable, entries)),
@@ -312,7 +230,7 @@ class Schedule:
         return entries_fixed, entries_flex
 
     @staticmethod
-    def entry_list_fits(entries: Entries) -> bool:
+    def entry_list_fits(entries: Entries) -> bool: # MOVE TO ENTRIES?
         return sum(map(lambda x: x.mintime, entries)) < (24 * 60)
 
     @staticmethod
@@ -320,7 +238,7 @@ class Schedule:
         pairs = zip(sched.slice(None, -1), sched.slice(1, None))
         return [Empty(start=a.end, end=b.start) for a, b in pairs]
 
-    def get_fixed_groups(self, sched: Entries) -> List[Tuple[Entries, PTime, PTime]]:
+    def get_fixed_groups(self, sched: Entries) -> List[Tuple[Entries, PTime, PTime]]: # MOVE TO ENTRIES?
         ret: List = []
         entries_fixed, _ = self.get_fixed_and_flex(sched)
         fixed_indices = list(map(lambda entry: sched.index(entry), entries_fixed))
@@ -343,7 +261,7 @@ class Schedule:
         sched: Entries,
         flex_entries: Entries,
         compression_factor: float = 1.0,
-    ) -> Entries:
+    ) -> Entries: # MOVE TO ENTRIES?
         while flex_entries:
             flex = flex_entries.pop(0)
             gaps = self.get_gaps(sched)
@@ -365,7 +283,7 @@ class Schedule:
                 i += 1
         return sched
 
-    def smooth_between_fixed(self, sched: Entries) -> Entries:
+    def smooth_between_fixed(self, sched: Entries) -> Entries: # MOVE TO ENTRIES?
         ret: Entries = Entries()
         groups = self.get_fixed_groups(sched)
         for group, start, end in groups:
@@ -373,7 +291,7 @@ class Schedule:
             ret.extend(smoothed)
         return ret
 
-    def smooth_entries(self, entries: Entries, start: PTime, end: PTime) -> Entries:
+    def smooth_entries(self, entries: Entries, start: PTime, end: PTime) -> Entries: # MOVE TO ENTRIES?
         ret: Entries = Entries()
         total = start.timeto(end)
 
@@ -426,11 +344,11 @@ class Schedule:
 
         return ret
 
-    def time_weight_from_prio(self, prio: Union[int, float]) -> float:
+    def time_weight_from_prio(self, prio: Union[int, float]) -> float: # MOVE TO ENTRIES?
         interval = self.weight_interval_max - self.weight_interval_min
         return self.weight_interval_min + interval * self.prio_transform(prio)
 
-    def is_valid(self) -> bool:
+    def is_valid(self) -> bool: # MAKE SIMILAR IN ENTRIES?
         if len(self.schedule) == 1:
             adjacency = True
         else:
@@ -446,11 +364,20 @@ class Schedule:
             and (self.schedule[-1].end == PTime(24))
         )
 
+    def __str__(self) -> str:
+        topbeam = "┏" + (self.width - 2) * "━" + "┓"
+        date = tabularize(self.date.pretty(), self.width)
+        bottombeam = "┗" + (self.width - 2) * "━" + "┛"
 
-# d = Schedule(2023, 5, 23)
-# d.schedule = [
-#     Entry(name="Entry 1", start=PTime(4,30), end=PTime(5,45)),
-#     Entry(name="Entry 2", start=PTime(7,10), end=PTime(7,30), priority=56),
-#     Entry(name="R & R", start=PTime(9,15), end=PTime(9,50)),
-#     Entry(name="Last Entry for the schedule: reading at my own discretion", start=PTime(17,30), end=PTime(19,15), priority=10)
-# ]
+        lines = []
+        lines.append(topbeam)
+        lines.append(date)
+        for entry in self.schedule:
+            if entry.priority >= 0:
+                lines.append(entry.pretty())
+        lines.append(bottombeam)
+        return "\n".join(lines)
+
+    def __repr__(self) -> str:
+        return self.__repr__()
+  

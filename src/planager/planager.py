@@ -18,11 +18,11 @@ from .entity import (
     Tasks,
 )
 from .operator import Planner, Scheduler
-from .util import ConfigType, PDateTime
+from .util import ConfigType, PDateTime, PathManager
 
 
 class Planager:
-    files: List[str] = []
+    path_manager: PathManager = PathManager()
     roadmaps: Roadmaps
     adhoc: AdHoc
     projects: Projects
@@ -38,15 +38,10 @@ class Planager:
     plan_patches: PlanPatches
     schedule_patches: SchedulePatches
     task_patches: TaskPatches
-    last_update: Optional[PDateTime]
-    deps_highlevel: Dict
-    deps_lowlevel: Dict
-    norg_workspace: Optional[Path]
-    json_dir: Optional[Path]
-    html_dir: Optional[Path]
+    _last_update: Optional[PDateTime]
 
     def __init__(self) -> None:
-        self.files = []
+        self.path_manager: PathManager = PathManager()
         self.roadmaps = Roadmaps()
         self.adhoc = AdHoc()
         self.projects = Projects()
@@ -63,11 +58,6 @@ class Planager:
         self.task_patches = TaskPatches()
 
         self._last_update: Optional[PDateTime] = None
-        self.deps_highlevel = {}
-        self.deps_lowlevel = {}
-        self.norg_workspace: Optional[Path] = None
-        self.json_dir: Optional[Path] = None
-        self.html_dir: Optional[Path] = None
 
     @classmethod
     def from_norg_workspace(
@@ -77,9 +67,11 @@ class Planager:
     ) -> "Planager":
         plgr = cls()
 
+        plgr.path_manager = PathManager(workspace)
+
         # direct reading
         plgr.roadmaps = Roadmaps.from_norg_workspace(workspace)
-        # plgr.routines = Routines.from_norg_workspace(workspace) #TODO
+        plgr.routines = Routines.from_norg_workspace(workspace)
         plgr.adhoc = AdHoc.from_norg_workspace(workspace)
         plgr.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
         plgr.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
@@ -94,7 +86,6 @@ class Planager:
         # derivation
         plgr.plan = plgr.planner(
             plgr.roadmaps,
-            plgr.tasks,
             plgr.calendar,
             plgr.task_patches,
             plgr.plan_patches,
@@ -117,56 +108,36 @@ class Planager:
     def from_html(cls, html_dir: Path) -> "Planager":
         return cls()
 
-    def recalculate_norg(self) -> None:
-        ...
+    @staticmethod
+    def derive(
+        planner: Planner,
+        scheduler: Scheduler,
+        calendar: Calendar,
+        roadmaps: Roadmaps,
+        routines: Routines,
+        adhoc: AdHoc,
+        plan_patches: PlanPatches,
+        schedule_patches: SchedulePatches,
+        task_patches: TaskPatches,
+    ) -> Tuple[Plan, Schedules]:
+        """
+        Derives plan and schedules from declarations.
+        """
 
-    def recalculate_json(self) -> None:
-        ...
-
-    def recalculate_html(self) -> None:
-        ...
+        tasks = Tasks.from_roadmaps(roadmaps)
+        plan = planner(roadmaps, calendar, task_patches, plan_patches)
+        schedules = scheduler(
+            plan,
+            tasks,
+            routines,
+            adhoc,
+            schedule_patches,
+            calendar.start_date,
+            calendar.end_date,
+        )
+        return (plan, schedules)
 
     def reconfigure(self, config: ConfigType) -> None:
-        ...
-
-    def __str__(self) -> str:
-        return "\n\n".join(
-            (
-                self.roadmap_tree(),
-                str(self.routines),
-                str(self.adhoc),
-                str(self.plan),
-                # self.schedule,
-            )
-        )
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-    def roadmap_tree(self) -> str:
-        lines = []
-        for roadmap in self.roadmaps:
-            lines.append(f"{roadmap.name} (ID {roadmap.roadmap_id})")
-            for project in roadmap:
-                lines.append(f"    {project.name} (ID {project.project_id})")
-                for task in project:
-                    lines.append(f"        {task.name} (ID {task.task_id})")
-        return "\n".join(lines)
-
-    def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
-        if isinstance(__key, str):
-            return self.roadmaps[__key]
-        match len(__key):
-            case 2:
-                r, p = __key
-                return self.roadmaps[r]._projects[p]
-            case 3:
-                r, p, t = __key
-                return self.roadmaps[r]._projects[p].tasks[t]
-            case _:
-                raise KeyError(f"Key '{__key}' invalid for 'Planager' object.")
-
-    def __setitem__(self, __name: str, __value: Any) -> None:
         ...
 
     @staticmethod
@@ -201,36 +172,57 @@ class Planager:
             task_patches,
         )
 
-    @staticmethod
-    def derive(
-        planner: Planner,
-        scheduler: Scheduler,
-        calendar: Calendar,
-        roadmaps: Roadmaps,
-        routines: Routines,
-        adhoc: AdHoc,
-        plan_patches: PlanPatches,
-        schedule_patches: SchedulePatches,
-        task_patches: TaskPatches,
-    ) -> Tuple[Plan, Schedules]:
-        """
-        Derives plan and schedules from declarations.
-        """
-
-        tasks = Tasks.from_roadmaps(roadmaps)
-        plan = planner(roadmaps, tasks, calendar, task_patches, plan_patches)
-        schedules = scheduler(
-            plan,
-            tasks,
-            routines,
-            adhoc,
-            schedule_patches,
-            calendar.start_date,
-            calendar.end_date,
-        )
-        return (plan, schedules)
-
     def write_norg(self) -> None:
         """
         Writes derivation to norg workspace.
         """
+
+    def write_json(self) -> None:
+        """
+        Writes derivation to json folder.
+        """
+
+    def write_html(self) -> None:
+        """
+        Writes derivation to html folder.
+        """
+
+    def roadmap_tree(self) -> str:
+        lines = []
+        for roadmap in self.roadmaps:
+            lines.append(f"{roadmap.name} (ID {roadmap.roadmap_id})")
+            for project in roadmap:
+                lines.append(f"    {project.name} (ID {project.project_id})")
+                for task in project:
+                    lines.append(f"        {task.name} (ID {task.task_id})")
+        return "\n".join(lines)
+
+    def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
+        if isinstance(__key, str):
+            return self.roadmaps[__key]
+        match len(__key):
+            case 2:
+                r, p = __key
+                return self.roadmaps[r]._projects[p]
+            case 3:
+                r, p, t = __key
+                return self.roadmaps[r]._projects[p].tasks[t]
+            case _:
+                raise KeyError(f"Key '{__key}' invalid for 'Planager' object.")
+
+    def __setitem__(self, __name: str, __value: Any) -> None:
+        ...
+
+    def __str__(self) -> str:
+        return "\n\n".join(
+            (
+                self.roadmap_tree(),
+                str(self.routines),
+                str(self.adhoc),
+                str(self.plan),
+                # self.schedule,
+            )
+        )
+
+    def __repr__(self) -> str:
+        return self.__str__()

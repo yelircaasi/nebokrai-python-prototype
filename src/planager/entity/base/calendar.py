@@ -12,7 +12,6 @@ class Day:
         entries: Entries = Entries(),
         max_load: int = 240,
         routines: list = ["morning", "midday" "evening"],
-
     ) -> None:
         self.date = date
         self.entries = entries

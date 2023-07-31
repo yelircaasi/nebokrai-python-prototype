@@ -14,6 +14,10 @@ class Routines:
     def __init__(self) -> None:
         self._routines: List[Routine] = []
 
+    @classmethod
+    def from_norg_workspace(cls, workspace: Path) -> "Routines":
+        return cls()
+
     def __iter__(self) -> Iterator[Routine]:
         return iter(self._routines)
 
@@ -30,7 +34,7 @@ class Routines:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        top = tabularize("Routines", width, pad=1)
+        top = tabularize("Routines", width)
         empty = tabularize("", width)
         return (
             "\n".join(("", topbeam, empty, top, empty, ""))
@@ -40,30 +44,3 @@ class Routines:
 
     def __getitem__(self, __name: str) -> Routine:
         return list(filter(lambda x: x.name == __name, self._routines))[0]
-
-    # def __setitem__(self, __name: str, __value: Any) -> None:
-    #     ...
-
-
-""" needs a full rewrite: one routine per file, as with projects
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Routines":
-        file = workspace_dir / "routines.norg"
-        parsed = Norg.from_path(file)
-        routines = Routines()
-        for section in parsed.sections:
-            title = section.title
-            # attributes = Norg.parse_preasterix_attributes(section["text"])
-            # attributes = section["attributes"]
-            # items = list(map(lambda x: x if isinstance(x, str) else x["title"], Norg.parse_subsections(section)))
-            items = section.subsections
-            routines.add(
-                Routine(
-                    title,
-                    items,
-                )
-            )
-        for routine in routines:
-            print(routine.priority)
-        return routines
-"""

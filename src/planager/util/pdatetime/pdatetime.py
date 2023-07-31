@@ -34,7 +34,7 @@ class PDateTime:
         self.time = PTime(self.hour, self.minute)
 
     @classmethod
-    def now_str(cls) -> str:
+    def now_string(cls) -> str:
         return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     @classmethod
@@ -58,56 +58,31 @@ class PDateTime:
     def copy(self):
         return PTime(self.hour, self.minute)
 
-    def tominutes(self) -> int:
-        return 60 * self.hour + self.minute
-
-    def toseconds(self) -> int:
-        return 3600 * self.hour + 60 * self.minute + self.second
-
-    def timeto(self, time2: "PTime") -> int:
-        return time2.tominutes() - self.tominutes()
-
-    def timefrom(self, time2: "PTime") -> int:
-        return self.tominutes() - time2.tominutes()
-
-    # @classmethod
-    # def fromminutes(cls, mins: int) -> "PDateTime":
-    #     return #cls(*divmod(mins, 60))
-
-    # def __add__(self, mins: int) -> "PDateTime":
-    #     #return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
-    #     raise NotImplementedError
-
-    # def __sub__(self, mins: int) -> "PDateTime":
-    #     #return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
-    #     raise NotImplementedError
-
     def __str__(self) -> str:
-        # return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
         return f"{self.year}-{self.month:0>2}-{self.day:0>2} {self.hour:0>2}:{self.minute:0>2}:{self.second:0>2}"
 
     def __repr__(self) -> str:
         return self.__str__()
 
     def __eq__(self, pdt2: "PDateTime") -> bool:  # type: ignore
-        return (self.date == pdt2.date) and (self.toseconds() == pdt2.toseconds())
+        return (self.date == pdt2.date) and (self.time == pdt2.time)
 
     def __lt__(self, pdt2: "PDateTime") -> bool:
         return (self.date < pdt2.date) or (
-            (self.date == pdt2.date) and (self.toseconds() < pdt2.toseconds())
+            (self.date == pdt2.date) and (self.time == pdt2.time)
         )
 
     def __gt__(self, pdt2: "PDateTime") -> bool:
         return (self.date > pdt2.date) or (
-            (self.date == pdt2.date) and (self.toseconds() > pdt2.toseconds())
+            (self.date == pdt2.date) and (self.time == pdt2.time)
         )
 
     def __le__(self, pdt2: "PDateTime") -> bool:
         return (self.date < pdt2.date) or (
-            (self.date == pdt2.date) and (self.toseconds() <= pdt2.toseconds())
+            (self.date == pdt2.date) and (self.time == pdt2.time)
         )
 
     def __ge__(self, pdt2: "PDateTime") -> bool:
         return (self.date > pdt2.date) or (
-            (self.date == pdt2.date) and (self.toseconds() >= pdt2.toseconds())
+            (self.date == pdt2.date) and (self.time == pdt2.time)
         )

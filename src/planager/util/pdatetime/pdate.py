@@ -3,13 +3,50 @@ from datetime import date, datetime
 from typing import Any, List, Optional, Tuple, Union
 
 
-class PDate(date):
+class PDate:
     date_regex: re.Pattern = re.compile(r"(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
 
     def __init__(self, year: int, month: int, day: int) -> None:
+        assert (year > 1969) and (month in range(1, 13)) and (day in range(1, 32))
         self._year = year
         self._month = month
         self._day = day
+        self._date = date(year, month, day)
+
+    @classmethod
+    def ensure_is_pdate(
+        cls,
+        candidate: Any,
+        default: Optional["PDate"] = None,
+    ) -> "PDate":
+        if not candidate:
+            pass
+        elif isinstance(candidate, PDate):
+            return candidate
+        elif isinstance(candidate, str):
+            if not candidate.strip():
+                pass
+            try:
+                return PDate.from_string(candidate)
+            except:
+                pass
+        elif isinstance(candidate, tuple):
+            try:
+                return PDate(*map(int, candidate))
+            except:
+                pass
+        elif isinstance(candidate, int):
+            try:
+                return PDate.today() + candidate
+            except:
+                pass
+        else:
+            pass
+        
+        if default is not None:
+            return default
+
+        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
 
     @property
     def year(self) -> int:
@@ -39,21 +76,38 @@ class PDate(date):
         return PDate(self.year, self.month, self.day)
 
     @classmethod
+    def today(cls) -> "PDate":
+        d = date.today()
+        return cls(d.year, d.month, d.day)
+
+    @classmethod
     def from_string(cls, date_str: str) -> Optional["PDate"]:
         result = re.search(cls.date_regex, date_str)
         if result:
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
         else:
-            return None
+            raise ValueError(f"Invalid string for conversion to PDate: {date_str}")
+
+    def toordinal(self) -> int:
+        return self._date.toordinal()
+
+    @classmethod
+    def fromordinal(cls, ord: int) -> "PDate":
+        d = date.fromordinal(ord)
+        return cls(d.year, d.month, d.day)
+
+    def weekday(self) -> int:
+        return self._date.weekday()
 
     def __int__(self) -> int:
         return self.toordinal()
 
-    def __add__(self, days: Any) -> "PDate":
-        return PDate.fromordinal(self.toordinal() + int(days))
+    def __add__(self, days: int) -> "PDate":
+        d = date.fromordinal(self.toordinal() + int(days))
+        return PDate(d.year, d.month, d.day)
 
-    def __sub__(self, days: Any) -> "PDate":  # type: ignore
+    def __sub__(self, days: int) -> "PDate":  # type: ignore
         return PDate.fromordinal(self.toordinal() - int(days))
 
     def pretty(self):
@@ -92,41 +146,12 @@ class PDate(date):
         ending = ORDINAL_ENDINGS.get(self.day, "th")
         return f"{DAYS[self.weekday()]}, {MONTHS[self.month]} {self.day}{ending}, {self.year}"
 
-    @classmethod
-    def ensure_is_pdate(
-        cls,
-        candidate: Any,
-        default: Optional["PDate"] = None,
-    ) -> Union["PDate", None]:
-        if not candidate:
-            return default if default else None
-        if isinstance(candidate, PDate):
-            return candidate
-        elif isinstance(candidate, str):
-            if not candidate.strip():
-                return default if default else None
-            try:
-                return PDate.fromisoformat(candidate)
-            except:
-                raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
-        elif isinstance(candidate, tuple):
-            try:
-                return PDate(*map(int, candidate))
-            except:
-                raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
-        elif isinstance(candidate, int):
-            try:
-                return PDate.today() + candidate
-            except:
-                raise ValueError(f"Invalid input for `PDate` class: '{str(candidate)}'")
-        else:
-            raise ValueError(
-                f"Invalid input type for `PDate` class: '{type(candidate)}' (value: '{candidate}')"
-            )
-        return None
-
-    def range(self, date2: "PDate", inclusive: bool = True) -> List["PDate"]:
+    def range(self, end: Union["PDate", int], inclusive: bool = True) -> List["PDate"]:
         date1 = self.copy()
+        if isinstance(end, int):
+            date2 = date1 + end
+        else:
+            date2 = end
         reverse: bool = False
 
         if date1 > date2:
@@ -150,39 +175,48 @@ class PDate(date):
     @classmethod
     def tomorrow(cls) -> "PDate":
         return cls.today() + 1
-    
+
     @staticmethod
     def nonedate() -> "NoneDate":
         return NoneDate()
 
     def __eq__(self, __other: Any) -> bool:
-        return self.__int__ == int(__other)
-    
+        return (self.year, self.month, self.day) == (__other.year, __other.month, __other.day)
+
     def __lt__(self, __other: Any) -> bool:
-        return self.__int__ < int(__other)
-    
+        return self.__int__() < int(__other)
+
     def __gt__(self, __other: Any) -> bool:
-        return self.__int__ > int(__other)
-    
+        return self.__int__() > int(__other)
+
     def __le__(self, __other: Any) -> bool:
-        return self.__int__ <= int(__other)
-    
+        return self.__int__() <= int(__other)
+
     def __ge__(self, __other: Any) -> bool:
-        return self.__int__ >= int(__other)
+        return self.__int__() >= int(__other)
+
+    def __str__(self) -> str:
+        return f"{self.year}-{self.month:0>2}-{self.day:0>2}"
+
+    def __repr__(self) -> str:
+        return self.__str__()
 
 
-class NoneDate:
+class NoneDate(PDate):
+    def __init__(self) -> None:
+        super(NoneDate, self).__init__(1970, 1, 1)
+
     def __eq__(self, __other: Any) -> bool:
-        return self.__dict__ == __other.__dict__
-    
+        return (self.year, self.month, self.day) == (__other.year, __other.month, __other.day)
+
     def __lt__(self, __other: Any) -> bool:
         return False
-    
+
     def __gt__(self, __other: Any) -> bool:
         return False
-    
+
     def __le__(self, __other: Any) -> bool:
         return True
-    
+
     def __ge__(self, __other: Any) -> bool:
         return True

@@ -14,8 +14,7 @@ class Task:
         task_id: Tuple[str, str, str],
         priority: int = 10,
         project_name: str = "?",
-        after: Set[Tuple[str, str, str]] = set()
-        
+        after: Set[Tuple[str, str, str]] = set(),
     ) -> None:
         assert len(task_id) == 3
 
@@ -24,6 +23,11 @@ class Task:
         self.priority = priority
         self.project_name = project_name
         self.dependencies = after
+
+    def copy(self) -> "Task":
+        t = Task(self.name, self.task_id)
+        t.__dict__.update(self.__dict__)
+        return t
 
     def __str__(self) -> str:
         return self.pretty()
@@ -55,27 +59,37 @@ class Task:
     def as_entry(self, start: Optional[PTime]) -> Entry:
         # TODO
         return Entry(self.name, start)
-    
+
     def __eq__(self, __other: Any) -> bool:
         return self.__dict__ == __other.__dict__
-    
+
     def __lt__(self, __other: Any) -> bool:
-        return (self.task_id in __other.dependencies) and (__other.task_id not in self.dependencies) or (__other.tmpdate > self.tmpdate)
-    
+        return (
+            (self.task_id in __other.dependencies)
+            and (__other.task_id not in self.dependencies)
+            or (__other.tmpdate > self.tmpdate)
+        )
+
     def __gt__(self, __other: Any) -> bool:
-        return (__other.task_id in self.dependencies) and (self.task_id not in __other.dependencies) or (self.tmpdate > __other.tmpdate)
-    
+        return (
+            (__other.task_id in self.dependencies)
+            and (self.task_id not in __other.dependencies)
+            or (self.tmpdate > __other.tmpdate)
+        )
+
     def __le__(self, __other: Any) -> bool:
-        return (not self.task_id not in __other.dependencies) and (__other.task_id not in self.dependencies) and (__other.tmpdate >= self.tmpdate)
-    
+        return (
+            (not self.task_id not in __other.dependencies)
+            and (__other.task_id not in self.dependencies)
+            and (__other.tmpdate >= self.tmpdate)
+        )
+
     def __ge__(self, __other: Any) -> bool:
-        return (__other.task_id not in self.dependencies) and (self.task_id not in __other.dependencies) and (self.tmpdate >= __other.tmpdate)
+        return (
+            (__other.task_id not in self.dependencies)
+            and (self.task_id not in __other.dependencies)
+            and (self.tmpdate >= __other.tmpdate)
+        )
 
     def isafter(self, __other: "Task") -> bool:
         return self.task_id in __other.dependencies
-'''
-t1 = Task("Task1", ("a", "b", "c"), after={("a", "b", "d")})
-t2 = Task("Task2", ("a", "b", "d"))
-t3 = Task("Task3", ("a", "b", "e"), after={("a", "b", "c")})
-sorted((t1, t2, t3))
-'''

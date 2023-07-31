@@ -3,7 +3,7 @@ from typing import Union
 
 
 def round5(number: Union[int, float]) -> int:
-    return int(5 * round(number / 5))
+    return int(5 * round(number / 5 + 0.01))
 
 
 def expand_task_segments(task_abbr: str) -> list:
@@ -48,5 +48,5 @@ def expand_task_segments(task_abbr: str) -> list:
     tasks = []
     blocks = task_abbr.split(",")
     for block in blocks:
-        tasks.extend(expand_block(block))
+        tasks.extend(expand_block(block.strip()))
     return tasks

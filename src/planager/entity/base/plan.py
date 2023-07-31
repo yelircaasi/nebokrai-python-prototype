@@ -25,9 +25,6 @@ class Plan:
     def __setitem__(self, __date: PDate, __tasks: List[Tuple[str, str, str]]) -> None:
         self._plan.update({__date: __tasks})
 
-    # def add_tasks_from_project(self, project: Project) -> None:
-    #     TODO
-
     def add_tasks(self, date: PDate, tasks: Union[Tasks, Iterable[Task]]) -> None:
         task_ids = [task.task_id for task in tasks]
         if date in self._plan:
@@ -38,25 +35,15 @@ class Plan:
         self,
         subplan: Dict[PDate, List[Tuple[str, str, str]]],
         tasks: Tasks,
-        # plan_id: Optional[Tuple[str, str]] = None,
     ) -> None:
         if not subplan:
             return
         id_ = list(subplan.values())[0][0]
-        # if not (
-        #     (plan_id and isinstance(id_, int))
-        #     or ((not plan_id) and (isinstance(id_, tuple)))
-        # ):
-        #     raise ValueError("plan_id and task id must be of compatible types.")
-
+        
         for task in tasks:
             self._tasks.update({task.task_id: task})
         for date, task_list in subplan.items():
             for task_id in task_list:
-                # if isinstance(task_id, int):
-                #     new_task_id: Tuple[str, str, str] = (*plan_id, task_id)
-                # else:
-                #     new_task_id: Tuple[str, str, str] = (*task_id,)
                 self.ensure_date(date)
                 self._plan[date].append(task_id)
                 self._tasks[task_id].tmpdate = date
@@ -73,6 +60,34 @@ class Plan:
     def start_date(self) -> PDate:
         return min(self._plan)
 
+    @property
+    def tasks(self) -> List[Task]:
+        return sorted(self._tasks.values())
+
+    def reorder_by_precedence(self) -> None:
+        tasks = list(map(lambda t: self._tasks[t.task_id], self.tasks))
+        newtasks = []
+        self._plan = {}
+        for t, pre, post in zip(tasks[:-2], tasks[1:-1], tasks[2:]):
+            newtask = self.adjust_tmpdate_to_neighbors(t, pre, post)
+            newtasks.append(newtask)
+            if not newtask.tmpdate in self._plan:
+                self._plan.update({newtask.tmpdate: []})
+            self._plan[t.tmpdate].append(newtask.task_id)
+
+    @staticmethod
+    def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
+        new_t = t.copy()
+        if pre <= new_t <= post:
+            return new_t
+        else:
+            limit_before = int(pre.tmpdate) + int(new_t.isafter(pre))
+            limit_after: int = int(post.tmpdate) + int(post.isafter(new_t))
+            if not limit_before <= limit_after:
+                raise ValueError("Impossible task precedence resolution requested.")
+            new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
+            return new_t
+        
     def __str__(self) -> str:
         nl = "\n"
         box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
@@ -83,34 +98,8 @@ class Plan:
                 for a, b in sorted(self._plan.items())
             )
         )
-    
-    @property
-    def tasks(self) -> List[Tasks]:
-        return sorted(self._tasks)
-    
-    def reorder_by_precedence(self) -> None:
-        tasks = list(map(lambda t: t.task_id, self.tasks))
-        newtasks = []
-        for t, pre, post in zip(tasks[-2], tasks[1:-1], tasks[2:]): 
-            newtask = self.adjust_tmpdate_to_neighbors(t, pre, post)
-            newtasks.append(newtask)
-        self._plan = {t.tmpdate: t.task_id for t in newtasks}
-        # special = list(filter(lambda t: bool(t.dependencies), tasks))
-        # tasks = list(filter(lambda t: not bool(t.dependencies), tasks))
-        # conditions = set(chain.from_iterable(map(lambda x: x.dependencies, special)))
-        # special += list(filter(lambda t: t.task_id in conditions, tasks))
-
-    def adjust_tmpdate_no_neighbors(t: Task, pre: Task, post: Task) -> Task:
-        new_t = t.copy()
-        if pre <= new_t <= post:
-            return new_t
-        else:
-            limit_before = int(pre) + int(new_t.isafter(pre))
-            limit_after: int = int(post) + int(post.isafter(new_t))
-            if not limit_before <= limit_after:
-                raise ValueError("Impossible task precedence resolution requested.")
-            new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
-            return new_t
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    

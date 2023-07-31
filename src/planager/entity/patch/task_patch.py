@@ -13,13 +13,6 @@ class TaskPatches:
     def __init__(self) -> None:
         ...
 
-    def __getitem__(self, __name: str) -> Any:
-        task = ...
-        return task
-
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
-
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "TaskPatches":
         # file = workspace_dir / "roadmaps.norg"
@@ -27,3 +20,10 @@ class TaskPatches:
         # ...
         # return cls()
         return cls()
+
+    def __getitem__(self, __name: str) -> Any:
+        task = ...
+        return task
+
+    def __setitem__(self, __name: str, __value: Any) -> None:
+        ...

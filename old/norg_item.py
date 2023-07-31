@@ -263,7 +263,10 @@ class NorgItem:
         if not self.dependencies:
             return set()
         return set(
-            map(lambda x: tuple(re.split(" ?:: ?", x)), re.split(", ?", self.dependencies))
+            map(
+                lambda x: tuple(re.split(" ?:: ?", x)),
+                re.split(", ?", self.dependencies),
+            )
         )
 
 
@@ -284,9 +287,10 @@ class NorgItems:
 
     @staticmethod
     def parse_item_with_attributes(item: str) -> dict:
-        if not item.strip:
+        if not item.strip():
             print("Tried to parse empty item!")
             return {}
+        item += '\n'
         regx1 = Regexes.first_line
         regx2 = Regexes.item_split
         result = re.search(regx1, item)

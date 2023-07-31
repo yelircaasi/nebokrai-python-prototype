@@ -44,7 +44,7 @@ class Routine:
         format_number = lambda s: (len(str(s)) == 1) * " " + f"{s} │ "
         return header + "\n".join(
             [
-                tabularize(format_number(i) * (len(s) > 0) + s, width, pad=1)
+                tabularize(format_number(i) * (len(s) > 0) + s, width)
                 for i, s in enumerate((self.items + [""]), start=1)
             ]
         )

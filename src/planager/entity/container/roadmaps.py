@@ -36,7 +36,7 @@ class Roadmaps:
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Roadmaps", width, pad=1)
+        top = tabularize("Roadmaps", width)
         empty = tabularize("", width)
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         names = map(
@@ -75,8 +75,8 @@ class Roadmaps:
                 projects.add(project)
         return projects
 
-    def get_projects(self) -> Dict[Tuple[str, str], Project]:
-        projects: Dict[Tuple[str, str], Project] = {}
+    def get_projects(self) -> Projects:  # Dict[Tuple[str, str], Project]:
+        projects: Projects = Projects()  # Dict[Tuple[str, str], Project] = {}
         for roadmap_id, roadmap in self._roadmaps.items():
             for project_id, project in roadmap._projects._projects.items():
                 tuple_id: Tuple[str, str] = (
@@ -84,5 +84,6 @@ class Roadmaps:
                     if isinstance(project_id, int)
                     else project_id
                 )
-                projects.update({tuple_id: project})
+                project.project_id = tuple_id
+                projects.add(project)
         return projects

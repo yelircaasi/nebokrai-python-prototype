@@ -35,13 +35,11 @@ class Planner:
             calendar=calendar,
         )
         projects = roadmaps.get_projects()
-        projects.patch_tasks(self.patch_tasks)
+        projects.patch_tasks(task_patches)
         projects.order_by_dependency()
 
-        for project in projects.values():
-            subplan: SubplanType = self.get_subplan_from_project(
-                project, calendar
-            )
+        for project in projects:
+            subplan: SubplanType = self.get_subplan_from_project(project, calendar)
             plan.add_subplan(subplan, project._tasks)
         plan.reorder_by_precedence()
 
@@ -55,18 +53,19 @@ class Planner:
         calendar: Calendar,
     ) -> SubplanType:
         """
-        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged with 
+        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged with
         """
-        
-        clusters: ClusterType = self.cluster_task_ids(project.get_task_ids(), project.cluster_size)
+
+        clusters: ClusterType = self.cluster_task_ids(
+            project.task_ids, project.cluster_size
+        )
         subplan: SubplanType = self.allocate_in_time(clusters, project)
 
         return subplan
 
     @staticmethod
     def cluster_task_ids(
-        task_ids: List[Tuple[str, str, str]],
-        cluster_size: int
+        task_ids: List[Tuple[str, str, str]], cluster_size: int
     ) -> ClusterType:
         """
         Divides a list of tasks into k clusters of size `cluster_size`.
@@ -80,8 +79,8 @@ class Planner:
 
     @staticmethod
     def allocate_in_time(
-        project: Project,
         clusters: ClusterType,
+        project: Project,
     ) -> SubplanType:
         """
         Spaces out a list of clusters between a start and end date, given some interval.

@@ -1,8 +1,8 @@
 import re
 from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
-from ...pdatetime import PDate
-from ...regex import Regexes
+from ..src.planager.util.pdatetime import PDate
+from ..src.planager.util.regex import Regexes
 
 
 class NorgSection:

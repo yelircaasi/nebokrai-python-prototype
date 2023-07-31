@@ -49,7 +49,7 @@ class Tasks:
         project_id: Tuple[str, str],
         project_name: str,
         priority: Optional[int] = None,
-        after: Set[Tuple[str, ...]] = set()
+        after: Set[Tuple[str, ...]] = set(),
     ) -> "Tasks":
         tasks = cls()
         for task_id_, name in enumerate(task_list, start=1):
@@ -75,7 +75,7 @@ class Tasks:
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize("Tasks", width, pad=1)
+        top = tabularize("Tasks", width)
         empty = tabularize("", width)
         names = "\n".join(
             map(
@@ -104,3 +104,7 @@ class Tasks:
                 for task in project:
                     new_tasks._tasks.update({task.task_id: task})
         return new_tasks
+
+    @property
+    def task_ids(self) -> List[Tuple[str, str, str]]:
+        return sorted(list(self._tasks.keys()))

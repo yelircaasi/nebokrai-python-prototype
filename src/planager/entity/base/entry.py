@@ -72,9 +72,6 @@ class Entry:
             alignend=self.alignend,
         )
 
-    def __eq__(self, __other: object) -> bool:
-        return self.__dict__ == __other.__dict__
-
     # @classmethod
     # def from_norg(cls, path: Path) -> "Entry":
     #     # dict = read_norg_day(path)
@@ -86,8 +83,14 @@ class Entry:
     #     schedule = cls()
     #     return schedule
 
+    def duration(self) -> int:
+        return self.start.timeto(self.end)
+
     def spansize(self, entry2: "Entry") -> int:
         return self.end.timeto(entry2.start)
+
+    def timespan(self) -> Tuple[PTime, PTime]:
+        return (self.start, self.end)
 
     def to_norg(self, path: Path) -> None:
         ...
@@ -95,28 +98,25 @@ class Entry:
     def to_json(self, path: Path) -> None:
         ...
 
-    def timespan(self) -> Tuple[PTime, PTime]:
-        return (self.start, self.end)
+    def to_html(self, path: Path) -> None:
+        ...
 
     def __eq__(self, entry2: "Entry") -> bool:  # type: ignore
         return self.__str__() == str(entry2)
 
-    def duration(self) -> int:
-        return self.start.timeto(self.end)
-
     def hasmass(self) -> bool:
         return (self.priority > 0) or (self.name in {"First", "Last"})
 
-    def before(self, entry2: "Entry") -> bool:
+    def isbefore(self, entry2: "Entry") -> bool:
         return self.end <= entry2.start
 
-    def after(self, entry2: "Entry") -> bool:
+    def isafter(self, entry2: "Entry") -> bool:
         return self.start >= entry2.end
 
-    def before_by_start(self, entry2: "Entry") -> bool:
+    def isbefore_by_start(self, entry2: "Entry") -> bool:
         return self.start < entry2.start
 
-    def after_by_start(self, entry2: "Entry") -> bool:
+    def isafter_by_start(self, entry2: "Entry") -> bool:
         return self.start >= entry2.start
 
     def overlaps(self, entry2: "Entry") -> bool:
@@ -133,7 +133,7 @@ class Entry:
     def surrounds(self, entry2: "Entry") -> bool:
         return self.start < entry2.start < entry2.end < self.end
 
-    def surrounded(self, entry2: "Entry") -> bool:
+    def surrounded_by(self, entry2: "Entry") -> bool:
         return entry2.start < self.start < self.end < entry2.end
 
     def shares_start_shorter(self, entry2: "Entry") -> bool:
@@ -151,13 +151,13 @@ class Entry:
     def iscovered(self, entry2: "Entry") -> bool:
         return (self.start >= entry2.start) and (self.end <= entry2.end)
 
-    def precedes(self, entry2: "Entry") -> bool:
+    def trumps(self, entry2: "Entry") -> bool:
         return self.priority > entry2.priority
 
     def temporal_relationship(self, entry2: "Entry") -> str:
-        if self.before(entry2):
+        if self.isbefore(entry2):
             return "before"
-        elif self.dependencies(entry2):
+        elif self.isafter(entry2):
             return "after"
         elif self.overlaps_first(entry2):
             return "overlaps_first"
@@ -165,7 +165,7 @@ class Entry:
             return "overlaps_second"
         elif self.surrounds(entry2):
             return "surrounds"
-        elif self.surrounded(entry2):
+        elif self.surrounded_by(entry2):
             return "surrounded"
         return ""
 
@@ -175,10 +175,13 @@ class Entry:
         header = thickbeam + tabularize(f"{self.start} - {self.end}", width) + thinbeam
         return header + "\n".join(
             (
-                tabularize(s, width, pad=1)
+                tabularize(s, width)
                 for s in (self.name, f"Priority: {self.priority}", self.notes)
             )
         )
+
+    def __str__(self) -> str:
+        return self.pretty()
 
     def __repr__(self) -> str:
         return self.pretty()

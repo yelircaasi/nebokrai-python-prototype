@@ -18,7 +18,7 @@ class NorgItem:
         True: True,
         False: False,
     }
-    DONEDICT = {'x': True, ' ': False, '✓': True}
+    DONEDICT = {"x": True, " ": False, "✓": True, None: False}
 
     def __init__(
         self,
@@ -48,12 +48,12 @@ class NorgItem:
         after: Optional[Union[str, Set[Tuple[str, ...]]]] = None,
     ) -> None:
         self._head: NorgItemHead = self.convert_head(head)
-        if name: 
+        if name:
             self._head.name = name
         if not self._head.name:
             raise ValueError("Nameless item is invalid.")
-        if path: 
-            self._head.path = path
+        if path:
+            self._head.path = Path(path)
         if link:
             self._head.link = link
         if status:
@@ -77,10 +77,9 @@ class NorgItem:
         self.alignend: Optional[bool] = self.convert_bool(alignend)
         self.before: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(before)
         self.dependencies: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(after)
-        
+
     @classmethod
     def from_string(cls, norg_str) -> "NorgItem":
-        
         head = NorgItemHead.from_string(norg_str)
 
         attributes = dict(re.findall(Regexes.attribute_pair, norg_str))
@@ -110,68 +109,6 @@ class NorgItem:
             after=attributes.get("after"),
         )
 
-    # @staticmethod
-    # def make_norg_entry(
-    #     name: str,
-    #     parent: str,
-    #     start: Any,
-    #     priority: int,
-    #     ismovable: bool,
-    #     notes: str,
-    #     normaltime: int,
-    #     idealtime: int,
-    #     mintime: int,
-    #     maxtime: int,
-    #     alignend: bool,
-    # ) -> str:
-    #     booldict = NorgItem.BOOL2STR
-    #     notes = wrap_string(notes, width=102, trailing_spaces=18)
-    #     return "\n".join(
-    #         (
-    #             f"** {str(start)} | {name}",
-    #             "",
-    #             f"  - parent:     {parent}",
-    #             f"  - priority:   {priority}",
-    #             f"  - ismovable:  {booldict[ismovable]}",
-    #             f"  - notes:      {notes}",
-    #             f"  - normaltime: {normaltime}",
-    #             f"  - idealtime:  {idealtime}",
-    #             f"  - mintime:    {mintime}",
-    #             f"  - maxtime:    {maxtime}",
-    #             f"  - alignend:   {booldict[alignend]}",
-    #             "",
-    #         )
-    #     )
-
-    # @staticmethod
-    # def parse_norg_entry(entry: str):
-    #     regx = Regexes.entry_old
-    #     result = re.search(regx, entry)
-    #     groups = result.groups() if result else []
-    #     if not len(groups) == 10:
-    #         raise ValueError("Invalid norg entry format.")
-    #     groupnames = [
-    #         "start",
-    #         "name",
-    #         "priority",
-    #         "ismovable",
-    #         "notes",
-    #         "normaltime",
-    #         "idealtime",
-    #         "mintime",
-    #         "maxtime",
-    #         "alignend",
-    #     ]
-    #     booldict = STR2BOOL
-    #     kwdict = dict(zip(groupnames, groups))
-    #     kwdict["notes"] = re.sub("\s+", " ", kwdict["notes"]).strip()
-    #     kwdict["start"] = PTime.from_string(kwdict["start"])
-    #     for integer in ["normaltime", "idealtime", "mintime", "maxtime"]:
-    #         kwdict[integer] = int(kwdict[integer])
-    #     for boolean in ["ismovable", "alignend"]:
-    #         kwdict[boolean] = booldict[kwdict[boolean]]
-    #     return kwdict
-
     @staticmethod
     def convert_head(head: Optional[Union[NorgItemHead, str]]):
         if head is None:
@@ -189,28 +126,18 @@ class NorgItem:
     @property
     def link(self) -> Optional[str]:
         return self._head.link
-    
+
     @property
     def isdone(self) -> bool:
-        return self.DONEDICT[self.status]
-    
+        return bool(self.DONEDICT.get(self.status))
+
     @property
-    def status(self) -> str:
+    def status(self) -> Optional[str]:
         return self._head.status
-    
+
     @property
     def segment_string(self) -> Optional[str]:
         return self._head.segment_string
-
-    @staticmethod
-    def convert_tuple(
-        conv_candidate: Optional[Union[str, Tuple[str, ...]]]
-    ) -> Optional[Tuple[str, ...]]:
-        if conv_candidate is None:
-            return None
-        elif isinstance(conv_candidate, str):
-            return tuple(re.split(" ?:: ?", conv_candidate))
-        return conv_candidate
 
     # -------------------------------------------------
     @property
@@ -285,6 +212,16 @@ class NorgItem:
         elif isinstance(tags, str):
             return set(re.split(r", ?", tags))
         return tags
+
+    @staticmethod
+    def convert_tuple(
+        conv_candidate: Optional[Union[str, Tuple[str, ...]]]
+    ) -> Optional[Tuple[str, ...]]:
+        if conv_candidate is None:
+            return None
+        elif isinstance(conv_candidate, str):
+            return tuple(re.split(" ?:: ?", conv_candidate))
+        return conv_candidate
 
     @staticmethod
     def convert_tupleset(
@@ -379,7 +316,9 @@ class NorgItems:
             f.write(norg_body)
         with open("/tmp/norg_items.norg", "w") as f:
             # f.write('\n***********\n'.join(map(str, items)))
-            f.write(str(item_strings))
+            f.write('\n'.join(item_strings))
+        for item in items:
+            print(str(item))
         return cls(items)
 
     def __iter__(self) -> Iterator[NorgItem]:

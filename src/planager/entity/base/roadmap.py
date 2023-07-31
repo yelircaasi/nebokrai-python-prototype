@@ -51,21 +51,12 @@ class Roadmap:
             )
         return Roadmap(norg.title, norg.doc_id, projects)
 
-    def __iter__(self) -> Iterator[Project]:
-        return iter(self._projects)
-
-    def __str__(self) -> str:
-        return self.pretty()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"{self.name} (ID {self.roadmap_id})", width, pad=1)
+        top = tabularize(f"{self.name} (ID {self.roadmap_id})", width)
         empty = tabularize("", width)
         projects = map(
             lambda p: format_number(p.project_id) + f"{p.name}", iter(self._projects)
@@ -78,3 +69,14 @@ class Roadmap:
             + empty
             + bottombeam
         )
+
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __iter__(self) -> Iterator[Project]:
+        return iter(self._projects)
+
+    

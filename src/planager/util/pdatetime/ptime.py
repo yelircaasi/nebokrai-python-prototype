@@ -5,7 +5,7 @@ from typing import Any, List, Optional, Tuple, Union
 
 class PTime:
     def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):
-        if not (60 * hour + minute) in range(1441):
+        if not ((hour >= 0) and (minute >= 0) and (60 * hour + minute) in range(1441)):
             raise ValueError("Time must be within 00:00..24:00")
         self.hour = hour
         self.minute = minute
@@ -17,43 +17,42 @@ class PTime:
             res = cls()
             res.isblank = True
             return res
-        hour, minute = map(int, date_string.split(":"))
-        return cls(hour, minute)
+        return cls(*map(int, date_string.split(":")))
 
     @classmethod
     def ensure_is_ptime(
         cls,
         candidate: Any,
         default: Optional["PTime"] = None,
-    ) -> Union["PTime", None]:
-        if not candidate:
-            return default if default else None
+    ) -> "PTime":
+        if (candidate is None) and default:
+            return default
         if isinstance(candidate, PTime):
             return candidate
         elif isinstance(candidate, str):
             if not candidate.strip():
-                return default if default else None
+                pass
             try:
-                return PTime.fromisoformat(candidate)
+                return PTime.from_string(candidate)
             except:
-                raise ValueError(f"Invalid input for `PDate` class: '{candidate}'")
-        elif isinstance(candidate, tuple):
+                pass
+        elif isinstance(candidate, tuple) and len(candidate) <= 2:
             try:
                 hour, minute = map(int, candidate)
                 return PTime(hour, minute)
             except:
-                raise ValueError(f"Invalid input for `PTime` class: '{str(candidate)}'")
+                pass
         elif isinstance(candidate, int):
             try:
-                candidate = PTime(candidate)
+                return PTime(candidate)
             except:
-                raise ValueError(f"Invalid input for `PTime` class: '{str(candidate)}'")
+                pass
         else:
-            raise ValueError(
-                f"Invalid input type for `PTime` class: '{type(candidate)}' (value: '{candidate}')"
-            )
-        return None
-
+            pass
+        if isinstance(default, PTime):
+            return default
+        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
+    
     def __bool__(self):
         return not self.isblank
 
@@ -63,15 +62,15 @@ class PTime:
     def tominutes(self) -> int:
         return 60 * self.hour + self.minute
 
+    @classmethod
+    def fromminutes(cls, mins: int) -> "PTime":
+        return cls(*divmod(mins, 60))
+
     def timeto(self, time2: "PTime") -> int:
         return time2.tominutes() - self.tominutes()
 
     def timefrom(self, time2: "PTime") -> int:
         return self.tominutes() - time2.tominutes()
-
-    @classmethod
-    def fromminutes(cls, mins: int) -> "PTime":
-        return cls(*divmod(mins, 60))
 
     def __add__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
@@ -101,8 +100,3 @@ class PTime:
 
     def __ge__(self, ptime2: "PTime") -> bool:
         return self.tominutes() >= ptime2.tominutes()
-
-    @classmethod
-    def fromisoformat(cls, __str: str) -> "PTime":
-        hour, minute = map(int, __str.split(":"))
-        return cls(hour, minute)

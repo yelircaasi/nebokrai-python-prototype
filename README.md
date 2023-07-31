@@ -188,213 +188,258 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 ## Checklist
 
 *  [ ] planager.util
-*     [✓] planager.util.__init__
-*         [✓] written
-*         [-] tested
 *     [ ] planager.util.data
 *         [✓] planager.util.data.__init__
 *             [✓] written
-*             [-] tested
+*             [-] tests written
+*             [✓] tests passed
 *         [ ] planager.util.data.norg
 *             [✓] planager.util.data.norg.norg.Norg
 *                 [✓] written
-*                 [✓] tested
+*                 [✓] tests written
+*                 [ ] tests passed
 *             [ ] planager.util.data.norg.norg_item.NorgItem
-*                 [ ] written
-*                 [ ] tested
+*                 [✓] written
+*                 [ ] tests written
+*                 [ ] tests passed
 *             [ ] planager.util.data.norg.norg_item.NorgItems
-*                 [ ] written
-*                 [ ] tested
+*                 [✓] written
+*                 [ ] tests written
+*                 [ ] tests passed
 *             [ ] planager.util.data.norg.norg_header.NorgHeader
 *                 [ ] written
-*                 [ ] tested
+*                 [ ] tests written
+*                 [ ] tests passed
 *         [ ] planager.util.data.html.html.HTML
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.util.data.json.json.JSON
 *             [ ] written
-*             [ ] tested
-*     [ ] planager.util.display
-*         [ ] planager.util.display.__init__
+*             [ ] tests written
+*             [ ] tests passed
+*     [✓] planager.util.display
+*         [✓] planager.util.repr.wrap_as_list
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*         [✓] planager.util.display.repr.wrap_string
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*         [✓] planager.util.display.repr.tabularize
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*     [✓] planager.util.pdatetime
+*         [✓] planager.util.pdatetime.pdate.PDate
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*         [✓] planager.util.pdatetime.pdatetime.PDateTime
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*         [✓] planager.util.pdatetime.ptime.PTime
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*     [✓] planager.util.misc
+*         [✓] planager.util.misc.round5
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*         [✓] planager.util.misc.expand_task_segments
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*     [✓] planager.util.regex
+*         [✓] planager.util.regex.Regexes
+*             [✓] planager.util.regex.Regexes.item_split
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.item1_split
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.item1_split
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.item2_split
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.header_and_body
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.link
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*             [✓] planager.util.regex.Regexes.attribute_pair
+*                 [✓] written
+*                 [✓] tests written
+*                 [✓] tests passed
+*     [✓] planager.util.type
+*         [✓] planager.util.type.ClusterType
+*             [✓] written
+*             [✓] tests written
+*             [✓] tests passed
+*     [ ] planager.util.path_manager
+*         [ ] planager.util.path_manager.PathManager
 *             [ ] written
-*             [ ] tested
-*         [ ] planager.util.display.linewrap.wrap_string
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.display.repr.tabularize
-*             [ ] written
-*             [ ] tested
-*     [ ] planager.util.pdatetime
-*         [ ] planager.util.pdatetime.__init__
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.pdatetime.pdate.PDate
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.pdatetime.pdatetime.PDateTime
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.pdatetime.ptime.PTime
-*             [ ] written
-*             [ ] tested
-*     [ ] planager.util.misc
-*         [ ] planager.util.misc.round5
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.misc.expand_task_segments
-*             [ ] written
-*             [ ] tested
-*     [ ] planager.util.regex
-*         [ ] planager.util.regex.Regexes
-*             [ ] planager.util.regex.Regexes.first_line
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.item_title
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.time_bar_text
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.section_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.subsection_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.asterix_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.item_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.item1_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.item2_split
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.entry_split_old
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.header_and_body
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.link
-*                 [ ] written
-*                 [ ] tested
-*             [ ] planager.util.regex.Regexes.attribute_pair
-*                 [ ] written
-*                 [ ] tested
-*     [ ] planager.util.type
-*         [ ] planager.util.type.ClusterType
-*             [ ] written
-*             [ ] tested
-*         [ ] planager.util.type.ConfigType
-*             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 * [ ] planager.entity
 *     [ ] planager.entity.base
 *         [ ] planager.entity.base.__init__
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.adhoc.AdHoc
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.calendar.Calendar
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.entry.Entry
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.plan.Plan
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.project.Project
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.roadmap.Roadmap
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.routine.Routine
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.schedule.Schedule
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 *         [ ] planager.entity.base.task.Task
 *             [ ] written
-*             [ ] tested
+*             [ ] tests written
+*             [ ] tests passed
 * [ ] planager.container
 *     [ ] planager.container.__init__
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.entries.Entries
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.projects.Projects
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.roadmaps.Roadmaps
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.routines.Routines
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.schedules.Schedules
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.container.tasks.Tasks
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 * [ ] planager.patch
 *     [ ] planager.patch.__init__
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.plan_patch.PlanPatch
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.plan_patch.PlanPatches
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.schedule_patch.SchedulePatch
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.schedule_patch.SchedulePatches
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.task_patch.TaskPatch
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.patch.task_patch.TaskPatches
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 * [ ] planager.operator
 *     [ ] planager.__init__.__all__
 *         [ ] written
-*         [ ] tested    
+*         [ ] tests written
+*         [ ] tests passed    
 *     [ ] planager.patch.task_patch.TaskPatch
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.planner
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.scheduler
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.patcher.__init__
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.patcher.PlanPatcher
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.patcher.SchedulePatcher
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 *     [ ] planager.operator.patcher.TaskPatcher
 *         [ ] written
-*         [ ] tested
+*         [ ] tests written
+*         [ ] tests passed
 * [ ] planager.tracking
 *     [ ] planager.tracking.__init__
+*         [ ] written
+*         [ ] tests written
+*         [ ] tests passed
 
-* [ ] 
-  
+## Adjustment Types (old)
+
+```python
+class AdjustmentType(Enum):
+    AUTO = 0  # methods figure it out, based on priority and properties
+    CLIP = 1  # higher-priority entry takes precedence and lower-priority activity makes way
+    SHIFT = 2  #
+    COMPRESS = 3  #
+    COMPROMISE = 4  #
+    DISPLACE = 5  #
+```

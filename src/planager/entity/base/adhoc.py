@@ -39,74 +39,6 @@ class AdHoc:
         # NEW FORMAT
         self._adhocs: Dict[PDate, Entries] = {}
 
-    def __iter__(self) -> Iterator[Entry]:
-        return iter(self.entries)
-
-    def __getitem__(self, __date: PDate) -> Entries:
-        return self._adhocs.get(__date, Entries())
-
-    def __str__(self) -> str:
-        return self.pretty()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        # thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
-        top = tabularize(self.title, width, pad=1)
-        empty = tabularize("", width)
-        return (
-            "\n".join(("", topbeam, empty, top, empty, ""))
-            + "\n".join(map(str, self.entries))
-            + bottombeam
-        )
-
-    # def __getitem__(self, __name: str) -> Any:
-    #     schedule = ...
-    #     return schedule
-
-    # def __setitem__(self, __name: str, __value: Any) -> None:
-    #     ...
-
-    @classmethod
-    def from_norg(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...  # TODO
-        return cls()
-
-    @classmethod
-    def from_json(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...  # TODO
-        return cls()
-
-    @classmethod
-    def from_html(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
-        ...  # TODO
-        return cls()
-
-    def to_norg(self, fp: Path) -> None:
-        # with open(fp, "w") as f:
-        #     f.write(self.to_norg_string())
-        ...  # TODO
-
-    def to_json(self, fp: Path) -> None:
-        with open(fp, "w") as f:
-            f.write(self.to_json_string())
-
-    def to_html(self, fp: Path) -> None:
-        with open(fp, "w") as f:
-            f.write(self.to_html_string())
-
-    # def to_norg_string(self) -> str:
-    #     header = Norg.make_header(
-    #         title=self.title,
-    #         # author=self.author,
-    #         updated=now(),
-    #     )
-    #     return ""  # TODO
-
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "AdHoc":
         file = workspace_dir / "adhoc.norg"
@@ -133,13 +65,41 @@ class AdHoc:
             )
         return cls(entries)
 
+    @classmethod
+    def from_norg(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
+        ...  # TODO
+        return cls()
+
+    @classmethod
+    def from_json(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
+        ...  # TODO
+        return cls()
+
+    @classmethod
+    def from_html(cls, fp_or_str: Union[Path, str]) -> "AdHoc":
+        ...  # TODO
+        return cls()
+
+    def to_norg(self, fp: Path) -> None:
+        with open(fp, "w") as f:
+            f.write(self.to_norg_string())
+
+    def to_json(self, fp: Path) -> None:
+        with open(fp, "w") as f:
+            f.write(self.to_json_string())
+
+    def to_html(self, fp: Path) -> None:
+        with open(fp, "w") as f:
+            f.write(self.to_html_string())
+
+    def to_norg_string(self) -> str:
+        return ""
+
     def to_json_string(self) -> str:
-        ...
-        return ""  # TODO
+        return ""
 
     def to_html_string(self) -> str:
-        ...
-        return ""  # TODO
+        return ""
 
     @property
     def end_date(self) -> PDate:
@@ -152,3 +112,28 @@ class AdHoc:
         if not self._adhocs:
             return PDate.tomorrow()
         return min(self._adhocs)
+
+    def pretty(self, width: int = 80) -> str:
+        topbeam = "┏" + (width - 2) * "━" + "┓"
+        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
+        # thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
+        top = tabularize(self.title, width)
+        empty = tabularize("", width)
+        return (
+            "\n".join(("", topbeam, empty, top, empty, ""))
+            + "\n".join(map(str, self.entries))
+            + bottombeam
+        )
+
+    def __iter__(self) -> Iterator[Entry]:
+        return iter(self.entries)
+
+    def __getitem__(self, __date: PDate) -> Entries:
+        return self._adhocs.get(__date, Entries())
+
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()
