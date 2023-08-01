@@ -13,8 +13,10 @@ class RoadmapTest:
         "",
         "",
         "",
+        "",
     )
     exp_string2 = '\n'.join(
+        "",
         "",
         "",
         "",

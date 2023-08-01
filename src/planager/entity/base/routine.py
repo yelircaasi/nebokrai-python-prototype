@@ -25,11 +25,15 @@ class Routine:
         self.mintime = mintime or round5(self.normaltime / 4)
         self.maxtime = maxtime or round5(self.normaltime * 2)
 
-    def __str__(self) -> str:
-        return self.pretty()
+    def valid_on(self, date: PDate) -> bool:
+        # TODO
+        return True
 
-    def __repr__(self) -> str:
-        return self.__str__()
+    def as_entry(self, start: Optional[PTime]) -> Entry:
+        return Entry(self.name, start, priority=self.priority)  # TODO
+
+    def as_task(self) -> Task:
+        return Task(self.name, self.routine_id, priority=self.priority)  # TODO
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"
@@ -49,12 +53,8 @@ class Routine:
             ]
         )
 
-    def valid_on(self, date: PDate) -> bool:
-        # TODO
-        return True
+    def __str__(self) -> str:
+        return self.pretty()
 
-    def as_entry(self, start: Optional[PTime]) -> Entry:
-        return Entry(self.name, start, priority=self.priority)  # TODO
-
-    def as_task(self) -> Task:
-        return Task(self.name, self.routine_id, priority=self.priority)  # TODO
+    def __repr__(self) -> str:
+        return self.__str__()

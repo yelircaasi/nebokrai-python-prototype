@@ -24,6 +24,35 @@ class Projects:
     def add(self, project: Project) -> None:
         self._projects.update({project.project_id: project})
 
+    def patch_tasks(self, task_patches: Optional[TaskPatches] = None):
+        ...
+
+    def order_by_dependency(self) -> None:
+        ...
+
+    def pretty(self, width: int = 80) -> str:
+        topbeam = "┏" + (width - 2) * "━" + "┓"
+        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
+        thinbeam = "┠" + (width - 2) * "─" + "┨"
+        top = tabularize("Projects", width)
+        empty = tabularize("", width)
+        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+        names = map(
+            lambda x: tabularize(x, width),
+            map(
+                lambda p: format_number(p.project_id) + f"{p.name}",
+                self._projects.values(),
+            ),
+        )
+        return (
+            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
+            + "\n".join(names)
+            + "\n"
+            + empty
+            + bottombeam
+        )
+
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())
 
@@ -52,37 +81,8 @@ class Projects:
                 tasks.add(task)
         return tasks
 
-    def patch_tasks(self, task_patches: Optional[TaskPatches] = None):
-        ...
-
-    def order_by_dependency(self) -> None:
-        ...
-
     def __str__(self) -> str:
         return self.pretty()
 
     def __repr__(self) -> str:
         return self.__str__()
-
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Projects", width)
-        empty = tabularize("", width)
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        names = map(
-            lambda x: tabularize(x, width),
-            map(
-                lambda p: format_number(p.project_id) + f"{p.name}",
-                self._projects.values(),
-            ),
-        )
-        return (
-            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
-            + "\n".join(names)
-            + "\n"
-            + empty
-            + bottombeam
-        )

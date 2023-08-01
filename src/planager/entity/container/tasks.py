@@ -9,14 +9,26 @@ class Tasks:
     def __init__(self) -> None:
         self._tasks: Dict[Tuple[str, str, str], Task] = {}
 
-    def add(self, task: Task) -> None:
-        self._tasks.update({task.task_id: task})
-
-    def __iter__(self) -> Iterator[Task]:
-        return iter(self._tasks.values())
-
-    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
-        return self._tasks[__key]
+    @classmethod
+    def from_string_iterable(
+        cls,
+        task_list: List[str],
+        project_id: Tuple[str, str],
+        project_name: str,
+        priority: Optional[int] = None,
+        after: Set[Tuple[str, ...]] = set(),
+    ) -> "Tasks":
+        tasks = cls()
+        for task_id_, name in enumerate(task_list, start=1):
+            # name = name if isinstance(name, str) else name.name
+            task_id = (*project_id, str(task_id_))
+            task = (
+                Task(name, task_id, priority)
+                if priority is not None
+                else Task(name, task_id, project_name=project_name)
+            )
+            tasks.add(task)
+        return tasks
 
     @classmethod
     def from_norg_path(
@@ -43,31 +55,20 @@ class Tasks:
         return tasks
 
     @classmethod
-    def from_string_iterable(
-        cls,
-        task_list: List[str],
-        project_id: Tuple[str, str],
-        project_name: str,
-        priority: Optional[int] = None,
-        after: Set[Tuple[str, ...]] = set(),
-    ) -> "Tasks":
-        tasks = cls()
-        for task_id_, name in enumerate(task_list, start=1):
-            # name = name if isinstance(name, str) else name.name
-            task_id = (*project_id, str(task_id_))
-            task = (
-                Task(name, task_id, priority)
-                if priority is not None
-                else Task(name, task_id, project_name=project_name)
-            )
-            tasks.add(task)
-        return tasks
+    def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
+        new_tasks = Tasks()
+        for roadmap in roadmaps:
+            for project in roadmap:
+                for task in project:
+                    new_tasks._tasks.update({task.task_id: task})
+        return new_tasks
 
-    def __str__(self) -> str:
-        return self.pretty()
+    def add(self, task: Task) -> None:
+        self._tasks.update({task.task_id: task})
 
-    def __repr__(self) -> str:
-        return self.__str__()
+    @property
+    def task_ids(self) -> List[Tuple[str, str, str]]:
+        return sorted(list(self._tasks.keys()))
 
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
@@ -93,18 +94,16 @@ class Tasks:
             + bottombeam
         )
 
-    def ids(self) -> List[Tuple[str, str, str]]:
-        return list(self._tasks)
+    def __iter__(self) -> Iterator[Task]:
+        return iter(self._tasks.values())
 
-    @classmethod
-    def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
-        new_tasks = Tasks()
-        for roadmap in roadmaps:
-            for project in roadmap:
-                for task in project:
-                    new_tasks._tasks.update({task.task_id: task})
-        return new_tasks
+    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
+        return self._tasks[__key]
 
-    @property
-    def task_ids(self) -> List[Tuple[str, str, str]]:
-        return sorted(list(self._tasks.keys()))
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    

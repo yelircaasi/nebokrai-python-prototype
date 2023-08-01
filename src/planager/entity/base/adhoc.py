@@ -102,16 +102,16 @@ class AdHoc:
         return ""
 
     @property
-    def end_date(self) -> PDate:
-        if not self._adhocs:
-            return PDate.tomorrow()
-        return max(self._adhocs)
-
-    @property
     def start_date(self) -> PDate:
         if not self._adhocs:
             return PDate.tomorrow()
         return min(self._adhocs)
+
+    @property
+    def end_date(self) -> PDate:
+        if not self._adhocs:
+            return PDate.tomorrow()
+        return max(self._adhocs)
 
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"

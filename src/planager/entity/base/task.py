@@ -29,11 +29,12 @@ class Task:
         t.__dict__.update(self.__dict__)
         return t
 
-    def __str__(self) -> str:
-        return self.pretty()
+    def isafter(self, __other: "Task") -> bool:
+        return self.task_id in __other.dependencies
 
-    def __repr__(self) -> str:
-        return self.__str__()
+    def as_entry(self, start: Optional[PTime]) -> Entry:
+        # TODO
+        return Entry(self.name, start)
 
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
@@ -55,10 +56,6 @@ class Task:
             + empty
             + bottombeam
         )
-
-    def as_entry(self, start: Optional[PTime]) -> Entry:
-        # TODO
-        return Entry(self.name, start)
 
     def __eq__(self, __other: Any) -> bool:
         return self.__dict__ == __other.__dict__
@@ -91,5 +88,8 @@ class Task:
             and (self.tmpdate >= __other.tmpdate)
         )
 
-    def isafter(self, __other: "Task") -> bool:
-        return self.task_id in __other.dependencies
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()

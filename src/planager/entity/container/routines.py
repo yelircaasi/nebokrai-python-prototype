@@ -18,17 +18,8 @@ class Routines:
     def from_norg_workspace(cls, workspace: Path) -> "Routines":
         return cls()
 
-    def __iter__(self) -> Iterator[Routine]:
-        return iter(self._routines)
-
     def add(self, routine: Routine) -> None:
         self._routines.append(routine)
-
-    def __str__(self) -> str:
-        return self.pretty()
-
-    def __repr__(self) -> str:
-        return self.__str__()
 
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
@@ -42,5 +33,16 @@ class Routines:
             + bottombeam
         )
 
+    def __iter__(self) -> Iterator[Routine]:
+        return iter(self._routines)
+
     def __getitem__(self, __name: str) -> Routine:
         return list(filter(lambda x: x.name == __name, self._routines))[0]
+
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    

@@ -19,8 +19,10 @@ class ScheduleTest:
         "",
         "",
         "",
+        "",
     )
     exp_string3 = '\n'.join(
+        "",
         "",
         "",
         "",
@@ -30,13 +32,16 @@ class ScheduleTest:
         "",
         "",
         "",
+        "",
     )
     norg_string2 = '\n'.join(
         "",
         "",
         "",
+        "",
     )
     norg_string3 = '\n'.join(
+        "",
         "",
         "",
         "",
@@ -46,13 +51,16 @@ class ScheduleTest:
         "",
         "",
         "",
+        "",
     )
     json_string2 = '\n'.join(
         "",
         "",
         "",
+        "",
     )
     json_string3 = '\n'.join(
+        "",
         "",
         "",
         "",
@@ -62,13 +70,16 @@ class ScheduleTest:
         "",
         "",
         "",
+        "",
     )
     html_string2 = '\n'.join(
         "",
         "",
         "",
+        "",
     )
     html_string3 = '\n'.join(
+        "",
         "",
         "",
         "",

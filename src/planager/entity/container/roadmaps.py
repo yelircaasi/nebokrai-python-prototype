@@ -16,44 +16,6 @@ class Roadmaps:
             roadmap.roadmap_id: roadmap for roadmap in roadmaps
         }
 
-    def __iter__(self) -> Iterator[Roadmap]:
-        return iter(self._roadmaps.values())
-
-    def __getitem__(self, __key: str) -> Roadmap:
-        return self._roadmaps[__key]
-
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
-
-    def __str__(self) -> str:
-        return self.pretty()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Roadmaps", width)
-        empty = tabularize("", width)
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        names = map(
-            lambda x: tabularize(x.replace(" Roadmap", ""), width),
-            map(
-                lambda r: format_number(r.roadmap_id) + f"{r.name}",
-                self._roadmaps.values(),
-            ),
-        )
-        return (
-            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
-            + "\n".join(names)
-            + "\n"
-            + empty
-            + bottombeam
-        )
-
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
         file = workspace_dir / "roadmaps.norg"
@@ -87,3 +49,43 @@ class Roadmaps:
                 project.project_id = tuple_id
                 projects.add(project)
         return projects
+
+    def pretty(self, width: int = 80) -> str:
+        topbeam = "┏" + (width - 2) * "━" + "┓"
+        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
+        # thickbeam = "┣" + (width - 2) * "━" + "┫"
+        thinbeam = "┠" + (width - 2) * "─" + "┨"
+        top = tabularize("Roadmaps", width)
+        empty = tabularize("", width)
+        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+        names = map(
+            lambda x: tabularize(x.replace(" Roadmap", ""), width),
+            map(
+                lambda r: format_number(r.roadmap_id) + f"{r.name}",
+                self._roadmaps.values(),
+            ),
+        )
+        return (
+            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
+            + "\n".join(names)
+            + "\n"
+            + empty
+            + bottombeam
+        )
+
+    def __iter__(self) -> Iterator[Roadmap]:
+        return iter(self._roadmaps.values())
+
+    def __getitem__(self, __key: str) -> Roadmap:
+        return self._roadmaps[__key]
+
+    def __setitem__(self, __name: str, __value: Any) -> None:
+        ...
+
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    

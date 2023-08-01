@@ -23,19 +23,11 @@ class Calendar:
     def __init__(self) -> None:
         self.days: Dict[PDate, Day] = {}
 
-    def __getitem__(self, __name: str) -> Any:
-        item = ...
-        return item
-
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
-
-    def start(self) -> PDate:
-        return min(self.days)
-
-    def end(self) -> PDate:
-        return max(self.days)
-
+    def copy(self) -> "Calendar":
+        cal = Calendar()
+        cal.days = {k.copy(): v.copy() for k, v in self.days.items()}
+        return cal
+    
     def add(self, day: Day) -> None:
         self.days.update({day.date: day})
 
@@ -68,3 +60,16 @@ class Calendar:
     @property
     def end_date(self) -> PDate:
         return max(self.days)
+
+    def __getitem__(self, __name: str) -> Any:
+        item = ...
+        return item
+
+    def __setitem__(self, __name: str, __value: Any) -> None:
+        ...
+
+    def __str__(self) -> str:
+        return "need to implement this"
+    
+    def __repr__(self) -> str:
+        return self.__str__()

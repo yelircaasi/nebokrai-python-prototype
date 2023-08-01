@@ -17,8 +17,10 @@ class EntryTest:
         "",
         "",
         "",
+        "",
     )
     exp_string2 = "\n".join(
+        "",
         "",
         "",
         "",
@@ -27,8 +29,10 @@ class EntryTest:
         "",
         "",
         "",
+        "",
     )
     exp_string4 = "\n".join(
+        "",
         "",
         "",
         "",
@@ -37,13 +41,16 @@ class EntryTest:
         "",
         "",
         "",
+        "",
     )
     exp_string6 = "\n".join(
         "",
         "",
         "",
+        "",
     )
     exp_string7 = "\n".join(
+        "",
         "",
         "",
         "",

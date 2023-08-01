@@ -14,13 +14,16 @@ class PlanTest:
         "",
         "",
         "",
+        "",
     )
     exp_string2 = '\n'.join(
         "",
         "",
         "",
+        "",
     )
     exp_string3 = '\n'.join(
+        "",
         "",
         "",
         "",
