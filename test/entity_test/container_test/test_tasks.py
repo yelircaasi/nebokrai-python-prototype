@@ -9,21 +9,9 @@ class TasksTest:
     tasks2 = Tasks()
     tasks3 = Tasks()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string3 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
+    exp_string3 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.tasks1

@@ -51,6 +51,15 @@ class Roadmap:
             )
         return Roadmap(norg.title, norg.doc_id, projects)
 
+    def copy(self) -> "Roadmap":
+        return Roadmap(
+            name=self.name,
+            roadmap_id=self.roadmap_id,
+            projects=self._projects,
+            updated=self.updated,
+            categories=self.categories,
+        )
+    
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
@@ -78,5 +87,3 @@ class Roadmap:
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects)
-
-    

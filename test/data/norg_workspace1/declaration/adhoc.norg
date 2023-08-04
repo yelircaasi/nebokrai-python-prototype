@@ -1,0 +1,21 @@
+@document.meta
+title: Ad Hoc Schedule Items
+description: 
+categories: 
+id: 103
+parent: -1
+updated: 2023-06-15 09:00:00
+author: yelircaasi
+@end
+
+
+* Pay the bill to ZDF
+   - start: 10:00
+   - due: 2023-06-14-18:00
+   - duration: 10
+   - priority: 100
+
+* Get the system setup
+   - start: 18:00
+   - due: 2023-06-15
+   - priority: 70

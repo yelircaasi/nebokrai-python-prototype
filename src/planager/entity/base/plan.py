@@ -19,12 +19,12 @@ class Plan:
         self._tasks: Dict[Tuple[str, str, str], Task] = {}
         self._plan: Dict[PDate, List[Tuple[str, str, str]]] = {}
 
-    def __getitem__(self, __date: PDate) -> List[Tuple[str, str, str]]:
-        return self._plan.get(__date, [])
-
-    def __setitem__(self, __date: PDate, __tasks: List[Tuple[str, str, str]]) -> None:
-        self._plan.update({__date: __tasks})
-
+    def copy(self) -> "Plan":
+        p = Plan(self._config, self._calendar)
+        p._tasks = self._tasks
+        p._plan = self._plan
+        return p
+    
     def add_tasks(self, date: PDate, tasks: Union[Tasks, Iterable[Task]]) -> None:
         task_ids = [task.task_id for task in tasks]
         if date in self._plan:
@@ -39,7 +39,7 @@ class Plan:
         if not subplan:
             return
         id_ = list(subplan.values())[0][0]
-        
+
         for task in tasks:
             self._tasks.update({task.task_id: task})
         for date, task_list in subplan.items():
@@ -87,7 +87,13 @@ class Plan:
                 raise ValueError("Impossible task precedence resolution requested.")
             new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
             return new_t
-        
+
+    def __getitem__(self, __date: PDate) -> List[Tuple[str, str, str]]:
+        return self._plan.get(__date, [])
+
+    def __setitem__(self, __date: PDate, __tasks: List[Tuple[str, str, str]]) -> None:
+        self._plan.update({__date: __tasks})
+
     def __str__(self) -> str:
         nl = "\n"
         box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
@@ -101,5 +107,3 @@ class Plan:
 
     def __repr__(self) -> str:
         return self.__str__()
-
-    

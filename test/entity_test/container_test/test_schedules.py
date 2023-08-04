@@ -1,31 +1,25 @@
+from pathlib import Path
 import pytest
 
 from planager.entity.container.schedules import Schedules
 from planager.entity.base.schedule import Schedule
+from planager.util.pdatetime.pdate import PDate
 
 
 class SchedulesTest:
     schedules1 = Schedules()
     schedules2 = Schedules()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.schedules1
         assert self.schedules2
 
     def test_from_norg_workspace(self) -> None:
-        schedules3 = Schedules.from_norg_workspace()
-        schedules4 = Schedules.from_norg_workspace()
+        schedules3 = Schedules.from_norg_workspace(Path(""))
+        schedules4 = Schedules.from_norg_workspace(Path(""))
 
         assert schedules3 == self.schedules1
         assert schedules4 == self.schedules2
@@ -35,8 +29,8 @@ class SchedulesTest:
         assert len(self.schedules2) == 3
 
     def test_getitem(self) -> None:
-        assert self.schedules1[...] == ...
-        assert self.schedules2[...] == ...
+        assert self.schedules1[PDate(0, 0, 0)] == Schedule()
+        assert self.schedules2[PDate(0, 0, 0)] == Schedule()
 
     def test_setitem(self) -> None:
         sched = Schedules()

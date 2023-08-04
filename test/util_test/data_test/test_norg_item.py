@@ -8,7 +8,6 @@ from planager.util.data.norg.norg import Norg
 from planager.util.data.norg.norg_item import NorgItem, NorgItems
 
 
-
 item_a_name = "Item A"
 item_b_name = "Item B"
 
@@ -83,31 +82,11 @@ item_b_string = f"""
 
 
 class NorgItemTest:
-    string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    string3 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    string4 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    string5 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    string1 = "\n" "\n" ""
+    string2 = "\n" "\n" ""
+    string3 = "\n" "\n" ""
+    string4 = "\n" "\n" ""
+    string5 = "\n" "\n" ""
 
     item1 = NorgItem.from_string(string1)
     item2 = NorgItem.from_string(string2)
@@ -121,31 +100,11 @@ class NorgItemTest:
     exp_item4 = NorgItem()
     exp_item5 = NorgItem()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string3 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string4 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string5 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
+    exp_string3 = "\n" "\n" ""
+    exp_string4 = "\n" "\n" ""
+    exp_string5 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.item1
@@ -264,11 +223,11 @@ class NorgItemTest:
         assert NorgItem.convert_tags() == ...
 
     def test_convert_tuple(self) -> None:
-        assert NorgItem.convert_tuple() == ...
-        assert NorgItem.convert_tuple() == ...
-        assert NorgItem.convert_tuple() == ...
-        assert NorgItem.convert_tuple() == ...
-        assert NorgItem.convert_tuple() == ...
+        assert NorgItem.convert_tuple("") == {""}
+        assert NorgItem.convert_tuple("") == {"", ""}
+        assert NorgItem.convert_tuple("") == {"", ""}
+        assert NorgItem.convert_tuple(("", "")) == {""}
+        assert NorgItem.convert_tuple(("", "")) == {"", ""}
 
     def test_convert_tupleset(self) -> None:
         assert NorgItem.convert_tupleset() == ...
@@ -286,17 +245,9 @@ class NorgItemTest:
 
 
 class NorgItemsTest:
-    string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    
+    string1 = "\n" "\n" ""
+    string2 = "\n" "\n" ""
+
     items1 = NorgItems.from_string(string1)
     items2 = NorgItems.from_string(string2)
 

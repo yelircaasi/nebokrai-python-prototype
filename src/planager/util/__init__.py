@@ -1,5 +1,5 @@
 from .data import HTML, JSON, Norg
-from .display import tabularize
+from .display import tabularize, wrap_string
 from .misc import expand_task_segments, round5
 from .path_manager import PathManager
 from .pdatetime import PDate, PDateTime, PTime
@@ -20,4 +20,5 @@ __all__ = [
     "expand_task_segments",
     "round5",
     "tabularize",
+    "wrap_string",
 ]

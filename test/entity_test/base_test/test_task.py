@@ -1,40 +1,21 @@
 import pytest
 
 from planager.entity import Entry, Task
+from planager.util.pdatetime.ptime import PTime
 
 
 class TaskTest:
-    task1 = Task()
-    task2 = Task()
-    task3 = Task()
-    task4 = Task()
-    task5 = Task()
+    task1 = Task("", ("", "", ""))
+    task2 = Task("", ("", "", ""))
+    task3 = Task("", ("", "", ""))
+    task4 = Task("", ("", "", ""))
+    task5 = Task("", ("", "", ""))
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string3 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string4 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string5 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
+    exp_string3 = "\n" "\n" ""
+    exp_string4 = "\n" "\n" ""
+    exp_string5 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.task1
@@ -62,12 +43,16 @@ class TaskTest:
         assert id(self.task4) != id(copy4)
         assert id(self.task5) != id(copy5)
 
+    def test_isafter(self) -> None:
+        assert self.task1.isafter(self.task2)
+        assert not self.task1.isafter(self.task3)
+
     def test_as_entry(self) -> None:
-        entry1 = Entry()
-        entry2 = Entry()
-        entry3 = Entry()
-        entry4 = Entry()
-        entry5 = Entry()
+        entry1 = Entry("", PTime())
+        entry2 = Entry("", PTime())
+        entry3 = Entry("", PTime())
+        entry4 = Entry("", PTime())
+        entry5 = Entry("", PTime())
 
         assert self.task1.as_entry() == entry1
         assert self.task2.as_entry() == entry2
@@ -83,11 +68,11 @@ class TaskTest:
         assert self.task5.pretty() == self.exp_string5
 
     def test_eq(self) -> None:
-        assert self.task1 == Task()
-        assert self.task2 == Task()
-        assert self.task3 == Task()
-        assert self.task4 == Task()
-        assert self.task5 == Task()
+        assert self.task1 == Task("", ("", "", ""))
+        assert self.task2 == Task("", ("", "", ""))
+        assert self.task3 == Task("", ("", "", ""))
+        assert self.task4 == Task("", ("", "", ""))
+        assert self.task5 == Task("", ("", "", ""))
 
     def test_lt(self) -> None:
         assert self.task1 < self.task4
@@ -116,10 +101,6 @@ class TaskTest:
         assert self.task1 >= self.task3
         assert not self.task1 >= self.task4
         assert not self.task2 >= self.task5
-
-    def test_isafter(self) -> None:
-        assert self.task1.isafter(self.task2)
-        assert not self.task1.isafter(self.task3)
 
     def test_str(self) -> None:
         assert str(self.task1) == self.exp_string1

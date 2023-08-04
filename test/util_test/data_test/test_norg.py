@@ -109,7 +109,7 @@ norg_string7 = """
 """
 
 path1 = Path(__file__).parent.parent.parent / "data" / "norg1.norg"
-with open(path1, 'w') as f:
+with open(path1, "w") as f:
     f.write(norg_string1)
 
 
@@ -165,7 +165,9 @@ class NorgTest:
         assert item_b.ismovable == ismovable_b_bool
         assert item_b.maxtime == maxtime_b
         assert item_b.before == before_b_set
-'''
+
+
+"""
     def test_from_path(self) -> None:
         norg1 = Norg.from_path(path1)
 
@@ -264,4 +266,4 @@ class NorgTest:
     def test_norg_item_head(self) -> None:
         assert True
 
-'''
+"""

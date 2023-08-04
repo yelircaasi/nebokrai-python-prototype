@@ -6,6 +6,8 @@ from .entry import Entry
 
 
 class Task:
+    DURATION_DEFAULT: int = 30
+    WIDTH_DEFAULT: int = 80
     tmpdate: PDate = PDate.nonedate()
 
     def __init__(
@@ -13,16 +15,18 @@ class Task:
         name: str,
         task_id: Tuple[str, str, str],
         priority: int = 10,
-        project_name: str = "?",
-        after: Set[Tuple[str, str, str]] = set(),
+        # project_name: str = "?",
+        duration: int = DURATION_DEFAULT,
+        dependencies: Set[Tuple[str, str, str]] = set(),
     ) -> None:
         assert len(task_id) == 3
 
         self.name = name
         self.task_id = task_id
         self.priority = priority
-        self.project_name = project_name
-        self.dependencies = after
+        self.duration = duration
+        # self.project_name = project_name
+        self.dependencies = dependencies
 
     def copy(self) -> "Task":
         t = Task(self.name, self.task_id)
@@ -36,16 +40,15 @@ class Task:
         # TODO
         return Entry(self.name, start)
 
-    def pretty(self, width: int = 80) -> str:
+    def pretty(self, width: int = WIDTH_DEFAULT) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(
-            f"Task: {self.project_name[:30]} :: {self.name} (ID {'::'.join(self.task_id)})",
+            f"Task: {self.task_id[1][:30]} :: {self.name} (ID {'::'.join(self.task_id)})",
             width,
-            pad=1,
         )
         empty = tabularize("", width)
         priority = tabularize(f"  Priority: {self.priority}", width)

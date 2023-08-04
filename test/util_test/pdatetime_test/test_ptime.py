@@ -5,7 +5,7 @@ from planager.util.pdatetime import PTime
 
 class PTimeTest:
     time1 = PTime(7)
-    time2 = PTime(14,17)
+    time2 = PTime(14, 17)
     time3 = PTime()
     time4 = PTime(24)
     time5 = PTime(isblank=True)
@@ -18,9 +18,19 @@ class PTimeTest:
         assert (self.time5.hour, self.time5.minute) == (0, 0)
 
     def test_from_string(self) -> None:
-        assert self.time1 == PTime.from_string("07:00") == PTime.from_string("7:00") == PTime.from_string("7")
+        assert (
+            self.time1
+            == PTime.from_string("07:00")
+            == PTime.from_string("7:00")
+            == PTime.from_string("7")
+        )
         assert self.time2 == PTime.from_string("14:17")
-        assert self.time3 == PTime.from_string("00:00") == PTime.from_string("0:00") == PTime.from_string("0")
+        assert (
+            self.time3
+            == PTime.from_string("00:00")
+            == PTime.from_string("0:00")
+            == PTime.from_string("0")
+        )
         assert self.time4 == PTime.from_string("24:00") == PTime.from_string("24")
 
     def test_ensure_is_ptime(self) -> None:
@@ -62,7 +72,6 @@ class PTimeTest:
         assert PTime.ensure_is_ptime(imp5, default=default) == default
         assert PTime.ensure_is_ptime(imp6, default=default) == default
         assert PTime.ensure_is_ptime(imp7, default=default) == default
-
 
     def test_bool(self) -> None:
         assert self.time1
@@ -106,7 +115,7 @@ class PTimeTest:
         assert self.time1.timeto(self.time2) == 437
         assert self.time2.timeto(self.time1) == -437
         assert self.time3.timeto(self.time4) == 1440
-        
+
     def test_timefrom(self) -> None:
         assert self.time1.timefrom(self.time2) == -437
         assert self.time2.timefrom(self.time1) == 437
@@ -138,11 +147,11 @@ class PTimeTest:
 
     def test_eq(self) -> None:
         t1 = PTime(7)
-        t2 = PTime(14,17)
+        t2 = PTime(14, 17)
         t3 = PTime()
         t4 = PTime(24)
         t5 = PTime(isblank=True)
-        
+
         assert self.time1 == t1
         assert self.time2 == t2
         assert self.time3 == t3 == self.time5 == t5
@@ -151,7 +160,7 @@ class PTimeTest:
         assert self.time1 != self.time2
         assert self.time1 != self.time3
         assert self.time2 != self.time3
-        
+
     def test_lt(self) -> None:
         assert self.time3 < self.time1 < self.time2 < self.time4
         assert not (self.time1 < self.time1)

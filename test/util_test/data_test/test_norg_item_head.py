@@ -15,7 +15,9 @@ class NorgItemHeadTest:
     head6 = NorgItemHead.from_string("\n  -- ( ) Item Head 6, with $pecial ch#rs  \n\n")
     head7 = NorgItemHead.from_string("\n  -- (x) Item Head 7 || 1-10,A1-A5  \n\n  ")
     head8 = NorgItemHead.from_string("  -- [item head 8]{:item head link 8:} ")
-    head9 = NorgItemHead.from_string("\n  -- (x) [Item Head 9]{:item head 9 link:} || 1-10,A1-A5  \n\n  ")
+    head9 = NorgItemHead.from_string(
+        "\n  -- (x) [Item Head 9]{:item head 9 link:} || 1-10,A1-A5  \n\n  "
+    )
 
     exp_string1 = ""
     exp_string2 = ""
@@ -59,11 +61,10 @@ class NorgItemHeadTest:
 
         head1.path = path1
         head2.path = path2
-        
+
         assert head1.path == path1
         assert head2.path == path2
-        
-    
+
     def test_as_norg(self) -> None:
         assert str(self.head1) == self.exp_string1
         assert str(self.head2) == self.exp_string2

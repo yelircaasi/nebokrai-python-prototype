@@ -30,8 +30,8 @@ class Scheduler:
         for date in start_date_new.range(end_date_new):
             schedule = Schedule(date)
             schedule.add_routines(routines)
-            schedule.add_from_plan(plan, tasks)
             schedule.add_adhoc(adhoc)
+            schedule.add_from_plan(plan, tasks)
             schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule
             print(len(schedules))

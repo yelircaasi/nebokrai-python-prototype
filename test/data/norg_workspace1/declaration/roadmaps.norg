@@ -1,0 +1,48 @@
+@document.meta
+title: Roadmaps
+description: 
+categories: 
+id: 0
+parent: -1
+updated: 
+author: yelircaasi
+@end
+
+- [Miscellaneous Projects Roadmap]{:$/roadmaps/0_misc_projects_roadmap.norg:}
+  -- priority: 
+
+- [Work Roadmap]{:$/roadmaps/1_work_roadmap.norg:}
+  -- priority: 
+
+- [Fitness Roadmap]{:$/roadmaps/2_fitness_roadmap.norg:}
+  -- priority: 
+
+- [Notes Reading Roadmap]{:$/roadmaps/3_notes_reading_roadmap.norg:}
+  -- priority: 
+
+- [Personalized Polyglot Roadmap]{:$/roadmaps/4_personalized_polyglot_roadmap.norg:}
+  -- priority: 
+
+- [NLP/CL Roadmap]{:$/roadmaps/5_nlp_cl_roadmap.norg:}
+  -- priority: 
+
+- [Data Science Roadmap]{:$/roadmaps/6_ds_roadmap.norg:}
+  -- priority: 
+
+- [Computer Science Roadmap]{:$/roadmaps/7_cs_roadmap.norg:}
+  -- priority: 
+
+- [Mathematics Roadmap]{:$/roadmaps/8_math_roadmap.norg:}
+  -- priority: 
+
+- [Papers Roadmap]{:$/roadmaps/9_papers_roadmap.norg:}
+  -- priority: 
+
+- [Miscellaneous Reading Roadmap]{:$/roadmaps/10_misc_reading_roadmap.norg:}
+  -- priority: 
+
+- [Non-English Roadmap]{:$/roadmaps/11_nonenglish_roadmap.norg:}
+  -- priority: 
+
+- [Neuro-/Psycholinguistics Roadmap]{:$/roadmaps/12_neuro_psycholinguistics_roadmap.norg:}
+  -- priority: 

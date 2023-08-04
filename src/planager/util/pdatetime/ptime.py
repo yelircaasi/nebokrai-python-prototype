@@ -17,7 +17,8 @@ class PTime:
             res = cls()
             res.isblank = True
             return res
-        return cls(*map(int, date_string.split(":")))
+        hour, minute = map(int, date_string.split(":")[:2])
+        return cls(hour, minute)
 
     @classmethod
     def ensure_is_ptime(
@@ -51,8 +52,10 @@ class PTime:
             pass
         if isinstance(default, PTime):
             return default
-        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
-    
+        raise ValueError(
+            f"Impossible conversion requested: {str(candidate)} -> 'PTime'."
+        )
+
     def __bool__(self):
         return not self.isblank
 
@@ -67,10 +70,12 @@ class PTime:
         return cls(*divmod(mins, 60))
 
     def timeto(self, time2: "PTime") -> int:
-        return time2.tominutes() - self.tominutes()
+        t2, t1 = time2.tominutes(), self.tominutes()
+        return (t2 - t1)# if ((t1 is not None) and (t2 is not None)) else None
 
     def timefrom(self, time2: "PTime") -> int:
-        return self.tominutes() - time2.tominutes()
+        t2, t1 = self.tominutes(), time2.tominutes()
+        return (t2 - t1)# if ((t1 is not None) and (t2 is not None)) else None
 
     def __add__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))

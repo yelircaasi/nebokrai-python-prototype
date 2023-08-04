@@ -137,7 +137,7 @@ class Project:
     @property
     def task_ids(self) -> List[Tuple[str, str, str]]:
         return self._tasks.task_ids
-    
+
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"

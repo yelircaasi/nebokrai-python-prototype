@@ -8,16 +8,8 @@ class RoutinesTest:
     routines1 = Routines()
     routines2 = Routines()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.routines1
@@ -46,7 +38,7 @@ class RoutinesTest:
     def test_pretty(self) -> None:
         assert self.routines1.pretty() == self.exp_string1
         assert self.routines2.pretty() == self.exp_string2
-        
+
     def test_iter(self) -> None:
         assert list(self.routines1) == []
         assert set(self.routines2) == {}

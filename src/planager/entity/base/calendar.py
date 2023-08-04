@@ -18,6 +18,8 @@ class Day:
         self.max_load = max_load
         self.routines = routines
 
+    def copy(self) -> "Day":
+        return Day(self.date.copy(), self.entries.copy(), self.max_load, self.routines.copy())
 
 class Calendar:
     def __init__(self) -> None:
@@ -27,7 +29,7 @@ class Calendar:
         cal = Calendar()
         cal.days = {k.copy(): v.copy() for k, v in self.days.items()}
         return cal
-    
+
     def add(self, day: Day) -> None:
         self.days.update({day.date: day})
 
@@ -61,15 +63,15 @@ class Calendar:
     def end_date(self) -> PDate:
         return max(self.days)
 
-    def __getitem__(self, __name: str) -> Any:
+    def __getitem__(self, __name: PDate) -> Any:
         item = ...
         return item
 
-    def __setitem__(self, __name: str, __value: Any) -> None:
+    def __setitem__(self, __name: PDate, __value: Any) -> None:
         ...
 
     def __str__(self) -> str:
         return "need to implement this"
-    
+
     def __repr__(self) -> str:
         return self.__str__()

@@ -42,11 +42,13 @@ class PDate:
                 pass
         else:
             pass
-        
+
         if default is not None:
             return default
 
-        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
+        raise ValueError(
+            f"Impossible conversion requested: {str(candidate)} -> 'PDate'."
+        )
 
     @property
     def year(self) -> int:
@@ -81,7 +83,7 @@ class PDate:
         return cls(d.year, d.month, d.day)
 
     @classmethod
-    def from_string(cls, date_str: str) -> Optional["PDate"]:
+    def from_string(cls, date_str: str) -> "PDate":
         result = re.search(cls.date_regex, date_str)
         if result:
             year, month, day = map(int, result.groups())
@@ -181,7 +183,11 @@ class PDate:
         return NoneDate()
 
     def __eq__(self, __other: Any) -> bool:
-        return (self.year, self.month, self.day) == (__other.year, __other.month, __other.day)
+        return (self.year, self.month, self.day) == (
+            __other.year,
+            __other.month,
+            __other.day,
+        )
 
     def __lt__(self, __other: Any) -> bool:
         return self.__int__() < int(__other)
@@ -207,7 +213,11 @@ class NoneDate(PDate):
         super(NoneDate, self).__init__(1970, 1, 1)
 
     def __eq__(self, __other: Any) -> bool:
-        return (self.year, self.month, self.day) == (__other.year, __other.month, __other.day)
+        return (self.year, self.month, self.day) == (
+            __other.year,
+            __other.month,
+            __other.day,
+        )
 
     def __lt__(self, __other: Any) -> bool:
         return False

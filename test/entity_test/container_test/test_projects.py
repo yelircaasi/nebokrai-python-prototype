@@ -1,32 +1,26 @@
+from typing import List
 import pytest
 from planager.entity.base.project import Project
 
 from planager.entity.container.projects import Projects
 from planager.entity.patch.task_patch import TaskPatches
+from planager.util.pdatetime.pdate import PDate
 
 
 class ProjectsTest:
     projects1 = Projects()
     projects2 = Projects()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.projects1
         assert self.projects2
 
     def test_projects(self) -> None:
-        exp1 = []
-        exp2 = []
+        exp1: List[Projects] = []
+        exp2: List[Projects] = []
 
         assert self.projects1.projects == exp1
         assert self.projects2.projects == exp2
@@ -38,7 +32,7 @@ class ProjectsTest:
         exp1 = Projects()
         exp2 = Projects()
 
-        projs1.projects == ... # NEED TO TEST FOR AN ERROR HERE
+        projs1.projects == ...  # NEED TO TEST FOR AN ERROR HERE
         projs2.projects == ...
 
         assert projs1 == exp1
@@ -51,7 +45,7 @@ class ProjectsTest:
         exp1 = Projects()
         exp2 = Projects()
 
-        projs1.projects == ... # NEED TO TEST FOR AN ERROR HERE
+        projs1.projects == ...  # NEED TO TEST FOR AN ERROR HERE
         projs2.projects == ...
 
         assert projs1 == exp1
@@ -86,8 +80,8 @@ class ProjectsTest:
         exp1 = Projects()
         exp2 = Projects()
 
-        projs1.order_by_dependency(patches1)
-        projs2.order_by_dependency(patches2)
+        projs1.order_by_dependency()
+        projs2.order_by_dependency()
 
         assert projs1 == exp1
         assert projs2 == exp2
@@ -101,8 +95,8 @@ class ProjectsTest:
         assert set(self.projects2) == {}
 
     def test_getitem(self) -> None:
-        assert self.projects1[...] == ...
-        assert self.projects2[...] == ...
+        assert self.projects1[("", "")] == Project("", ("", ""))
+        assert self.projects2[("", "")] == Project("", ("", ""))
 
     def test_setitem(self) -> None:
         projs1 = Projects([p.copy() for p in self.projects1])

@@ -316,7 +316,7 @@ class NorgItems:
             f.write(norg_body)
         with open("/tmp/norg_items.norg", "w") as f:
             # f.write('\n***********\n'.join(map(str, items)))
-            f.write('\n'.join(item_strings))
+            f.write("\n".join(item_strings))
         for item in items:
             print(str(item))
         return cls(items)

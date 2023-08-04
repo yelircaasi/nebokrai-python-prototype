@@ -10,7 +10,6 @@ class PDateTimeTest:
     datetime1 = PDateTime(2022, 10, 13, 8, 15, 33)
     datetime2 = PDateTime(2023, 3, 7, 9, 0, 0)
 
-
     def test_init(self) -> None:
         assert True
 
@@ -23,14 +22,19 @@ class PDateTimeTest:
         def now_works() -> bool:
             dt = PDateTime.now()
             sdt = datetime.now()
-            return (dt.year, dt.month, dt.day, dt.hour, dt.minute) == (sdt.year, sdt.month, sdt.day, sdt.hour, sdt.minute) and (abs(dt.second - sdt.second) < 2)
+            return (dt.year, dt.month, dt.day, dt.hour, dt.minute) == (
+                sdt.year,
+                sdt.month,
+                sdt.day,
+                sdt.hour,
+                sdt.minute,
+            ) and (abs(dt.second - sdt.second) < 2)
 
         times_match = now_works
         if not times_match:
             times_match = now_works()
-        
-        assert times_match
 
+        assert times_match
 
     def test_from_string(self) -> None:
         assert True

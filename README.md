@@ -152,37 +152,91 @@ TRACKING: manually via neorg, or via semaphore. One file per metric for easy tra
 
 * [✓] add basic dependency logic for projects and tasks, integrated in planning
 
-* [ ] add basic dependency logic for entries, integrated in scheduling
+* [ ] refactor Entries.smooth_entries (30)
+
+* [ ] add functionality for a cluster of Tasks to be merged into a single Entity (Tasks class? Entity class method?) (& update test skeletons)
+
+* [ ] add first_line_offset kwarg to str repr functions for norg printing (30)
 
 * [ ] write tests for each class, function, and method (see checklist)
+      
+      [] Entry
+         [✓] write       (60)
+         [] get passing  (180)
+      [] Entries
+         [] write        (90)
+         [] get passing  (60)
+      [] Task
+         [] write        (180)
+         [] get passing  (60)
+      [] Tasks
+         [] write        (90)
+         [] get passing  (30)
+      [] Project
+         [] write        (90)
+         [] get passing  ()
+      [] Projects
+         [] write        (60)
+         [] get passing  (30)
+      [] Schedule
+         [] write        (240)
+         [] get passing  (240)
+      [] Schedules
+         [] write        (30)
+         [] get passing  (30)
+      [] Plan
+         [] write        (180)
+         [] get passing  (60)
+      [] Roadmap
+         [] write        (60)
+         [] get passing  (60)
+      [] Roadmaps
+         [] write        (60)
+         [] get passing  (60)
+      [] AdHoc (without json and html for now)
+         [] write        (60)
+         [] get passing  (30)
+      [] Calendar
+         [] write        (60)
+         [] get passing  (30)
+      [] Routine
+         [] write        (90)
+         [] get passing  (30)
+      [] Routines
+         [] write        ()
+         [] get passing  ()
 
-* [ ] refine dependency logic for projects and tasks, integrated in planning
+* [ ] add basic dependency logic for entries, integrated in scheduling (& update tests)
 
-* [ ] refine dependency logic for entries, integrated in scheduling
+* [ ] refine dependency logic for projects and tasks, integrated in planning (& update tests)
 
-* [ ] add task stacking logic
+* [ ] refine dependency logic for entries, integrated in scheduling (& update tests)
 
-* [ ] clean up and solidify norg readers and writers
+* [ ] add task stacking logic (& update tests)
 
-* [ ] add json readers and writers
+* [ ] clean up and solidify norg readers and writers (& update tests)
 
-* [ ] add html readers and writers
+* [ ] add json readers and writers (& update tests)
 
-* [ ] write logger
+* [ ] add html readers and writers (& update tests)
 
-* [ ] add logging to entire library
+* [ ] write logger (& update tests)
 
-* [ ] get planning working as expected
+* [ ] add logging to entire library (& update tests)
 
-* [ ] get scheduling working as expected
+* [ ] get planning working as expected (& update tests)
 
-* [ ] make adhoc counterpart to plan, containing tasks (but one-off, non-derivable) -> adhoc folder containing a file for each day
+* [ ] get scheduling working as expected (& update tests)
 
-* [ ] calendar is direct parent of schedules, containing entries and day parameters -> calendar folder containing a file for each day
+* [ ] make adhoc counterpart to plan, containing tasks (but one-off, non-derivable) -> adhoc folder containing a file for each day (& update tests)
 
-* [ ] add tracking module mvp
+* [ ] calendar is direct parent of schedules, containing entries and day parameters -> calendar folder containing a file for each day (& update tests)
 
-* [ ] write signal package for messaging
+* [ ] add tracking module mvp (& update tests)
+
+* [ ] write signal package for messaging (& update tests)
+
+* [ ] refine tracking module (& update tests)
 
 
 ## Checklist

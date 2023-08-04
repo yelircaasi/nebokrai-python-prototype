@@ -47,7 +47,7 @@ class Planner:
 
         return plan
 
-    def get_subplan_from_project(
+    def get_subplan_from_project( # move to Plan?
         self,
         project: Project,
         calendar: Calendar,
@@ -64,7 +64,7 @@ class Planner:
         return subplan
 
     @staticmethod
-    def cluster_task_ids(
+    def cluster_task_ids( # move to Plan?
         task_ids: List[Tuple[str, str, str]], cluster_size: int
     ) -> ClusterType:
         """
@@ -78,7 +78,7 @@ class Planner:
         return ret
 
     @staticmethod
-    def allocate_in_time(
+    def allocate_in_time( # move to Plan?
         clusters: ClusterType,
         project: Project,
     ) -> SubplanType:

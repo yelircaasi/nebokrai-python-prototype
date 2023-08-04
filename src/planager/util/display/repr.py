@@ -4,11 +4,11 @@ def wrap_as_list(
     trailing_spaces: int,
 ) -> list[str]:
     if len(line) < width:
-        return line
-    
+        return [line]
+
     prefix = trailing_spaces * " "
     lines = []
-    
+
     def splitline(s: str, width: int, pref: str = prefix) -> tuple[str, str]:
         splitind = s[:width].rfind(" ")
         splitind = width if splitind == -1 else splitind
@@ -19,14 +19,14 @@ def wrap_as_list(
     line1, rest = splitline(line, width, pref="")
     lines.append(line1)
     width -= trailing_spaces
-    
+
     while len(rest) > width:
-        line1, rest = splitline(line, rest)
-        lines.append(line1)
-        
+        next_line, rest = splitline(rest, width)
+        lines.append(next_line)
+
     if rest:
         lines.append(prefix + rest)
-    
+
     return lines
 
 
@@ -44,9 +44,7 @@ def wrap_string(
         bookend1, bookend2 = border_char + pad_chars, pad_chars + border_char
         width -= len(bookend1) + len(bookend2)
         lines_ = wrap_as_list(line, width, trailing_spaces)
-        lines = list(
-            map(lambda s: f"{bookend1}{s: <{width}}{bookend2}", lines_)
-        )
+        lines = list(map(lambda s: f"{bookend1}{s: <{width}}{bookend2}", lines_))
     else:
         lines = wrap_as_list(line, width, trailing_spaces)
     return "\n".join(lines)

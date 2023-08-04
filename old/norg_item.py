@@ -290,7 +290,7 @@ class NorgItems:
         if not item.strip():
             print("Tried to parse empty item!")
             return {}
-        item += '\n'
+        item += "\n"
         regx1 = Regexes.first_line
         regx2 = Regexes.item_split
         result = re.search(regx1, item)

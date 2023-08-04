@@ -6,8 +6,8 @@ from ..base.task import Task
 
 
 class Tasks:
-    def __init__(self) -> None:
-        self._tasks: Dict[Tuple[str, str, str], Task] = {}
+    def __init__(self, tasks: Union[Dict[Tuple[str, str, str], Task], List[Task]] = {}) -> None:
+        self._tasks: Dict[Tuple[str, str, str], Task] = dict(map(lambda task: (task.task_id, task), tasks)) if isinstance(tasks, List) else tasks
 
     @classmethod
     def from_string_iterable(
@@ -25,7 +25,7 @@ class Tasks:
             task = (
                 Task(name, task_id, priority)
                 if priority is not None
-                else Task(name, task_id, project_name=project_name)
+                else Task(name, task_id)
             )
             tasks.add(task)
         return tasks
@@ -48,7 +48,6 @@ class Tasks:
                 Task(
                     name=item.name,
                     task_id=(*project_id, item_id),
-                    project_name=project_name,
                     priority=priority,
                 )
             )
@@ -105,5 +104,3 @@ class Tasks:
 
     def __repr__(self) -> str:
         return self.__str__()
-
-    

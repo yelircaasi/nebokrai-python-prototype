@@ -1,3 +1,4 @@
+from pathlib import Path
 import pytest
 
 from planager.entity.base.roadmap import Roadmap
@@ -9,24 +10,19 @@ class RoadmapsTest:
     roadmaps1 = Roadmaps()
     roadmaps2 = Roadmaps()
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" ""
+    exp_string2 = "\n" "\n" ""
 
     def test_init(self) -> None:
         assert self.roadmaps1
         assert self.roadmaps2
 
     def test_from_norg_workspace(self) -> None:
-        roadmaps3 = Roadmaps.from_norg_workspace()
-        roadmaps4 = Roadmaps.from_norg_workspace()
+        path1 = Path("")
+        path2 = Path("")
+
+        roadmaps3 = Roadmaps.from_norg_workspace(path1)
+        roadmaps4 = Roadmaps.from_norg_workspace(path2)
 
         assert roadmaps3 == self.roadmaps1
         assert roadmaps4 == self.roadmaps2
@@ -40,7 +36,7 @@ class RoadmapsTest:
 
         rm1.open_projects_norg()
         rm2.open_projects_norg()
-        
+
         assert rm1 == exp1
         assert rm2 == exp2
 
@@ -68,8 +64,8 @@ class RoadmapsTest:
 
         exp = Roadmaps()
 
-        rm[3] = Roadmap()
-        rm[1] = Roadmap()
+        rm[3] = Roadmap("", "", Projects())
+        rm[1] = Roadmap("", "", Projects())
 
         assert rm == exp
 

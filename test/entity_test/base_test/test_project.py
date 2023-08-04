@@ -3,31 +3,17 @@ from pathlib import Path
 import pytest
 
 from planager.entity.base.project import Project
+from planager.entity.base.task import Task
 
 
 class ProjectTest:
-    project1 = Project()
-    project2 = Project()
-    project3 = Project()
+    project1 = Project("", ("", ""))
+    project2 = Project("", ("", ""))
+    project3 = Project("", ("", ""))
 
-    exp_string1 = '\n'.join(
-        "",
-        "",
-        "",
-        "",
-    )
-    exp_string2 = '\n'.join(
-        "",
-        "",
-        "",
-        "",
-    )
-    exp_string3 = '\n'.join(
-        "",
-        "",
-        "",
-        "",
-    )
+    exp_string1 = "\n" "\n" "\n" "\n"
+    exp_string2 = "\n" "\n" "\n" "\n"
+    exp_string3 = "\n" "\n" "\n" "\n"
 
     def test_init(self) -> None:
         assert True
@@ -35,7 +21,7 @@ class ProjectTest:
     def test_from_norg_path(self) -> None:
         path1 = Path()
         path2 = Path()
-        
+
         p1 = Project.from_norg_path()
         p2 = Project.from_norg_path()
 
@@ -43,12 +29,12 @@ class ProjectTest:
         assert p2
 
     def test_from_roadmap_item(self) -> None:
-        item1 = '\n'.join(
+        item1 = "\n".join(
             "",
             "",
             "",
         )
-        item2 = '\n'.join(
+        item2 = "\n".join(
             "",
             "",
             "",
@@ -98,6 +84,6 @@ class ProjectTest:
         assert list(self.project3) == []
 
     def test_getitem(self) -> None:
-        assert self.self.project1[...] == ...
-        assert self.self.project2[...] == ...
-        assert self.self.project3[...] == ...
+        assert self.project1[("", "", "")] == Task("", ("", "", ""))
+        assert self.project2[("", "", "")] == Task("", ("", "", ""))
+        assert self.project3[("", "", "")] == Task("", ("", "", ""))
