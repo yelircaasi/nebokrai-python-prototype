@@ -1,6 +1,8 @@
+from pathlib import Path
 import pytest
 
 from planager.entity.base.task import Task
+from planager.entity.container.roadmaps import Roadmaps
 from planager.entity.container.tasks import Tasks
 
 
@@ -19,27 +21,27 @@ class TasksTest:
         assert self.tasks3
 
     def test_from_string_iterable(self) -> None:
-        tasks4 = Tasks.from_string_iterable()
-        tasks5 = Tasks.from_string_iterable()
-        tasks6 = Tasks.from_string_iterable()
+        tasks4 = Tasks.from_string_iterable(["", ""], ("", ""), "")
+        tasks5 = Tasks.from_string_iterable(["", ""], ("", ""), "")
+        tasks6 = Tasks.from_string_iterable(["", ""], ("", ""), "")
 
         assert tasks4 == self.tasks1
         assert tasks5 == self.tasks2
         assert tasks6 == self.tasks3
 
     def test_from_norg_path(self) -> None:
-        tasks4 = Tasks.from_norg_path()
-        tasks5 = Tasks.from_norg_path()
-        tasks6 = Tasks.from_norg_path()
+        tasks4 = Tasks.from_norg_path(Path(""), ("", ""), "")
+        tasks5 = Tasks.from_norg_path(Path(""), ("", ""), "")
+        tasks6 = Tasks.from_norg_path(Path(""), ("", ""), "")
 
         assert tasks4 == self.tasks1
         assert tasks5 == self.tasks2
         assert tasks6 == self.tasks3
 
     def test_from_roadmaps(self) -> None:
-        tasks4 = Tasks.from_roadmaps()
-        tasks5 = Tasks.from_roadmaps()
-        tasks6 = Tasks.from_roadmaps()
+        tasks4 = Tasks.from_roadmaps(Roadmaps())
+        tasks5 = Tasks.from_roadmaps(Roadmaps())
+        tasks6 = Tasks.from_roadmaps(Roadmaps())
 
         assert tasks4 == self.tasks1
         assert tasks5 == self.tasks2
@@ -52,8 +54,8 @@ class TasksTest:
         exp4 = Tasks()
         exp5 = Tasks()
 
-        tasks4.add(Task())
-        tasks5.add(Task())
+        tasks4.add(Task("", ("", "", "")))
+        tasks5.add(Task("", ("", "", "")))
 
         assert tasks4 == exp4
         assert tasks5 == exp5
@@ -78,9 +80,9 @@ class TasksTest:
         assert set(self.tasks3) == {}
 
     def test_getitem(self) -> None:
-        assert self.tasks1[...] == ...
-        assert self.tasks2[...] == ...
-        assert self.tasks3[...] == ...
+        assert self.tasks1[("", "", "")] == Task("", ("", "", ""))
+        assert self.tasks2[("", "", "")] == Task("", ("", "", ""))
+        assert self.tasks3[("", "", "")] == Task("", ("", "", ""))
 
     def test_str(self) -> None:
         assert str(self.tasks1) == self.exp_string1

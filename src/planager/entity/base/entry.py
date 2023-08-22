@@ -64,18 +64,22 @@ class Entry:
             end=self.end,
             priority=self.priority,
             ismovable=self.ismovable,
+            blocks=self.blocks,
+            categories=self.categories,
             notes=self.notes,
             normaltime=self.normaltime,
             idealtime=self.idealtime,
             mintime=self.mintime,
             maxtime=self.maxtime,
             alignend=self.alignend,
+            order=self.order,
         )
 
     @property
     def duration(self) -> int:
         return self.start.timeto(self.end)
 
+    @property
     def timespan(self) -> Tuple[PTime, PTime]:
         return (self.start, self.end)
 
@@ -113,12 +117,13 @@ class Entry:
             if self.order != 50
             else ""
         )
+        return lines
 
     def as_json(self, path: Path) -> str:
-        ...
+        return ""
 
     def as_html(self, path: Path) -> str:
-        ...
+        return ""
 
     def hasmass(self) -> bool:
         return (self.priority > 0) or (self.name in {"First", "Last"})

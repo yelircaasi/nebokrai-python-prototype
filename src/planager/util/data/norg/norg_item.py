@@ -198,12 +198,11 @@ class NorgItem:
             return None
         return int(conv_candidate)
 
-    def convert_bool(
-        self, conv_candidate: Optional[Union[str, bool]]
-    ) -> Optional[bool]:
+    @staticmethod
+    def convert_bool(conv_candidate: Optional[Union[str, bool]]) -> Optional[bool]:
         if conv_candidate is None:
             return None
-        return self.STR2BOOL[conv_candidate]
+        return NorgItem.STR2BOOL[conv_candidate]
 
     @staticmethod
     def convert_tags(tags: Optional[Union[str, Set[str]]]) -> Optional[Set[str]]:

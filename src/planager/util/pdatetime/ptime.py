@@ -71,11 +71,11 @@ class PTime:
 
     def timeto(self, time2: "PTime") -> int:
         t2, t1 = time2.tominutes(), self.tominutes()
-        return (t2 - t1)# if ((t1 is not None) and (t2 is not None)) else None
+        return t2 - t1  # if ((t1 is not None) and (t2 is not None)) else None
 
     def timefrom(self, time2: "PTime") -> int:
         t2, t1 = self.tominutes(), time2.tominutes()
-        return (t2 - t1)# if ((t1 is not None) and (t2 is not None)) else None
+        return t2 - t1  # if ((t1 is not None) and (t2 is not None)) else None
 
     def __add__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))

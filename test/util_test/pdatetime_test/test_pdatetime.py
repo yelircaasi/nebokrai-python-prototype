@@ -30,7 +30,7 @@ class PDateTimeTest:
                 sdt.minute,
             ) and (abs(dt.second - sdt.second) < 2)
 
-        times_match = now_works
+        times_match = now_works()
         if not times_match:
             times_match = now_works()
 

@@ -9,6 +9,7 @@ class Routine:
     def __init__(
         self,
         name: str,
+        start: PTime,
         items: list = [],
         priority: int = 80,
         notes: str = "",
@@ -17,6 +18,7 @@ class Routine:
         maxtime: Optional[int] = None,
     ) -> None:
         self.name = name
+        self.start = start
         self.items = items
         self.routine_id = ("routine", "", name)
         self.priority = int(priority) or 80
@@ -29,8 +31,8 @@ class Routine:
         # TODO
         return True
 
-    def as_entry(self, start: Optional[PTime]) -> Entry:
-        return Entry(self.name, start, priority=self.priority)  # TODO
+    def as_entry(self, start: Optional[PTime] = None) -> Entry:
+        return Entry(self.name, start or self.start, priority=self.priority)  # TODO
 
     def as_task(self) -> Task:
         return Task(self.name, self.routine_id, priority=self.priority)  # TODO

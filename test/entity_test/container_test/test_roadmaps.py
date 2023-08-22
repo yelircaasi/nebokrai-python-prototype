@@ -56,16 +56,16 @@ class RoadmapsTest:
         assert list(self.roadmaps2) == []
 
     def test_getitem(self) -> None:
-        assert self.roadmaps1[...] == ...
-        assert self.roadmaps2[...] == ...
+        assert self.roadmaps1[""] == Roadmap("", "", Projects())
+        assert self.roadmaps2[""] == Roadmap("", "", Projects())
 
     def test_setitem(self) -> None:
         rm = Roadmaps()
 
         exp = Roadmaps()
 
-        rm[3] = Roadmap("", "", Projects())
-        rm[1] = Roadmap("", "", Projects())
+        rm["3"] = Roadmap("", "", Projects())
+        rm["1"] = Roadmap("", "", Projects())
 
         assert rm == exp
 

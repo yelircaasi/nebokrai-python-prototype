@@ -161,7 +161,9 @@ class Schedule:
         entries_fixed, entries_flex = self.schedule.get_fixed_and_flex()
         schedule = Entries([FIRST_ENTRY, *entries_fixed, LAST_ENTRY])
 
-        schedule.fill_gaps(entries_flex, self.prio_weighting_function, compression_factor)
+        schedule.fill_gaps(
+            entries_flex, self.prio_weighting_function, compression_factor
+        )
         schedule.smooth_between_fixed(self.prio_weighting_function)
 
         return schedule

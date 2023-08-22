@@ -80,6 +80,9 @@ class AdHoc:
         ...  # TODO
         return cls()
 
+    def copy(self) -> "AdHoc":
+        return AdHoc(Entries([entry.copy() for entry in self.entries]))
+
     def to_norg(self, fp: Path) -> None:
         with open(fp, "w") as f:
             f.write(self.to_norg_string())

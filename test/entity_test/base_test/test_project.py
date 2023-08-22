@@ -22,26 +22,18 @@ class ProjectTest:
         path1 = Path()
         path2 = Path()
 
-        p1 = Project.from_norg_path()
-        p2 = Project.from_norg_path()
+        p1 = Project.from_norg_path(path1, "Project 1")
+        p2 = Project.from_norg_path(path2, "Project 2")
 
         assert p1
         assert p2
 
     def test_from_roadmap_item(self) -> None:
-        item1 = "\n".join(
-            "",
-            "",
-            "",
-        )
-        item2 = "\n".join(
-            "",
-            "",
-            "",
-        )
+        item1 = "" "" ""
+        item2 = "" "" ""
 
-        p1 = Project.from_roadmap_item()
-        p2 = Project.from_roadmap_item()
+        p1 = Project.from_roadmap_item("", "", Path(""))
+        p2 = Project.from_roadmap_item("", "", Path(""))
 
     def test_copy(self) -> None:
         assert self.project1.copy()

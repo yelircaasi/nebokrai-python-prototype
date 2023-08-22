@@ -12,6 +12,8 @@ class Projects:
             p.project_id: p for p in projects
         }
         self._tasks: Tasks = self._get_tasks()
+        self._order: List[Tuple[str, str]] = list(self._projects.values())
+        
 
     @property
     def projects(self) -> List[Project]:

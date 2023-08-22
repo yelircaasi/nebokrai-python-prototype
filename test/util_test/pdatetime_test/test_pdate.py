@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Set
 
 import pytest
 
@@ -38,7 +39,7 @@ class PDateTest:
 
         default = cand1
 
-        imp1 = {}
+        imp1: Set = set()
         imp2 = "65"
         imp3 = "other string"
         imp4 = "65, 234, 34"

@@ -54,11 +54,11 @@ class TaskTest:
         entry4 = Entry("", PTime())
         entry5 = Entry("", PTime())
 
-        assert self.task1.as_entry() == entry1
-        assert self.task2.as_entry() == entry2
-        assert self.task3.as_entry() == entry3
-        assert self.task4.as_entry() == entry4
-        assert self.task5.as_entry() == entry5
+        assert self.task1.as_entry(PTime(0, 0)) == entry1
+        assert self.task2.as_entry(PTime(0, 0)) == entry2
+        assert self.task3.as_entry(PTime(0, 0)) == entry3
+        assert self.task4.as_entry(PTime(0, 0)) == entry4
+        assert self.task5.as_entry(PTime(0, 0)) == entry5
 
     def test_pretty(self) -> None:
         assert self.task1.pretty() == self.exp_string1

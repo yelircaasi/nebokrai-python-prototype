@@ -13,27 +13,31 @@ class ScheduleTest:
     # [ ]
     sched1 = Schedule(
         PDate(0, 0, 0),
-        Entries((
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-        ))
+        Entries(
+            (
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+            )
+        ),
     )
     # [ ]
     sched2 = Schedule(
         PDate(0, 0, 0),
-        Entries((
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-            Entry(name="", start=PTime(0, 0)),
-        ))
+        Entries(
+            (
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+                Entry(name="", start=PTime(0, 0)),
+            )
+        ),
     )
     # [ ]
     sched3 = Schedule(PDate(0, 0, 0))
@@ -74,9 +78,9 @@ class ScheduleTest:
     def test_init(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1.date == PDate(0, 0, 0)
         assert self.sched2.date == PDate(0, 0, 0)
@@ -86,9 +90,9 @@ class ScheduleTest:
     def test_copy(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1.copy().__dict__ == self.sched1.__dict__
         assert self.sched2.copy().__dict__ == self.sched2.__dict__
@@ -98,9 +102,9 @@ class ScheduleTest:
     def test_make_default_day(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         dd = Schedule.make_default_day()
         assert dd == Schedule()
@@ -109,9 +113,9 @@ class ScheduleTest:
     def test_from_norg(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path()
         path2 = Path()
@@ -125,9 +129,9 @@ class ScheduleTest:
     def test_from_json(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path()
         path2 = Path()
@@ -141,9 +145,9 @@ class ScheduleTest:
     def test_from_html(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path()
         path2 = Path()
@@ -157,9 +161,9 @@ class ScheduleTest:
     def test_to_norg(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         p = Path()
 
@@ -182,9 +186,9 @@ class ScheduleTest:
     def test_to_json(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         p = Path()
 
@@ -207,9 +211,9 @@ class ScheduleTest:
     def test_as_html(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         p = Path()
 
@@ -232,9 +236,9 @@ class ScheduleTest:
     def test_as_norg(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path("")
         path2 = Path("")
@@ -243,20 +247,21 @@ class ScheduleTest:
         self.sched1.to_norg(path1)
         self.sched2.to_norg(path2)
         self.sched3.to_norg(path3)
-        
+
         with open(path1) as f:
             assert self.norg_string1 == f.read()
         with open(path2) as f:
             assert self.norg_string2 == f.read()
         with open(path3) as f:
             assert self.norg_string3 == f.read()
+
     # [ ]
     def test_as_json(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path("")
         path2 = Path("")
@@ -265,20 +270,21 @@ class ScheduleTest:
         self.sched1.to_json(path1)
         self.sched2.to_json(path2)
         self.sched3.to_json(path3)
-        
+
         with open(path1) as f:
             assert self.norg_string1 == f.read()
         with open(path2) as f:
             assert self.norg_string2 == f.read()
         with open(path3) as f:
             assert self.norg_string3 == f.read()
+
     # [ ]
     def test_to_html(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path("")
         path2 = Path("")
@@ -287,7 +293,7 @@ class ScheduleTest:
         self.sched1.to_html(path1)
         self.sched2.to_html(path2)
         self.sched3.to_html(path3)
-        
+
         with open(path1) as f:
             assert self.norg_string1 == f.read()
         with open(path2) as f:
@@ -299,9 +305,9 @@ class ScheduleTest:
     def test_add(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         sched4 = self.sched1.copy()
         sched5 = self.sched2.copy()
@@ -319,9 +325,9 @@ class ScheduleTest:
     def test_remove(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         sched4 = self.sched1.copy()
         sched5 = self.sched2.copy()
@@ -339,9 +345,9 @@ class ScheduleTest:
     def test_names(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1 == [PTime(), PTime(), PTime()]
         assert self.sched2 == [PTime(), PTime(), PTime()]
@@ -351,9 +357,9 @@ class ScheduleTest:
     def test_starts(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1
         assert self.sched2
@@ -363,9 +369,9 @@ class ScheduleTest:
     def test_starts_strings(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1
         assert self.sched2
@@ -375,9 +381,9 @@ class ScheduleTest:
     def test_add_routines(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1
         assert self.sched2
@@ -387,9 +393,9 @@ class ScheduleTest:
     def test_add_from_plan(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1
         assert self.sched2
@@ -399,9 +405,9 @@ class ScheduleTest:
     def test_add_adhoc(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1
         assert self.sched2
@@ -411,9 +417,9 @@ class ScheduleTest:
     def test_can_be_added(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.sched1.can_be_added(Entry(name="", start=PTime(0, 0)))
         assert self.sched1.can_be_added(Entry(name="", start=PTime(0, 0)))
@@ -443,9 +449,9 @@ class ScheduleTest:
     def test_allocate_in_time(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert True
 
@@ -453,9 +459,9 @@ class ScheduleTest:
     def test_prio_weighting_function(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         weighter1 = self.sched1.prio_weighting_function
         assert self.sched1.prio_weighting_function(0) == weighter1(0) == ...
@@ -484,9 +490,9 @@ class ScheduleTest:
     ) -> None:  # rewrite to make initializing an invalid schedule impossible
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         invalid1 = Schedule()
         invalid2 = Schedule()
@@ -501,9 +507,9 @@ class ScheduleTest:
     def test_str(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert str(self.sched1) == self.exp_string1
         assert str(self.sched2) == self.exp_string2
@@ -512,9 +518,9 @@ class ScheduleTest:
     def test_repr(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert repr(self.sched1) == self.exp_string1
         assert repr(self.sched2) == self.exp_string2

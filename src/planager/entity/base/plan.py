@@ -24,31 +24,56 @@ class Plan:
         p._tasks = self._tasks
         p._plan = self._plan
         return p
-    
-    def add_tasks(self, date: PDate, tasks: Union[Tasks, Iterable[Task]]) -> None:
-        task_ids = [task.task_id for task in tasks]
+
+    def add_tasks(self, date: PDate, task_ids: List[Tuple[str, str, str]]) -> List[Tuple[str, str, str]]:
+        """
+        Add tasks to a specified date in the plan. If the tasks exceed the date's max_load, the lowest-priority excess 
+          task ids are returned.
+        """
+        #task_ids = [task.task_id for task in tasks]
         if date in self._plan:
-            task_ids = list(set(task_ids + self._plan[date]))
+            task_ids = sorted(list(set(task_ids + self._plan[date])), key=lambda x: self._tasks[x].priority, reverse=True)
+        excess: List[Tuple[str, str, str]] = []
+        total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
+        max_load = self._calendar[date].max_load
+        while total > max_load:
+            task_to_move = task_ids.pop()
+            excess.append(task_to_move)
+            total -= self._tasks[task_to_move].duration
+
         self._plan.update({date: task_ids})
+        for task_id in task_ids:
+            self._tasks[task_id].tmpdate = date
+        return excess
 
     def add_subplan(
         self,
         subplan: Dict[PDate, List[Tuple[str, str, str]]],
         tasks: Tasks,
     ) -> None:
+        """
+        Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily 
+          maximum is exceeded, according to priority.
+        """
         if not subplan:
             return
         id_ = list(subplan.values())[0][0]
 
         for task in tasks:
             self._tasks.update({task.task_id: task})
-        for date, task_list in subplan.items():
-            for task_id in task_list:
-                self.ensure_date(date)
-                self._plan[date].append(task_id)
-                self._tasks[task_id].tmpdate = date
+        for date, task_id_list in subplan.items():
+            self.ensure_date(date)
+            rollover: List[Tuple[str, str, str]] = self.add_tasks(date, task_id_list)
+            next_date = date.copy()
+            while rollover:
+                rollover = self.add_tasks(next_date, rollover)
+                next_date += 1
+
 
     def ensure_date(self, date: PDate):
+        """
+        
+        """
         if not date in self._plan.keys():
             self._plan.update({date: []})
 
@@ -65,6 +90,9 @@ class Plan:
         return sorted(self._tasks.values())
 
     def reorder_by_precedence(self) -> None:
+        """
+        
+        """
         tasks = list(map(lambda t: self._tasks[t.task_id], self.tasks))
         newtasks = []
         self._plan = {}
@@ -77,6 +105,9 @@ class Plan:
 
     @staticmethod
     def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
+        """
+        
+        """
         new_t = t.copy()
         if pre <= new_t <= post:
             return new_t
@@ -87,6 +118,9 @@ class Plan:
                 raise ValueError("Impossible task precedence resolution requested.")
             new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
             return new_t
+
+    def __contains__(self, __date: PDate) -> bool:
+        return __date in self._plan
 
     def __getitem__(self, __date: PDate) -> List[Tuple[str, str, str]]:
         return self._plan.get(__date, [])

@@ -94,11 +94,136 @@ class NorgItemTest:
     item4 = NorgItem.from_string(string4)
     item5 = NorgItem.from_string(string5)
 
-    exp_item1 = NorgItem()
-    exp_item2 = NorgItem()
-    exp_item3 = NorgItem()
-    exp_item4 = NorgItem()
-    exp_item5 = NorgItem()
+    exp_item1 = NorgItem(
+        head=None,
+        name=None,
+        path=None,
+        link=None,
+        status=None,
+        item_id=None,
+        parent=None,
+        start=None,
+        end=None,
+        priority=None,
+        ismovable=None,
+        notes=None,
+        normaltime=None,
+        idealtime=None,
+        mintime=None,
+        maxtime=None,
+        interval=None,
+        duration=None,
+        cluster_size=None,
+        tags=None,
+        description=None,
+        alignend=None,
+        before=None,
+        after=None,
+    )
+    exp_item2 = NorgItem(
+        head=None,
+        name=None,
+        path=None,
+        link=None,
+        status=None,
+        item_id=None,
+        parent=None,
+        start=None,
+        end=None,
+        priority=None,
+        ismovable=None,
+        notes=None,
+        normaltime=None,
+        idealtime=None,
+        mintime=None,
+        maxtime=None,
+        interval=None,
+        duration=None,
+        cluster_size=None,
+        tags=None,
+        description=None,
+        alignend=None,
+        before=None,
+        after=None,
+    )
+    exp_item3 = NorgItem(
+        head=None,
+        name=None,
+        path=None,
+        link=None,
+        status=None,
+        item_id=None,
+        parent=None,
+        start=None,
+        end=None,
+        priority=None,
+        ismovable=None,
+        notes=None,
+        normaltime=None,
+        idealtime=None,
+        mintime=None,
+        maxtime=None,
+        interval=None,
+        duration=None,
+        cluster_size=None,
+        tags=None,
+        description=None,
+        alignend=None,
+        before=None,
+        after=None,
+    )
+    exp_item4 = NorgItem(
+        head=None,
+        name=None,
+        path=None,
+        link=None,
+        status=None,
+        item_id=None,
+        parent=None,
+        start=None,
+        end=None,
+        priority=None,
+        ismovable=None,
+        notes=None,
+        normaltime=None,
+        idealtime=None,
+        mintime=None,
+        maxtime=None,
+        interval=None,
+        duration=None,
+        cluster_size=None,
+        tags=None,
+        description=None,
+        alignend=None,
+        before=None,
+        after=None,
+    )
+    exp_item5 = NorgItem(
+        head=None,
+        name=None,
+        path=None,
+        link=None,
+        status=None,
+        item_id=None,
+        parent=None,
+        start=None,
+        end=None,
+        priority=None,
+        ismovable=None,
+        notes=None,
+        normaltime=None,
+        idealtime=None,
+        mintime=None,
+        maxtime=None,
+        interval=None,
+        duration=None,
+        cluster_size=None,
+        tags=None,
+        description=None,
+        alignend=None,
+        before=None,
+        after=None,
+    )
 
     exp_string1 = "\n" "\n" ""
     exp_string2 = "\n" "\n" ""
@@ -117,95 +242,95 @@ class NorgItemTest:
         assert True
 
     def test_name(self) -> None:
-        assert self.item1.name == ...
-        assert self.item2.name == ...
-        assert self.item3.name == ...
-        assert self.item4.name == ...
-        assert self.item5.name == ...
+        assert self.item1.name == ""
+        assert self.item2.name == ""
+        assert self.item3.name == ""
+        assert self.item4.name == ""
+        assert self.item5.name == ""
 
     def test_path(self) -> None:
-        assert self.item1.path == ...
-        assert self.item2.path == ...
-        assert self.item3.path == ...
-        assert self.item4.path == ...
-        assert self.item5.path == ...
+        assert self.item1.path == Path("")
+        assert self.item2.path == Path("")
+        assert self.item3.path == Path("")
+        assert self.item4.path == Path("")
+        assert self.item5.path == Path("")
 
     def test_link(self) -> None:
-        assert self.item1.link == ...
-        assert self.item2.link == ...
-        assert self.item3.link == ...
-        assert self.item4.link == ...
-        assert self.item5.link == ...
+        assert self.item1.link == ""
+        assert self.item2.link == ""
+        assert self.item3.link == ""
+        assert self.item4.link == ""
+        assert self.item5.link == ""
 
     def test_isdone(self) -> None:
         assert self.item1.isdone
         assert self.item2.isdone
-        assert self.item3.isdone
-        assert self.item4.isdone
+        assert not self.item3.isdone
+        assert not self.item4.isdone
         assert self.item5.isdone
 
     def test_status(self) -> None:
-        assert self.item1.status == ...
-        assert self.item2.status == ...
-        assert self.item3.status == ...
-        assert self.item4.status == ...
-        assert self.item5.status == ...
+        assert self.item1.status == "x"
+        assert self.item2.status == " "
+        assert self.item3.status == "?"
+        assert self.item4.status == "x"
+        assert self.item5.status == " "
 
     def test_segment_string(self) -> None:
-        assert self.item1.segment_string == ...
-        assert self.item2.segment_string == ...
-        assert self.item3.segment_string == ...
-        assert self.item4.segment_string == ...
-        assert self.item5.segment_string == ...
+        assert self.item1.segment_string == ""
+        assert self.item2.segment_string == ""
+        assert self.item3.segment_string == ""
+        assert self.item4.segment_string == ""
+        assert self.item5.segment_string == ""
 
     def test_start_date(self) -> None:
-        assert self.item1.start_date == ...
-        assert self.item2.start_date == ...
-        assert self.item3.start_date == ...
-        assert self.item4.start_date == ...
-        assert self.item5.start_date == ...
+        assert self.item1.start_date == PDate(0, 0, 0)
+        assert self.item2.start_date == PDate(0, 0, 0)
+        assert self.item3.start_date == PDate(0, 0, 0)
+        assert self.item4.start_date == PDate(0, 0, 0)
+        assert self.item5.start_date == PDate(0, 0, 0)
 
     def test_start_time(self) -> None:
-        assert self.item1.start_time == ...
-        assert self.item2.start_time == ...
-        assert self.item3.start_time == ...
-        assert self.item4.start_time == ...
-        assert self.item5.start_time == ...
+        assert self.item1.start_time == PTime(0, 0)
+        assert self.item2.start_time == PTime(0, 0)
+        assert self.item3.start_time == PTime(0, 0)
+        assert self.item4.start_time == PTime(0, 0)
+        assert self.item5.start_time == PTime(0, 0)
 
     def test_start_string(self) -> None:
-        assert self.item1.start_string == ...
-        assert self.item2.start_string == ...
-        assert self.item3.start_string == ...
-        assert self.item4.start_string == ...
-        assert self.item5.start_string == ...
+        assert self.item1.start_string == ""
+        assert self.item2.start_string == ""
+        assert self.item3.start_string == ""
+        assert self.item4.start_string == ""
+        assert self.item5.start_string == ""
 
     def test_end_date(self) -> None:
-        assert self.item1.end_date == ...
-        assert self.item2.end_date == ...
-        assert self.item3.end_date == ...
-        assert self.item4.end_date == ...
-        assert self.item5.end_date == ...
+        assert self.item1.end_date == PDate(0, 0, 0)
+        assert self.item2.end_date == PDate(0, 0, 0)
+        assert self.item3.end_date == PDate(0, 0, 0)
+        assert self.item4.end_date == PDate(0, 0, 0)
+        assert self.item5.end_date == PDate(0, 0, 0)
 
     def test_end_time(self) -> None:
-        assert self.item1.end_time == ...
-        assert self.item2.end_time == ...
-        assert self.item3.end_time == ...
-        assert self.item4.end_time == ...
-        assert self.item5.end_time == ...
+        assert self.item1.end_time == PTime(0, 0)
+        assert self.item2.end_time == PTime(0, 0)
+        assert self.item3.end_time == PTime(0, 0)
+        assert self.item4.end_time == PTime(0, 0)
+        assert self.item5.end_time == PTime(0, 0)
 
     def test_end_string(self) -> None:
-        assert self.item1.end_string == ...
-        assert self.item2.end_string == ...
-        assert self.item3.end_string == ...
-        assert self.item4.end_string == ...
-        assert self.item5.end_string == ...
+        assert self.item1.end_string == ""
+        assert self.item2.end_string == ""
+        assert self.item3.end_string == ""
+        assert self.item4.end_string == ""
+        assert self.item5.end_string == ""
 
     def test_convert_int(self) -> None:
-        assert NorgItem.convert_int() == ...
-        assert NorgItem.convert_int() == ...
-        assert NorgItem.convert_int() == ...
-        assert NorgItem.convert_int() == ...
-        assert NorgItem.convert_int() == ...
+        assert NorgItem.convert_int("6") == 6
+        assert NorgItem.convert_int("57") == 57
+        assert NorgItem.convert_int("-14") == -14
+        assert NorgItem.convert_int("0") == 0
+        assert NorgItem.convert_int("10000") == 10000
 
     def test_convert_bool(self) -> None:
         assert NorgItem.convert_bool(True) == True
@@ -216,11 +341,11 @@ class NorgItemTest:
         assert NorgItem.convert_bool("False") == False
 
     def test_convert_tags(self) -> None:
-        assert NorgItem.convert_tags() == ...
-        assert NorgItem.convert_tags() == ...
-        assert NorgItem.convert_tags() == ...
-        assert NorgItem.convert_tags() == ...
-        assert NorgItem.convert_tags() == ...
+        assert NorgItem.convert_tags("") == ...
+        assert NorgItem.convert_tags("") == ...
+        assert NorgItem.convert_tags("") == ...
+        assert NorgItem.convert_tags({"", ""}) == ...
+        assert NorgItem.convert_tags({""}) == ...
 
     def test_convert_tuple(self) -> None:
         assert NorgItem.convert_tuple("") == {""}
@@ -230,11 +355,11 @@ class NorgItemTest:
         assert NorgItem.convert_tuple(("", "")) == {"", ""}
 
     def test_convert_tupleset(self) -> None:
-        assert NorgItem.convert_tupleset() == ...
-        assert NorgItem.convert_tupleset() == ...
-        assert NorgItem.convert_tupleset() == ...
-        assert NorgItem.convert_tupleset() == ...
-        assert NorgItem.convert_tupleset() == ...
+        assert NorgItem.convert_tupleset("") == {"", ""}
+        assert NorgItem.convert_tupleset("") == {"", ""}
+        assert NorgItem.convert_tupleset("") == {"", ""}
+        assert NorgItem.convert_tupleset({("", "", "")}) == {""}
+        assert NorgItem.convert_tupleset({("", "", ""), ("", "", "")}) == {"", ""}
 
     def test_str(self) -> None:
         assert str(self.item1) == self.exp_string1
@@ -251,8 +376,8 @@ class NorgItemsTest:
     items1 = NorgItems.from_string(string1)
     items2 = NorgItems.from_string(string2)
 
-    exp_items1 = NorgItems(...)
-    exp_items2 = NorgItems(...)
+    exp_items1 = NorgItems()
+    exp_items2 = NorgItems()
 
     def test_init(self) -> None:
         assert self.exp_items1

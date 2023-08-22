@@ -1,3 +1,4 @@
+from typing import Set
 import pytest
 
 from planager.util.pdatetime import PTime
@@ -50,7 +51,7 @@ class PTimeTest:
 
         default = PTime(16, 57)
 
-        imp1 = {}
+        imp1: Set = set()
         imp2 = "65"
         imp3 = "other string"
         imp4 = 25

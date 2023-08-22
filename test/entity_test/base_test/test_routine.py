@@ -8,9 +8,9 @@ from planager.util.pdatetime.ptime import PTime
 
 
 class RoutineTest:
-    routine1 = Routine("")
-    routine2 = Routine("")
-    routine3 = Routine("")
+    routine1 = Routine("", start=PTime(0, 0))
+    routine2 = Routine("", start=PTime(0, 0))
+    routine3 = Routine("", start=PTime(0, 0))
 
     exp_string1 = "\n" "\n" "\n" "\n"
     exp_string2 = "\n" "\n" "\n" "\n"
@@ -31,18 +31,18 @@ class RoutineTest:
         assert not self.routine3.valid_on(PDate(0, 0, 0))
 
     def test_as_entry(self) -> None:
-        entry1 = Entry("", PTime())
-        entry2 = Entry("", PTime())
-        entry3 = Entry("", PTime())
+        entry1 = Entry("", PTime(0, 0))
+        entry2 = Entry("", PTime(0, 0))
+        entry3 = Entry("", PTime(0, 0))
 
-        assert self.routine1.as_entry()
-        assert self.routine2.as_entry()
-        assert self.routine3.as_entry()
+        assert self.routine1.as_entry() == entry1
+        assert self.routine2.as_entry() == entry2
+        assert self.routine3.as_entry(start=PTime(0, 0)) == entry3
 
     def test_as_task(self) -> None:
-        task1 = Task()
-        task2 = Task()
-        task3 = Task()
+        task1 = Task("", ("", "", ""))
+        task2 = Task("", ("", "", ""))
+        task3 = Task("", ("", "", ""))
 
         assert self.routine1.as_task()
         assert self.routine2.as_task()

@@ -13,9 +13,8 @@ class Entries:
     def copy(self) -> "Entries":
         return Entries((entry.copy() for entry in self._entries))
 
-    def slice(  # -> KEEP
-        self, __start: Optional[int], __stop: Optional[int]
-    ) -> "Entries":  # type-idempotent; use indexing to get a single entry
+    def slice(self, __start: Optional[int], __stop: Optional[int]) -> "Entries":
+        # type-idempotent; use indexing to get a single entry
         return Entries(entries=self._entries[__start:__stop])
 
     def insert(self, __index: int, __other: Entry) -> None:
@@ -30,12 +29,28 @@ class Entries:
     def index(self, __entry: Entry) -> int:
         return self._entries.index(__entry)
 
-    def pop(self, __index: int) -> Entry:
+    def pop(self, __index: int = -1) -> Entry:
         entry = self._entries.pop(__index)
         return entry
 
     @property
+    def start(self) -> PTime:
+        if not self._entries:
+            return PTime()
+        return min(self._entries, key=lambda x: x.start).start
+    
+    @property
+    def end(self) -> PTime:
+        if not self._entries:
+            return PTime(24)
+        return max(self._entries, key=lambda x: x.start).start
+    
+    @property
     def ispartitioned(self):
+        """
+        Check whether a list of entries partitions a day, i.e. are sequential and adjacent, begin at 00:00, and end 
+          at 24:00.
+        """
         if len(self._entries) == 1:
             adjacency = True
         else:
@@ -53,8 +68,7 @@ class Entries:
 
     def ensure_bookends(self) -> None:
         """
-        Verifies that the first and last entries in the schedule are the corresponding placeholder
-          entries.
+        Verifies that the first and last entries in the schedule are the corresponding placeholder entries.
         """
         if not self._entries[0] == FIRST_ENTRY:
             self._entries.insert(0, FIRST_ENTRY)
@@ -62,13 +76,22 @@ class Entries:
             self.append(LAST_ENTRY)
 
     def get_overlaps(self, entry: Entry) -> "Entries":
+        """
+        Return an instance of Entries containing all entries that overlap with the query entry.
+        """
         return Entries(filter(lambda x: entry.overlaps(x), self._entries))
 
     def overlaps_are_movable(self, entry: Entry) -> bool:
+        """
+        Check whether the entries that overlap with the query entry are all movable.
+        """
         overlaps = self.get_overlaps(entry)
         return all(map(lambda x: x.ismovable, overlaps))
 
-    def get_fixed_groups(self) -> List[Tuple["Entries", PTime, PTime]]:
+    def get_fixed_groups(self) -> List["Entries"]:
+        """
+        Return a list of Entries instances, each of which constitutes an immovable block.
+        """
         ret: List = []
         entries_fixed, _ = self.get_fixed_and_flex()
         fixed_indices = list(map(lambda entry: self.index(entry), entries_fixed))
@@ -78,15 +101,14 @@ class Entries:
         for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
             group: Entries = self.slice(a, b).copy()
             if group:
-                start: PTime = group[0].start
-                ret.append([group, start, PTime()])
-        for i in range(len(ret) - 1):
-            ret[i][2] = ret[i + 1][1]
-        if ret:
-            ret[0][1], ret[-1][2] = PTime(0), PTime(24)
-        return [(a, b, c) for a, b, c in ret]
+                ret.append(group)
+        return ret
 
     def get_fixed_and_flex(self) -> Tuple["Entries", "Entries"]:
+        """
+        Returns two instances of Entries containing, respectively, the fixed (immovable) and flex (movable) entries
+          contained in the current instance.
+        """
         entries_fixed = Entries(
             sorted(
                 list(filter(lambda x: not x.ismovable, self._entries)),
@@ -101,9 +123,11 @@ class Entries:
         )
         return entries_fixed, entries_flex
 
-    def get_inds_of_relevant_blocks(
-        self, entry: Entry
-    ) -> List[int]:
+    def get_inds_of_relevant_blocks(self, entry: Entry) -> List[int]:
+        """
+        For the given query entry, return the indices of the entries with blocks matching the query entry's categories,
+          i.e. the indices of the entries over which the query entry can be added.
+        """
         categories: set = entry.categories
 
         def check(entry_: Entry) -> bool:
@@ -114,19 +138,26 @@ class Entries:
 
     def add_to_block_by_index(
         self, entry: Entry, block_ind: int
-    ) -> None:  # REWRITE WITH .insert()
+    ) -> None:  # REWRITE WITH .insert() (?)
+        """
+        Add the input entry 'on top of' the entry corresponding to the given index.
+        """
         new_entries = Entries.add_over_block(entry, self[block_ind])
         self._entries = list(
-            self.slice(None, block_ind)
-            + new_entries
-            + self.slice(block_ind + 1, None)
+            self.slice(None, block_ind) + new_entries + self.slice(block_ind + 1, None)
         )
 
     def entry_list_fits(self) -> bool:
+        """
+        Check whether the sum of minimum durations of all entries fits in a single day.
+        """
         return sum(map(lambda x: x.mintime, self._entries)) < (24 * 60)
 
     def get_gaps(self) -> List[Empty]:
-        pairs = zip(self._entries[None: -1], self._entries[1: None])
+        """
+        Return a list of empty entries corresponding to the times which are not yet occupied.
+        """
+        pairs = zip(self._entries[None:-1], self._entries[1:None])
         return list(
             filter(
                 lambda x: x.duration > 0,
@@ -140,6 +171,10 @@ class Entries:
         priority_weighter: Callable[[Union[int, float]], float],
         compression_factor: float = 1.0,
     ) -> None:
+        """
+        Takes a list of entries and adds them to entries by filling in gaps according to priority and front-to-back
+          (i.e. back-to-front for entries where entry.alignend is True).
+        """
         while flex_entries:
             flex = flex_entries.pop(0)
             gaps = self.get_gaps()
@@ -165,19 +200,27 @@ class Entries:
         priority_weighter: Callable[[Union[int, float]], float],
     ) -> None:
         """
-        Adjusts each sequence of entries (type Entries) between two fixed points to fit consecutively between them.
+        Adjusts each sequence of entries (type Entries) between two fixed points to fit consecutively between them, 
+          using priority weighting to determine time allocation.
         """
-        ret: Entries = Entries()
-        groups = self.get_fixed_groups()
-        for group, start, end in groups:
-            smoothed: Entries = self.smooth_entries(group, start, end, priority_weighter)
-            ret.extend(smoothed)
-        self._entries = list(ret)
+        result: Entries = Entries()
+        fixed, flex = self.get_fixed_and_flex()
+        before_after_dict = {flex_group: (
+            max(filter(lambda x: x.end <= flex_group.start, fixed), key=lambda x: x.start), 
+            min(filter(lambda x: x.start >= flex_group.end, fixed), key=lambda x: x.start)
+        ) for flex_group in flex} # could be simplified with more methods of Entries
+        for flex_group, (fixed_before, fixed_after) in before_after_dict.items():
+            result.extend(fixed_before)
+            result.extend(self.smooth_entries(flex_group, fixed_before.end, fixed_after.start, priority_weighter))
+        result.extend(fixed_after)
+        self._entries = list(result)[1:-1]
 
     @staticmethod
-    def add_over_block(
-        entry: Entry, block: Entry
-    ) -> "Entries":
+    def add_over_block(entry: Entry, block: Entry) -> "Entries":
+        """
+        Adds an entry on top of another entry which acts as a block (i.e. which accepts other entries inside it), 
+          returning an instance of Entries containing 
+        """
         entry_dur = entry.duration
         entry.start = block.start
         entry.end = min(block.end, block.start + entry_dur)
@@ -187,49 +230,58 @@ class Entries:
     @staticmethod
     def smooth_entries(
         entries: "Entries",
-        start: PTime,
-        end: PTime,
+        _start: PTime,
+        _end: PTime,
         priority_weighter: Callable[[Union[int, float]], float],
     ) -> "Entries":
-
-        total = start.timeto(end)
+        """
+        Takes an instance of Entries and ensures that it fits smoothly between _start and _end.
+        """
+        total = _start.timeto(_end)
         underfilled = sum(map(lambda x: x.maxtime, entries)) < total
-        
+
         if underfilled:
-            entries.smooth_underfilled(start, end)
+            entries.smooth_underfilled(_start, _end)
             return entries
 
-        entries.adjust_weighted(start, end, priority_weighter)
-        entries.ensure_fits(start, end)
+        entries.adjust_weighted(_start, _end, priority_weighter)
+        entries.ensure_fits(_start, _end)
 
-                                                                                # TODO: add safeguard to respect mintime and maxtime
+        # TODO: add safeguard to respect mintime and maxtime
         return entries
-    
-    def smooth_underfilled(                                                     # move to Entries as method
-        _entries: "Entries", _start: PTime, _end: PTime
+
+    def smooth_underfilled(
+        self, _start: PTime, _end: PTime
     ) -> None:
-        ret: Entries = Entries()
-        time_tmp = _entries[0].start.copy()
-        for entry in _entries:
+        """
+        Allocate entries sequentially and without gaps, except at the end.
+        """
+        result: Entries = Entries()
+        time_tmp = _start.copy()
+        for entry in self._entries:
             entry.start = time_tmp.copy()
             time_tmp += entry.duration
             entry.end = time_tmp.copy()
-            ret.append(entry)
-        empty = Empty(start=ret[-1].end, end=_end)
-        ret.append(empty)
+            result.append(entry)
+        empty = Empty(start=result[-1].end, end=_end)
+        result.append(empty)
+        self._entries = result
 
-    def adjust_weighted(                                                        # move to Entries as method
-        _entries: "Entries",
+    def adjust_weighted(
+        self,
         _start: PTime,
         _end: PTime,
         priority_weighter: Callable[[Union[int, float]], float],
     ) -> None:
-        ret: Entries = Entries()
-        time_tmp = _entries[0].start.copy()
-        total_duration = sum(map(Entry.duration, _entries))
+        """
+        Fit the current entries between _start and _end, using priority weighting.
+        """
+        result: Entries = Entries()
+        time_tmp = self._entries[0].start.copy()
+        total_duration = sum(map(Entry.duration, self._entries))
         total = _start.timeto(_end)
         ratio = total / total_duration
-        for entry in _entries:
+        for entry in self._entries:
             duration: int = entry.duration
             weight = priority_weighter(entry.priority)
             duration = max(
@@ -238,11 +290,13 @@ class Entries:
             entry.start = time_tmp.copy()
             time_tmp += duration
             entry.end = time_tmp.copy()
-            ret.append(entry)
+            result.append(entry)
+        self._entries = result
 
-    def ensure_fits(                                                            # move to Entries as method
-        self, _start: PTime, _end: PTime
-    ) -> None:
+    def ensure_fits(self, _start: PTime, _end: PTime) -> None:
+        """
+        Makes the current entries fit exactly between _start and _end.
+        """
         total = _start.timeto(_end)
         total_duration = sum(map(Entry.duration, self._entries))
         ratio = total / total_duration
@@ -258,7 +312,9 @@ class Entries:
         total_duration = sum(lengths)
         diff = total - total_duration
         extremum = min if (diff > 0) else max
-        ind_to_adjust = self._entries.index(extremum(self._entries, key=lambda x: x.priority))
+        ind_to_adjust = self._entries.index(
+            extremum(self._entries, key=lambda x: x.priority)
+        )
         self._entries[ind_to_adjust].end += diff
         for ind in range(ind_to_adjust + 1, len(self._entries)):
             self._entries[ind].start += diff
@@ -267,13 +323,16 @@ class Entries:
     def __iter__(self) -> Iterator[Entry]:
         return iter(self._entries)
 
-    def __getitem__(self, __index: int) -> Entry:
+    def __getitem__(self, __index: Tuple[str, str, str]) -> Entry:
         return self._entries[__index]
 
     def __len__(self) -> int:
         return len(self._entries)
 
     def __add__(self, __other: Union["Entries", Entry, List[Entry]]) -> "Entries":
+        """
+        An instance of Entries can be added (left or right) to another instance of Entries or to an instance of Entry.
+        """
         if isinstance(__other, Entries) or isinstance(__other, list):
             return Entries(self._entries + list(__other))
         elif isinstance(__other, Entry):

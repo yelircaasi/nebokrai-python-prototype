@@ -19,7 +19,10 @@ class Day:
         self.routines = routines
 
     def copy(self) -> "Day":
-        return Day(self.date.copy(), self.entries.copy(), self.max_load, self.routines.copy())
+        return Day(
+            self.date.copy(), self.entries.copy(), self.max_load, self.routines.copy()
+        )
+
 
 class Calendar:
     def __init__(self) -> None:

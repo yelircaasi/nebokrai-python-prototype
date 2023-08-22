@@ -30,8 +30,8 @@ class NorgItemHeadTest:
     exp_string9 = ""
 
     def test_init(self) -> None:
-        head1 = NorgItemHead()
-        head2 = NorgItemHead()
+        head1 = NorgItemHead("")
+        head2 = NorgItemHead("")
 
         assert head1
         assert head2
@@ -53,8 +53,8 @@ class NorgItemHeadTest:
         assert self.head9
 
     def test_path_setter(self) -> None:
-        head1 = NorgItemHead(...)
-        head2 = NorgItemHead(...)
+        head1 = NorgItemHead("")
+        head2 = NorgItemHead("")
 
         path1 = Path("...")
         path2 = Path("...")

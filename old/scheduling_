@@ -1,4 +1,4 @@
-"""
+'''
 from typing import List, Tuple, Union
 
 from ...entity import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
@@ -168,7 +168,7 @@ def compress_weighted(
 
 
 def entries_fit(entries: List[Entry], start: PTime, stop: PTime) -> bool:
-    """
+    ""#"
     Indicates whether the total combined minimum duration of a list of entries
       fits within a time range.
     """
@@ -357,3 +357,4 @@ def add_entry_default(
     func = add_movable if entry.ismovable else add_immovable
     return func(entry, schedule)
 """
+'''

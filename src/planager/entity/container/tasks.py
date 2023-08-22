@@ -6,8 +6,14 @@ from ..base.task import Task
 
 
 class Tasks:
-    def __init__(self, tasks: Union[Dict[Tuple[str, str, str], Task], List[Task]] = {}) -> None:
-        self._tasks: Dict[Tuple[str, str, str], Task] = dict(map(lambda task: (task.task_id, task), tasks)) if isinstance(tasks, List) else tasks
+    def __init__(
+        self, tasks: Union[Dict[Tuple[str, str, str], Task], List[Task]] = {}
+    ) -> None:
+        self._tasks: Dict[Tuple[str, str, str], Task] = (
+            dict(map(lambda task: (task.task_id, task), tasks))
+            if isinstance(tasks, List)
+            else tasks
+        )
 
     @classmethod
     def from_string_iterable(

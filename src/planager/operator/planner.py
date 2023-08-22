@@ -18,6 +18,12 @@ SubplanType = Dict[PDate, List[Tuple[str, str, str]]]
 
 
 class Planner:
+    """
+    Class that handles creation of the one instance of `Plan`.
+
+    Not yet implemented:
+    * functionality for breaking up and reallocating clusters. -> Happens automatically?
+    """
     def __init__(self, config: Optional[ConfigType] = None):
         self.config = config
         self.patch_plan = PlanPatcher(config)
@@ -30,13 +36,21 @@ class Planner:
         task_patches: Optional[TaskPatches] = None,
         plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
+        """
+        Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar, as well as task_patches 
+          and plan_patches. Designed to be:
+          * declarative (user says what rather than how)
+          * pure (no side effects)
+          * deterministic (same input -> same output)
+          This makes the automated planning process predictable and transparent.
+        """
         plan = Plan(
             config=self.config,
             calendar=calendar,
         )
         projects = roadmaps.get_projects()
         projects.patch_tasks(task_patches)
-        projects.order_by_dependency()
+        #projects.order_by_dependency()
 
         for project in projects:
             subplan: SubplanType = self.get_subplan_from_project(project, calendar)
@@ -47,13 +61,14 @@ class Planner:
 
         return plan
 
-    def get_subplan_from_project( # move to Plan?
+    def get_subplan_from_project(  # move to Plan?
         self,
         project: Project,
         calendar: Calendar,
     ) -> SubplanType:
         """
-        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged with
+        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged into the 
+          instance of `Plan`.
         """
 
         clusters: ClusterType = self.cluster_task_ids(
@@ -64,7 +79,7 @@ class Planner:
         return subplan
 
     @staticmethod
-    def cluster_task_ids( # move to Plan?
+    def cluster_task_ids(  # move to Plan?
         task_ids: List[Tuple[str, str, str]], cluster_size: int
     ) -> ClusterType:
         """
@@ -78,7 +93,7 @@ class Planner:
         return ret
 
     @staticmethod
-    def allocate_in_time( # move to Plan?
+    def allocate_in_time(  # move to Plan?
         clusters: ClusterType,
         project: Project,
     ) -> SubplanType:

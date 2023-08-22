@@ -31,8 +31,8 @@ class RegexesTest:
 
         exp1 = ("title: title", "\nbody here\nanother line")
 
-        rs = re.search(Regexes.header_and_body, s1).groups()
-        assert rs and (rs  == exp1)
+        rs = re.search(Regexes.header_and_body, s1)
+        assert rs and (rs.groups() == exp1)
 
     def test_link_namefirst(self) -> None:
         s1 = "[name]{:link:}"
@@ -47,11 +47,11 @@ class RegexesTest:
         )
 
         rs = re.search(Regexes.link_namefirst, s1)
-        assert rs and (rs.groups()  == exp1)
+        assert rs and (rs.groups() == exp1)
         rs = re.search(Regexes.link_namefirst, s2)
-        assert rs and (rs.groups()  == exp2)
+        assert rs and (rs.groups() == exp2)
         rs = re.search(Regexes.link_namefirst, s3)
-        assert rs and (rs.groups()  == exp3)
+        assert rs and (rs.groups() == exp3)
 
     def test_attribute_pair(self) -> None:
         s1 = "   -- att_name: att_val  "
@@ -61,9 +61,12 @@ class RegexesTest:
         exp1 = ("att_name", "att_val")
         exp3 = ("att_name", "att_val with spaces")
 
-        assert re.search(Regexes.attribute_pair, s1).groups() == exp1
-        assert re.search(Regexes.attribute_pair, s2).groups() == exp1
-        assert re.search(Regexes.attribute_pair, s3).groups() == exp3
+        rs = re.search(Regexes.attribute_pair, s1)
+        assert rs and (rs.groups() == exp1)
+        rs = re.search(Regexes.attribute_pair, s2)
+        assert rs and (rs.groups() == exp1)
+        rs = re.search(Regexes.attribute_pair, s3)
+        assert rs and (rs.groups() == exp3)
 
     def test_name_and_segments(self) -> None:
         s1 = "  name here  ||  1-10, A   \n\n"

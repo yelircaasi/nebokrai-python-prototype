@@ -59,7 +59,7 @@ class Roadmap:
             updated=self.updated,
             categories=self.categories,
         )
-    
+
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"

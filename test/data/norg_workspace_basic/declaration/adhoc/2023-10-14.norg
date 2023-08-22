@@ -1,0 +1,25 @@
+@document.meta
+title: Ad Hoc Schedule Items 2023-10-13
+description: 
+categories: 
+id: 103
+parent: -1
+updated: 2023-06-15 09:00:00
+author: yelircaasi
+@end
+
+
+* File taxes
+  - start:     10:00
+  - duration:  90
+  - due:       2023-06-14-18:00
+  - priority:  100
+
+* Book plane tickets
+  - duration:  15
+  - due:       2023-06-15
+  - priority:  70
+
+* Medical check-up
+  - start: 
+  

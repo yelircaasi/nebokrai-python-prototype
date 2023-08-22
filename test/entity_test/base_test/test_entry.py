@@ -30,12 +30,12 @@ class EntryTest:
         priority=95,
         normaltime=30,
         idealtime=40,
-        mintime=50,
+        mintime=20,
         alignend=False,
         order=50,
     )
     entry_430_630 = Entry(  # 'elif start and end' -> normaltime 120
-        "Entry3",
+        "Entry 3",
         start=PTime(4, 30),
         end=PTime(6, 30),
         priority=0,
@@ -60,7 +60,7 @@ class EntryTest:
         end=PTime(10, 30),
         ismovable=True,
         notes="some basic notes",
-        mintime=120,
+        mintime=105,
         alignend=False,
         order=20,
     )
@@ -71,12 +71,12 @@ class EntryTest:
         priority=30,
         ismovable=False,
         blocks={"block1", "block2", "block3", "block4"},
-        maxtime=360,
+        maxtime=420,
         order=45,
     )
     entry_0_030 = Entry("random name", PTime(0))  # 'else'
     # []
-    exp_string1 = (
+    exp_string_0_5 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 00:00-05:00 │ First Entry                                                    ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
@@ -91,16 +91,16 @@ class EntryTest:
         "┃ alignend:     true                                                           ┃\n"
         "┃ order:        80                                                             ┃\n"
     )
-    exp_string2 = (
+    exp_string_430_5 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 04:30-05:00 │ Entry 2                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
         "┃ priority:     95                                                             ┃\n"
         "┃ idealtime:    40                                                             ┃\n"
-        "┃ mintime:      50                                                             ┃\n"
+        "┃ mintime:      20                                                             ┃\n"
         "┃ maxtime:      60                                                             ┃\n"
     )
-    exp_string3 = (
+    exp_string_430_630 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 04:30-06:30 │ Entry 3                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
@@ -113,7 +113,7 @@ class EntryTest:
         "┃                 that take space; long placeholder notes here that take       ┃\n"
         "┃                 space;                                                       ┃\n"
     )
-    exp_string4 = (
+    exp_string_5_520 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 05:00-05:20 │ Entry 4                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
@@ -123,15 +123,15 @@ class EntryTest:
         "┃                 text, !@#$#@%#^$, just some placeholder text, !@#$#@%#^$     ┃\n"
         "┃ alignend:     true                                                           ┃\n"
     )
-    exp_string5 = (
+    exp_string_7_1030_a = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 07:00-10:30 │ Entry 5                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
         "┃ notes:        some basic notes                                               ┃\n"
-        "┃ mintime:      120                                                            ┃\n"
+        "┃ mintime:      105                                                            ┃\n"
         "┃ order:        20                                                             ┃\n"
     )
-    exp_string6 = (
+    exp_string_7_1030_b = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 07:00-10:30 │ Entry 6                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
@@ -141,7 +141,7 @@ class EntryTest:
         "┃ maxtime:      360                                                            ┃\n"
         "┃ order:        45                                                             ┃\n"
     )
-    exp_string7 = (
+    exp_string_0_030 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 00:00-00:30 │ random name                                                    ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
@@ -151,9 +151,9 @@ class EntryTest:
     def test_init(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.name == "First Entry"
         assert self.entry_0_5.start == PTime(0)
@@ -161,7 +161,12 @@ class EntryTest:
         assert self.entry_0_5.priority == 70
         assert self.entry_0_5.ismovable == True
         assert self.entry_0_5.blocks == {"block 1", "block 2", "block 3", "block 4"}
-        assert self.entry_0_5.categories == {"category 1", "category 2", "category 3"}
+        assert self.entry_0_5.categories == {
+            "category 1",
+            "category 2",
+            "category 3",
+            "wildcard",
+        }
         assert self.entry_0_5.notes == "notes on entry 1"
         assert self.entry_0_5.normaltime == 270
         assert self.entry_0_5.idealtime == 330
@@ -176,12 +181,12 @@ class EntryTest:
         assert self.entry_430_5.priority == 95
         assert self.entry_430_5.ismovable == True
         assert self.entry_430_5.blocks == set()
-        assert self.entry_430_5.categories == set()
+        assert self.entry_430_5.categories == {"wildcard"}
         assert self.entry_430_5.notes == ""
         assert self.entry_430_5.normaltime == 30
-        assert self.entry_430_5.idealtime == 35
+        assert self.entry_430_5.idealtime == 40
         assert self.entry_430_5.mintime == 20
-        assert self.entry_430_5.maxtime == 40
+        assert self.entry_430_5.maxtime == 60
         assert self.entry_430_5.alignend == False
         assert self.entry_430_5.order == 50
 
@@ -191,10 +196,10 @@ class EntryTest:
         assert self.entry_430_630.priority == 0
         assert self.entry_430_630.ismovable == True
         assert self.entry_430_630.blocks == {"block 1", "block 2"}
-        assert self.entry_430_630.categories == {"category 1", "category 2"}
+        assert self.entry_430_630.categories == {"category 1", "category 2", "wildcard"}
         assert (
             self.entry_430_630.notes
-            == 5 * "long placeholder notes here that take lots of space; "
+            == 5 * "long placeholder notes here that take space; "
         )
         assert self.entry_430_630.normaltime == 120
         assert self.entry_430_630.idealtime == 180
@@ -208,9 +213,12 @@ class EntryTest:
         assert self.entry_5_520.end == PTime(5, 20)
         assert self.entry_5_520.priority == 0
         assert self.entry_5_520.ismovable == False
-        assert self.entry_5_520.blocks == {"category 3"}
-        assert self.entry_5_520.categories == set()
-        assert self.entry_5_520.notes == 3 * "just some placeholder text, !@#$#@%#^$, "
+        assert self.entry_5_520.blocks == set()
+        assert self.entry_5_520.categories == {"category 3", "wildcard"}
+        assert (
+            self.entry_5_520.notes
+            == 3 * "just some placeholder text, !@#$#@%#^$, "[:-2]
+        )
         assert self.entry_5_520.normaltime == 20
         assert self.entry_5_520.idealtime == 30
         assert self.entry_5_520.mintime == 10
@@ -224,7 +232,7 @@ class EntryTest:
         assert self.entry_7_1030_a.priority == 10
         assert self.entry_7_1030_a.ismovable == True
         assert self.entry_7_1030_a.blocks == set()
-        assert self.entry_7_1030_a.categories == set()
+        assert self.entry_7_1030_a.categories == {"wildcard"}
         assert self.entry_7_1030_a.notes == "some basic notes"
         assert self.entry_7_1030_a.normaltime == 210
         assert self.entry_7_1030_a.idealtime == 315
@@ -239,7 +247,7 @@ class EntryTest:
         assert self.entry_7_1030_b.priority == 30
         assert self.entry_7_1030_b.ismovable == False
         assert self.entry_7_1030_b.blocks == {"block1", "block2", "block3", "block4"}
-        assert self.entry_7_1030_b.categories == set()
+        assert self.entry_7_1030_b.categories == {"wildcard"}
         assert self.entry_7_1030_b.notes == ""
         assert self.entry_7_1030_b.normaltime == 210
         assert self.entry_7_1030_b.idealtime == 315
@@ -252,9 +260,9 @@ class EntryTest:
         assert self.entry_0_030.start == PTime()
         assert self.entry_0_030.end == PTime(0, 30)
         assert self.entry_0_030.priority == 10
-        assert self.entry_0_030.ismovable == False
+        assert self.entry_0_030.ismovable == True
         assert self.entry_0_030.blocks == set()
-        assert self.entry_0_030.categories == set()
+        assert self.entry_0_030.categories == {"wildcard"}
         assert self.entry_0_030.notes == ""
         assert self.entry_0_030.normaltime == 30
         assert self.entry_0_030.idealtime == 45
@@ -266,9 +274,9 @@ class EntryTest:
     def test_copy(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         copy1 = self.entry_0_5.copy()
         assert self.entry_0_5 == copy1
@@ -278,9 +286,9 @@ class EntryTest:
     def test_duration(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.duration == 300
         assert self.entry_430_5.duration == 30
@@ -293,9 +301,9 @@ class EntryTest:
     def test_timespan(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.timespan == (PTime(0), PTime(5))
         assert self.entry_430_5.timespan == (PTime(4, 30), PTime(5))
@@ -308,9 +316,9 @@ class EntryTest:
     def test_as_norg(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         path1 = Path("")
         path2 = Path("")
@@ -376,9 +384,9 @@ class EntryTest:
     def test_as_json(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert True
 
@@ -386,18 +394,18 @@ class EntryTest:
     def test_as_html(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert True
 
     def test_hasmass(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.hasmass()
         assert self.entry_430_5.hasmass()
@@ -410,9 +418,9 @@ class EntryTest:
     def test_isbefore(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.isbefore(self.entry_5_520)
         assert self.entry_430_5.isbefore(self.entry_5_520)
@@ -425,9 +433,9 @@ class EntryTest:
     def test_isafter(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert not self.entry_0_5.isafter(self.entry_0_030)
         assert not self.entry_430_5.isafter(self.entry_0_5)
@@ -439,9 +447,9 @@ class EntryTest:
     def test_isbefore_by_start(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.isbefore_by_start(self.entry_430_5)
         assert not self.entry_430_5.isbefore_by_start(self.entry_430_630)
@@ -454,9 +462,9 @@ class EntryTest:
     def test_isafter_by_start(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert not self.entry_0_5.isafter_by_start(self.entry_0_030)
         assert self.entry_430_5.isafter_by_start(self.entry_0_5)
@@ -469,9 +477,9 @@ class EntryTest:
     def test_overlaps(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.overlaps(self.entry_430_5)
         assert self.entry_0_5.overlaps(self.entry_430_630)
@@ -485,9 +493,9 @@ class EntryTest:
     def test_overlaps_first(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_030.overlaps_first(self.entry_0_5)
         assert self.entry_0_5.overlaps_first(self.entry_430_5)
@@ -499,9 +507,9 @@ class EntryTest:
     def test_overlaps_second(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.overlaps_second(self.entry_0_030)
         assert self.entry_430_5.overlaps_second(self.entry_0_5)
@@ -513,9 +521,9 @@ class EntryTest:
     def test_surrounds(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_430_630.surrounds(self.entry_430_5)
         assert self.entry_430_630.surrounds(self.entry_5_520)
@@ -530,9 +538,9 @@ class EntryTest:
     def test_surrounded_by(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_430_630.surrounded_by(self.entry_430_5)
         assert self.entry_430_5.surrounded_by(self.entry_0_5)
@@ -551,9 +559,9 @@ class EntryTest:
     def test_shares_start_shorter(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_030.shares_start_shorter(self.entry_0_5)
         assert self.entry_430_5.shares_start_shorter(self.entry_430_630)
@@ -565,9 +573,9 @@ class EntryTest:
     def test_shares_start_longer(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_430_630.shares_start_longer(self.entry_430_5)
         assert not self.entry_430_5.shares_start_longer(self.entry_430_630)
@@ -576,9 +584,9 @@ class EntryTest:
     def test_shares_end_shorter(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_430_5.shares_end_shorter(self.entry_0_5)
         assert not self.entry_0_5.shares_end_shorter(self.entry_430_5)
@@ -587,9 +595,9 @@ class EntryTest:
     def test_shares_end_longer(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.shares_end_longer(self.entry_430_5)
         assert not self.entry_430_5.shares_end_longer(self.entry_430_630)
@@ -598,9 +606,9 @@ class EntryTest:
     def test_covers(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_5.covers(self.entry_0_030)
         assert self.entry_0_5.covers(self.entry_430_5)
@@ -618,9 +626,9 @@ class EntryTest:
     def test_iscovered(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.entry_0_030.iscovered(self.entry_0_5)
         assert self.entry_430_5.iscovered(self.entry_0_5)
@@ -638,9 +646,9 @@ class EntryTest:
     def test_trumps(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert not self.entry_0_5.trumps(self.entry_430_5)
         assert not self.entry_430_5.trumps(self.entry_0_5)
@@ -653,9 +661,9 @@ class EntryTest:
     def test_fits_in(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert not self.entry_0_5.fits_in(self.entry_430_5)
         assert self.entry_430_5.fits_in(self.entry_0_5)
@@ -666,9 +674,9 @@ class EntryTest:
     def test_accommodates(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert not self.entry_430_5.accommodates(self.entry_0_5)
         assert self.entry_0_5.accommodates(self.entry_430_5)
@@ -679,24 +687,24 @@ class EntryTest:
     def test_pretty(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
-        assert self.entry_0_5.pretty() == self.exp_string1
-        assert self.entry_430_5.pretty() == self.exp_string2
-        assert self.entry_430_630.pretty() == self.exp_string3
-        assert self.entry_5_520.pretty() == self.exp_string4
-        assert self.entry_7_1030_a.pretty() == self.exp_string5
-        assert self.entry_7_1030_b.pretty() == self.exp_string6
-        assert self.entry_0_030.pretty() == self.exp_string7
+        assert self.entry_0_5.pretty() == self.exp_string_0_5
+        assert self.entry_430_5.pretty() == self.exp_string_430_5
+        assert self.entry_430_630.pretty() == self.exp_string_430_630
+        assert self.entry_5_520.pretty() == self.exp_string_5_520
+        assert self.entry_7_1030_a.pretty() == self.exp_string_7_1030_a
+        assert self.entry_7_1030_b.pretty() == self.exp_string_7_1030_b
+        assert self.entry_0_030.pretty() == self.exp_string_0_030
 
     def test_eq(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         dup1 = Entry(
             "First Entry",
@@ -742,7 +750,7 @@ class EntryTest:
         assert self.entry_5_520 == self.entry_5_520.copy()
         assert self.entry_7_1030_a == self.entry_7_1030_a.copy()
         assert self.entry_7_1030_b == self.entry_7_1030_b.copy()
-        assert self.entry_0_030 == Entry("random name")
+        assert self.entry_0_030 == Entry("random name", PTime())
 
         assert self.entry_0_5 == dup1
         assert self.entry_430_5 == dup2
@@ -755,32 +763,32 @@ class EntryTest:
     def test_str(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
-        assert str(self.entry_0_5) == self.exp_string1
-        assert str(self.entry_430_5) == self.exp_string2
-        assert str(self.entry_430_630) == self.exp_string3
-        assert str(self.entry_5_520) == self.exp_string4
-        assert str(self.entry_7_1030_a) == self.exp_string5
-        assert str(self.entry_7_1030_b) == self.exp_string6
-        assert str(self.entry_0_030) == self.exp_string7
+        assert str(self.entry_0_5) == self.exp_string_0_5
+        assert str(self.entry_430_5) == self.exp_string_430_5
+        assert str(self.entry_430_630) == self.exp_string_430_630
+        assert str(self.entry_5_520) == self.exp_string_5_520
+        assert str(self.entry_7_1030_a) == self.exp_string_7_1030_a
+        assert str(self.entry_7_1030_b) == self.exp_string_7_1030_b
+        assert str(self.entry_0_030) == self.exp_string_0_030
 
     def test_repr(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
-        assert repr(self.entry_0_5) == self.exp_string1
-        assert repr(self.entry_430_5) == self.exp_string2
-        assert repr(self.entry_430_630) == self.exp_string3
-        assert repr(self.entry_5_520) == self.exp_string4
-        assert repr(self.entry_7_1030_a) == self.exp_string5
-        assert repr(self.entry_7_1030_b) == self.exp_string6
-        assert repr(self.entry_0_030) == self.exp_string7
+        assert repr(self.entry_0_5) == self.exp_string_0_5
+        assert repr(self.entry_430_5) == self.exp_string_430_5
+        assert repr(self.entry_430_630) == self.exp_string_430_630
+        assert repr(self.entry_5_520) == self.exp_string_5_520
+        assert repr(self.entry_7_1030_a) == self.exp_string_7_1030_a
+        assert repr(self.entry_7_1030_b) == self.exp_string_7_1030_b
+        assert repr(self.entry_0_030) == self.exp_string_0_030
 
 
 class EmptyTest:
@@ -789,9 +797,9 @@ class EmptyTest:
     def test_init(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.empty.start == PTime(5)
         assert self.empty.end == PTime(7, 30)
@@ -803,9 +811,9 @@ class EmptyTest:
 def test_FIRST_ENTRY() -> None:
     """
     Cases:
-    1) 
-    2) 
-    3) 
+    1)
+    2)
+    3)
     """
     assert FIRST_ENTRY.start == PTime(0, 0)
     assert FIRST_ENTRY.end == PTime(0, 0)
@@ -817,9 +825,9 @@ def test_FIRST_ENTRY() -> None:
 def test_LAST_ENTRY() -> None:
     """
     Cases:
-    1) 
-    2) 
-    3) 
+    1)
+    2)
+    3)
     """
     assert LAST_ENTRY.start == PTime(24, 0)
     assert LAST_ENTRY.end == PTime(24, 0)

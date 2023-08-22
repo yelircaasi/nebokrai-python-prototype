@@ -13,9 +13,9 @@ class DayTest:
     def test_init(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.day1
         assert self.day2
@@ -34,9 +34,9 @@ class CalendarTest:
     def test_init(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.calendar1
         assert self.calendar2
@@ -45,9 +45,9 @@ class CalendarTest:
     def test_copy(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.calendar1.copy() == self.calendar1
         assert self.calendar2.copy() == self.calendar2
@@ -60,9 +60,9 @@ class CalendarTest:
     def test_add(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         cal1 = self.calendar1.copy()
         cal2 = self.calendar1.copy()
@@ -83,9 +83,9 @@ class CalendarTest:
     def test_from_norg_workspace(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert Calendar.from_norg_workspace(Path()) == self.calendar1
         assert Calendar.from_norg_workspace(Path()) == self.calendar2
@@ -94,9 +94,9 @@ class CalendarTest:
     def test_start_date(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.calendar1.start_date == PDate(0, 0, 0)
         assert self.calendar2.start_date == PDate(0, 0, 0)
@@ -105,9 +105,9 @@ class CalendarTest:
     def test_end_date(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert self.calendar1.end_date == PDate(0, 0, 0)
         assert self.calendar2.end_date == PDate(0, 0, 0)
@@ -116,20 +116,20 @@ class CalendarTest:
     def test_getitem(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
-        assert self.calendar1[2] == Day(PDate(0, 0, 0))
-        assert self.calendar2[4] == Day(PDate(0, 0, 0))
-        assert self.calendar3[-1] == Day(PDate(0, 0, 0))
+        assert self.calendar1[PDate(0, 0, 0)] == Day(PDate(0, 0, 0))
+        assert self.calendar2[PDate(0, 0, 0)] == Day(PDate(0, 0, 0))
+        assert self.calendar3[PDate(0, 0, 0)] == Day(PDate(0, 0, 0))
 
     def test_setitem(self) -> None:
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         cal1 = self.calendar1.copy()
         cal2 = self.calendar2.copy()
@@ -154,9 +154,9 @@ class CalendarTest:
     def test_str(self):
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert str(self.calendar1) == self.exp_string1
         assert str(self.calendar2) == self.exp_string2
@@ -165,9 +165,9 @@ class CalendarTest:
     def test_repr(self):
         """
         Cases:
-        1) 
-        2) 
-        3) 
+        1)
+        2)
+        3)
         """
         assert repr(self.calendar1) == self.exp_string1
         assert repr(self.calendar2) == self.exp_string2
