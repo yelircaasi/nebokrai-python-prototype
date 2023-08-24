@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 import pytest
 
 from planager.entity.base.calendar import Calendar
@@ -55,5 +55,11 @@ class PlannerTest:
     def test_cluster_task_ids(self) -> None:
         assert True
 
-    def allocate_in_time(self) -> None:
+    def test_allocate_in_time(self) -> None:
+        assert True
+
+    # def test_get_end_from_id(self) -> None:
+    #     assert True
+
+    def test_enforce_precedence_constraints(self) -> None:
         assert True

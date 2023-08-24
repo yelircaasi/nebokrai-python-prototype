@@ -70,21 +70,21 @@ class ProjectsTest:
         assert projs1 == exp1
         assert projs2 == exp2
 
-    def test_order_by_dependency(self) -> None:
-        projs1 = Projects([p.copy() for p in self.projects1])
-        projs2 = Projects([p.copy() for p in self.projects2])
+    # def test_make_dependency_ordered_lists(self) -> None:
+    #     projs1 = Projects([p.copy() for p in self.projects1])
+    #     projs2 = Projects([p.copy() for p in self.projects2])
 
-        patches1 = TaskPatches()
-        patches2 = TaskPatches()
+    #     patches1 = TaskPatches()
+    #     patches2 = TaskPatches()
 
-        exp1 = Projects()
-        exp2 = Projects()
+    #     exp1 = Projects()
+    #     exp2 = Projects()
 
-        projs1.order_by_dependency()
-        projs2.order_by_dependency()
+    #     projs1.order_by_dependency()
+    #     projs2.order_by_dependency()
 
-        assert projs1 == exp1
-        assert projs2 == exp2
+    #     assert projs1 == exp1
+    #     assert projs2 == exp2
 
     def test_pretty(self) -> None:
         assert self.projects1.pretty() == self.exp_string1

@@ -23,10 +23,10 @@ class Project:
         description: str = "",
         notes: str = "",
         path: Optional[Path] = None,
-        before: Set[
-            Tuple[str, ...]
-        ] = set(),  # not maximally strong, but avoids a mypy headache
-        after: Set[
+        # before: Set[
+        #     Tuple[str, ...]
+        # ] = set(),  # not maximally strong, but avoids a mypy headache
+        dependencies: Set[
             Tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
         categories: Set[str] = set(),
@@ -52,8 +52,7 @@ class Project:
         self.description = description
         self.notes = notes
         self.path = Path(path) if path else path
-        self.before = before
-        self.dependencies = after
+        self.dependencies = dependencies
         self.categories = categories
 
     def copy(self) -> "Project":

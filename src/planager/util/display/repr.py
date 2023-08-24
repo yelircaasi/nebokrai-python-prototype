@@ -12,8 +12,8 @@ def wrap_as_list(
     def splitline(s: str, width: int, pref: str = prefix) -> tuple[str, str]:
         splitind = s[:width].rfind(" ")
         splitind = width if splitind == -1 else splitind
-        line1 = s[:splitind]
-        line2 = s[splitind:]
+        line1 = s[:splitind].strip(" ")
+        line2 = s[splitind:].strip(" ")
         return line1, line2
 
     line1, rest = splitline(line, width, pref="")
@@ -22,7 +22,7 @@ def wrap_as_list(
 
     while len(rest) > width:
         next_line, rest = splitline(rest, width)
-        lines.append(next_line)
+        lines.append(prefix + next_line)
 
     if rest:
         lines.append(prefix + rest)

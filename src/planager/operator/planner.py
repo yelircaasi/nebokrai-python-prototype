@@ -7,8 +7,10 @@ from ..entity import (
     PlanPatch,
     PlanPatches,
     Project,
+    Projects,
     Roadmaps,
     TaskPatches,
+    Task,
     Tasks,
 )
 from ..util import ClusterType, ConfigType, PDate, expand_task_segments
@@ -53,29 +55,47 @@ class Planner:
         #projects.order_by_dependency()
 
         for project in projects:
-            subplan: SubplanType = self.get_subplan_from_project(project, calendar)
+            subplan: SubplanType = self.get_subplan_from_project(project, projects)                 # TODO: make subplan respect precedence              
             plan.add_subplan(subplan, project._tasks)
-        plan.reorder_by_precedence()
+        # plan.reorder_by_precedence()
 
         plan = self.patch_plan(plan, plan_patches)
+
+        #----------------------------------------------------------------------------------------------------------------------------------
+        # enforce temporal precedence constraints
+        
+        self.enforce_precedence_constraints(plan, projects)
+        #----------------------------------------------------------------------------------------------------------------------------------
 
         return plan
 
     def get_subplan_from_project(  # move to Plan?
         self,
         project: Project,
-        calendar: Calendar,
+        projects: Projects,
     ) -> SubplanType:
         """
         A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged into the 
           instance of `Plan`.
         """
-
+        #----------------------------------------------------------------------------------------------------------------------------------
+        # make subplan respect temporal precedence constraints
+        # for task in self._tasks:
+        #     for dep_id in task.dependencies:
+        #         if len(dep_id) == 2:
+        #             if task.tmpdate < 
+        #         elif len(dep_id) == 3:
+        
+        # for dep_id in project.dependencies:
+        #     newdate = (self.get_end_from_id(dep_id, projects) or PDate.today()) + 1
+        #     project.rigid_shift_start(newdate)
+        #----------------------------------------------------------------------------------------------------------------------------------
+        
         clusters: ClusterType = self.cluster_task_ids(
             project.task_ids, project.cluster_size
         )
         subplan: SubplanType = self.allocate_in_time(clusters, project)
-
+        
         return subplan
 
     @staticmethod
@@ -96,6 +116,7 @@ class Planner:
     def allocate_in_time(  # move to Plan?
         clusters: ClusterType,
         project: Project,
+        earliest_dates: Dict[Tuple[str, str, str], PDate]
     ) -> SubplanType:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
@@ -121,3 +142,32 @@ class Planner:
         }
 
         return subplan
+
+    # def get_end_from_id(entity_id: Union[Tuple[str, str], Tuple[str, str, str]], projects: Projects) -> Optional[PDate]:
+    #     if len(entity_id) == 2:
+    #         return projects[entity_id].end
+    #     elif len(entity_id) == 3:
+    #         return projects[entity_id].tmpdate
+    #     else:
+    #         return None
+        
+    def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
+        inverse_plan = {}
+        for date, ids in plan.items():
+            for task_id in ids:
+                inverse_plan.update({task_id: date})
+                
+        def get_date(_id: Union[Tuple[str, str, str], Tuple[str, str]]) -> PDate:
+            if len(_id) == 2:
+                return max(map(lambda t: inverse_plan[t], (projects[_id])))
+            elif len(_id) == 3:
+                return inverse_plan[projects[_id]]
+
+        for task in projects._tasks:
+            if task.dependencies:
+                plan_date = inverse_plan[task_id]
+                limiting_dependency = max(task.dependencies, key=get_date)
+                earliest_date = inverse_plan[limiting_dependency] + 1
+                if plan_date < earliest_date:
+                    raise ValueError(f"Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}.")
+        

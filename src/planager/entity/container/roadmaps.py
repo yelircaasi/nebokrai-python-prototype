@@ -48,6 +48,7 @@ class Roadmaps:
                 )
                 project.project_id = tuple_id
                 projects.add(project)
+        # projects.order_by_dependency()
         return projects
 
     def pretty(self, width: int = 80) -> str:

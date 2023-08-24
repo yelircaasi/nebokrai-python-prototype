@@ -80,71 +80,69 @@ class EntryTest:
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 00:00-05:00 │ First Entry                                                    ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
-        "┃ priority:     70                                                             ┃\n"
-        "┃ blocks:       block 1, block 2, block 3, block 4                             ┃\n"
-        "┃ categories:   category 1, category 2, category 3                             ┃\n"
         "┃ notes:        notes on entry 1                                               ┃\n"
-        "┃ normaltime:   270                                                            ┃\n"
-        "┃ idealtime:    330                                                            ┃\n"
-        "┃ mintime:      240                                                            ┃\n"
-        "┃ maxtime:      360                                                            ┃\n"
+        "┃ priority:     70                                                             ┃\n"
+        "┃ time:         270  (240-360, ideal: 330)                                     ┃\n"
+        "┃ blocks:       block 1, block 2, block 3, block 4                             ┃\n"
+        "┃ categories:   category 1, category 2, category 3, wildcard                   ┃\n"
         "┃ alignend:     true                                                           ┃\n"
-        "┃ order:        80                                                             ┃\n"
+        "┃ order:        80                                                             ┃"
     )
     exp_string_430_5 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 04:30-05:00 │ Entry 2                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
         "┃ priority:     95                                                             ┃\n"
-        "┃ idealtime:    40                                                             ┃\n"
-        "┃ mintime:      20                                                             ┃\n"
-        "┃ maxtime:      60                                                             ┃\n"
+        "┃ time:         30  (20-60, ideal: 40)                                         ┃"
     )
     exp_string_430_630 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 04:30-06:30 │ Entry 3                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
-        "┃ priority:     0                                                              ┃\n"
-        "┃ blocks:       block 1, block 2                                               ┃\n"
-        "┃ categories:   category 1, category 2                                         ┃\n"
-        "┃ notes:        long placeholder notes here that take lots of space; long      ┃\n"
-        "┃                 placeholder notes here that take space; long placeholder     ┃\n"
+        "┃ notes:        long placeholder notes here that take space; long placeholder  ┃\n"
         "┃                 notes here that take space; long placeholder notes here      ┃\n"
         "┃                 that take space; long placeholder notes here that take       ┃\n"
-        "┃                 space;                                                       ┃\n"
+        "┃                 space; long placeholder notes here that take space;          ┃\n"
+        "┃ priority:     0                                                              ┃\n"
+        "┃ time:         120  (60-240, ideal: 180)                                      ┃\n"
+        "┃ blocks:       block 1, block 2                                               ┃\n"
+        "┃ categories:   category 1, category 2, wildcard                               ┃"
     )
     exp_string_5_520 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
-        "┃ 05:00-05:20 │ Entry 4                                                        ┃\n"
+        "┃ 05:00-05:20 │ Entry the fourth                                               ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+        "┃ notes:        just some placeholder text, !@#$#@%#^$just some placeholder    ┃\n"
+        "┃                 text, !@#$#@%#^$just some placeholder text, !@#$#@%#^$       ┃\n"
         "┃ priority:     0                                                              ┃\n"
-        "┃ categories:   category 3                                                     ┃\n"
-        "┃ notes:        just some placeholder text, !@#$#@%#^$, just some placeholder  ┃\n"
-        "┃                 text, !@#$#@%#^$, just some placeholder text, !@#$#@%#^$     ┃\n"
-        "┃ alignend:     true                                                           ┃\n"
+        "┃ time:         20  (10-40, ideal: 30)                                         ┃\n"
+        "┃ categories:   category 3, wildcard                                           ┃\n"
+        "┃ ismovable:    false                                                          ┃\n"
+        "┃ alignend:     true                                                           ┃"
     )
     exp_string_7_1030_a = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 07:00-10:30 │ Entry 5                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
         "┃ notes:        some basic notes                                               ┃\n"
-        "┃ mintime:      105                                                            ┃\n"
-        "┃ order:        20                                                             ┃\n"
+        "┃ time:         210  (105-420, ideal: 315)                                     ┃\n"
+        "┃ order:        20                                                             ┃"
     )
     exp_string_7_1030_b = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 07:00-10:30 │ Entry 6                                                        ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
         "┃ priority:     30                                                             ┃\n"
+        "┃ time:         210  (105-420, ideal: 315)                                     ┃\n"
+        "┃ blocks:       block1, block2, block3, block4                                 ┃\n"
         "┃ ismovable:    false                                                          ┃\n"
-        "┃ blocks:       block 1, block 2, block 3, block 4                             ┃\n"
-        "┃ maxtime:      360                                                            ┃\n"
-        "┃ order:        45                                                             ┃\n"
+        "┃ order:        45                                                             ┃"
     )
     exp_string_0_030 = (
         "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
         "┃ 00:00-00:30 │ random name                                                    ┃\n"
         "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+        "┃ time:         30  (15-60, ideal: 45)                                         ┃"
     )
 
     # []
@@ -320,65 +318,69 @@ class EntryTest:
         2)
         3)
         """
-        path1 = Path("")
-        path2 = Path("")
-        path3 = Path("")
-        path4 = Path("")
-        path5 = Path("")
-        path6 = Path("")
-        path7 = Path("")
 
-        assert self.entry_0_5.as_norg(path1) == (
+        assert self.entry_0_5.as_norg() == (
             "~ 00:00-05:00 | First Entry\n"
+            "  -- notes:      notes on entry 1\n"
             "  -- priority:   70\n"
             "  -- blocks:     block 1, block 2, block 3, block 4\n"
-            "  -- categories: category 1, category 2, category 3\n"
-            "  -- notes:      notes on entry 1\n"
-            "  -- normaltime: 30\n"
-            "  -- idealtime:  35\n"
-            "  -- mintime:    20\n"
-            "  -- maxtime:    40\n"
-            "  -- alignend:   true\n"
-            "  -- order:      80"
-        )
-        assert self.entry_430_5.as_norg(path2) == (
-            "~ 04:30-05:00 | Entry 2\n"
-            "  -- priority:   95\n"
-            "  -- idealtime:  35\n"
-            "  -- mintime:    20\n"
-            "  -- maxtime:    40"
-        )
-        assert self.entry_430_630.as_norg(path3) == (
-            "~ 04:30-06:30 | Entry 3\n"
-            "  -- priority:   0\n"
-            "  -- blocks:     block 1, block 2\n"
-            "  -- categories: category 1, category 2\n"
-            "  -- notes:      TODO\n"
-        )
-        assert self.entry_5_520.as_norg(path4) == (
-            "~ 05:00-05:20 | Entry 4\n\n"
-            "  -- priority:   0\n\n"
-            "  -- categories: category 3\n\n"
-            "  -- notes:      just some placeholder text, !@#$#@%#^$, just some"
-            "                   placeholder text, !@#$#@%#^$, just some"
-            "                   placeholder text, !@#$#@%#^$"
+            "  -- categories: category 1, category 2, category 3, wildcard\n"
+            "  -- normaltime: 270\n"
+            "  -- idealtime:  330\n"
+            "  -- mintime:    240\n"
+            "  -- maxtime:    360\n"
+            "  -- order:      80\n"
             "  -- alignend:   true"
         )
-        assert self.entry_7_1030_a.as_norg(path5) == (
+        assert self.entry_430_5.as_norg() == (
+            "~ 04:30-05:00 | Entry 2\n"
+            "  -- priority:   95\n"
+            "  -- normaltime: 30\n"
+            "  -- idealtime:  40\n"
+            "  -- mintime:    20"
+        )
+        assert self.entry_430_630.as_norg() == (
+            "~ 04:30-06:30 | Entry 3\n"
+            "  -- notes:      long placeholder notes here that take space; long\n"
+            "                   placeholder notes here that take space;\n"
+            "                   long placeholder notes here that take\n"
+            "                   space; long placeholder notes here that\n"
+            "                   take space; long placeholder notes here\n"
+            "                   that take space;\n"
+            "  -- priority:   0\n"
+            "  -- blocks:     block 1, block 2\n"
+            "  -- categories: category 1, category 2, wildcard\n"
+            "  -- normaltime: 120"
+        )
+        assert self.entry_5_520.as_norg() == (
+            "~ 05:00-05:20 | Entry the fourth\n"
+            "  -- notes:      just some placeholder text, !@#$#@%#^$just some placeholder\n"
+            "                   text, !@#$#@%#^$just some placeholder\n"
+            "                   text, !@#$#@%#^$\n"
+            "  -- priority:   0\n"
+            "  -- categories: category 3, wildcard\n"
+            "  -- normaltime: 20\n"
+            "  -- ismovable:  false\n"
+            "  -- alignend:   true"
+        )
+        assert self.entry_7_1030_a.as_norg() == (
             "~ 07:00-10:30 | Entry 5\n"
             "  -- notes:      some basic notes\n"
-            "  -- mintime:    120"
+            "  -- normaltime: 210\n"
             "  -- order:      20"
         )
-        assert self.entry_7_1030_b.as_norg(path6) == (
+        assert self.entry_7_1030_b.as_norg() == (
             "~ 07:00-10:30 | Entry 6\n"
             "  -- priority:   30\n"
+            "  -- blocks:     block1, block2, block3, block4\n"
+            "  -- normaltime: 210\n"
             "  -- ismovable:  false\n"
-            "  -- blocks:     block 1, block 2, block 3, block 4\n"
-            "  -- maxtime:    360\n"
             "  -- order:      45"
         )
-        assert self.entry_0_030.as_norg(path7) == "~ 00:00-00:30 | random name"
+        assert self.entry_0_030.as_norg() == (
+            "~ 00:00-00:30 | random name\n"
+            "  -- normaltime: 30"
+        )
 
     # []
     def test_as_json(self) -> None:
@@ -428,7 +430,7 @@ class EntryTest:
         assert self.entry_5_520.isbefore(self.entry_7_1030_a)
         assert not self.entry_7_1030_a.isbefore(self.entry_0_030)
         assert not self.entry_7_1030_b.isbefore(self.entry_0_5)
-        assert not self.entry_0_030.isbefore(self.entry_430_5)
+        assert self.entry_0_030.isbefore(self.entry_430_5)
 
     def test_isafter(self) -> None:
         """
@@ -439,7 +441,7 @@ class EntryTest:
         """
         assert not self.entry_0_5.isafter(self.entry_0_030)
         assert not self.entry_430_5.isafter(self.entry_0_5)
-        assert self.entry_430_630.isafter(self.entry_430_5)
+        assert not self.entry_430_630.isafter(self.entry_430_5)
         assert self.entry_7_1030_b.isafter(self.entry_430_630)
         assert not self.entry_7_1030_b.isafter(self.entry_7_1030_a)
         assert not self.entry_0_030.isafter(self.entry_7_1030_b)
@@ -454,7 +456,7 @@ class EntryTest:
         assert self.entry_0_5.isbefore_by_start(self.entry_430_5)
         assert not self.entry_430_5.isbefore_by_start(self.entry_430_630)
         assert self.entry_430_630.isbefore_by_start(self.entry_5_520)
-        assert self.entry_5_520.isbefore_by_start(self.entry_430_5)
+        assert not self.entry_5_520.isbefore_by_start(self.entry_430_5)
         assert not self.entry_7_1030_a.isbefore_by_start(self.entry_7_1030_b)
         assert not self.entry_7_1030_b.isbefore_by_start(self.entry_0_030)
         assert not self.entry_0_030.isbefore_by_start(self.entry_0_5)
@@ -487,7 +489,7 @@ class EntryTest:
         assert self.entry_7_1030_a.overlaps(self.entry_7_1030_b)
         assert self.entry_430_5.overlaps(self.entry_0_5)
         assert self.entry_430_630.overlaps(self.entry_0_5)
-        assert self.entry_5_520.overlaps(self.entry_0_5)
+        assert not self.entry_5_520.overlaps(self.entry_0_5)
         assert self.entry_7_1030_a.overlaps(self.entry_7_1030_a)
 
     def test_overlaps_first(self) -> None:
@@ -525,10 +527,10 @@ class EntryTest:
         2)
         3)
         """
-        assert self.entry_430_630.surrounds(self.entry_430_5)
+        assert not self.entry_430_630.surrounds(self.entry_430_5)
         assert self.entry_430_630.surrounds(self.entry_5_520)
-        assert self.entry_0_5.surrounds(self.entry_430_5)
-        assert self.entry_0_5.surrounds(self.entry_0_030)
+        assert not self.entry_0_5.surrounds(self.entry_430_5)
+        assert not self.entry_0_5.surrounds(self.entry_0_030)
 
         assert not self.entry_430_5.surrounds(self.entry_430_630)
         assert not self.entry_430_5.surrounds(self.entry_0_5)
@@ -542,19 +544,19 @@ class EntryTest:
         2)
         3)
         """
-        assert self.entry_430_630.surrounded_by(self.entry_430_5)
-        assert self.entry_430_5.surrounded_by(self.entry_0_5)
-        assert self.entry_0_030.surrounded_by(self.entry_0_5)
-        assert self.entry_430_5.surrounded_by(self.entry_430_630)
+        assert not self.entry_430_630.surrounded_by(self.entry_430_5)
+        assert not self.entry_430_5.surrounded_by(self.entry_0_5)
+        assert not self.entry_0_030.surrounded_by(self.entry_0_5)
+        assert not self.entry_430_5.surrounded_by(self.entry_430_630)
         assert self.entry_5_520.surrounded_by(self.entry_430_630)
 
-        assert self.entry_430_5.surrounded_by(self.entry_430_630)
-        assert self.entry_0_5.surrounded_by(self.entry_430_5)
-        assert self.entry_0_5.surrounded_by(self.entry_0_030)
-        assert self.entry_430_630.surrounded_by(self.entry_430_5)
-        assert self.entry_430_630.surrounded_by(self.entry_5_520)
-        assert self.entry_430_5.surrounded_by(self.entry_7_1030_b)
-        assert self.entry_7_1030_b.surrounded_by(self.entry_430_5)
+        assert not self.entry_430_5.surrounded_by(self.entry_430_630)
+        assert not self.entry_0_5.surrounded_by(self.entry_430_5)
+        assert not self.entry_0_5.surrounded_by(self.entry_0_030)
+        assert not self.entry_430_630.surrounded_by(self.entry_430_5)
+        assert not self.entry_430_630.surrounded_by(self.entry_5_520)
+        assert not self.entry_430_5.surrounded_by(self.entry_7_1030_b)
+        assert not self.entry_7_1030_b.surrounded_by(self.entry_430_5)
 
     def test_shares_start_shorter(self) -> None:
         """
@@ -612,16 +614,16 @@ class EntryTest:
         """
         assert self.entry_0_5.covers(self.entry_0_030)
         assert self.entry_0_5.covers(self.entry_430_5)
-        assert self.entry_7_1030_b.covers(self.entry_430_5)
-        assert self.entry_430_630.covers(self.entry_7_1030_a)
+        assert not self.entry_7_1030_b.covers(self.entry_430_5)
+        assert not self.entry_430_630.covers(self.entry_7_1030_a)
         assert self.entry_7_1030_a.covers(self.entry_7_1030_b)
         assert self.entry_430_630.covers(self.entry_5_520)
 
-        assert self.entry_5_520.covers(self.entry_7_1030_b)
-        assert self.entry_7_1030_b.covers(self.entry_5_520)
-        assert self.entry_0_030.covers(self.entry_0_5)
-        assert self.entry_430_5.covers(self.entry_0_5)
-        assert self.entry_430_5.covers(self.entry_430_630)
+        assert not self.entry_5_520.covers(self.entry_7_1030_b)
+        assert not self.entry_7_1030_b.covers(self.entry_5_520)
+        assert not self.entry_0_030.covers(self.entry_0_5)
+        assert not self.entry_430_5.covers(self.entry_0_5)
+        assert not self.entry_430_5.covers(self.entry_430_630)
 
     def test_iscovered(self) -> None:
         """
@@ -651,9 +653,9 @@ class EntryTest:
         3)
         """
         assert not self.entry_0_5.trumps(self.entry_430_5)
-        assert not self.entry_430_5.trumps(self.entry_0_5)
+        assert self.entry_430_5.trumps(self.entry_0_5)
 
-        assert not self.entry_7_1030_b.trumps(self.entry_5_520)
+        assert self.entry_7_1030_b.trumps(self.entry_5_520)
         assert not self.entry_5_520.trumps(self.entry_7_1030_b)
 
         assert not self.entry_430_630.trumps(self.entry_5_520)
@@ -668,8 +670,8 @@ class EntryTest:
         assert not self.entry_0_5.fits_in(self.entry_430_5)
         assert self.entry_430_5.fits_in(self.entry_0_5)
 
-        assert not self.entry_5_520.fits_in(self.entry_7_1030_a)
-        assert self.entry_7_1030_a.fits_in(self.entry_5_520)
+        assert self.entry_5_520.fits_in(self.entry_7_1030_a)
+        assert not self.entry_7_1030_a.fits_in(self.entry_5_520)
 
     def test_accommodates(self) -> None:
         """
@@ -681,8 +683,8 @@ class EntryTest:
         assert not self.entry_430_5.accommodates(self.entry_0_5)
         assert self.entry_0_5.accommodates(self.entry_430_5)
 
-        assert not self.entry_7_1030_a.accommodates(self.entry_5_520)
-        assert self.entry_5_520.accommodates(self.entry_7_1030_a)
+        assert self.entry_7_1030_a.accommodates(self.entry_5_520)
+        assert not self.entry_5_520.accommodates(self.entry_7_1030_a)
 
     def test_pretty(self) -> None:
         """
@@ -706,7 +708,7 @@ class EntryTest:
         2)
         3)
         """
-        dup1 = Entry(
+        dup_0_5 = Entry(
             "First Entry",
             start=PTime(0),
             end=PTime(5),
@@ -722,19 +724,19 @@ class EntryTest:
             alignend=True,
             order=80,
         )
-        dup2 = Entry(
+        dup_430_5 = Entry(  # 'if normaltime'
             "Entry 2",
             start=PTime(4, 30),
             end=None,  # 5:00
             priority=95,
             normaltime=30,
             idealtime=40,
-            mintime=50,
+            mintime=20,
             alignend=False,
             order=50,
         )
-        dup3 = Entry(
-            "Entry3",
+        dup_430_630 = Entry(  # 'elif start and end' -> normaltime 120
+            "Entry 3",
             start=PTime(4, 30),
             end=PTime(6, 30),
             priority=0,
@@ -752,9 +754,9 @@ class EntryTest:
         assert self.entry_7_1030_b == self.entry_7_1030_b.copy()
         assert self.entry_0_030 == Entry("random name", PTime())
 
-        assert self.entry_0_5 == dup1
-        assert self.entry_430_5 == dup2
-        assert self.entry_430_630 == dup3
+        assert self.entry_0_5 == dup_0_5
+        assert self.entry_430_5 == dup_430_5
+        assert self.entry_430_630 == dup_430_630
 
         assert self.entry_7_1030_a != self.entry_0_5
         assert self.entry_7_1030_b != self.entry_430_5
@@ -789,7 +791,7 @@ class EntryTest:
         assert repr(self.entry_7_1030_a) == self.exp_string_7_1030_a
         assert repr(self.entry_7_1030_b) == self.exp_string_7_1030_b
         assert repr(self.entry_0_030) == self.exp_string_0_030
-
+'''
 
 class EmptyTest:
     empty = Empty(start=PTime(5), end=PTime(7, 30))
@@ -834,3 +836,4 @@ def test_LAST_ENTRY() -> None:
     assert LAST_ENTRY.priority < 0
     assert not LAST_ENTRY.ismovable
     assert not LAST_ENTRY.hasmass()
+'''

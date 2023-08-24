@@ -36,6 +36,7 @@ class Plan:
         excess: List[Tuple[str, str, str]] = []
         total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
         max_load = self._calendar[date].max_load
+        
         while total > max_load:
             task_to_move = task_ids.pop()
             excess.append(task_to_move)
@@ -61,6 +62,7 @@ class Plan:
 
         for task in tasks:
             self._tasks.update({task.task_id: task})
+
         for date, task_id_list in subplan.items():
             self.ensure_date(date)
             rollover: List[Tuple[str, str, str]] = self.add_tasks(date, task_id_list)
