@@ -116,7 +116,7 @@ class Planner:
     def allocate_in_time(  # move to Plan?
         clusters: ClusterType,
         project: Project,
-        earliest_dates: Dict[Tuple[str, str, str], PDate]
+        # earliest_dates: Dict[Tuple[str, str, str], PDate]
     ) -> SubplanType:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
@@ -151,9 +151,10 @@ class Planner:
     #     else:
     #         return None
         
+    @staticmethod
     def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
         inverse_plan = {}
-        for date, ids in plan.items():
+        for date, ids in plan._plan.items():
             for task_id in ids:
                 inverse_plan.update({task_id: date})
                 
@@ -162,6 +163,8 @@ class Planner:
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
             elif len(_id) == 3:
                 return inverse_plan[projects[_id]]
+            else:
+                raise ValueError("ID must have 2 or 3 elements.")
 
         for task in projects._tasks:
             if task.dependencies:

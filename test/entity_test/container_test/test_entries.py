@@ -8,9 +8,28 @@ from planager.util.pdatetime.ptime import PTime
 
 
 class EntriesTest:
-    entries1 = Entries()
-    entries2 = Entries()
-    entries3 = Entries()
+    entries1 = Entries(
+        [
+            Entry("1a", PTime(7)),
+            Entry("1b", PTime(8)),
+            Entry("1c", PTime(9)),
+        ]
+    )
+    entries2 = Entries(
+        [
+            Entry("2a", PTime(14)),
+        ]
+    )
+    entries3 = Entries(
+        [
+            Entry("3a", PTime(10)),
+            Entry("3b", PTime(10, 30)),
+            Entry("3c", PTime(14)),
+            Entry("3d", PTime(15)),
+            Entry("3e", PTime(17)),
+            Entry("3f", PTime(20)),
+        ]
+    )
     entries4 = Entries()
 
     schedule = Schedule()

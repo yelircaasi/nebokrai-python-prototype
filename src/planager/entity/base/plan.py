@@ -35,7 +35,7 @@ class Plan:
             task_ids = sorted(list(set(task_ids + self._plan[date])), key=lambda x: self._tasks[x].priority, reverse=True)
         excess: List[Tuple[str, str, str]] = []
         total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
-        max_load = self._calendar[date].max_load
+        max_load = self._calendar[date].max_load if self._calendar else 240
         
         while total > max_load:
             task_to_move = task_ids.pop()

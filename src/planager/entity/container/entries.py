@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Callable, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 from planager.util.misc import round5
 from planager.util.pdatetime.ptime import PTime
@@ -142,7 +142,7 @@ class Entries:
         """
         Add the input entry 'on top of' the entry corresponding to the given index.
         """
-        new_entries = Entries.add_over_block(entry, self[block_ind])
+        new_entries = Entries.add_over_block(entry, self._entries[block_ind])
         self._entries = list(
             self.slice(None, block_ind) + new_entries + self.slice(block_ind + 1, None)
         )
@@ -205,14 +205,18 @@ class Entries:
         """
         result: Entries = Entries()
         fixed, flex = self.get_fixed_and_flex()
-        before_after_dict = {flex_group: (
-            max(filter(lambda x: x.end <= flex_group.start, fixed), key=lambda x: x.start), 
-            min(filter(lambda x: x.start >= flex_group.end, fixed), key=lambda x: x.start)
-        ) for flex_group in flex} # could be simplified with more methods of Entries
-        for flex_group, (fixed_before, fixed_after) in before_after_dict.items():
-            result.extend(fixed_before)
+        
+        before_after_dict = {flex_entry: (
+            max(filter(lambda x: x.end <= flex_entry.start, fixed), key=lambda x: x.start), 
+            min(filter(lambda x: x.start >= flex_entry.end, fixed), key=lambda x: x.start)
+        ) for flex_entry in flex} # could be simplified with more methods of Entries
+
+        flex_groups: Dict[Tuple[Entry, Entry], Entries] = {before_after: Entries(sorted([k for k, v in before_after_dict.items() if v == before_after], key=lambda x: x.start)) for before_after in before_after_dict.values()}
+
+        for (fixed_before, fixed_after), flex_group in flex_groups.items():
+            result.append(fixed_before)
             result.extend(self.smooth_entries(flex_group, fixed_before.end, fixed_after.start, priority_weighter))
-        result.extend(fixed_after)
+        result.append(fixed_after)
         self._entries = list(result)[1:-1]
 
     @staticmethod
@@ -256,7 +260,7 @@ class Entries:
         """
         Allocate entries sequentially and without gaps, except at the end.
         """
-        result: Entries = Entries()
+        result: List[Entry] = []
         time_tmp = _start.copy()
         for entry in self._entries:
             entry.start = time_tmp.copy()
@@ -276,7 +280,7 @@ class Entries:
         """
         Fit the current entries between _start and _end, using priority weighting.
         """
-        result: Entries = Entries()
+        result: List[Entry] = []
         time_tmp = self._entries[0].start.copy()
         total_duration = sum(map(Entry.duration, self._entries))
         total = _start.timeto(_end)
@@ -323,7 +327,7 @@ class Entries:
     def __iter__(self) -> Iterator[Entry]:
         return iter(self._entries)
 
-    def __getitem__(self, __index: Tuple[str, str, str]) -> Entry:
+    def __getitem__(self, __index: int) -> Entry:
         return self._entries[__index]
 
     def __len__(self) -> int:

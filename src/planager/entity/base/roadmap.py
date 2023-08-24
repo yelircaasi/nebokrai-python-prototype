@@ -45,8 +45,7 @@ class Roadmap:
                     description=item.description or "",
                     notes=item.notes or "",
                     path=item.path,
-                    before=item.before or set(),
-                    after=item.dependencies or set(),
+                    dependencies=item.dependencies or set(),
                 )
             )
         return Roadmap(norg.title, norg.doc_id, projects)

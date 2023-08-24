@@ -77,8 +77,7 @@ class Project:
         tags: set = set(),
         description: str = "",
         notes: str = "",
-        before: Set[Tuple[str, ...]] = set(),
-        after: Set[Tuple[str, ...]] = set(),
+        dependencies: Set[Tuple[str, ...]] = set(),
         # **kwargs,
     ) -> "Project":
         norg_obj = Norg.from_path(norg_path)
@@ -98,8 +97,7 @@ class Project:
             description=description,
             notes=notes,
             path=norg_path,
-            before=before,
-            after=after,
+            dependencies=dependencies,
         )
         return c
 
@@ -123,8 +121,7 @@ class Project:
             description=item.description or "",
             notes=item.notes or "",
             path=item.path,
-            before=item.before or set(),
-            after=item.dependencies or set(),
+            dependencies=item.dependencies or set(),
         )
 
     def get_start(self) -> PDate:
