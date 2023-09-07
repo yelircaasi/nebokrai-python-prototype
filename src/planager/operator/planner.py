@@ -173,4 +173,3 @@ class Planner:
                 earliest_date = inverse_plan[limiting_dependency] + 1
                 if plan_date < earliest_date:
                     raise ValueError(f"Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}.")
-        

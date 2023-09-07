@@ -172,8 +172,8 @@ class Entries:
         compression_factor: float = 1.0,
     ) -> None:
         """
-        Takes a list of entries and adds them to entries by filling in gaps according to priority and front-to-back
-          (i.e. back-to-front for entries where entry.alignend is True).
+        Takes a list of entries and adds them to the list of entries by filling in gaps according to priority and 
+          front-to-back (i.e. back-to-front for entries where entry.alignend is True).
         """
         while flex_entries:
             flex = flex_entries.pop(0)

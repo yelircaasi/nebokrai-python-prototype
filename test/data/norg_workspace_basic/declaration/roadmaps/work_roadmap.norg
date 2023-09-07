@@ -8,3 +8,53 @@ updated:
 author: yelircaasi
 @end
 
+~ Docker Deep Dive (2023) || 
+
+~Docker in Action || 
+
+~ Docker Compose для разработчика || 
+
+~ Core Kubernetes || 
+
+~ Kubernetes изнутри || 
+
+~ Kubernetes Succinctly || 
+
+~ RabbitMQ Essentials || 
+  -- dependencies: "Core Kubernetes", "Kubernetes изнутри"
+
+~ RabbitMQ in Depth 1-6 || 
+  -- dependencies: "Core Kubernetes", "Kubernetes изнутри"
+
+~ Go from the Beginning || 
+
+~ Everyday Go || 
+
+~ Go Succinctly || 
+
+~ Введение в программирование на Go.pdf || 
+
+~ Learning Helm || 
+  -- dependencies: "Core Kubernetes", "Kubernetes изнутри"
+
+~ Microsoft Azure. Planning, Deploying, and Managing the Cloud.pdf || 
+
+~ Azure Cookbook (2023).pdf || 
+
+~ Learn Azure in a Month of Lunches.pdf || 
+
+~ Learn You a Haskell for Great Good || 
+
+~ Practical Haskell || 
+
+~ Mastering Java. A Beginner's Guide || 
+
+~ The Java Workshop || 
+
+~ The Well-Grounded Java Developer || 
+
+~ Learning Java (5e & 6e) || 
+
+~ Modern Java in Action (2e) || 
+
+~ Hands-On Software Architecture with Java || 
