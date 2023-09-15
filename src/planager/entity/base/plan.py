@@ -25,18 +25,24 @@ class Plan:
         p._plan = self._plan
         return p
 
-    def add_tasks(self, date: PDate, task_ids: List[Tuple[str, str, str]]) -> List[Tuple[str, str, str]]:
+    def add_tasks(
+        self, date: PDate, task_ids: List[Tuple[str, str, str]]
+    ) -> List[Tuple[str, str, str]]:
         """
-        Add tasks to a specified date in the plan. If the tasks exceed the date's max_load, the lowest-priority excess 
+        Add tasks to a specified date in the plan. If the tasks exceed the date's max_load, the lowest-priority excess
           task ids are returned.
         """
-        #task_ids = [task.task_id for task in tasks]
+        # task_ids = [task.task_id for task in tasks]
         if date in self._plan:
-            task_ids = sorted(list(set(task_ids + self._plan[date])), key=lambda x: self._tasks[x].priority, reverse=True)
+            task_ids = sorted(
+                list(set(task_ids + self._plan[date])),
+                key=lambda x: self._tasks[x].priority,
+                reverse=True,
+            )
         excess: List[Tuple[str, str, str]] = []
         total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
         max_load = self._calendar[date].max_load if self._calendar else 240
-        
+
         while total > max_load:
             task_to_move = task_ids.pop()
             excess.append(task_to_move)
@@ -53,7 +59,7 @@ class Plan:
         tasks: Tasks,
     ) -> None:
         """
-        Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily 
+        Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily
           maximum is exceeded, according to priority.
         """
         if not subplan:
@@ -71,11 +77,8 @@ class Plan:
                 rollover = self.add_tasks(next_date, rollover)
                 next_date += 1
 
-
     def ensure_date(self, date: PDate):
-        """
-        
-        """
+        """ """
         if not date in self._plan.keys():
             self._plan.update({date: []})
 
@@ -91,25 +94,23 @@ class Plan:
     def tasks(self) -> List[Task]:
         return sorted(self._tasks.values())
 
-    def reorder_by_precedence(self) -> None:
-        """
-        
-        """
-        tasks = list(map(lambda t: self._tasks[t.task_id], self.tasks))
-        newtasks = []
-        self._plan = {}
-        for t, pre, post in zip(tasks[:-2], tasks[1:-1], tasks[2:]):
-            newtask = self.adjust_tmpdate_to_neighbors(t, pre, post)
-            newtasks.append(newtask)
-            if not newtask.tmpdate in self._plan:
-                self._plan.update({newtask.tmpdate: []})
-            self._plan[t.tmpdate].append(newtask.task_id)
+    # def reorder_by_precedence(self) -> None:
+    #     """
+
+    #     """
+    #     tasks = list(map(lambda t: self._tasks[t.task_id], self.tasks))
+    #     newtasks = []
+    #     self._plan = {}
+    #     for t, pre, post in zip(tasks[:-2], tasks[1:-1], tasks[2:]):
+    #         newtask = self.adjust_tmpdate_to_neighbors(t, pre, post)
+    #         newtasks.append(newtask)
+    #         if not newtask.tmpdate in self._plan:
+    #             self._plan.update({newtask.tmpdate: []})
+    #         self._plan[t.tmpdate].append(newtask.task_id)
 
     @staticmethod
     def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
-        """
-        
-        """
+        """ """
         new_t = t.copy()
         if pre <= new_t <= post:
             return new_t

@@ -26,6 +26,7 @@ class Planner:
     Not yet implemented:
     * functionality for breaking up and reallocating clusters. -> Happens automatically?
     """
+
     def __init__(self, config: Optional[ConfigType] = None):
         self.config = config
         self.patch_plan = PlanPatcher(config)
@@ -39,7 +40,7 @@ class Planner:
         plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
         """
-        Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar, as well as task_patches 
+        Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar, as well as task_patches
           and plan_patches. Designed to be:
           * declarative (user says what rather than how)
           * pure (no side effects)
@@ -52,50 +53,51 @@ class Planner:
         )
         projects = roadmaps.get_projects()
         projects.patch_tasks(task_patches)
-        #projects.order_by_dependency()
+        # projects.order_by_dependency()
 
         for project in projects:
-            subplan: SubplanType = self.get_subplan_from_project(project, projects)                 # TODO: make subplan respect precedence              
+            subplan: SubplanType = self.get_subplan_from_project(
+                project, projects
+            )  # TODO: make subplan respect precedence
             plan.add_subplan(subplan, project._tasks)
         # plan.reorder_by_precedence()
 
         plan = self.patch_plan(plan, plan_patches)
 
-        #----------------------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------
         # enforce temporal precedence constraints
-        
+
         self.enforce_precedence_constraints(plan, projects)
-        #----------------------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------
 
         return plan
 
     def get_subplan_from_project(  # move to Plan?
         self,
         project: Project,
-        projects: Projects,
     ) -> SubplanType:
         """
-        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged into the 
+        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged into the
           instance of `Plan`.
         """
-        #----------------------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------------------
         # make subplan respect temporal precedence constraints
         # for task in self._tasks:
         #     for dep_id in task.dependencies:
         #         if len(dep_id) == 2:
-        #             if task.tmpdate < 
+        #             if task.tmpdate <
         #         elif len(dep_id) == 3:
-        
+
         # for dep_id in project.dependencies:
         #     newdate = (self.get_end_from_id(dep_id, projects) or PDate.today()) + 1
         #     project.rigid_shift_start(newdate)
-        #----------------------------------------------------------------------------------------------------------------------------------
-        
+        # ----------------------------------------------------------------------------------------------------------------------------------
+
         clusters: ClusterType = self.cluster_task_ids(
             project.task_ids, project.cluster_size
         )
         subplan: SubplanType = self.allocate_in_time(clusters, project)
-        
+
         return subplan
 
     @staticmethod
@@ -150,14 +152,14 @@ class Planner:
     #         return projects[entity_id].tmpdate
     #     else:
     #         return None
-        
+
     @staticmethod
     def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
         inverse_plan = {}
         for date, ids in plan._plan.items():
             for task_id in ids:
                 inverse_plan.update({task_id: date})
-                
+
         def get_date(_id: Union[Tuple[str, str, str], Tuple[str, str]]) -> PDate:
             if len(_id) == 2:
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
@@ -172,4 +174,6 @@ class Planner:
                 limiting_dependency = max(task.dependencies, key=get_date)
                 earliest_date = inverse_plan[limiting_dependency] + 1
                 if plan_date < earliest_date:
-                    raise ValueError(f"Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}.")
+                    raise ValueError(
+                        f"Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}."
+                    )

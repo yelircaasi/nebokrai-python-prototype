@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Callable, Optional, Union
 
 from ...util import PDate, PTime, round5, tabularize
 from .entry import Entry
@@ -16,6 +16,7 @@ class Routine:
         normaltime: Optional[int] = None,
         mintime: Optional[int] = None,
         maxtime: Optional[int] = None,
+        valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
     ) -> None:
         self.name = name
         self.start = start
@@ -26,10 +27,14 @@ class Routine:
         self.normaltime = normaltime or 60
         self.mintime = mintime or round5(self.normaltime / 4)
         self.maxtime = maxtime or round5(self.normaltime * 2)
+        self.valid_dates = (
+            valid_dates
+            if callable(self.valid_dates)
+            else (lambda d: d in self.valid_dates)
+        )
 
     def valid_on(self, date: PDate) -> bool:
-        # TODO
-        return True
+        return self.valid_dates(date)
 
     def as_entry(self, start: Optional[PTime] = None) -> Entry:
         return Entry(self.name, start or self.start, priority=self.priority)  # TODO

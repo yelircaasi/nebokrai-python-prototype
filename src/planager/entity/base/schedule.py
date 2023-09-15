@@ -1,3 +1,4 @@
+from calendar import Calendar
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -19,6 +20,7 @@ class Schedule:
         width: int = 80,
         weight_interval_min: float = 0.8,
         weight_interval_max: float = 1.2,
+        prio_transform: Callable = lambda x: (x / 100) ** 1.5,
     ) -> None:
         self.schedule = schedule or self.make_default_day()
         self.date: PDate = date or PDate.today() + 1
@@ -26,12 +28,18 @@ class Schedule:
         self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
-        self.prio_transform: Callable = lambda x: (x / 100) ** 1.5
+        self.prio_transform: Callable = prio_transform
 
     def copy(self):
         newschedule = Schedule()
         newschedule.__dict__.update(self.__dict__)
         return newschedule
+
+    @classmethod
+    def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":
+        sched = cls(date)
+        ...
+        return sched
 
     @staticmethod
     def make_default_day() -> Entries:
@@ -96,7 +104,9 @@ class Schedule:
         if block_ind:
             self.schedule.add_to_block_by_index(entry, block_ind)
         else:
-            self.schedule = self.allocate_in_time(self.schedule + [entry])
+            self.schedule = Entries.allocate_in_time(
+                self.schedule + [entry], self.prio_weighting_function
+            )
 
     def remove(self, entry: Entry) -> None:
         ...
@@ -136,37 +146,6 @@ class Schedule:
             if not all(map(lambda x: x.ismovable, overlaps)):
                 return False
         return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
-
-    def allocate_in_time(
-        self, entries: Entries
-    ) -> (
-        Entries
-    ):  # MOVE TO ENTRIES? NAH -> need to refactor this, make purely functional
-        """
-        Creates a schedule (i.e. entry list) from a list of entries. Steps:
-          1) check whether the entries fit in a day
-          2) get the compression factor, i.e. how much, on average, the entries need to be compacted in order to fit
-          3) separate entries into fixed (immovable) and flex (movable)
-          4) add the fixed entried to the schedule
-          5) identify the gaps
-          6) fill in the gaps with the flex items TODO
-          7) resize between fixed points to remove small empty patches (where possible)
-          TODO: add alignend functionality (but first get it working without)
-        """
-        assert Entries.entry_list_fits(entries)
-        compression_factor = round(
-            (24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3
-        )
-
-        entries_fixed, entries_flex = self.schedule.get_fixed_and_flex()
-        schedule = Entries([FIRST_ENTRY, *entries_fixed, LAST_ENTRY])
-
-        schedule.fill_gaps(
-            entries_flex, self.prio_weighting_function, compression_factor
-        )
-        schedule.smooth_between_fixed(self.prio_weighting_function)
-
-        return schedule
 
     @property
     def prio_weighting_function(self) -> Callable[[Union[int, float]], float]:

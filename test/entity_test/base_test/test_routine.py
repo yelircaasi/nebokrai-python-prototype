@@ -8,57 +8,54 @@ from planager.util.pdatetime.ptime import PTime
 
 
 class RoutineTest:
-    routine1 = Routine("", start=PTime(0, 0))
-    routine2 = Routine("", start=PTime(0, 0))
-    routine3 = Routine("", start=PTime(0, 0))
-
-    exp_string1 = "\n" "\n" "\n" "\n"
-    exp_string2 = "\n" "\n" "\n" "\n"
-    exp_string3 = "\n" "\n" "\n" "\n"
-
     def test_init(self) -> None:
-        assert self.routine1
-        assert self.routine2
-        assert self.routine3
+        routine = Routine()
 
-    def test_valid_on(self) -> None:
-        assert self.routine1.valid_on(PDate(0, 0, 0))
-        assert self.routine2.valid_on(PDate(0, 0, 0))
-        assert self.routine3.valid_on(PDate(0, 0, 0))
+    def test_valid_on__via_list(self) -> None:
+        routine = Routine()
+        valid_date = PDate()
+        invalid_date = PDate()
 
-        assert not self.routine1.valid_on(PDate(0, 0, 0))
-        assert not self.routine2.valid_on(PDate(0, 0, 0))
-        assert not self.routine3.valid_on(PDate(0, 0, 0))
+        assert routine.valid_on(valid_date)
+        assert not routine.valid_on(invalid_date)
+
+    def test_valid_on__via_callable(self) -> None:
+        routine = Routine()
+        valid_date1 = PDate()
+        valid_date2 = PDate()
+        valid_date3 = PDate()
+        invalid_date1 = PDate()
+        invalid_date2 = PDate()
+        invalid_date3 = PDate()
+
+        assert routine.valid_on(valid_date1)
+        assert routine.valid_on(valid_date2)
+        assert routine.valid_on(valid_date3)
+        assert not routine.valid_on(invalid_date1)
+        assert not routine.valid_on(invalid_date2)
+        assert not routine.valid_on(invalid_date3)
 
     def test_as_entry(self) -> None:
-        entry1 = Entry("", PTime(0, 0))
-        entry2 = Entry("", PTime(0, 0))
-        entry3 = Entry("", PTime(0, 0))
-
-        assert self.routine1.as_entry() == entry1
-        assert self.routine2.as_entry() == entry2
-        assert self.routine3.as_entry(start=PTime(0, 0)) == entry3
+        routine = Routine()
+        entry = Entry()
+        assert routine.as_entry == entry
 
     def test_as_task(self) -> None:
-        task1 = Task("", ("", "", ""))
-        task2 = Task("", ("", "", ""))
-        task3 = Task("", ("", "", ""))
-
-        assert self.routine1.as_task()
-        assert self.routine2.as_task()
-        assert self.routine3.as_task()
+        routine = Routine()
+        task = Task()
+        assert routine.as_task == task
 
     def test_pretty(self) -> None:
-        assert self.routine1.pretty() == self.exp_string1
-        assert self.routine2.pretty() == self.exp_string2
-        assert self.routine3.pretty() == self.exp_string3
+        routine = Routine()
+        exp = ()
+        assert routine.pretty() == exp
 
     def test_str(self) -> None:
-        assert str(self.routine1) == self.exp_string1
-        assert str(self.routine2) == self.exp_string2
-        assert str(self.routine3) == self.exp_string3
+        routine = Routine()
+        exp = ()
+        assert str(routine) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.routine1) == self.exp_string1
-        assert repr(self.routine2) == self.exp_string2
-        assert repr(self.routine3) == self.exp_string3
+        routine = Routine()
+        exp = ()
+        assert repr(routine) == exp

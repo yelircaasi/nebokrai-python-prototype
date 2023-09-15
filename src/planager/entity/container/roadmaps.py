@@ -28,16 +28,17 @@ class Roadmaps:
                 raise ValueError(f"Roadmap item must have a path link: {str(item)}")
         return cls(roadmap_list, workspace_dir)
 
-    def open_projects_norg(self) -> Projects:
-        projects = Projects()
-        for roadmap in self._roadmaps.values():
-            for project in roadmap:
-                _project = project.copy()
-                # TODO project.update_from_norg()
-                projects.add(project)
-        return projects
+    # def open_projects_norg(self) -> Projects:
+    #     projects = Projects()
+    #     for roadmap in self._roadmaps.values():
+    #         for project in roadmap:
+    #             _project = project.copy()
+    #             # TODO project.update_from_norg()
+    #             projects.add(_project)
+    #     return projects
 
-    def get_projects(self) -> Projects:  # Dict[Tuple[str, str], Project]:
+    @property
+    def projects(self) -> Projects:  # Dict[Tuple[str, str], Project]:
         projects: Projects = Projects()  # Dict[Tuple[str, str], Project] = {}
         for roadmap_id, roadmap in self._roadmaps.items():
             for project_id, project in roadmap._projects._projects.items():
@@ -80,8 +81,8 @@ class Roadmaps:
     def __getitem__(self, __key: str) -> Roadmap:
         return self._roadmaps[__key]
 
-    def __setitem__(self, __name: str, __value: Any) -> None:
-        ...
+    def __setitem__(self, __id: str, __roadmap: Any) -> None:
+        self._roadmaps.update({__id: __roadmap})
 
     def __str__(self) -> str:
         return self.pretty()

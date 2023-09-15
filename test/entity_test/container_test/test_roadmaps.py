@@ -7,72 +7,71 @@ from planager.entity.container.roadmaps import Roadmaps
 
 
 class RoadmapsTest:
-    roadmaps1 = Roadmaps()
-    roadmaps2 = Roadmaps()
-
-    exp_string1 = "\n" "\n" ""
-    exp_string2 = "\n" "\n" ""
-
     def test_init(self) -> None:
-        assert self.roadmaps1
-        assert self.roadmaps2
+        roadmaps = Roadmaps()
+        roadmap_dict = {}
+        workspace_dir = Path()
+
+        assert roadmaps.workspace_dir == workspace_dir
+        assert roadmaps._roadmaps == roadmap_dict
 
     def test_from_norg_workspace(self) -> None:
-        path1 = Path("")
-        path2 = Path("")
+        path1 = Path()
+        path2 = Path()
+        path3 = Path()
 
-        roadmaps3 = Roadmaps.from_norg_workspace(path1)
-        roadmaps4 = Roadmaps.from_norg_workspace(path2)
+        roadmaps1 = Roadmaps.from_norg_workspace(path1)
+        roadmaps2 = Roadmaps.from_norg_workspace(path2)
+        roadmaps3 = Roadmaps.from_norg_workspace(path3)
 
-        assert roadmaps3 == self.roadmaps1
-        assert roadmaps4 == self.roadmaps2
+        exp1 = Roadmaps()
+        exp2 = Roadmaps()
+        exp3 = Roadmaps()
 
-    def test_open_projects_norg(self) -> None:
-        exp1 = Projects()
-        exp2 = Projects()
+        assert roadmaps1 == exp1
+        assert roadmaps2 == exp2
+        assert roadmaps3 == exp3
 
-        rm1 = Roadmaps([r.copy() for r in self.roadmaps1])
-        rm2 = Roadmaps([r.copy() for r in self.roadmaps2])
+    # def test_open_projects_norg(self) -> None:
 
-        rm1.open_projects_norg()
-        rm2.open_projects_norg()
+    def test_projects(self) -> None:
+        roadmaps = Roadmaps()
+        projects = Projects()
 
-        assert rm1 == exp1
-        assert rm2 == exp2
-
-    def test_get_projects(self) -> None:
-        exp1 = Projects()
-        exp2 = Projects()
-
-        assert self.roadmaps1.get_projects() == exp1
-        assert self.roadmaps2.get_projects() == exp2
+        assert roadmaps.projects == projects
 
     def test_pretty(self) -> None:
-        assert self.roadmaps1.pretty() == self.exp_string1
-        assert self.roadmaps2.pretty() == self.exp_string2
+        roadmaps = Roadmaps()
+        exp = ()
+        assert roadmaps.pretty() == exp
 
     def test_iter(self) -> None:
-        assert list(self.roadmaps1) == []
-        assert list(self.roadmaps2) == []
+        roadmaps_list = []
+        roadmaps = Roadmaps()
+        assert roadmaps_list == list(roadmaps)
 
     def test_getitem(self) -> None:
-        assert self.roadmaps1[""] == Roadmap("", "", Projects())
-        assert self.roadmaps2[""] == Roadmap("", "", Projects())
+        roadmaps = Roadmaps()
+        roadmap = Roadmap()
+        roadmap_id = ""
+
+        assert roadmaps[roadmap_id] == roadmap
 
     def test_setitem(self) -> None:
-        rm = Roadmaps()
+        roadmaps = Roadmaps()
+        roadmap = Roadmap()
+        roadmap_id = ""
 
-        exp = Roadmaps()
+        roadmaps[roadmap_id] = roadmap
 
-        rm["3"] = Roadmap("", "", Projects())
-        rm["1"] = Roadmap("", "", Projects())
-
-        assert rm == exp
+        assert roadmaps[roadmap_id] == roadmap
 
     def test_str(self) -> None:
-        assert str(self.roadmaps1) == self.exp_string1
-        assert str(self.roadmaps2) == self.exp_string2
+        roadmaps = Roadmaps()
+        exp = ()
+        assert str(roadmaps) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.roadmaps1) == self.exp_string1
-        assert repr(self.roadmaps2) == self.exp_string2
+        roadmaps = Roadmaps()
+        exp = ()
+        assert repr(roadmaps) == exp

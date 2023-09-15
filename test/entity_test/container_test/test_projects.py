@@ -3,72 +3,41 @@ import pytest
 from planager.entity.base.project import Project
 
 from planager.entity.container.projects import Projects
+from planager.entity.container.tasks import Tasks
 from planager.entity.patch.task_patch import TaskPatches
 from planager.util.pdatetime.pdate import PDate
 
 
 class ProjectsTest:
-    projects1 = Projects()
-    projects2 = Projects()
-
-    exp_string1 = "\n" "\n" ""
-    exp_string2 = "\n" "\n" ""
-
-    def test_init(self) -> None:
-        assert self.projects1
-        assert self.projects2
-
-    def test_projects(self) -> None:
-        exp1: List[Projects] = []
-        exp2: List[Projects] = []
-
-        assert self.projects1.projects == exp1
-        assert self.projects2.projects == exp2
-
-    def test_projects_setter(self) -> None:
-        projs1 = Projects([p.copy() for p in self.projects1])
-        projs2 = Projects([p.copy() for p in self.projects2])
-
-        exp1 = Projects()
-        exp2 = Projects()
-
-        projs1.projects == ...  # NEED TO TEST FOR AN ERROR HERE
-        projs2.projects == ...
-
-        assert projs1 == exp1
-        assert projs2 == exp2
+    # def test_init(self) -> None:
 
     def test_add(self) -> None:
-        projs1 = Projects([p.copy() for p in self.projects1])
-        projs2 = Projects([p.copy() for p in self.projects2])
+        projects = Projects()
+        project = Project()
+        exp = Projects()
 
-        exp1 = Projects()
-        exp2 = Projects()
+        projects.add(project)
 
-        projs1.projects == ...  # NEED TO TEST FOR AN ERROR HERE
-        projs2.projects == ...
+        assert projects == exp
 
-        assert projs1 == exp1
-        assert projs2 == exp2
+    def test_tasks(self) -> None:
+        projects = Projects()
+        tasks = Tasks()
+        assert projects.tasks == tasks
 
     def test_get_tasks(self) -> None:
-        assert True
+        projects = Projects()
+        tasks = Tasks()
+        assert projects._get_tasks() == tasks
 
     def test_patch_tasks(self) -> None:
-        projs1 = Projects([p.copy() for p in self.projects1])
-        projs2 = Projects([p.copy() for p in self.projects2])
+        projects = Projects()
+        task_patches = TaskPatches()
+        exp = Projects()
 
-        patches1 = TaskPatches()
-        patches2 = TaskPatches()
+        projects.patch_tasks(task_patches)
 
-        exp1 = Projects()
-        exp2 = Projects()
-
-        projs1.patch_tasks(patches1)
-        projs2.patch_tasks(patches2)
-
-        assert projs1 == exp1
-        assert projs2 == exp2
+        assert projects == exp
 
     # def test_make_dependency_ordered_lists(self) -> None:
     #     projs1 = Projects([p.copy() for p in self.projects1])
@@ -87,34 +56,36 @@ class ProjectsTest:
     #     assert projs2 == exp2
 
     def test_pretty(self) -> None:
-        assert self.projects1.pretty() == self.exp_string1
-        assert self.projects2.pretty() == self.exp_string2
+        projects = Projects()
+        exp = ()
+        assert projects.pretty() == exp
 
     def test_iter(self) -> None:
-        assert list(self.projects1) == []
-        assert set(self.projects2) == {}
+        projects = Projects()
+        exp = []
+        assert list(projects) == exp
 
     def test_getitem(self) -> None:
-        assert self.projects1[("", "")] == Project("", ("", ""))
-        assert self.projects2[("", "")] == Project("", ("", ""))
+        projects = Projects()
+        proj_id = ()
+        exp = []
+        assert projects[proj_id] == exp
 
     def test_setitem(self) -> None:
-        projs1 = Projects([p.copy() for p in self.projects1])
-        projs2 = Projects([p.copy() for p in self.projects2])
+        projects = Projects()
+        project = Project()
+        proj_id = ()
 
-        exp1 = Projects()
-        exp2 = Projects()
+        projects[proj_id] = project
 
-        projs1[("", "", "")] == ...
-        projs2[("", "", "")] == ...
-
-        assert projs1 == exp1
-        assert projs2 == exp2
+        assert projects[proj_id] == project
 
     def test_str(self) -> None:
-        assert str(self.projects1) == self.exp_string1
-        assert str(self.projects2) == self.exp_string2
+        projects = Projects()
+        exp = ()
+        assert str(projects) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.projects1) == self.exp_string1
-        assert repr(self.projects2) == self.exp_string2
+        projects = Projects()
+        exp = ()
+        assert str(projects) == exp

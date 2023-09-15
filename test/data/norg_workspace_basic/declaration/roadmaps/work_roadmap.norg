@@ -10,7 +10,7 @@ author: yelircaasi
 
 ~ Docker Deep Dive (2023) || 
 
-~Docker in Action || 
+~ Docker in Action || 
 
 ~ Docker Compose для разработчика || 
 
@@ -51,10 +51,13 @@ author: yelircaasi
 
 ~ The Java Workshop || 
 
-~ The Well-Grounded Java Developer || 
-
 ~ Learning Java (5e & 6e) || 
 
-~ Modern Java in Action (2e) || 
-
 ~ Hands-On Software Architecture with Java || 
+  -- dependencies: "Mastering Java. A Beginner's Guide", "The Java Workshop"
+
+~ The Well-Grounded Java Developer || 
+  -- dependencies: "Mastering Java. A Beginner's Guide", "The Java Workshop"
+
+~ Modern Java in Action (2e) || 
+  -- dependencies: "The Well-Grounded Java Developer"

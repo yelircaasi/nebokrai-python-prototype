@@ -1,3 +1,4 @@
+from calendar import Calendar
 from typing import Optional
 
 from ..entity import AdHoc, Plan, Routines, Schedule, SchedulePatches, Schedules, Tasks
@@ -13,6 +14,7 @@ class Scheduler:
     def __call__(
         self,
         plan: Plan,
+        calendar: Calendar,
         tasks: Tasks,
         routines: Routines,
         adhoc: AdHoc,
@@ -28,7 +30,7 @@ class Scheduler:
         )
         schedules = Schedules()
         for date in start_date_new.range(end_date_new):
-            schedule = Schedule(date)
+            schedule = Schedule.from_calendar(calendar, date)
             schedule.add_routines(routines)
             schedule.add_adhoc(adhoc)
             schedule.add_from_plan(plan, tasks)

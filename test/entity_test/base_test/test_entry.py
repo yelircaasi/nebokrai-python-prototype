@@ -378,8 +378,7 @@ class EntryTest:
             "  -- order:      45"
         )
         assert self.entry_0_030.as_norg() == (
-            "~ 00:00-00:30 | random name\n"
-            "  -- normaltime: 30"
+            "~ 00:00-00:30 | random name\n" "  -- normaltime: 30"
         )
 
     # []
@@ -791,6 +790,8 @@ class EntryTest:
         assert repr(self.entry_7_1030_a) == self.exp_string_7_1030_a
         assert repr(self.entry_7_1030_b) == self.exp_string_7_1030_b
         assert repr(self.entry_0_030) == self.exp_string_0_030
+
+
 '''
 
 class EmptyTest:

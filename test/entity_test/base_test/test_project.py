@@ -4,78 +4,115 @@ import pytest
 
 from planager.entity.base.project import Project
 from planager.entity.base.task import Task
+from planager.util.pdatetime.pdate import PDate
 
 
 class ProjectTest:
-    project1 = Project("", ("", ""))
-    project2 = Project("", ("", ""))
-    project3 = Project("", ("", ""))
-
-    exp_string1 = "\n" "\n" "\n" "\n"
-    exp_string2 = "\n" "\n" "\n" "\n"
-    exp_string3 = "\n" "\n" "\n" "\n"
-
     def test_init(self) -> None:
-        assert True
+        project_default = Project()
+        project_custom = Project()
+
+        assert project_default.name == ...
+        assert project_default.project_id == ...
+        assert project_default.tasks == ...
+        assert project_default.priority == ...
+        assert project_default.start == ...
+        assert project_default.end == ...
+        assert project_default.interval == ...
+        assert project_default.cluster_size == ...
+        assert project_default.duration == ...
+        assert project_default.tags == ...
+        assert project_default.description == ...
+        assert project_default.notes == ...
+        assert project_default.path == ...
+        assert project_default.dependencies == ...
+        assert project_default.categories == ...
+
+        assert project_custom.name == ...
+        assert project_custom.project_id == ...
+        assert project_custom.tasks == ...
+        assert project_custom.priority == ...
+        assert project_custom.start == ...
+        assert project_custom.end == ...
+        assert project_custom.interval == ...
+        assert project_custom.cluster_size == ...
+        assert project_custom.duration == ...
+        assert project_custom.tags == ...
+        assert project_custom.description == ...
+        assert project_custom.notes == ...
+        assert project_custom.path == ...
+        assert project_custom.dependencies == ...
+        assert project_custom.categories == ...
 
     def test_from_norg_path(self) -> None:
         path1 = Path()
         path2 = Path()
+        path3 = Path()
 
-        p1 = Project.from_norg_path(path1, "Project 1")
-        p2 = Project.from_norg_path(path2, "Project 2")
+        project1 = Project.from_norg_path(path1, "Project 1")
+        project2 = Project.from_norg_path(path2, "Project 2")
+        project3 = Project.from_norg_path(path3, "Project 3")
 
-        assert p1
-        assert p2
+        exp1 = Project()
+        exp2 = Project()
+        exp3 = Project()
+
+        assert project1 == exp1
+        assert project2 == exp2
+        assert project3 == exp3
 
     def test_from_roadmap_item(self) -> None:
-        item1 = "" "" ""
-        item2 = "" "" ""
+        roadmap_str = ()
+        project = Project.from_roadmap_item(roadmap_str, "", Path(""))
+        exp = Project()
 
-        p1 = Project.from_roadmap_item("", "", Path(""))
-        p2 = Project.from_roadmap_item("", "", Path(""))
+        assert project == exp
 
     def test_copy(self) -> None:
-        assert self.project1.copy()
-        assert self.project2.copy()
-        assert self.project3.copy()
+        project = Project()
+        copy = project.copy()
+
+        assert id(project) != id(copy)
+        assert project.__dict__ == copy.__dict__
 
     def test_get_start(self) -> None:
-        assert self.project1
-        assert self.project2
-        assert self.project3
+        project = Project()
+        start = PDate()
+
+        assert project.get_start() == start
 
     def test_get_end(self) -> None:
-        assert self.project1
-        assert self.project2
-        assert self.project3
+        project = Project()
+        end = PDate()
+
+        assert project.get_end() == end
 
     def test_task_ids(self) -> None:
-        assert self.project1.task_ids
-        assert self.project2.task_ids
-        assert self.project3.task_ids
+        project = Project()
+        task_ids = []
+
+        assert project.task_ids == task_ids
 
     def test_pretty(self) -> None:
-        assert self.project1.pretty() == self.exp_string1
-        assert self.project2.pretty() == self.exp_string2
-        assert self.project3.pretty() == self.exp_string3
-
-    def test_str(self) -> None:
-        assert str(self.project1) == self.exp_string1
-        assert str(self.project2) == self.exp_string2
-        assert str(self.project3) == self.exp_string3
-
-    def test_repr(self) -> None:
-        assert repr(self.project1) == self.exp_string1
-        assert repr(self.project2) == self.exp_string2
-        assert repr(self.project3) == self.exp_string3
+        project = Project()
+        exp = ()
+        assert project.pretty() == exp
 
     def test_iter(self) -> None:
-        assert list(self.project1) == []
-        assert list(self.project2) == []
-        assert list(self.project3) == []
+        project = Project()
 
     def test_getitem(self) -> None:
-        assert self.project1[("", "", "")] == Task("", ("", "", ""))
-        assert self.project2[("", "", "")] == Task("", ("", "", ""))
-        assert self.project3[("", "", "")] == Task("", ("", "", ""))
+        project = Project()
+        task = Task("", ("", "", ""))
+
+        assert project[("", "", "")] == task
+
+    def test_str(self) -> None:
+        project = Project()
+        exp = ()
+        assert str(project) == exp
+
+    def test_repr(self) -> None:
+        project = Project()
+        exp = ()
+        assert repr(project) == exp

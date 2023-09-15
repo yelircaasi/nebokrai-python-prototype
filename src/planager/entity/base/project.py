@@ -156,14 +156,14 @@ class Project:
             + bottombeam
         )
 
-    def __str__(self) -> str:
-        return self.pretty()
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
     def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
         return self._tasks[__key]
+
+    def __str__(self) -> str:
+        return self.pretty()
+
+    def __repr__(self) -> str:
+        return self.__str__()

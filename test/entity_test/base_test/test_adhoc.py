@@ -9,257 +9,127 @@ from planager.util.pdatetime.ptime import PTime
 
 
 class AdHocTest:
-    adhoc1 = AdHoc()
-    adhoc2 = AdHoc()
-    adhoc3 = AdHoc()
-
-    exp_string1 = "\n" "\n" "\n" "\n"
-    exp_string2 = "\n" "\n" "\n" "\n"
-    exp_string3 = "\n" "\n" "\n" "\n"
-
-    exp_norg_string1 = "\n" "\n" "\n" "\n"
-    exp_norg_string2 = "\n" "\n" "\n" "\n"
-    exp_norg_string3 = "\n" "\n" "\n" "\n"
-
-    exp_json_string1 = "\n" "\n" "\n" "\n"
-    exp_json_string2 = "\n" "\n" "\n" "\n"
-    exp_json_string3 = "\n" "\n" "\n" "\n"
-
-    exp_html_string1 = "\n" "\n" "\n" "\n"
-    exp_html_string2 = "\n" "\n" "\n" "\n"
-    exp_html_string3 = "\n" "\n" "\n" "\n"
-
     def test_init(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1
-        assert self.adhoc2
-        assert self.adhoc3
+        adhoc = AdHoc()
+        exp = AdHoc()
+
+        assert adhoc == exp
 
     def test_from_norg_workspace(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
         path1 = Path()
         path2 = Path()
         path3 = Path()
 
-        assert AdHoc.from_norg_workspace(path1) == self.adhoc1
-        assert AdHoc.from_norg_workspace(path2) == self.adhoc2
-        assert AdHoc.from_norg_workspace(path3) == self.adhoc3
+        adhoc1 = AdHoc()
+        adhoc2 = AdHoc()
+        adhoc3 = AdHoc()
+
+        assert AdHoc.from_norg_workspace(path1) == adhoc1
+        assert AdHoc.from_norg_workspace(path2) == adhoc2
+        assert AdHoc.from_norg_workspace(path3) == adhoc3
 
     def test_from_norg(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert AdHoc.from_norg(self.exp_norg_string1) == self.adhoc1
-        assert AdHoc.from_norg(self.exp_norg_string2) == self.adhoc2
-        assert AdHoc.from_norg(self.exp_norg_string3) == self.adhoc3
+        adhoc = AdHoc()
+        norg_string = ()
+
+        assert AdHoc.from_norg(norg_string) == adhoc
 
     def test_from_json(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert AdHoc.from_json(self.exp_json_string1) == self.adhoc1
-        assert AdHoc.from_json(self.exp_json_string2) == self.adhoc2
-        assert AdHoc.from_json(self.exp_json_string3) == self.adhoc3
+        adhoc = AdHoc()
+        json_string = ()
+
+        assert AdHoc.from_json(json_string) == adhoc
 
     def test_from_html(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert AdHoc.from_html(self.exp_html_string1) == self.adhoc1
-        assert AdHoc.from_html(self.exp_html_string2) == self.adhoc2
-        assert AdHoc.from_html(self.exp_html_string3) == self.adhoc3
+        adhoc = AdHoc()
+        html_string = ()
+
+        assert AdHoc.from_html(html_string) == adhoc
 
     def test_copy(self) -> None:
-        assert self.adhoc1 == AdHoc(Entries([Entry("", PTime(0, 0))]))
-        assert self.adhoc2 == AdHoc(Entries([Entry("", PTime(0, 0))]))
-        assert self.adhoc3 == AdHoc(Entries([Entry("", PTime(0, 0))]))
+        adhoc = AdHoc()
+        copy = adhoc.copy()
+
+        assert adhoc.__dict__ == copy.__dict__
 
     def test_to_norg(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        tmp_path = Path()
+        adhoc = AdHoc()
+        adhoc_path = Path()
+        exp = ()
 
-        self.adhoc1.to_norg(tmp_path)
-        with open(tmp_path) as f:
+        adhoc.to_norg(adhoc_path)
+        with open(adhoc_path) as f:
             saved = f.read()
-        assert saved == self.exp_json_string1
-
-        self.adhoc2.to_norg(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string2
-
-        self.adhoc3.to_norg(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string3
+        assert saved == exp
 
     def test_to_json(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        tmp_path = Path()
+        adhoc = AdHoc()
+        adhoc_path = Path()
+        exp = ()
 
-        self.adhoc1.to_json(tmp_path)
-        with open(tmp_path) as f:
+        adhoc.to_json(adhoc_path)
+        with open(adhoc_path) as f:
             saved = f.read()
-        assert saved == self.exp_json_string1
-
-        self.adhoc2.to_json(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string2
-
-        self.adhoc3.to_json(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string3
+        assert saved == exp
 
     def test_to_html(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        tmp_path = Path()
+        adhoc = AdHoc()
+        adhoc_path = Path()
+        exp = ()
 
-        self.adhoc1.to_html(tmp_path)
-        with open(tmp_path) as f:
+        adhoc.to_html(adhoc_path)
+        with open(adhoc_path) as f:
             saved = f.read()
-        assert saved == self.exp_json_string1
-
-        self.adhoc2.to_html(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string2
-
-        self.adhoc3.to_html(tmp_path)
-        with open(tmp_path) as f:
-            saved = f.read()
-        assert saved == self.exp_json_string3
+        assert saved == exp
 
     def test_to_norg_string(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.to_norg_string() == self.exp_norg_string1
-        assert self.adhoc2.to_norg_string() == self.exp_norg_string2
-        assert self.adhoc3.to_norg_string() == self.exp_norg_string3
+        adhoc = AdHoc()
+        exp = ()
+
+        assert adhoc.to_norg_string() == exp
 
     def test_to_json_string(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.to_json_string() == self.exp_json_string1
-        assert self.adhoc2.to_json_string() == self.exp_json_string2
-        assert self.adhoc3.to_json_string() == self.exp_json_string3
+        adhoc = AdHoc()
+        exp = ()
+
+        assert adhoc.to_json_string() == exp
 
     def test_to_html_string(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.to_html_string() == self.exp_html_string1
-        assert self.adhoc2.to_html_string() == self.exp_html_string2
-        assert self.adhoc3.to_html_string() == self.exp_html_string3
+        adhoc = AdHoc()
+        exp = ()
+
+        assert adhoc.to_html_string() == exp
 
     def test_start_date(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.start_date == PTime(0, 0)
-        assert self.adhoc2.start_date == PTime(0, 0)
-        assert self.adhoc3.start_date == PTime(0, 0)
+        adhoc = AdHoc()
+        start = PDate()
+
+        assert adhoc.start_date == start
 
     def test_end_date(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.end_date == PTime(0, 0)
-        assert self.adhoc2.end_date == PTime(0, 0)
-        assert self.adhoc3.end_date == PTime(0, 0)
+        adhoc = AdHoc()
+        end = PDate()
+
+        assert adhoc.end_date == end
 
     def test_pretty(self):
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1.pretty() == self.exp_string1
-        assert self.adhoc2.pretty() == self.exp_string2
-        assert self.adhoc3.pretty() == self.exp_string3
+        adhoc = AdHoc()
+        exp = ()
+        assert adhoc.pretty() == exp
 
     def test_getitem(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.adhoc1[PDate(0, 0, 0)] == Entries([])
-        assert self.adhoc2[PDate(0, 0, 0)] == Entries([])
-        assert self.adhoc3[PDate(0, 0, 0)] == Entries([])
+        adhoc = AdHoc()
+        entries = Entries()
+        date = PDate()
+
+        assert adhoc[date] == entries
 
     def test_str(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert str(self.adhoc1) == self.exp_string1
-        assert str(self.adhoc2) == self.exp_string2
-        assert str(self.adhoc3) == self.exp_string3
+        adhoc = AdHoc()
+        exp = ()
+        assert str(adhoc) == exp
 
     def test_repr(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert repr(self.adhoc1) == self.exp_string1
-        assert repr(self.adhoc2) == self.exp_string2
-        assert repr(self.adhoc3) == self.exp_string3
+        adhoc = AdHoc()
+        exp = ()
+        assert repr(adhoc) == exp

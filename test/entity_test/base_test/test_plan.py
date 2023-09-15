@@ -7,13 +7,13 @@ from planager.util.pdatetime import PDate
 
 
 class PlanTest:
-    plan1 = Plan()
-    plan2 = Plan()
-    plan3 = Plan()
+    # plan1 = Plan()
+    # plan2 = Plan()
+    # plan3 = Plan()
 
-    exp_string1 = "\n" "\n" "\n" "\n"
-    exp_string2 = "\n" "\n" "\n" "\n"
-    exp_string3 = "\n" "\n" "\n" "\n"
+    # exp_string1 = "\n" "\n" "\n" "\n"
+    # exp_string2 = "\n" "\n" "\n" "\n"
+    # exp_string3 = "\n" "\n" "\n" "\n"
 
     # def test_init(self) -> None:
     # """
@@ -26,160 +26,121 @@ class PlanTest:
     #     assert self.plan2
     #     assert self.plan3
 
-    def test_copy(self) -> None:
-        copy1 = self.plan1.copy()
-        copy2 = self.plan2.copy()
-        copy3 = self.plan3.copy()
+    # def test_copy(self) -> None:
+    #     copy1 = self.plan1.copy()
+    #     copy2 = self.plan2.copy()
+    #     copy3 = self.plan3.copy()
 
-        assert self.plan1 == copy1
-        assert self.plan2 == copy2
-        assert self.plan3 == copy3
+    #     assert self.plan1 == copy1
+    #     assert self.plan2 == copy2
+    #     assert self.plan3 == copy3
 
-        assert id(self.plan1) != id(copy1)
-        assert id(self.plan2) != id(copy2)
-        assert id(self.plan3) != id(copy3)
+    #     assert id(self.plan1) != id(copy1)
+    #     assert id(self.plan2) != id(copy2)
+    #     assert id(self.plan3) != id(copy3)
 
     def test_add_tasks(self) -> None:
         """
         Cases:
-        1)
-        2)
-        3)
+        1) tasks fit
+        2) tasks do not fit
         """
-        assert self.plan1
-        assert self.plan2
-        assert self.plan3
+        plan_fit = Plan()
+        plan_excess = Plan()
+
+        exp_fit = Plan()
+        exp_excess = Plan()
+
+        assert plan_fit.add_tasks(PDate(), []) == []
+        assert plan_fit == exp_fit
+        assert plan_excess.add_tasks(PDate(), []) == []
+        assert plan_excess == exp_excess
 
     def test_add_subplan(self) -> None:
         """
         Cases:
-        1)
-        2)
-        3)
+        1) no rollover
+        2) rollover
         """
-        plan4 = Plan()
-        plan5 = Plan()
-        subplan1 = {PDate(0, 0, 0): [("", "", "")], PDate(0, 0, 0): [("", "", "")]}
-        subplan2 = {PDate(0, 0, 0): [("", "", "")], PDate(0, 0, 0): [("", "", "")]}
-        tasks1 = Tasks(
-            [Task("", ("", "", "")), Task("", ("", "", "")), Task("", ("", "", ""))]
-        )
-        tasks2 = Tasks(
-            [Task("", ("", "", "")), Task("", ("", "", "")), Task("", ("", "", ""))]
-        )
+        no_rollover = Plan()
+        rollover = Plan()
 
-        plan4.add_subplan(subplan1, tasks1)
-        assert plan4
+        subplan_no_rollover = {}
+        subplan_rollover = {}
 
-        plan4.add_subplan(subplan2, tasks2)
-        assert plan5
+        exp_no_rollover = Plan()
+        exp_rollover = Plan()
+
+        no_rollover.add_subplan(subplan_no_rollover)
+        rollover.add_subplan(subplan_rollover)
+
+        assert no_rollover == exp_no_rollover
+        assert rollover == exp_rollover
 
     def test_ensure_date(self) -> None:
         """
         Cases:
-        1)
-        2)
-        3)
+        1) date already exists
+        2) date missing
         """
-        plan4 = Plan()
-        d = PDate(0, 0, 0)
+        plan = Plan()
+        date_present = PDate(0, 0, 0)
+        date_absent = PDate(0, 0, 0)
+        date_never = PDate(0, 0, 0)
 
-        plan4.ensure_date(d)
-        assert d in plan4
+        plan.ensure_date(date_present)
+        plan.ensure_date(date_absent)
+
+        assert date_present in plan
+        assert date_absent in plan
+        assert not date_never in plan
 
     def test_end_date(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.plan1.end_date == PDate(0, 0, 0)
-        assert self.plan2.end_date == PDate(0, 0, 0)
-        assert self.plan3.end_date == PDate(0, 0, 0)
+        plan = Plan()
+        assert plan.end_date == PDate(0, 0, 0)
 
     def test_start_date(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.plan1.start_date == PDate(0, 0, 0)
-        assert self.plan2.start_date == PDate(0, 0, 0)
-        assert self.plan3.start_date == PDate(0, 0, 0)
+        plan = Plan()
+        assert plan.start_date == PDate(0, 0, 0)
 
     def test_tasks(self) -> None:
-        """
-        Cases:
-        1)
-        2)
-        3)
-        """
-        assert self.plan1.tasks == ...
-        assert self.plan2.tasks == ...
-        assert self.plan3.tasks == ...
+        plan = Plan()
+        assert plan.tasks == ...
 
-    def test_reorder_by_precedence(self) -> None:
-        p1 = self.plan1.copy()
-        p2 = self.plan2.copy()
-        p3 = self.plan3.copy()
+    # def test_reorder_by_precedence(self) -> None:
+    #     """
+    #     Cases:
+    #     1)
+    #     2)
+    #     3)
+    #     """
+    #     plan = Plan()
+    #     exp = Plan()
 
-        p1.reorder_by_precedence()
-        p2.reorder_by_precedence()
-        p3.reorder_by_precedence()
+    #     plan.reorder_by_precedence()
 
-        assert p1 == Plan()
-        assert p2 == Plan()
-        assert p3 == Plan()
+    #     assert plan == exp
 
     def test_adjust_tmpdate_to_neighbors(self) -> None:
-        task1 = Task("", ("", "", ""))
-        task2 = Task("", ("", "", ""))
-        task3 = Task("", ("", "", ""))
-        task4 = Task("", ("", "", ""))
-        task5 = Task("", ("", "", ""))
+        task = Task("", ("", "", ""))
+        task_pre = Task("", ("", "", ""))
+        task_post = Task("", ("", "", ""))
+        exp = Task("", ("", "", ""))
 
-        exp1 = Task("", ("", "", ""))
-        exp2 = Task("", ("", "", ""))
-        exp3 = Task("", ("", "", ""))
+        assert Plan.adjust_tmpdate_to_neighbors(task, task_pre, task_post) == exp
 
-        assert Plan.adjust_tmpdate_to_neighbors(task2, task1, task3) == exp1
-        assert Plan.adjust_tmpdate_to_neighbors(task3, task2, task4) == exp2
-        assert Plan.adjust_tmpdate_to_neighbors(task4, task3, task5) == exp3
+    # def test_contains(self) -> None:
 
-    def test_contains(self) -> None:
-        assert PDate(0, 0, 0) in self.plan1
-        assert PDate(0, 0, 0) in self.plan2
-        assert PDate(0, 0, 0) in self.plan3
+    # def test_getitem(self) -> None:
 
-        assert PDate(0, 0, 0) not in self.plan1
-        assert PDate(0, 0, 0) not in self.plan2
-        assert PDate(0, 0, 0) not in self.plan3
-
-    def test_getitem(self) -> None:
-        assert self.plan1[PDate(0, 0, 0)]
-        assert self.plan2[PDate(0, 0, 0)]
-        assert self.plan3[PDate(0, 0, 0)]
-
-    def test_setitem(self) -> None:
-        plan4 = Plan()
-        new_ids = [("", "", ""), ("", "", "")]
-
-        plan4[PDate(0, 0, 0)] = new_ids
-        plan4[PDate(0, 0, 0)] = new_ids
-        plan4[PDate(0, 0, 0)] = new_ids
-
-        assert plan4[PDate(0, 0, 0)] == plan4
-        assert plan4[PDate(0, 0, 0)] == plan4
-        assert plan4[PDate(0, 0, 0)] == plan4
+    # def test_setitem(self) -> None:
 
     def test_str(self) -> None:
-        assert str(self.plan1) == self.exp_string1
-        assert str(self.plan2) == self.exp_string2
-        assert str(self.plan3) == self.exp_string3
+        plan = Plan()
+        exp = "" "" ""
+        assert str(plan) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.plan1) == self.exp_string1
-        assert repr(self.plan2) == self.exp_string2
-        assert repr(self.plan3) == self.exp_string3
+        plan = Plan()
+        exp = "" "" ""
+        assert repr(plan) == exp

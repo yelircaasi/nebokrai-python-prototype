@@ -7,52 +7,46 @@ from planager.util.pdatetime.ptime import PTime
 
 
 class RoutinesTest:
-    routines1 = Routines()
-    routines2 = Routines()
+    def test_init_and_from_norg_workspace(self) -> None:
+        path = Path()
+        routines = Routines.from_norg_workspace(path)
+        exp = Routines()
 
-    exp_string1 = "\n" "\n" ""
-    exp_string2 = "\n" "\n" ""
-
-    def test_init(self) -> None:
-        assert self.routines1
-        assert self.routines2
-
-    def test_from_norg_workspace(self) -> None:
-        routines3 = Routines.from_norg_workspace(Path(""))
-        routines4 = Routines.from_norg_workspace(Path(""))
-
-        assert routines3 == self.routines1
-        assert routines4 == self.routines2
+        assert routines == exp
 
     def test_add(self) -> None:
-        routines4 = Routines()
-        routines5 = Routines()
+        routines = Routines()
+        routine = Routine()
+        exp = Routines()
 
-        exp4 = Routines()
-        exp5 = Routines()
+        routines.add(routine)
 
-        routines4.add(Routine("", PTime(), items=[]))
-        routines5.add(Routine("", PTime(), items=[]))
-
-        assert routines4 == exp4
-        assert routines5 == exp5
+        assert routines == exp
 
     def test_pretty(self) -> None:
-        assert self.routines1.pretty() == self.exp_string1
-        assert self.routines2.pretty() == self.exp_string2
+        routines = Routines()
+        exp = ()
+        assert routines.pretty() == exp
 
     def test_iter(self) -> None:
-        assert list(self.routines1) == []
-        assert set(self.routines2) == {}
+        routines = Routines()
+        routine_list = []
+
+        assert list(routines) == routine_list
 
     def test_getitem(self) -> None:
-        assert self.routines1[""] == Routine("", PTime(0, 0), items=[])
-        assert self.routines2[""] == Routine("", PTime(0, 0), items=[])
+        routines = Routines()
+        routine = Routine()
+        routine_id = ""
+
+        assert routines[routine_id] == routine
 
     def test_str(self) -> None:
-        assert str(self.routines1) == self.exp_string1
-        assert str(self.routines2) == self.exp_string2
+        routines = Routines()
+        exp = ()
+        assert str(routines) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.routines1) == self.exp_string1
-        assert repr(self.routines2) == self.exp_string2
+        routines = Routines()
+        exp = ()
+        assert repr(routines) == exp

@@ -7,45 +7,43 @@ from planager.util.pdatetime.pdate import PDate
 
 
 class SchedulesTest:
-    schedules1 = Schedules()
-    schedules2 = Schedules()
+    def test_init_and_from_norg_workspace(self) -> None:
+        schedules = Schedules.from_norg_workspace(Path(""))
+        exp = Schedules()
+        schedule_dict = {}
 
-    exp_string1 = "\n" "\n" ""
-    exp_string2 = "\n" "\n" ""
-
-    def test_init(self) -> None:
-        assert self.schedules1
-        assert self.schedules2
-
-    def test_from_norg_workspace(self) -> None:
-        schedules3 = Schedules.from_norg_workspace(Path(""))
-        schedules4 = Schedules.from_norg_workspace(Path(""))
-
-        assert schedules3 == self.schedules1
-        assert schedules4 == self.schedules2
+        assert schedules == exp
+        assert schedules._schedules == exp._schedules == schedule_dict
 
     def test_len(self) -> None:
-        assert len(self.schedules1) == 4
-        assert len(self.schedules2) == 3
+        schedules = Schedules()
+        schedules_empty = Schedules()
+
+        assert len(schedules) == 4
+        assert len(schedules_empty) == 0
 
     def test_getitem(self) -> None:
-        assert self.schedules1[PDate(0, 0, 0)] == Schedule()
-        assert self.schedules2[PDate(0, 0, 0)] == Schedule()
+        schedules = Schedules()
+        schedule = Schedule()
+        day = PDate()
+
+        assert schedules[day] == schedule
 
     def test_setitem(self) -> None:
-        sched = Schedules()
+        schedules = Schedules()
+        schedule = Schedule()
+        day = PDate()
 
-        exp = Schedules()
+        schedules[day] = schedule
 
-        sched[3] = Schedule()
-        sched[1] = Schedule()
-
-        assert sched == exp
+        assert schedules[day] == schedule
 
     def test_str(self) -> None:
-        assert str(self.schedules1) == self.exp_string1
-        assert str(self.schedules2) == self.exp_string2
+        schedules = Schedule()
+        exp = ()
+        assert str(schedules) == exp
 
     def test_repr(self) -> None:
-        assert repr(self.schedules1) == self.exp_string1
-        assert repr(self.schedules2) == self.exp_string2
+        schedules = Schedule()
+        exp = ()
+        assert repr(schedules) == exp

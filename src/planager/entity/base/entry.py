@@ -36,7 +36,7 @@ class Entry:
         self.categories = categories.union({"wildcard"})
         self.notes = notes
         self.ismovable = ismovable
-        
+
         if normaltime:
             self.normaltime = normaltime
         elif start and end:
@@ -90,20 +90,40 @@ class Entry:
         attr_prefix: str = "  -- ",
         width: int = 80,
     ) -> str:
-        lines = "".join((
-            f"{head_prefix}{self.start}-{self.end} | {self.name}\n",
-            f"{attr_prefix}notes:      {wrap_string(self.notes, width=(width - 14 - len(attr_prefix)), trailing_spaces=19)}\n" if self.notes else "",
-            f"{attr_prefix}priority:   {self.priority}\n" if self.priority != 10 else "",
-            f"{attr_prefix}blocks:     {', '.join(sorted(self.blocks))}\n" if self.blocks else "",
-            f"{attr_prefix}categories: {', '.join(sorted(self.categories))}\n" if self.categories != {"wildcard"} else "",
-            f"{attr_prefix}normaltime: {self.normaltime}\n",
-            f"{attr_prefix}idealtime:  {self.idealtime}\n" if self.idealtime != (1.5 * self.normaltime) else "",
-            f"{attr_prefix}mintime:    {self.mintime}\n" if self.mintime != (0.5 * self.normaltime) else "",
-            f"{attr_prefix}maxtime:    {self.maxtime}\n" if self.maxtime != (2 * self.normaltime) else "",
-            f"{attr_prefix}ismovable:  {str(self.ismovable).lower()}\n" if not self.ismovable else "",
-            f"{attr_prefix}order:      {self.order}\n" if self.order != 50 else "",
-            f"{attr_prefix}alignend:   {str(self.alignend).lower()}\n" if self.alignend else "",
-        )).strip('\n')
+        lines = "".join(
+            (
+                f"{head_prefix}{self.start}-{self.end} | {self.name}\n",
+                f"{attr_prefix}notes:      {wrap_string(self.notes, width=(width - 14 - len(attr_prefix)), trailing_spaces=19)}\n"
+                if self.notes
+                else "",
+                f"{attr_prefix}priority:   {self.priority}\n"
+                if self.priority != 10
+                else "",
+                f"{attr_prefix}blocks:     {', '.join(sorted(self.blocks))}\n"
+                if self.blocks
+                else "",
+                f"{attr_prefix}categories: {', '.join(sorted(self.categories))}\n"
+                if self.categories != {"wildcard"}
+                else "",
+                f"{attr_prefix}normaltime: {self.normaltime}\n",
+                f"{attr_prefix}idealtime:  {self.idealtime}\n"
+                if self.idealtime != (1.5 * self.normaltime)
+                else "",
+                f"{attr_prefix}mintime:    {self.mintime}\n"
+                if self.mintime != (0.5 * self.normaltime)
+                else "",
+                f"{attr_prefix}maxtime:    {self.maxtime}\n"
+                if self.maxtime != (2 * self.normaltime)
+                else "",
+                f"{attr_prefix}ismovable:  {str(self.ismovable).lower()}\n"
+                if not self.ismovable
+                else "",
+                f"{attr_prefix}order:      {self.order}\n" if self.order != 50 else "",
+                f"{attr_prefix}alignend:   {str(self.alignend).lower()}\n"
+                if self.alignend
+                else "",
+            )
+        ).strip("\n")
         return lines
 
     def as_json(self, path: Path) -> str:
@@ -178,20 +198,33 @@ class Entry:
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
-        header = thickbeam + tabularize(f"{self.start}-{self.end} │ {self.name}", width, thick=True) + thinbeam
+        header = (
+            thickbeam
+            + tabularize(f"{self.start}-{self.end} │ {self.name}", width, thick=True)
+            + thinbeam
+        )
         return header + "\n".join(
             (
                 tabularize(s, width, thick=True, trailing_spaces=16)
                 for s in (
                     f"notes:        {self.notes}" if self.notes else "",
-                    f"priority:     {self.priority}" if self.priority != 10 else "", 
+                    f"priority:     {self.priority}" if self.priority != 10 else "",
                     f"time:         {self.normaltime}  ({self.mintime}-{self.maxtime}, ideal: {self.idealtime})",
-                    f"blocks:       {', '.join(sorted(self.blocks))}" if self.blocks else "",
-                    f"categories:   {', '.join(sorted(self.categories))}" if self.categories != {"wildcard"} else "",
-                    f"ismovable:    {str(self.ismovable).lower()}" if not self.ismovable else "",
-                    f"alignend:     {str(self.alignend).lower()}" if self.alignend else "",
+                    f"blocks:       {', '.join(sorted(self.blocks))}"
+                    if self.blocks
+                    else "",
+                    f"categories:   {', '.join(sorted(self.categories))}"
+                    if self.categories != {"wildcard"}
+                    else "",
+                    f"ismovable:    {str(self.ismovable).lower()}"
+                    if not self.ismovable
+                    else "",
+                    f"alignend:     {str(self.alignend).lower()}"
+                    if self.alignend
+                    else "",
                     f"order:        {self.order}" if not self.order == 50 else "",
-                ) if s
+                )
+                if s
             )
         )
 

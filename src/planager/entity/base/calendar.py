@@ -1,11 +1,17 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from ...util import Norg, PDate
 from ..container.entries import Entries
 
 
 class Day:
+    """
+    Designed as a component of `Calendar`. To be used as an input to scheduling,
+      contining most importantly the max load, routines, and the 'big rock' entries planned in advance,
+      around which other entries are to be automatically be scheduled.
+    """
+
     def __init__(
         self,
         date: PDate,
@@ -25,8 +31,8 @@ class Day:
 
 
 class Calendar:
-    def __init__(self) -> None:
-        self.days: Dict[PDate, Day] = {}
+    def __init__(self, days: dict = {}) -> None:
+        self.days: Dict[PDate, Day] = days
 
     def copy(self) -> "Calendar":
         cal = Calendar()

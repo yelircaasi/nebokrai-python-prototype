@@ -38,17 +38,17 @@ class Entries:
         if not self._entries:
             return PTime()
         return min(self._entries, key=lambda x: x.start).start
-    
+
     @property
     def end(self) -> PTime:
         if not self._entries:
             return PTime(24)
         return max(self._entries, key=lambda x: x.start).start
-    
+
     @property
     def ispartitioned(self):
         """
-        Check whether a list of entries partitions a day, i.e. are sequential and adjacent, begin at 00:00, and end 
+        Check whether a list of entries partitions a day, i.e. are sequential and adjacent, begin at 00:00, and end
           at 24:00.
         """
         if len(self._entries) == 1:
@@ -172,7 +172,7 @@ class Entries:
         compression_factor: float = 1.0,
     ) -> None:
         """
-        Takes a list of entries and adds them to the list of entries by filling in gaps according to priority and 
+        Takes a list of entries and adds them to the list of entries by filling in gaps according to priority and
           front-to-back (i.e. back-to-front for entries where entry.alignend is True).
         """
         while flex_entries:
@@ -200,30 +200,51 @@ class Entries:
         priority_weighter: Callable[[Union[int, float]], float],
     ) -> None:
         """
-        Adjusts each sequence of entries (type Entries) between two fixed points to fit consecutively between them, 
+        Adjusts each sequence of entries (type Entries) between two fixed points to fit consecutively between them,
           using priority weighting to determine time allocation.
         """
         result: Entries = Entries()
         fixed, flex = self.get_fixed_and_flex()
-        
-        before_after_dict = {flex_entry: (
-            max(filter(lambda x: x.end <= flex_entry.start, fixed), key=lambda x: x.start), 
-            min(filter(lambda x: x.start >= flex_entry.end, fixed), key=lambda x: x.start)
-        ) for flex_entry in flex} # could be simplified with more methods of Entries
 
-        flex_groups: Dict[Tuple[Entry, Entry], Entries] = {before_after: Entries(sorted([k for k, v in before_after_dict.items() if v == before_after], key=lambda x: x.start)) for before_after in before_after_dict.values()}
+        before_after_dict = {
+            flex_entry: (
+                max(
+                    filter(lambda x: x.end <= flex_entry.start, fixed),
+                    key=lambda x: x.start,
+                ),
+                min(
+                    filter(lambda x: x.start >= flex_entry.end, fixed),
+                    key=lambda x: x.start,
+                ),
+            )
+            for flex_entry in flex
+        }  # could be simplified with more methods of Entries
+
+        flex_groups: Dict[Tuple[Entry, Entry], Entries] = {
+            before_after: Entries(
+                sorted(
+                    [k for k, v in before_after_dict.items() if v == before_after],
+                    key=lambda x: x.start,
+                )
+            )
+            for before_after in before_after_dict.values()
+        }
 
         for (fixed_before, fixed_after), flex_group in flex_groups.items():
             result.append(fixed_before)
-            result.extend(self.smooth_entries(flex_group, fixed_before.end, fixed_after.start, priority_weighter))
+            result.extend(
+                self.smooth_entries(
+                    flex_group, fixed_before.end, fixed_after.start, priority_weighter
+                )
+            )
         result.append(fixed_after)
         self._entries = list(result)[1:-1]
 
     @staticmethod
     def add_over_block(entry: Entry, block: Entry) -> "Entries":
         """
-        Adds an entry on top of another entry which acts as a block (i.e. which accepts other entries inside it), 
-          returning an instance of Entries containing 
+        Adds an entry on top of another entry which acts as a block (i.e. which accepts other entries inside it),
+          returning an instance of Entries containing
         """
         entry_dur = entry.duration
         entry.start = block.start
@@ -254,9 +275,7 @@ class Entries:
         # TODO: add safeguard to respect mintime and maxtime
         return entries
 
-    def smooth_underfilled(
-        self, _start: PTime, _end: PTime
-    ) -> None:
+    def smooth_underfilled(self, _start: PTime, _end: PTime) -> None:
         """
         Allocate entries sequentially and without gaps, except at the end.
         """
@@ -323,6 +342,38 @@ class Entries:
         for ind in range(ind_to_adjust + 1, len(self._entries)):
             self._entries[ind].start += diff
             self._entries[ind].end += diff
+
+    @staticmethod
+    def allocate_in_time(
+        entries: "Entries",
+        prio_weighting_function: Callable,
+    ) -> (
+        "Entries"
+    ):  # MOVE TO ENTRIES? NAH -> need to refactor this, make purely functional
+        """
+        Creates a schedule (i.e. entry list) from a list of entries. Steps:
+          1) check whether the entries fit in a day
+          2) get the compression factor, i.e. how much, on average, the entries need to be compacted in order to fit
+          3) separate entries into fixed (immovable) and flex (movable)
+          4) add the fixed entries to the schedule
+          5) identify the gaps
+          6) fill in the gaps with the flex items TODO
+          7) resize between fixed points to remove small empty patches (where possible)
+          TODO: add alignend functionality (but first get it working without)
+        """
+        # entries.extend(self.schedule)
+        assert Entries.entry_list_fits(entries)
+        compression_factor = round(
+            (24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3
+        )
+
+        entries_fixed, entries_flex = entries.get_fixed_and_flex()
+        schedule = Entries([FIRST_ENTRY, *entries_fixed, LAST_ENTRY])
+
+        schedule.fill_gaps(entries_flex, prio_weighting_function, compression_factor)
+        schedule.smooth_between_fixed(prio_weighting_function)
+
+        return schedule
 
     def __iter__(self) -> Iterator[Entry]:
         return iter(self._entries)
