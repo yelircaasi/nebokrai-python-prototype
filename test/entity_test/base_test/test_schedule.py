@@ -4,7 +4,6 @@ from pathlib import Path
 import pytest
 
 from planager.entity import Schedule
-from planager.entity.base.adhoc import AdHoc
 from planager.entity.base.entry import Entry
 from planager.entity.base.plan import Plan
 from planager.entity.container.entries import Entries
@@ -506,16 +505,6 @@ class ScheduleTest:
         exp = Schedule()
 
         sched.add_from_plan(plan, tasks)
-
-        assert sched == exp
-
-    # [ ]
-    def test_add_adhoc(self) -> None:
-        sched = Schedule()
-        adhoc = AdHoc()
-        exp = Schedule()
-
-        sched.add_adhoc(adhoc)
 
         assert sched == exp
 

@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 
 from .entity import (
-    AdHoc,
     Calendar,
     Plan,
     PlanPatches,
@@ -24,7 +23,6 @@ from .util import ConfigType, PDateTime, PathManager
 class Planager:
     path_manager: PathManager = PathManager()
     roadmaps: Roadmaps
-    adhoc: AdHoc
     projects: Projects
     tasks: Tasks
     routines: Routines
@@ -43,7 +41,6 @@ class Planager:
     def __init__(self) -> None:
         self.path_manager: PathManager = PathManager()
         self.roadmaps = Roadmaps()
-        self.adhoc = AdHoc()
         self.projects = Projects()
         self.tasks = Tasks()
         self.routines = Routines()
@@ -72,7 +69,6 @@ class Planager:
         # direct reading
         plgr.roadmaps = Roadmaps.from_norg_workspace(workspace)
         plgr.routines = Routines.from_norg_workspace(workspace)
-        plgr.adhoc = AdHoc.from_norg_workspace(workspace)
         plgr.plan_patches = PlanPatches.from_norg_workspace(workspace)  # STILL EMPTY
         plgr.task_patches = TaskPatches.from_norg_workspace(workspace)  # STILL EMPTY
         plgr.schedule_patches = SchedulePatches.from_norg_workspace(workspace)
@@ -96,7 +92,6 @@ class Planager:
             plgr.calendar,
             plgr.tasks,
             plgr.routines,
-            plgr.adhoc,
             plgr.schedule_patches,
         )
         return plgr
@@ -116,7 +111,6 @@ class Planager:
         calendar: Calendar,
         roadmaps: Roadmaps,
         routines: Routines,
-        adhoc: AdHoc,
         plan_patches: PlanPatches,
         schedule_patches: SchedulePatches,
         task_patches: TaskPatches,
@@ -132,7 +126,6 @@ class Planager:
             calendar,
             tasks,
             routines,
-            adhoc,
             schedule_patches,
             calendar.start_date,
             calendar.end_date,
@@ -149,7 +142,6 @@ class Planager:
         Calendar,
         Roadmaps,
         Routines,
-        AdHoc,
         PlanPatches,
         SchedulePatches,
         TaskPatches,
@@ -160,7 +152,6 @@ class Planager:
         calendar = Calendar.from_norg_workspace(workspace)
         roadmaps = Roadmaps.from_norg_workspace(workspace)
         routines = Routines()  # Routines.from_norg_workspace(workspace) #TODO
-        adhoc = AdHoc.from_norg_workspace(workspace)
         plan_patches = PlanPatches.from_norg_workspace(workspace)
         schedule_patches = SchedulePatches.from_norg_workspace(workspace)
         task_patches = TaskPatches.from_norg_workspace(workspace)
@@ -168,7 +159,6 @@ class Planager:
             calendar,
             roadmaps,
             routines,
-            adhoc,
             plan_patches,
             schedule_patches,
             task_patches,
@@ -220,7 +210,6 @@ class Planager:
             (
                 self.roadmap_tree(),
                 str(self.routines),
-                str(self.adhoc),
                 str(self.plan),
                 # self.schedule,
             )

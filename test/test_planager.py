@@ -3,7 +3,6 @@ import pytest
 
 from planager import Planager
 from planager.entity import (
-    AdHoc,
     Calendar,
     Plan,
     PlanPatches,
@@ -28,7 +27,6 @@ class PlanagerTest:
 
         assert not p.path_manager
         assert not p.roadmaps
-        assert not p.adhoc
         assert not p.projects
         assert not p.tasks
         assert not p.routines
@@ -43,7 +41,6 @@ class PlanagerTest:
 
         assert isinstance(p.path_manager, PathManager)
         assert isinstance(p.roadmaps, Roadmaps)
-        assert isinstance(p.adhoc, AdHoc)
         assert isinstance(p.projects, Projects)
         assert isinstance(p.tasks, Tasks)
         assert isinstance(p.routines, Routines)
@@ -62,7 +59,6 @@ class PlanagerTest:
 
         assert p.path_manager
         assert p.roadmaps
-        assert p.adhoc
         assert p.projects
         assert p.tasks
         assert p.routines
@@ -77,7 +73,6 @@ class PlanagerTest:
 
         assert isinstance(p.path_manager, PathManager)
         assert isinstance(p.roadmaps, Roadmaps)
-        assert isinstance(p.adhoc, AdHoc)
         assert isinstance(p.projects, Projects)
         assert isinstance(p.tasks, Tasks)
         assert isinstance(p.routines, Routines)

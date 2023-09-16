@@ -3,7 +3,6 @@ from typing import Optional
 
 
 class PathManager:
-    adhoc: Path
     calendar: Path
     config: Path
     default_day: Path

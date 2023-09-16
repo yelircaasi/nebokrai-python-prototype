@@ -6,7 +6,6 @@ from ...util import HTML, JSON, Norg, PDate, PTime, round5, tabularize
 from ..container.entries import Entries
 from ..container.routines import Routines
 from ..container.tasks import Tasks
-from .adhoc import AdHoc
 from .calendar import Calendar
 from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .plan import Plan
@@ -132,10 +131,6 @@ class Schedule:
     def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:  #  -> KEEP
         for task_id in plan[self.date]:
             self.add(tasks[task_id].as_entry(None))
-
-    def add_adhoc(self, adhoc: AdHoc) -> None:  #  -> KEEP
-        for entry in adhoc[self.date]:
-            self.add(entry)
 
     def can_be_added(
         self, entry: Entry

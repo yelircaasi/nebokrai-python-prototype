@@ -1,4 +1,3 @@
-from .base.adhoc import AdHoc
 from .base.calendar import Calendar
 from .base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .base.plan import Plan
@@ -17,7 +16,6 @@ from .patch.schedule_patch import SchedulePatch, SchedulePatches
 from .patch.task_patch import TaskPatch, TaskPatches
 
 __all__ = [
-    "AdHoc",
     "Calendar",
     "Empty",
     "Entry",
