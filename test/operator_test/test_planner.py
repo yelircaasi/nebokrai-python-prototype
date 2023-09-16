@@ -12,7 +12,7 @@ from planager.util import PDate
 
 class PlannerTest:
     # def test_init(self) -> None:
-    
+
     def test_call(self) -> None:
         assert True
 
@@ -31,8 +31,8 @@ class PlannerTest:
         exp2 = []
         exp3 = []
         exp4 = []
-        exp7 = [] # length of list
-        exp9 = [] # larger
+        exp7 = []  # length of list
+        exp9 = []  # larger
 
         assert exp1 == Planner.cluster_task_ids(task_ids, 1)
         assert exp1 == Planner.cluster_task_ids(task_ids, 2)
@@ -45,14 +45,14 @@ class PlannerTest:
         """
         Cases:
         1) cluster length 1
-        2) end 
+        2) end
         3) interval
         """
         clusters1 = []
         clusters3 = []
         clusters7 = []
         clusters12 = []
-        
+
         project_int1 = Project()
         project_int3 = Project()
         project_int5 = Project()
@@ -60,7 +60,7 @@ class PlannerTest:
         project_end4 = Project()
         project_end12 = Project()
         project_end60 = Project()
-        
+
         exp1 = {}
         exp3_int1 = {}
         exp3_int3 = {}
@@ -80,7 +80,7 @@ class PlannerTest:
         exp12_end4 = {}
         exp12_end12 = {}
         exp12_end60 = {}
-        
+
         assert Planner.allocate_in_time(clusters1, project_end60) == exp1
         assert Planner.allocate_in_time(clusters3, project_int1) == exp3_int1
         assert Planner.allocate_in_time(clusters3, project_int3) == exp3_int3
@@ -100,7 +100,7 @@ class PlannerTest:
         assert Planner.allocate_in_time(clusters12, project_end4) == exp12_end4
         assert Planner.allocate_in_time(clusters12, project_end12) == exp12_end12
         assert Planner.allocate_in_time(clusters12, project_end60) == exp12_end60
-        
+
     # def test_get_end_from_id(self) -> None:
     #     assert True
 
@@ -114,5 +114,7 @@ class PlannerTest:
         with pytest.raises(ValueError) as excinfo:
             planner.enforce_precedence_constraints(plan_invalid, projects)
         # TODO: fix error
-        assert str(excinfo.value) == "Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}." 
-        
+        assert (
+            str(excinfo.value)
+            == "Task {'<>'.join(task_id)} assigned to {plan_date}, but earliest permissible date is {earliest_date}. Please adjust the declaration and run the derivation again. \n  Limiting dependency: {'<>'.join(limiting_dependency)}."
+        )

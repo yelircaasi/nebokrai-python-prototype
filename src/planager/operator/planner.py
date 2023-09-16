@@ -51,13 +51,13 @@ class Planner:
             config=self.config,
             calendar=calendar,
         )
-        projects = roadmaps.get_projects()
+        projects = roadmaps.projects
         projects.patch_tasks(task_patches)
         # projects.order_by_dependency()
 
         for project in projects:
             subplan: SubplanType = self.get_subplan_from_project(
-                project, projects
+                project
             )  # TODO: make subplan respect precedence
             plan.add_subplan(subplan, project._tasks)
         # plan.reorder_by_precedence()

@@ -254,7 +254,7 @@ class NorgItem:
         elif isinstance(self.before, str):
             return set(
                 map(
-                    lambda x: tuple(re.split(" ?:: ?", x)), re.split(", ?", self.before)
+                    lambda x: tuple(re.split(" ?<> ?", x)), re.split(", ?", self.before)
                 )
             )
         return self.before
@@ -264,7 +264,7 @@ class NorgItem:
             return set()
         return set(
             map(
-                lambda x: tuple(re.split(" ?:: ?", x)),
+                lambda x: tuple(re.split(" ?<> ?", x)),
                 re.split(", ?", self.dependencies),
             )
         )

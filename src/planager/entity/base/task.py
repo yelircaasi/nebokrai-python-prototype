@@ -47,7 +47,7 @@ class Task:
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(
-            f"Task: {self.task_id[1][:30]} :: {self.name} (ID {'::'.join(self.task_id)})",
+            f"Task: {self.task_id[1][:30]} <> {self.name} (ID {'<>'.join(self.task_id)})",
             width,
         )
         empty = tabularize("", width)

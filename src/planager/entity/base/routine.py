@@ -27,11 +27,16 @@ class Routine:
         self.normaltime = normaltime or 60
         self.mintime = mintime or round5(self.normaltime / 4)
         self.maxtime = maxtime or round5(self.normaltime * 2)
-        self.valid_dates = (
-            valid_dates
-            if callable(self.valid_dates)
-            else (lambda d: d in self.valid_dates)
-        )
+
+        def validator(d: PDate) -> bool:
+            ret: bool = (
+                (d in valid_dates)
+                if hasattr(valid_dates, "__contains__")
+                else valid_dates(d)
+            )
+            return ret
+
+        self.valid_dates = validator
 
     def valid_on(self, date: PDate) -> bool:
         return self.valid_dates(date)

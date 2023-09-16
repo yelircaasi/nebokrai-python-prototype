@@ -1,7 +1,15 @@
-from calendar import Calendar
 from typing import Optional
 
-from ..entity import AdHoc, Plan, Routines, Schedule, SchedulePatches, Schedules, Tasks
+from ..entity import (
+    AdHoc,
+    Calendar,
+    Plan,
+    Routines,
+    Schedule,
+    SchedulePatches,
+    Schedules,
+    Tasks,
+)
 from ..util import ConfigType, PDate
 from .patcher import SchedulePatcher
 

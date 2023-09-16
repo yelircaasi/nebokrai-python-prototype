@@ -6,6 +6,16 @@ from planager.entity.container.tasks import Tasks
 from planager.util.pdatetime import PDate
 
 
+def make_plan(
+    tasks: dict[tuple[str, str, str], Task],
+    plan: dict[PDate, list[tuple[str, str, str]]],
+) -> Plan:
+    p = Plan()
+    p._tasks = tasks
+    p._plan = plan
+    return p
+
+
 class PlanTest:
     # plan1 = Plan()
     # plan2 = Plan()
@@ -45,11 +55,23 @@ class PlanTest:
         1) tasks fit
         2) tasks do not fit
         """
-        plan_fit = Plan()
-        plan_excess = Plan()
+        plan_fit = make_plan(
+            {},
+            {},
+        )
+        plan_excess = make_plan(
+            {},
+            {},
+        )
 
-        exp_fit = Plan()
-        exp_excess = Plan()
+        exp_fit = make_plan(
+            {},
+            {},
+        )
+        exp_excess = make_plan(
+            {},
+            {},
+        )
 
         assert plan_fit.add_tasks(PDate(), []) == []
         assert plan_fit == exp_fit

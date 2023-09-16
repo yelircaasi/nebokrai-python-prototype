@@ -219,7 +219,7 @@ class NorgItem:
         if conv_candidate is None:
             return None
         elif isinstance(conv_candidate, str):
-            return tuple(re.split(" ?:: ?", conv_candidate))
+            return tuple(re.split(" ?<> ?", conv_candidate))
         return conv_candidate
 
     @staticmethod
@@ -231,7 +231,7 @@ class NorgItem:
         return (
             set(
                 map(
-                    lambda x: tuple(re.split(" ?:: ?", x)),
+                    lambda x: tuple(re.split(" ?<> ?", x)),
                     re.split(", ?", conv_candidate),
                 )
             )
@@ -242,7 +242,7 @@ class NorgItem:
     def __str__(self) -> str:
         attributes = [""]
         if self.parent is not None:
-            attributes.append(f"parent: {' :: '.join(sorted(self.parent))}")
+            attributes.append(f"parent: {' <> '.join(sorted(self.parent))}")
         if self.start_string is not None:
             attributes.append(f"start: {self.start_string}")
         if self.end_string is not None:
@@ -275,12 +275,12 @@ class NorgItem:
             attributes.append(f"alignend: {self.BOOL2STR[self.alignend]}")
         if self.before is not None:
             before: str = ", ".join(
-                sorted(map(lambda t: " :: ".join(sorted(t)), self.before))
+                sorted(map(lambda t: " <> ".join(sorted(t)), self.before))
             )
             attributes.append(f"before: {before}")
         if self.dependencies is not None:
             after: str = ", ".join(
-                sorted(map(lambda t: " :: ".join(sorted(t)), self.dependencies))
+                sorted(map(lambda t: " <> ".join(sorted(t)), self.dependencies))
             )
             attributes.append(f"after: {after}")
 

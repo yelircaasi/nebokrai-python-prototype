@@ -1,4 +1,3 @@
-from calendar import Calendar
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple, Union
@@ -8,6 +7,7 @@ from ..container.entries import Entries
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .adhoc import AdHoc
+from .calendar import Calendar
 from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from .plan import Plan
 

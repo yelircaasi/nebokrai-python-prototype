@@ -16,8 +16,8 @@ class Plan:
     ) -> None:
         self._config = config
         self._calendar = calendar
-        self._tasks: Dict[Tuple[str, str, str], Task] = {}
-        self._plan: Dict[PDate, List[Tuple[str, str, str]]] = {}
+        self._tasks: dict[tuple[str, str, str], Task] = {}
+        self._plan: dict[PDate, list[tuple[str, str, str]]] = {}
 
     def copy(self) -> "Plan":
         p = Plan(self._config, self._calendar)
@@ -134,7 +134,7 @@ class Plan:
     def __str__(self) -> str:
         nl = "\n"
         box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
-        task_repr = lambda t: f"[{t.project_name[:40]}] :: {t.name}"
+        task_repr = lambda t: f"[{t.project_name[:40]}] <> {t.name}"
         return "\n".join(
             (
                 f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[task_id] for task_id in b]))}"

@@ -11,7 +11,7 @@ class Projects:
         self._projects: Dict[Tuple[str, str], Project] = {
             p.project_id: p for p in projects
         }
-        self._tasks: Tasks = self.get_tasks
+        self._tasks: Tasks = self._get_tasks()
         # (self.project_order, self.task_order): Tuple[List[Tuple[str, str]], List[Tuple[str, str]]] = self.make_dependency_ordered_lists()
 
     # @property
@@ -88,7 +88,7 @@ class Projects:
         )
 
     def __iter__(self) -> Iterator[Project]:
-        return iter(sorted(self._projects.values()))  # TODO: make iterate in order
+        return iter(self._projects.values())  # TODO: make iterate in order
 
     def __getitem__(self, __id: Union[Tuple[str, str], Tuple[str, str, str]]) -> Any:
         if len(__id) == 2:

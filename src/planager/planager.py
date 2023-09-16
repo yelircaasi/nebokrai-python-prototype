@@ -93,6 +93,7 @@ class Planager:
         print(plgr.schedules)
         plgr.schedules = plgr.scheduler(
             plgr.plan,
+            plgr.calendar,
             plgr.tasks,
             plgr.routines,
             plgr.adhoc,
@@ -128,6 +129,7 @@ class Planager:
         plan = planner(roadmaps, calendar, task_patches, plan_patches)
         schedules = scheduler(
             plan,
+            calendar,
             tasks,
             routines,
             adhoc,
