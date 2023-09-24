@@ -1,7 +1,6 @@
 from typing import Dict, List, Tuple
 import pytest
 from planager.config import _Config
-from planager.entity.base.adhoc import AdHoc
 
 from planager.entity.base.calendar import Calendar
 from planager.entity.base.plan import Plan
@@ -24,7 +23,6 @@ class SchedulerTest:
         calendar = Calendar()
         tasks = Tasks()
         routines = Routines()
-        adhoc = AdHoc()
         schedule_patches = SchedulePatches()
         start_date = PDate()
         end_date = PDate()
@@ -36,7 +34,6 @@ class SchedulerTest:
             calendar,
             tasks,
             routines,
-            adhoc,
             schedule_patches,
             start_date,
             end_date,
@@ -51,7 +48,6 @@ class SchedulerTest:
             calendar,
             tasks,
             routines,
-            adhoc,
             schedule_patches,
             start_date,
             end_date,

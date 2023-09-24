@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Iterable, Optional, Union
 
 from ...util import Norg, PDate
 from ..container.entries import Entries
@@ -16,23 +16,25 @@ class Day:
         self,
         date: PDate,
         entries: Entries = Entries(),
-        max_load: int = 240,
         routines: list = ["morning", "midday" "evening"],
     ) -> None:
         self.date = date
         self.entries = entries
-        self.max_load = max_load
         self.routines = routines
 
     def copy(self) -> "Day":
-        return Day(
-            self.date.copy(), self.entries.copy(), self.max_load, self.routines.copy()
-        )
+        return Day(self.date.copy(), self.entries.copy(), self.routines.copy())
+
+    @property
+    def available(self) -> int:
+        return sum(map(lambda e: e.normaltime * (e.priority > 0), self.entries))
 
 
 class Calendar:
-    def __init__(self, days: dict = {}) -> None:
-        self.days: Dict[PDate, Day] = days
+    def __init__(self, days: Union[dict[PDate, Day], Iterable[Day]] = {}) -> None:
+        self.days: Dict[PDate, Day] = (
+            days if isinstance(days, dict) else {d.date: d for d in days}
+        )
 
     def copy(self) -> "Calendar":
         cal = Calendar()
@@ -72,7 +74,7 @@ class Calendar:
     def end_date(self) -> PDate:
         return max(self.days)
 
-    def __getitem__(self, __name: PDate) -> Any:
+    def __getitem__(self, __name: PDate) -> Day:
         item = ...
         return item
 

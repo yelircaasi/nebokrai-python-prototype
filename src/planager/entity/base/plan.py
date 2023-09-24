@@ -15,7 +15,7 @@ class Plan:
         calendar: Optional[Calendar] = None,
     ) -> None:
         self._config = config
-        self._calendar = calendar
+        self._calendar = calendar or Calendar()
         self._tasks: dict[tuple[str, str, str], Task] = {}
         self._plan: dict[PDate, list[tuple[str, str, str]]] = {}
 
@@ -29,7 +29,7 @@ class Plan:
         self, date: PDate, task_ids: List[Tuple[str, str, str]]
     ) -> List[Tuple[str, str, str]]:
         """
-        Add tasks to a specified date in the plan. If the tasks exceed the date's max_load, the lowest-priority excess
+        Add tasks to a specified date in the plan. If the tasks exceed the date's available time, the lowest-priority excess
           task ids are returned.
         """
         # task_ids = [task.task_id for task in tasks]
@@ -41,9 +41,9 @@ class Plan:
             )
         excess: List[Tuple[str, str, str]] = []
         total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
-        max_load = self._calendar[date].max_load if self._calendar else 240
+        available = self._calendar[date].available if self._calendar else 240
 
-        while total > max_load:
+        while total > available:
             task_to_move = task_ids.pop()
             excess.append(task_to_move)
             total -= self._tasks[task_to_move].duration
