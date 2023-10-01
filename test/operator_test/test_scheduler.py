@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Tuple
 import pytest
 from planager.config import _Config
 

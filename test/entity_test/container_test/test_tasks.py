@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 import pytest
 
 from planager.entity.base.task import Task
@@ -17,6 +18,14 @@ class TasksTest:
 
         assert tasks_list == exp_list
         assert tasks_tuple == exp_tuple
+
+    def test_from_dict(self) -> None:
+        tasks_dict_list: list[dict[str, Any]] = [{}]
+        project_id = ("", "")
+        tasks = Tasks.from_dict(project_id, tasks_dict_list)
+        exp = Tasks()
+
+        assert tasks == exp
 
     def test_from_norg_path(self) -> None:
         path1 = Path()
@@ -43,7 +52,7 @@ class TasksTest:
 
     def test_add(self) -> None:
         tasks = Tasks()
-        task = Task()
+        task = Task("", ("", "", ""))
         exp = Tasks()
 
         tasks.add(Task("", ("", "", "")))
@@ -54,7 +63,7 @@ class TasksTest:
         tasks = Tasks()
         task_ids = [(), (), ()]
 
-        assert self.tasks.task_ids == task_ids
+        assert tasks.task_ids == task_ids
 
     def test_pretty(self) -> None:
         tasks = Tasks()
@@ -64,14 +73,14 @@ class TasksTest:
 
     def test_iter(self) -> None:
         tasks = Tasks()
-        exp = []
+        exp: list[Task] = []
 
         assert list(tasks) == []
 
     def test_getitem(self) -> None:
         tasks = Tasks()
         task_id = ("", "", "")
-        task = Task()
+        task = Task("", ("", "", ""))
 
         assert tasks[task_id] == task
 

@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple, Union
+from typing import Union
 import pytest
 
 from planager.entity.base.calendar import Calendar
@@ -18,21 +18,21 @@ class PlannerTest:
 
     def test_get_subplan_from_project(self) -> None:
         planner = Planner()
-        project = Project()
-        subplan = {}
+        project = Project("", ("", ""))
+        subplan: dict[PDate, list[int]] = {}
 
         assert planner.get_subplan_from_project(project) == subplan
 
     def test_cluster_task_ids(self) -> None:
         task_ids = []
-        subplan = {}
+        subplan: dict[PDate, list[int]] = {}
 
-        exp1 = []
-        exp2 = []
-        exp3 = []
-        exp4 = []
-        exp7 = []  # length of list
-        exp9 = []  # larger
+        exp1: list[tuple[str, str, str]] = []
+        exp2: list[tuple[str, str, str]] = []
+        exp3: list[tuple[str, str, str]] = []
+        exp4: list[tuple[str, str, str]] = []
+        exp7: list[tuple[str, str, str]] = []  # length of list
+        exp9: list[tuple[str, str, str]] = []  # larger
 
         assert exp1 == Planner.cluster_task_ids(task_ids, 1)
         assert exp1 == Planner.cluster_task_ids(task_ids, 2)
@@ -53,33 +53,33 @@ class PlannerTest:
         clusters7 = []
         clusters12 = []
 
-        project_int1 = Project()
-        project_int3 = Project()
-        project_int5 = Project()
+        project_int1 = Project("", ("", ""))
+        project_int3 = Project("", ("", ""))
+        project_int5 = Project("", ("", ""))
 
-        project_end4 = Project()
-        project_end12 = Project()
-        project_end60 = Project()
+        project_end4 = Project("", ("", ""))
+        project_end12 = Project("", ("", ""))
+        project_end60 = Project("", ("", ""))
 
-        exp1 = {}
-        exp3_int1 = {}
-        exp3_int3 = {}
-        exp3_int5 = {}
-        exp3_end4 = {}
-        exp3_end12 = {}
-        exp3_end60 = {}
-        exp7_int1 = {}
-        exp7_int3 = {}
-        exp7_int5 = {}
-        exp7_end4 = {}
-        exp7_end12 = {}
-        exp7_end60 = {}
-        exp12_int1 = {}
-        exp12_int3 = {}
-        exp12_int5 = {}
-        exp12_end4 = {}
-        exp12_end12 = {}
-        exp12_end60 = {}
+        exp1: dict[PDate, list[int]] = {}
+        exp3_int1: dict[PDate, list[int]] = {}
+        exp3_int3: dict[PDate, list[int]] = {}
+        exp3_int5: dict[PDate, list[int]] = {}
+        exp3_end4: dict[PDate, list[int]] = {}
+        exp3_end12: dict[PDate, list[int]] = {}
+        exp3_end60: dict[PDate, list[int]] = {}
+        exp7_int1: dict[PDate, list[int]] = {}
+        exp7_int3: dict[PDate, list[int]] = {}
+        exp7_int5: dict[PDate, list[int]] = {}
+        exp7_end4: dict[PDate, list[int]] = {}
+        exp7_end12: dict[PDate, list[int]] = {}
+        exp7_end60: dict[PDate, list[int]] = {}
+        exp12_int1: dict[PDate, list[int]] = {}
+        exp12_int3: dict[PDate, list[int]] = {}
+        exp12_int5: dict[PDate, list[int]] = {}
+        exp12_end4: dict[PDate, list[int]] = {}
+        exp12_end12: dict[PDate, list[int]] = {}
+        exp12_end60: dict[PDate, list[int]] = {}
 
         assert Planner.allocate_in_time(clusters1, project_end60) == exp1
         assert Planner.allocate_in_time(clusters3, project_int1) == exp3_int1

@@ -1,5 +1,5 @@
 from itertools import islice
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 from ..entity import (
     Calendar,
@@ -16,7 +16,7 @@ from ..entity import (
 from ..util import ClusterType, ConfigType, PDate, expand_task_segments
 from .patcher import PlanPatcher, TaskPatcher
 
-SubplanType = Dict[PDate, List[Tuple[str, str, str]]]
+SubplanType = dict[PDate, list[tuple[str, str, str]]]
 
 
 class Planner:
@@ -102,7 +102,7 @@ class Planner:
 
     @staticmethod
     def cluster_task_ids(  # move to Plan?
-        task_ids: List[Tuple[str, str, str]], cluster_size: int
+        task_ids: list[tuple[str, str, str]], cluster_size: int
     ) -> ClusterType:
         """
         Divides a list of tasks into k clusters of size `cluster_size`.
@@ -118,7 +118,7 @@ class Planner:
     def allocate_in_time(  # move to Plan?
         clusters: ClusterType,
         project: Project,
-        # earliest_dates: Dict[Tuple[str, str, str], PDate]
+        # earliest_dates: Dict[tuple[str, str, str], PDate]
     ) -> SubplanType:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
@@ -145,7 +145,7 @@ class Planner:
 
         return subplan
 
-    # def get_end_from_id(entity_id: Union[Tuple[str, str], Tuple[str, str, str]], projects: Projects) -> Optional[PDate]:
+    # def get_end_from_id(entity_id: Union[tuple[str, str], tuple[str, str, str]], projects: Projects) -> Optional[PDate]:
     #     if len(entity_id) == 2:
     #         return projects[entity_id].end
     #     elif len(entity_id) == 3:
@@ -160,7 +160,7 @@ class Planner:
             for task_id in ids:
                 inverse_plan.update({task_id: date})
 
-        def get_date(_id: Union[Tuple[str, str, str], Tuple[str, str]]) -> PDate:
+        def get_date(_id: Union[tuple[str, str, str], tuple[str, str]]) -> PDate:
             if len(_id) == 2:
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
             elif len(_id) == 3:

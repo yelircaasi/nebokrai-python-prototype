@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Tuple
 
 import pytest
 
@@ -7,4 +7,4 @@ from planager.util.type import ClusterType
 
 class TypeTest:
     def test_ClusterType(self) -> None:
-        assert ClusterType == List[List[Tuple[str, str, str]]]
+        assert ClusterType == list[list[tuple[str, str, str]]]

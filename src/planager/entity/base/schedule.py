@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Union
 
 from ...util import HTML, JSON, Norg, PDate, PTime, round5, tabularize
 from ..container.entries import Entries
@@ -110,19 +110,22 @@ class Schedule:
     def remove(self, entry: Entry) -> None:
         ...
 
-    def names(self) -> List[str]:
+    def names(self) -> list[str]:
         return [x.name for x in self.schedule]
 
-    def starts(self) -> List[PTime]:
+    def starts(self) -> list[PTime]:
         return [x.start for x in self.schedule]
 
-    def starts_strings(self) -> List[str]:
+    def starts_strings(self) -> list[str]:
         return [str(x.start) for x in self.schedule]
 
-    def add_routines(self, routines: Routines) -> None:  #  -> KEEP
-        for routine in routines:
+    def add_routines(
+        self, routines_list: list[str], routines: Routines
+    ) -> None:  #  -> KEEP
+        for routine_name in routines_list:
+            routine = routines[routine_name]
             if routine.valid_on(self.date):
-                self.add(routine.as_entry(None))
+                self.add(routine.as_entry())
                 print(self)
             else:
                 print(f"Not valid on {self.date}.")

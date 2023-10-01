@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 import pytest
 
 from planager.entity.container.routines import Routines
@@ -14,9 +15,16 @@ class RoutinesTest:
 
         assert routines == exp
 
+    def test_from_dict(self) -> None:
+        routines_dict: dict[str, Any] = {}
+        routines = Routines.from_dict(routines_dict)
+        exp = Routines()
+
+        assert routines == exp
+
     def test_add(self) -> None:
         routines = Routines()
-        routine = Routine()
+        routine = Routine("", PTime())
         exp = Routines()
 
         routines.add(routine)
@@ -30,13 +38,13 @@ class RoutinesTest:
 
     def test_iter(self) -> None:
         routines = Routines()
-        routine_list = []
+        routine_list: list[Routine] = []
 
         assert list(routines) == routine_list
 
     def test_getitem(self) -> None:
         routines = Routines()
-        routine = Routine()
+        routine = Routine("", PTime())
         routine_id = ""
 
         assert routines[routine_id] == routine

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Optional, Set, Tuple, Union
+from typing import Any, Optional, Union
 
 from ...util import PTime, round5, tabularize, wrap_string
 
@@ -18,8 +18,8 @@ class Entry:
         start: Optional[PTime],
         end: Optional[PTime] = None,
         priority: Union[float, int] = PRIORITY_DEFAULT,
-        blocks: Set[str] = set(),
-        categories: Set[str] = set(),
+        blocks: set[str] = set(),
+        categories: set[str] = set(),
         notes: str = "",
         normaltime: Optional[int] = None,
         idealtime: Optional[int] = None,
@@ -57,6 +57,10 @@ class Entry:
         self.alignend: bool = alignend
         self.order: int = order
 
+    @classmethod
+    def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
+        return cls(entry_dict["name"], entry_dict["start"])
+
     def copy(self) -> "Entry":
         return Entry(
             self.name,
@@ -80,7 +84,7 @@ class Entry:
         return self.start.timeto(self.end)
 
     @property
-    def timespan(self) -> Tuple[PTime, PTime]:
+    def timespan(self) -> tuple[PTime, PTime]:
         return (self.start, self.end)
 
     def as_norg(

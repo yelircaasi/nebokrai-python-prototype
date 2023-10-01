@@ -1,6 +1,6 @@
 from pathlib import Path
 import re
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
+from typing import Any, Iterable, Iterator, Optional, Union
 
 from .norg_item_head import NorgItemHead
 from ...display import wrap_string
@@ -27,8 +27,8 @@ class NorgItem:
         path: Optional[Union[str, Path]] = None,
         link: Optional[str] = None,
         status: Optional[str] = None,
-        item_id: Optional[Union[str, Tuple[str, ...]]] = None,
-        parent: Optional[Union[str, Tuple[str, ...]]] = None,
+        item_id: Optional[Union[str, tuple[str, ...]]] = None,
+        parent: Optional[Union[str, tuple[str, ...]]] = None,
         start: Optional[Union[str, PDate, PTime]] = None,
         end: Optional[Union[str, PDate, PTime]] = None,
         priority: Optional[Union[str, int]] = None,
@@ -41,11 +41,11 @@ class NorgItem:
         interval: Optional[Union[str, int]] = None,
         duration: Optional[Union[str, int]] = None,
         cluster_size: Optional[Union[str, int]] = None,
-        tags: Optional[Union[str, Set[str]]] = None,
+        tags: Optional[Union[str, set[str]]] = None,
         description: Optional[str] = None,
         alignend: Optional[Union[str, bool]] = None,
-        before: Optional[Union[str, Set[Tuple[str, ...]]]] = None,
-        after: Optional[Union[str, Set[Tuple[str, ...]]]] = None,
+        before: Optional[Union[str, set[tuple[str, ...]]]] = None,
+        after: Optional[Union[str, set[tuple[str, ...]]]] = None,
     ) -> None:
         self._head: NorgItemHead = self.convert_head(head)
         if name:
@@ -58,8 +58,8 @@ class NorgItem:
             self._head.link = link
         if status:
             self._head.status = status
-        self.item_id: Optional[Tuple[str, ...]] = self.convert_tuple(item_id)
-        self.parent: Optional[Tuple[str, ...]] = self.convert_tuple(parent)
+        self.item_id: Optional[tuple[str, ...]] = self.convert_tuple(item_id)
+        self.parent: Optional[tuple[str, ...]] = self.convert_tuple(parent)
         self._start: Optional[Union[PDate, PTime, str]] = start if start else None
         self._end: Optional[Union[PDate, PTime, str]] = end if end else None
         self.priority: Optional[int] = self.convert_int(priority)
@@ -72,11 +72,11 @@ class NorgItem:
         self.duration: Optional[int] = self.convert_int(duration)
         self.interval: Optional[int] = self.convert_int(interval)
         self.cluster_size: Optional[int] = self.convert_int(cluster_size)
-        self.tags: Optional[Set[str]] = self.convert_tags(tags)
+        self.tags: Optional[set[str]] = self.convert_tags(tags)
         self.description: Optional[str] = description
         self.alignend: Optional[bool] = self.convert_bool(alignend)
-        self.before: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(before)
-        self.dependencies: Optional[Set[Tuple[str, ...]]] = self.convert_tupleset(after)
+        self.before: Optional[set[tuple[str, ...]]] = self.convert_tupleset(before)
+        self.dependencies: Optional[set[tuple[str, ...]]] = self.convert_tupleset(after)
 
     @classmethod
     def from_string(cls, norg_str) -> "NorgItem":
@@ -205,7 +205,7 @@ class NorgItem:
         return NorgItem.STR2BOOL[conv_candidate]
 
     @staticmethod
-    def convert_tags(tags: Optional[Union[str, Set[str]]]) -> Optional[Set[str]]:
+    def convert_tags(tags: Optional[Union[str, set[str]]]) -> Optional[set[str]]:
         if tags is None:
             return None
         elif isinstance(tags, str):
@@ -214,8 +214,8 @@ class NorgItem:
 
     @staticmethod
     def convert_tuple(
-        conv_candidate: Optional[Union[str, Tuple[str, ...]]]
-    ) -> Optional[Tuple[str, ...]]:
+        conv_candidate: Optional[Union[str, tuple[str, ...]]]
+    ) -> Optional[tuple[str, ...]]:
         if conv_candidate is None:
             return None
         elif isinstance(conv_candidate, str):
@@ -224,8 +224,8 @@ class NorgItem:
 
     @staticmethod
     def convert_tupleset(
-        conv_candidate: Optional[Union[str, Set[Tuple[str, ...]]]]
-    ) -> Optional[Set[Tuple[str, ...]]]:
+        conv_candidate: Optional[Union[str, set[tuple[str, ...]]]]
+    ) -> Optional[set[tuple[str, ...]]]:
         if conv_candidate is None:
             return None
         return (
@@ -305,7 +305,7 @@ class NorgItems:
         if not norg_body:
             return cls()
         item_split: re.Pattern = Regexes.item1_split
-        item_strings: List[str] = re.split(item_split, norg_body)[1:]
+        item_strings: list[str] = re.split(item_split, norg_body)[1:]
         with open("/tmp/norg_body.norg", "w") as f:
             # f.write("\n***\n".join(items))
             f.write(norg_body)

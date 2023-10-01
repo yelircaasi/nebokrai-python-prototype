@@ -1,4 +1,4 @@
-from typing import Callable, Dict, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from planager.util.misc import round5
 from planager.util.pdatetime.ptime import PTime
@@ -8,7 +8,7 @@ from ..base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 
 class Entries:
     def __init__(self, entries: Union["Entries", Iterable[Entry]] = []) -> None:
-        self._entries: List[Entry] = list(entries)
+        self._entries: list[Entry] = list(entries)
 
     def copy(self) -> "Entries":
         return Entries((entry.copy() for entry in self._entries))
@@ -23,7 +23,7 @@ class Entries:
     def append(self, __other: Entry) -> None:
         self._entries.append(__other)
 
-    def extend(self, __other: Union["Entries", List[Entry]]) -> None:
+    def extend(self, __other: Union["Entries", list[Entry]]) -> None:
         self._entries.extend(list(__other))
 
     def index(self, __entry: Entry) -> int:
@@ -88,11 +88,11 @@ class Entries:
         overlaps = self.get_overlaps(entry)
         return all(map(lambda x: x.ismovable, overlaps))
 
-    def get_fixed_groups(self) -> List["Entries"]:
+    def get_fixed_groups(self) -> list["Entries"]:
         """
         Return a list of Entries instances, each of which constitutes an immovable block.
         """
-        ret: List = []
+        ret: list = []
         entries_fixed, _ = self.get_fixed_and_flex()
         fixed_indices = list(map(lambda entry: self.index(entry), entries_fixed))
         if not fixed_indices[0] == 0:
@@ -104,7 +104,7 @@ class Entries:
                 ret.append(group)
         return ret
 
-    def get_fixed_and_flex(self) -> Tuple["Entries", "Entries"]:
+    def get_fixed_and_flex(self) -> tuple["Entries", "Entries"]:
         """
         Returns two instances of Entries containing, respectively, the fixed (immovable) and flex (movable) entries
           contained in the current instance.
@@ -123,7 +123,7 @@ class Entries:
         )
         return entries_fixed, entries_flex
 
-    def get_inds_of_relevant_blocks(self, entry: Entry) -> List[int]:
+    def get_inds_of_relevant_blocks(self, entry: Entry) -> list[int]:
         """
         For the given query entry, return the indices of the entries with blocks matching the query entry's categories,
           i.e. the indices of the entries over which the query entry can be added.
@@ -153,7 +153,7 @@ class Entries:
         """
         return sum(map(lambda x: x.mintime, self._entries)) < (24 * 60)
 
-    def get_gaps(self) -> List[Empty]:
+    def get_gaps(self) -> list[Empty]:
         """
         Return a list of empty entries corresponding to the times which are not yet occupied.
         """
@@ -220,7 +220,7 @@ class Entries:
             for flex_entry in flex
         }  # could be simplified with more methods of Entries
 
-        flex_groups: Dict[Tuple[Entry, Entry], Entries] = {
+        flex_groups: dict[tuple[Entry, Entry], Entries] = {
             before_after: Entries(
                 sorted(
                     [k for k, v in before_after_dict.items() if v == before_after],
@@ -279,7 +279,7 @@ class Entries:
         """
         Allocate entries sequentially and without gaps, except at the end.
         """
-        result: List[Entry] = []
+        result: list[Entry] = []
         time_tmp = _start.copy()
         for entry in self._entries:
             entry.start = time_tmp.copy()
@@ -299,7 +299,7 @@ class Entries:
         """
         Fit the current entries between _start and _end, using priority weighting.
         """
-        result: List[Entry] = []
+        result: list[Entry] = []
         time_tmp = self._entries[0].start.copy()
         total_duration = sum(map(Entry.duration, self._entries))
         total = _start.timeto(_end)
@@ -384,7 +384,7 @@ class Entries:
     def __len__(self) -> int:
         return len(self._entries)
 
-    def __add__(self, __other: Union["Entries", Entry, List[Entry]]) -> "Entries":
+    def __add__(self, __other: Union["Entries", Entry, list[Entry]]) -> "Entries":
         """
         An instance of Entries can be added (left or right) to another instance of Entries or to an instance of Entry.
         """

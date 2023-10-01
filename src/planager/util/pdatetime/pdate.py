@@ -1,6 +1,6 @@
 import re
 from datetime import date, datetime
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 
 class PDate:
@@ -148,7 +148,7 @@ class PDate:
         ending = ORDINAL_ENDINGS.get(self.day, "th")
         return f"{DAYS[self.weekday()]}, {MONTHS[self.month]} {self.day}{ending}, {self.year}"
 
-    def range(self, end: Union["PDate", int], inclusive: bool = True) -> List["PDate"]:
+    def range(self, end: Union["PDate", int], inclusive: bool = True) -> list["PDate"]:
         date1 = self.copy()
         if isinstance(end, int):
             date2 = date1 + end

@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Set, Tuple
+from typing import Tuple
 
 import pytest
 
@@ -21,14 +21,14 @@ item_b_name = "Item B"
 item_a_status = " "
 priority_a = 50
 notes_a = "Notes on Item A"
-after_a_set: Set[Tuple[str, ...]] = {("Q",)}
+after_a_set: set[tuple[str, ...]] = {("Q",)}
 after_a_str = "Q"
 
 item_b_status = "x"
 item_b_segment_string = "1-10,B"
 item_b_link = "Item B Link"
 parent_b_str = "A <> B <> C"
-parent_b_tuple: Tuple[str, ...] = ("A", "B", "C")
+parent_b_tuple: tuple[str, ...] = ("A", "B", "C")
 start_b_str = "2023-08-14"
 start_b_date = PDate(2023, 8, 14)
 end_b_str = "09:20"
@@ -50,9 +50,9 @@ description_b = "Description of Item B"
 alignend_b_str = "false"
 alignend_b_bool = False
 before_b_str = "A <> B <> C, D <> E <> F, G <> H <> I"
-before_b_set: Set[Tuple[str, ...]] = {("A", "B", "C"), ("D", "E", "F"), ("G", "H", "I")}
+before_b_set: set[tuple[str, ...]] = {("A", "B", "C"), ("D", "E", "F"), ("G", "H", "I")}
 after_b_str = "V <> W"
-after_b_set: Set[Tuple[str, ...]] = {("V", "W")}
+after_b_set: set[tuple[str, ...]] = {("V", "W")}
 
 norg_string1 = f"""@document.meta
 title: {title}

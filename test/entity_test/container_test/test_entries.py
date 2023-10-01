@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import Set
 import pytest
 from planager.entity.base.schedule import Schedule
 
@@ -72,10 +72,10 @@ class EntriesTest:
     #     entries2 = Entries()
     #     entries3 = Entries()
     #     entries4 = Entries()
-    #     exp1: List[Entry] = []
-    #     exp2: List[Entry] = []
-    #     exp3: List[Entry] = []
-    #     exp4: List[Entry] = []
+    #     exp1: list[Entry] = []
+    #     exp2: list[Entry] = []
+    #     exp3: list[Entry] = []
+    #     exp4: list[Entry] = []
 
     #     assert self.entries1.slice(0, 2) == ...
     #     assert self.entries3.slice(2, 4) == ...
@@ -327,8 +327,8 @@ class EntriesTest:
         """ """
         entries = Entries()
 
-        entry_movable = Entry()
-        entry_immovable = Entry()
+        entry_movable = Entry("", PTime())
+        entry_immovable = Entry("", PTime())
 
         assert entries.overlaps_are_movable(entry_movable)
         assert entries.overlaps_are_movable(entry_immovable)
@@ -396,17 +396,17 @@ class EntriesTest:
         """
         entries = Entries()
 
-        no_relevant = Entry()
-        relevant_1 = Entry()
-        relevant_2 = Entry()
-        two_relevant_1 = Entry()
-        two_relevant_2 = Entry()
+        no_relevant = Entry("", PTime())
+        relevant_1 = Entry("", PTime())
+        relevant_2 = Entry("", PTime())
+        two_relevant_1 = Entry("", PTime())
+        two_relevant_2 = Entry("", PTime())
 
-        exp_no_relevant = []
-        exp_relevant_1 = []
-        exp_relevant_2 = []
-        exp_two_relevant_1 = []
-        exp_two_relevant_2 = []
+        exp_no_relevant: list[int] = []
+        exp_relevant_1: list[int] = []
+        exp_relevant_2: list[int] = []
+        exp_two_relevant_1: list[int] = []
+        exp_two_relevant_2: list[int] = []
 
         assert entries.get_inds_of_relevant_blocks(no_relevant) == exp_no_relevant
         assert entries.get_inds_of_relevant_blocks(relevant_1) == exp_relevant_1
@@ -432,11 +432,11 @@ class EntriesTest:
         entries_compressed = entries.copy()
         entries_no_fit = entries.copy()
 
-        filled = Entry()
-        smaller = Entry()
-        snaps = Entry()
-        compressed = Entry()
-        no_fit = Entry()
+        filled = Entry("", PTime())
+        smaller = Entry("", PTime())
+        snaps = Entry("", PTime())
+        compressed = Entry("", PTime())
+        no_fit = Entry("", PTime())
 
         exp_filled = Entries()
         exp_smaller = Entries()
@@ -444,11 +444,11 @@ class EntriesTest:
         exp_compressed = Entries()
         exp_no_fit = Entries()
 
-        entries.copy().add_to_block_by_index(filled, ...)
-        entries.copy().add_to_block_by_index(smaller, ...)
-        entries.copy().add_to_block_by_index(snaps, ...)
-        entries.copy().add_to_block_by_index(compressed, ...)
-        entries.copy().add_to_block_by_index(no_fit, ...)
+        entries.copy().add_to_block_by_index(filled, 99)
+        entries.copy().add_to_block_by_index(smaller, 99)
+        entries.copy().add_to_block_by_index(snaps, 99)
+        entries.copy().add_to_block_by_index(compressed, 99)
+        entries.copy().add_to_block_by_index(no_fit, 99)
 
         assert entries_filled == exp_filled
         assert entries_smaller == exp_smaller
@@ -546,14 +546,16 @@ class EntriesTest:
         new_shuffle_order = Entries()
         new_shuffle_prio_order = Entries()
 
-        incumb_too_many.fill_gaps(new_too_many)
-        incumb_perfect.fill_gaps(new_perfect)
-        incumb_snapping.fill_gaps(new_snapping)
-        incumb_compression.fill_gaps(new_compression)
-        incumb_stretch_compress.fill_gaps(new_stretch_compress)
-        incumb_shuffle_prio.fill_gaps(new_shuffle_prio)
-        incumb_shuffle_order.fill_gaps(new_shuffle_order)
-        incumb_shuffle_prio_order.fill_gaps(new_shuffle_prio_order)
+        prio_weighter = Schedule().prio_weighting_function
+
+        incumb_too_many.fill_gaps(new_too_many, prio_weighter)
+        incumb_perfect.fill_gaps(new_perfect, prio_weighter)
+        incumb_snapping.fill_gaps(new_snapping, prio_weighter)
+        incumb_compression.fill_gaps(new_compression, prio_weighter)
+        incumb_stretch_compress.fill_gaps(new_stretch_compress, prio_weighter)
+        incumb_shuffle_prio.fill_gaps(new_shuffle_prio, prio_weighter)
+        incumb_shuffle_order.fill_gaps(new_shuffle_order, prio_weighter)
+        incumb_shuffle_prio_order.fill_gaps(new_shuffle_prio_order, prio_weighter)
 
         assert incumb_too_many == exp_too_many
         assert incumb_perfect == exp_perfect
@@ -580,7 +582,7 @@ class EntriesTest:
         entries_snapping = Entries()
         entries_weighting = Entries()
 
-        prio_weighter = Schedule.prio_weighting_function
+        prio_weighter = Schedule().prio_weighting_function
 
         exp_no_fit = Entries()
         exp_underfilled = Entries()
@@ -610,13 +612,13 @@ class EntriesTest:
         4) new entry compressed to fit in block
         5) new entry does not fit
         """
-        block = Entry()
+        block = Entry("", PTime())
 
-        filled = Entry()
-        smaller = Entry()
-        snaps = Entry()
-        compressed = Entry()
-        no_fit = Entry()
+        filled = Entry("", PTime())
+        smaller = Entry("", PTime())
+        snaps = Entry("", PTime())
+        compressed = Entry("", PTime())
+        no_fit = Entry("", PTime())
 
         exp_filled = Entries()
         exp_smaller = Entries()
@@ -652,6 +654,8 @@ class EntriesTest:
         5) loose fit with snapping
         6) impossible
         """
+        pwf = Schedule.prio_weighting_function
+
         entries_underfull = Entries()
         entries_perfect = Entries()
         entries_compression = Entries()
@@ -666,12 +670,12 @@ class EntriesTest:
         exp_snapping = Entries()
         exp_impossible = Entries()
 
-        assert Entries.allocate_in_time(entries_underfull) == exp_underfull
-        assert Entries.allocate_in_time(entries_perfect) == exp_perfect
-        assert Entries.allocate_in_time(entries_compression) == exp_compression
-        assert Entries.allocate_in_time(entries_gapfilling) == exp_gapfilling
-        assert Entries.allocate_in_time(entries_snapping) == exp_snapping
-        assert Entries.allocate_in_time(entries_impossible) == exp_impossible
+        assert Entries.allocate_in_time(entries_underfull, pwf) == exp_underfull
+        assert Entries.allocate_in_time(entries_perfect, pwf) == exp_perfect
+        assert Entries.allocate_in_time(entries_compression, pwf) == exp_compression
+        assert Entries.allocate_in_time(entries_gapfilling, pwf) == exp_gapfilling
+        assert Entries.allocate_in_time(entries_snapping, pwf) == exp_snapping
+        assert Entries.allocate_in_time(entries_impossible, pwf) == exp_impossible
 
     # # [ ]
     # def test_iter(self) -> None:
@@ -681,10 +685,10 @@ class EntriesTest:
     #     2) nonempty
     #     3)
     #     """
-    #     exp1: List[Entry] = [Entry("", PTime(0, 0))]
-    #     exp2: Set[Entry] = {Entry("", PTime(0, 0))}
-    #     exp3: List[Entry] = [Entry("", PTime(0, 0))]
-    #     exp4: Set[Entry] = {Entry("", PTime(0, 0))}
+    #     exp1: list[Entry] = [Entry("", PTime(0, 0))]
+    #     exp2: set[Entry] = {Entry("", PTime(0, 0))}
+    #     exp3: list[Entry] = [Entry("", PTime(0, 0))]
+    #     exp4: set[Entry] = {Entry("", PTime(0, 0))}
 
     #     assert list(self.entries1)
     #     assert set(self.entries2)
@@ -698,10 +702,10 @@ class EntriesTest:
     #     1) possible
     #     2) impossible
     #     """
-    #     exp1: List[Entry] = []
-    #     exp2: List[Entry] = []
-    #     exp3: List[Entry] = []
-    #     exp4: List[Entry] = []
+    #     exp1: list[Entry] = []
+    #     exp2: list[Entry] = []
+    #     exp3: list[Entry] = []
+    #     exp4: list[Entry] = []
 
     #     assert self.entries1[0] == exp1
     #     assert self.entries2[2] == exp2
@@ -733,9 +737,9 @@ class EntriesTest:
     #     new2 = self.entries3 + self.entries4
     #     new3 = self.entries2 + self.entries4
 
-    #     exp1: List[Entry] = []
-    #     exp2: List[Entry] = []
-    #     exp3: List[Entry] = []
+    #     exp1: list[Entry] = []
+    #     exp2: list[Entry] = []
+    #     exp3: list[Entry] = []
 
     #     assert new1 == exp1
     #     assert new2 == exp2

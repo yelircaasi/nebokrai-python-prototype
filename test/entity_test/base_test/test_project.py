@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -9,8 +10,8 @@ from planager.util.pdatetime.pdate import PDate
 
 class ProjectTest:
     def test_init(self) -> None:
-        project_default = Project()
-        project_custom = Project()
+        project_default = Project("", ("", ""))
+        project_custom = Project("", ("", ""))
 
         assert project_default.name == ...
         assert project_default.project_id == ...
@@ -44,6 +45,14 @@ class ProjectTest:
         assert project_custom.dependencies == ...
         assert project_custom.categories == ...
 
+    def test_from_dict(self) -> None:
+        project_dict: dict[str, Any] = {}
+        roadmap_id = ""
+        project = Project.from_dict(roadmap_id, project_dict)
+        exp = Project("", ("", ""))
+
+        assert project == exp
+
     def test_from_norg_path(self) -> None:
         path1 = Path()
         path2 = Path()
@@ -53,66 +62,66 @@ class ProjectTest:
         project2 = Project.from_norg_path(path2, "Project 2")
         project3 = Project.from_norg_path(path3, "Project 3")
 
-        exp1 = Project()
-        exp2 = Project()
-        exp3 = Project()
+        exp1 = Project("", ("", ""))
+        exp2 = Project("", ("", ""))
+        exp3 = Project("", ("", ""))
 
         assert project1 == exp1
         assert project2 == exp2
         assert project3 == exp3
 
     def test_from_roadmap_item(self) -> None:
-        roadmap_str = ()
+        roadmap_str = ""
         project = Project.from_roadmap_item(roadmap_str, "", Path(""))
-        exp = Project()
+        exp = Project("", ("", ""))
 
         assert project == exp
 
     def test_copy(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
         copy = project.copy()
 
         assert id(project) != id(copy)
         assert project.__dict__ == copy.__dict__
 
     def test_get_start(self) -> None:
-        project = Project()
-        start = PDate()
+        project = Project("", ("", ""))
+        start = PDate(2100, 1, 1)
 
         assert project.get_start() == start
 
     def test_get_end(self) -> None:
-        project = Project()
-        end = PDate()
+        project = Project("", ("", ""))
+        end = PDate(2100, 1, 1)
 
         assert project.get_end() == end
 
     def test_task_ids(self) -> None:
-        project = Project()
-        task_ids = []
+        project = Project("", ("", ""))
+        task_ids: list[tuple[str, str, str]] = []
 
         assert project.task_ids == task_ids
 
     def test_pretty(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
         exp = ()
         assert project.pretty() == exp
 
     def test_iter(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
 
     def test_getitem(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
         task = Task("", ("", "", ""))
 
         assert project[("", "", "")] == task
 
     def test_str(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
         exp = ()
         assert str(project) == exp
 
     def test_repr(self) -> None:
-        project = Project()
+        project = Project("", ("", ""))
         exp = ()
         assert repr(project) == exp

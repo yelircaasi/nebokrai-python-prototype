@@ -9,11 +9,18 @@ from planager.entity.container.roadmaps import Roadmaps
 class RoadmapsTest:
     def test_init(self) -> None:
         roadmaps = Roadmaps()
-        roadmap_dict = {}
+        roadmap_dict: dict[str, Roadmap] = {}
         workspace_dir = Path()
 
         assert roadmaps.workspace_dir == workspace_dir
         assert roadmaps._roadmaps == roadmap_dict
+
+    def test_from_dict(self) -> None:
+        roadmaps_dict: dict[str, Roadmap] = {}
+        roadmaps = Roadmaps.from_dict(roadmaps_dict)
+        exp = Roadmaps()
+
+        assert roadmaps == exp
 
     def test_from_norg_workspace(self) -> None:
         path1 = Path()
@@ -46,20 +53,20 @@ class RoadmapsTest:
         assert roadmaps.pretty() == exp
 
     def test_iter(self) -> None:
-        roadmaps_list = []
+        roadmaps_list: list[Roadmap] = []
         roadmaps = Roadmaps()
         assert roadmaps_list == list(roadmaps)
 
     def test_getitem(self) -> None:
         roadmaps = Roadmaps()
-        roadmap = Roadmap()
+        roadmap = Roadmap("", roadmap_id="", projects=Projects())
         roadmap_id = ""
 
         assert roadmaps[roadmap_id] == roadmap
 
     def test_setitem(self) -> None:
         roadmaps = Roadmaps()
-        roadmap = Roadmap()
+        roadmap = Roadmap("", roadmap_id="", projects=Projects())
         roadmap_id = ""
 
         roadmaps[roadmap_id] = roadmap

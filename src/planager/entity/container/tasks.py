@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
+from typing import Any, Iterable, Iterator, Optional, Union
 
 from ...util import ConfigType, Norg, PDate, PTime, tabularize
 from ..base.task import Task
@@ -7,22 +7,34 @@ from ..base.task import Task
 
 class Tasks:
     def __init__(
-        self, tasks: Union[Dict[Tuple[str, str, str], Task], List[Task]] = {}
+        self, tasks: Union[dict[tuple[str, str, str], Task], Iterable[Task]] = {}
     ) -> None:
-        self._tasks: Dict[Tuple[str, str, str], Task] = (
-            dict(map(lambda task: (task.task_id, task), tasks))
-            if isinstance(tasks, List)
-            else tasks
-        )
+        self._tasks: dict[tuple[str, str, str], Task] = {}
+        if isinstance(tasks, dict):
+            self._tasks = tasks
+        else:
+            self._tasks = dict(map(lambda task: (task.task_id, task), tasks))
+
+    @classmethod
+    def from_dict(
+        cls, project_id: tuple[str, str], tasks_dict_list: list[dict[str, Any]]
+    ) -> "Tasks":
+        tasks_list: list[Task] = []
+        for task_dict in tasks_dict_list:
+            # task_id = (roadmap, project, task_dict["id"])
+            task = Task.from_dict(project_id, task_dict)
+            tasks_list.append(task)
+
+        return cls(tasks_list)
 
     @classmethod
     def from_string_iterable(
         cls,
-        task_list: List[str],
-        project_id: Tuple[str, str],
+        task_list: list[str],
+        project_id: tuple[str, str],
         project_name: str,
         priority: Optional[int] = None,
-        after: Set[Tuple[str, ...]] = set(),
+        after: set[tuple[str, ...]] = set(),
     ) -> "Tasks":
         tasks = cls()
         for task_id_, name in enumerate(task_list, start=1):
@@ -40,7 +52,7 @@ class Tasks:
     def from_norg_path(
         cls,
         norg_path: Path,
-        project_id: Tuple[str, str],
+        project_id: tuple[str, str],
         project_name: str,  # **kwargs
     ) -> "Tasks":
         assert project_name != "/"
@@ -72,7 +84,7 @@ class Tasks:
         self._tasks.update({task.task_id: task})
 
     @property
-    def task_ids(self) -> List[Tuple[str, str, str]]:
+    def task_ids(self) -> list[tuple[str, str, str]]:
         return sorted(list(self._tasks.keys()))
 
     def pretty(self, width: int = 80) -> str:
@@ -99,10 +111,17 @@ class Tasks:
             + bottombeam
         )
 
+    def update(self, __tasks: Union["Tasks", dict[tuple[str, str, str], Task]]) -> None:
+        for task_id, task in __tasks.items():
+            self._tasks.update({task_id: task})
+
+    def items(self) -> Iterator[tuple[tuple[str, str, str], Task]]:
+        return iter(self._tasks.items())
+
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks.values())
 
-    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
+    def __getitem__(self, __key: tuple[str, str, str]) -> Task:
         return self._tasks[__key]
 
     def __str__(self) -> str:

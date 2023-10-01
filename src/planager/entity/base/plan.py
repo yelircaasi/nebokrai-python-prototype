@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Iterable, Optional, Union
 from itertools import chain
 
 from ...util import ConfigType, PDate
@@ -26,8 +26,8 @@ class Plan:
         return p
 
     def add_tasks(
-        self, date: PDate, task_ids: List[Tuple[str, str, str]]
-    ) -> List[Tuple[str, str, str]]:
+        self, date: PDate, task_ids: list[tuple[str, str, str]]
+    ) -> list[tuple[str, str, str]]:
         """
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time, the lowest-priority excess
           task ids are returned.
@@ -39,7 +39,7 @@ class Plan:
                 key=lambda x: self._tasks[x].priority,
                 reverse=True,
             )
-        excess: List[Tuple[str, str, str]] = []
+        excess: list[tuple[str, str, str]] = []
         total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
         available = self._calendar[date].available if self._calendar else 240
 
@@ -55,15 +55,15 @@ class Plan:
 
     def add_subplan(
         self,
-        subplan: Dict[PDate, List[Tuple[str, str, str]]],
+        subplan: dict[PDate, list[tuple[str, str, str]]],
         tasks: Tasks,
-    ) -> None:
+    ) -> list[tuple[str, str, str]]:
         """
         Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily
           maximum is exceeded, according to priority.
         """
         if not subplan:
-            return
+            return []
         id_ = list(subplan.values())[0][0]
 
         for task in tasks:
@@ -71,11 +71,13 @@ class Plan:
 
         for date, task_id_list in subplan.items():
             self.ensure_date(date)
-            rollover: List[Tuple[str, str, str]] = self.add_tasks(date, task_id_list)
+            rollover: list[tuple[str, str, str]] = self.add_tasks(date, task_id_list)
             next_date = date.copy()
             while rollover:
-                rollover = self.add_tasks(next_date, rollover)
+                rollover.extend(self.add_tasks(next_date, rollover))
                 next_date += 1
+
+        return rollover
 
     def ensure_date(self, date: PDate):
         """ """
@@ -91,8 +93,8 @@ class Plan:
         return min(self._plan)
 
     @property
-    def tasks(self) -> List[Task]:
-        return sorted(self._tasks.values())
+    def tasks(self) -> Tasks:
+        return Tasks(self._tasks.values())
 
     # def reorder_by_precedence(self) -> None:
     #     """
@@ -125,22 +127,29 @@ class Plan:
     def __contains__(self, __date: PDate) -> bool:
         return __date in self._plan
 
-    def __getitem__(self, __date: PDate) -> List[Tuple[str, str, str]]:
+    def __getitem__(self, __date: PDate) -> list[tuple[str, str, str]]:
         return self._plan.get(__date, [])
 
-    def __setitem__(self, __date: PDate, __tasks: List[Tuple[str, str, str]]) -> None:
+    def __setitem__(self, __date: PDate, __tasks: list[tuple[str, str, str]]) -> None:
         self._plan.update({__date: __tasks})
 
     def __str__(self) -> str:
-        nl = "\n"
-        box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
-        task_repr = lambda t: f"[{t.project_name[:40]}] <> {t.name}"
-        return "\n".join(
-            (
-                f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[task_id] for task_id in b]))}"
-                for a, b in sorted(self._plan.items())
-            )
-        )
+        ret = ""
+        topline = ""
+        monthdayline = ""
+        numline = ""
+        dottedline = ""
+        bottomline = ""
+        # nl = "\n"
+        # box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
+        # task_repr = lambda t: f"[{t.project_name[:40]}] <> {t.name}"
+        # return "\n".join(
+        #     (
+        #         f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[task_id] for task_id in b]))}"
+        #         for a, b in sorted(self._plan.items())
+        #     )
+        # )
+        return ret
 
     def __repr__(self) -> str:
         return self.__str__()

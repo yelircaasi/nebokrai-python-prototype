@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Iterable, Optional, Union
 
 from ...util import Norg, PDate
 from ..container.tasks import Tasks
@@ -11,7 +11,7 @@ class PlanPatch:
 
 
 class PlanPatches:
-    def __init__(self, patches: List[PlanPatch] = []) -> None:
+    def __init__(self, patches: list[PlanPatch] = []) -> None:
         self.patches = patches
 
     @classmethod

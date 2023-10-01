@@ -10,7 +10,7 @@ class SchedulesTest:
     def test_init_and_from_norg_workspace(self) -> None:
         schedules = Schedules.from_norg_workspace(Path(""))
         exp = Schedules()
-        schedule_dict = {}
+        schedule_dict: dict[PDate, Schedule] = {}
 
         assert schedules == exp
         assert schedules._schedules == exp._schedules == schedule_dict
@@ -25,14 +25,14 @@ class SchedulesTest:
     def test_getitem(self) -> None:
         schedules = Schedules()
         schedule = Schedule()
-        day = PDate()
+        day = PDate(2100, 1, 1)
 
         assert schedules[day] == schedule
 
     def test_setitem(self) -> None:
         schedules = Schedules()
         schedule = Schedule()
-        day = PDate()
+        day = PDate(2100, 1, 1)
 
         schedules[day] = schedule
 

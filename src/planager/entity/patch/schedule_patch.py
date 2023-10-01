@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Optional, Union
 
 from ...util import Norg, PDate, PTime, round5, tabularize
 
@@ -11,8 +11,8 @@ class SchedulePatch:
 
 
 class SchedulePatches:
-    def __init__(self, schedule_patches: Dict[PDate, SchedulePatch] = {}) -> None:
-        self._patches: Dict[PDate, SchedulePatch] = schedule_patches
+    def __init__(self, schedule_patches: dict[PDate, SchedulePatch] = {}) -> None:
+        self._patches: dict[PDate, SchedulePatch] = schedule_patches
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "SchedulePatches":

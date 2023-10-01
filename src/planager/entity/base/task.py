@@ -1,5 +1,12 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
+from typing import (
+    Any,
+    Iterable,
+    Iterator,
+    Literal,
+    Optional,
+    Union,
+)
 
 from ...util import ConfigType, Norg, PDate, PTime, tabularize
 from .entry import Entry
@@ -13,11 +20,14 @@ class Task:
     def __init__(
         self,
         name: str,
-        task_id: Tuple[str, str, str],
+        task_id: tuple[str, str, str],
         priority: int = 10,
         # project_name: str = "?",
         duration: int = DURATION_DEFAULT,
-        dependencies: Set[Tuple[str, str, str]] = set(),
+        dependencies: set[tuple[str, str, str]] = set(),
+        tmpdate: Optional[PDate] = None,
+        notes: str = "",
+        status: Literal["todo", "done"] = "todo",
     ) -> None:
         assert len(task_id) == 3
 
@@ -27,6 +37,18 @@ class Task:
         self.duration = duration
         # self.project_name = project_name
         self.dependencies = dependencies
+        self.tmpdate = tmpdate if tmpdate else self.tmpdate
+        self.notes = notes
+        self.status = status
+
+    @classmethod
+    def from_dict(
+        cls, project_id: tuple[str, str], task_dict: dict[str, Any]
+    ) -> "Task":
+        roadmap, project = project_id
+        task_id = (roadmap, project, task_dict["id"])
+
+        return cls(task_dict["name"], task_id)
 
     def copy(self) -> "Task":
         t = Task(self.name, self.task_id)

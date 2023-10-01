@@ -29,11 +29,11 @@ class NorgItem:
         interval: Optional[Union[str, int]] = None,
         duration: Optional[Union[str, int]] = None,
         cluster_size: Optional[Union[str, int]] = None,
-        tags: Optional[Union[str, Set[str]]] = None,
+        tags: Optional[Union[str, set[str]]] = None,
         description: Optional[str] = None,
         alignend: Optional[Union[str, bool]] = None,
-        before: Optional[Union[str, Tuple[str, ...]]] = None,
-        after: Optional[Union[str, Tuple[str, ...]]] = None,
+        before: Optional[Union[str, tuple[str, ...]]] = None,
+        after: Optional[Union[str, tuple[str, ...]]] = None,
     ) -> None:
         self.name = name
         self.item_id: Optional[str] = str(item_id) if item_id else None
@@ -56,10 +56,10 @@ class NorgItem:
         self.tags: Optional[set[str]] = set(re.split(", *", tags)) if tags else None
         self.description: Optional[str] = description if description else None
         self.alignend: Optional[bool] = self.str2bool[alignend] if alignend else None
-        self.before: Optional[Tuple[str, ...]] = (
+        self.before: Optional[tuple[str, ...]] = (
             set(re.split(", *", before)) if before else None
         )
-        self.dependencies: Optional[Tuple[str, ...]] = (
+        self.dependencies: Optional[tuple[str, ...]] = (
             set(re.split(", *", after)) if after else None
         )
 
@@ -248,7 +248,7 @@ class NorgItem:
             return None
         return self.STR2BOOL[self.alignend.lower()]
 
-    def get_before(self) -> Set[Tuple[str, ...]]:
+    def get_before(self) -> set[tuple[str, ...]]:
         if not self.before:
             return set()
         elif isinstance(self.before, str):
@@ -259,7 +259,7 @@ class NorgItem:
             )
         return self.before
 
-    def get_after(self) -> Set[Tuple[str, ...]]:
+    def get_after(self) -> set[tuple[str, ...]]:
         if not self.dependencies:
             return set()
         return set(

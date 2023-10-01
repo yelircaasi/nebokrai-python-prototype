@@ -66,7 +66,7 @@ class NorgSection:
             return {"title": section}
 
     @staticmethod
-    def parse_title_and_attributes(segment: str) -> Tuple[str, dict]:
+    def parse_title_and_attributes(segment: str) -> tuple[str, dict]:
         assert isinstance(segment, str)
         try:
             title, body = segment.split("\n", 1)

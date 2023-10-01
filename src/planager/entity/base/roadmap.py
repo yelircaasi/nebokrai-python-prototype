@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
+from typing import Any, Iterable, Iterator, Optional, Tuple
 
 from ...util import Norg, PDate, Regexes, tabularize
 from ..container.projects import Projects
@@ -20,6 +20,12 @@ class Roadmap:
         self._projects = projects
         self.updated = updated
         self.categories = categories
+
+    @classmethod
+    def from_dict(cls, roadmap_dict: dict[str, Any]) -> "Roadmap":
+        projects = Projects()
+
+        return cls(roadmap_dict["name"], roadmap_dict["id"], projects)
 
     @classmethod
     def from_norg_path(self, norg_path: Path) -> "Roadmap":

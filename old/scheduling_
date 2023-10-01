@@ -31,7 +31,7 @@ def slot_is_empty(overlaps: List[Entry]) -> bool:
 
 def get_before_and_after_old(
     entry: Entry, schedule: List[Entry]
-) -> Tuple[List[Entry], List[Entry], List[Entry]]:
+) -> tuple[List[Entry], List[Entry], List[Entry]]:
     """ """
     before = list(filter(entry.after, schedule))
     after = list(filter(entry.before, schedule))
@@ -43,7 +43,7 @@ def get_before_and_after_old(
 
 def get_before_and_after(
     entry: Entry, schedule: List[Entry]
-) -> Tuple[List[Entry], List[Entry]]:
+) -> tuple[List[Entry], List[Entry]]:
     """ """
     _schedule_tmp = filter(lambda x: (x.duration() > 0 and x.hasmass()), schedule)
     _schedule = [x.copy() for x in _schedule_tmp]
@@ -223,7 +223,7 @@ def adjust_backward(entries: List[Entry], start: PTime, stop: PTime) -> List[Ent
     return newentries
 
 
-def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
+def split_before(before: List[Entry]) -> tuple[List[Entry], List[Entry], PTime]:
     """ """
     movable_before: List[Entry] = []
     ismovable = before[-1].ismovable
@@ -238,7 +238,7 @@ def split_before(before: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
     return (before, movable_before, limit_before)
 
 
-def split_after(after: List[Entry]) -> Tuple[List[Entry], List[Entry], PTime]:
+def split_after(after: List[Entry]) -> tuple[List[Entry], List[Entry], PTime]:
     """ """
     movable_after = []
     ismovable = after[0].ismovable

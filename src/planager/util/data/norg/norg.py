@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Optional, Tuple
 
 from ...display import wrap_string
 from ...pdatetime import PDateTime
@@ -55,7 +55,7 @@ class Norg:
         else:
             raise ValueError("Norg document lacks valid header.")
 
-        kwarg_dict: Dict[str, Any] = dict(
+        kwarg_dict: dict[str, Any] = dict(
             map(lambda x: x.split(": ", 1), str(header).split("\n"))
         )
         kwarg_dict["updated"] = PDateTime.from_string(kwarg_dict["updated"])

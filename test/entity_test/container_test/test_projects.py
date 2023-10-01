@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any
 import pytest
 from planager.entity.base.project import Project
 
@@ -11,9 +11,16 @@ from planager.util.pdatetime.pdate import PDate
 class ProjectsTest:
     # def test_init(self) -> None:
 
+    def test_from_dict(self) -> None:
+        projects_dict: dict[str, Any] = {}
+        projects = Projects.from_dict(projects_dict)
+        exp = Projects()
+
+        assert projects == exp
+
     def test_add(self) -> None:
         projects = Projects()
-        project = Project()
+        project = Project("", ("", ""))
         exp = Projects()
 
         projects.add(project)
@@ -62,19 +69,19 @@ class ProjectsTest:
 
     def test_iter(self) -> None:
         projects = Projects()
-        exp = []
+        exp: list[Project] = []
         assert list(projects) == exp
 
     def test_getitem(self) -> None:
         projects = Projects()
-        proj_id = ()
-        exp = []
+        proj_id = ("", "")
+        exp: Project = Project("", proj_id)
         assert projects[proj_id] == exp
 
     def test_setitem(self) -> None:
         projects = Projects()
-        project = Project()
-        proj_id = ()
+        project = Project("", ("", ""))
+        proj_id = ("", "")
 
         projects[proj_id] = project
 

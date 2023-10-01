@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from typing import Any, Dict, Iterable, Iterator, List, Optional, Set, Tuple, Union
+from typing import Any, Iterable, Iterator, Optional, Union
 
 from ...util import Norg, PDate, Regexes, expand_task_segments, tabularize
 from ..container.tasks import Tasks
@@ -11,8 +11,8 @@ class Project:
     def __init__(
         self,
         name: str,
-        project_id: Tuple[str, str],
-        tasks: Union[List[str], str, Tasks] = [],
+        project_id: tuple[str, str],
+        tasks: Union[list[str], str, Tasks] = [],
         priority: int = 10,
         start: Optional[PDate] = None,
         end: Optional[PDate] = None,
@@ -23,13 +23,10 @@ class Project:
         description: str = "",
         notes: str = "",
         path: Optional[Path] = None,
-        # before: Set[
-        #     Tuple[str, ...]
-        # ] = set(),  # not maximally strong, but avoids a mypy headache
-        dependencies: Set[
-            Tuple[str, ...]
+        dependencies: set[
+            tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
-        categories: Set[str] = set(),
+        categories: set[str] = set(),
     ) -> None:
         self.name = Norg.norg_item_head(name).name
         self.project_id = project_id
@@ -55,13 +52,14 @@ class Project:
         self.dependencies = dependencies
         self.categories = categories
 
-    def copy(self) -> "Project":
-        copy = Project(self.name, self.project_id)
-        copy.__dict__.update(self.__dict__)
-        return copy
+    @classmethod
+    def from_dict(cls, roadmap_id: str, project_dict: dict[str, Any]) -> "Project":
+        project_id = (roadmap_id, project_dict["id"])
 
-    # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
-    #     ...
+        return cls(
+            project_dict["name"],
+            project_id,
+        )
 
     @classmethod
     def from_norg_path(
@@ -77,7 +75,7 @@ class Project:
         tags: set = set(),
         description: str = "",
         notes: str = "",
-        dependencies: Set[Tuple[str, ...]] = set(),
+        dependencies: set[tuple[str, ...]] = set(),
         # **kwargs,
     ) -> "Project":
         norg_obj = Norg.from_path(norg_path)
@@ -124,6 +122,14 @@ class Project:
             dependencies=item.dependencies or set(),
         )
 
+    def copy(self) -> "Project":
+        copy = Project(self.name, self.project_id)
+        copy.__dict__.update(self.__dict__)
+        return copy
+
+    # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
+    #     ...
+
     def get_start(self) -> PDate:
         return self.start or PDate.tomorrow() + (hash(self.name) % 60)
 
@@ -131,7 +137,11 @@ class Project:
         return self.get_start() + 365
 
     @property
-    def task_ids(self) -> List[Tuple[str, str, str]]:
+    def tasks(self) -> Tasks:
+        return self._tasks
+
+    @property
+    def task_ids(self) -> list[tuple[str, str, str]]:
         return self._tasks.task_ids
 
     def pretty(self, width: int = 80) -> str:
@@ -159,7 +169,7 @@ class Project:
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
-    def __getitem__(self, __key: Tuple[str, str, str]) -> Task:
+    def __getitem__(self, __key: tuple[str, str, str]) -> Task:
         return self._tasks[__key]
 
     def __str__(self) -> str:

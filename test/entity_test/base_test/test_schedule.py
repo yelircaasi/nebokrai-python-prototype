@@ -1,8 +1,8 @@
-from calendar import Calendar
 from pathlib import Path
 
 import pytest
 
+from planager.entity import Calendar
 from planager.entity import Schedule
 from planager.entity.base.entry import Entry
 from planager.entity.base.plan import Plan
@@ -104,7 +104,7 @@ class ScheduleTest:
 
     def test_from_calendar(self) -> None:
         calendar = Calendar()
-        date = PDate()
+        date = PDate(2100, 1, 1)
         schedule = Schedule.from_calendar(calendar, date)
         exp = Schedule()
 
@@ -417,18 +417,18 @@ class ScheduleTest:
         exp11 = Schedule()
         exp12 = Schedule()
 
-        sched1.add(Entry())
-        sched2.add(Entry())
-        sched3.add(Entry())
-        sched4.add(Entry())
-        sched5.add(Entry())
-        sched6.add(Entry())
-        sched7.add(Entry())
-        sched8.add(Entry())
-        sched9.add(Entry())
-        sched10.add(Entry())
-        sched11.add(Entry())
-        sched12.add(Entry())
+        sched1.add(Entry("", PTime()))
+        sched2.add(Entry("", PTime()))
+        sched3.add(Entry("", PTime()))
+        sched4.add(Entry("", PTime()))
+        sched5.add(Entry("", PTime()))
+        sched6.add(Entry("", PTime()))
+        sched7.add(Entry("", PTime()))
+        sched8.add(Entry("", PTime()))
+        sched9.add(Entry("", PTime()))
+        sched10.add(Entry("", PTime()))
+        sched11.add(Entry("", PTime()))
+        sched12.add(Entry("", PTime()))
 
         assert sched1 == exp1
         assert sched2 == exp2
@@ -462,10 +462,10 @@ class ScheduleTest:
         exp_expand = Schedule()
         exp_snap = Schedule()
 
-        sched_empty.remove(Entry())
-        sched_noexpand.remove(Entry())
-        sched_expand.remove(Entry())
-        sched_snap.remove(Entry())
+        sched_empty.remove(Entry("", PTime()))
+        sched_noexpand.remove(Entry("", PTime()))
+        sched_expand.remove(Entry("", PTime()))
+        sched_snap.remove(Entry("", PTime()))
 
         assert sched_empty == exp_empty
         assert sched_noexpand == exp_noexpand
@@ -490,10 +490,11 @@ class ScheduleTest:
     # [ ]
     def test_add_routines(self) -> None:
         sched = Schedule()
+        routine_names: list[str] = []
         routines = Routines()
         exp = Schedule()
 
-        sched.add_routines(routines)
+        sched.add_routines(routine_names, routines)
 
         assert sched == exp
 
@@ -521,11 +522,11 @@ class ScheduleTest:
         sched = Schedule()
         sched_fixed_tight = Schedule()
 
-        addable = Entry()
-        nonaddable_by_space = Entry()
-        nonaddable_fixed = Entry()
-        addable_for_fixed_tight = Entry()
-        nonaddable_for_fixed_tight = Entry()
+        addable = Entry("", PTime())
+        nonaddable_by_space = Entry("", PTime())
+        nonaddable_fixed = Entry("", PTime())
+        addable_for_fixed_tight = Entry("", PTime())
+        nonaddable_for_fixed_tight = Entry("", PTime())
 
         assert sched.can_be_added(addable)
         assert not sched.can_be_added(nonaddable_by_space)
@@ -542,7 +543,6 @@ class ScheduleTest:
         """
         sched_default = Schedule()
         sched_custom = Schedule(
-            ...,
             weight_interval_min=0.5,
             weight_interval_max=1.5,
             prio_transform=lambda x: (x / 100) ** 2,
@@ -598,7 +598,61 @@ class ScheduleTest:
 
     def test_str(self) -> None:
         sched = Schedule()
-        exp = "" "" ""
+        exp = (
+            "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n"
+            "┃ Thursday, August 3rd, 2023                                                   ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 00:00-05:00 │ Sleep                                                          ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     70                                                             ┃\n"  # https://en.wikipedia.org/wiki/Block_Elements
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 05:00-05:20 │ Run                                                            ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     60                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 05:20-06:20 │ Morning Routine                                                ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     80                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 06:00-07:00 │ Commute                                                        ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:      0                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 07:00-16:00 │ Work                                                           ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     90                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 16:00-17:00 │ Commute                                                        ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     10                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 17:00-18:00 │ Dinner                                                         ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     20                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 18:00-19:00 │ Reading                                                        ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     20                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 20:00-21:00 │ Evening Routine                                                ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     80                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┣━━━━━━━━━━━━━┯━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫\n"
+            "┃ 21:00-24:00 │ Sleep                                                          ┃\n"
+            "┠─────────────┴────────────────────────────────────────────────────────────────┨\n"
+            "┃ priority:     70                                                             ┃\n"
+            "┃ notes:                                                                       ┃\n"
+            "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n"
+        )
         assert str(sched) == exp
 
     def test_repr(self) -> None:

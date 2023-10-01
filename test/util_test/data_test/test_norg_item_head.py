@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Set, Tuple
+from typing import Tuple
 
 import pytest
 

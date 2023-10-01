@@ -24,7 +24,6 @@ class Scheduler:
         calendar: Calendar,
         tasks: Tasks,
         routines: Routines,
-        schedule_patches: SchedulePatches,
         start_date: Optional[PDate] = PDate.today() + 1,
         end_date: Optional[PDate] = None,
     ) -> Schedules:
@@ -32,14 +31,13 @@ class Scheduler:
         end_date_new: PDate = end_date or max(
             plan.end_date,
             calendar.end_date,
-            schedule_patches.end_date,
         )
         schedules = Schedules()
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
-            schedule.add_routines(routines)
+            schedule.add_routines(calendar[date].routine_names, routines)
             schedule.add_from_plan(plan, tasks)
-            schedule = self.patch_schedule(schedule, schedule_patches[date])
+            # schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule
             print(len(schedules))
         return schedules

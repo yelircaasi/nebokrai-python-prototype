@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Union
+from typing import Any, Callable, Optional, Union
 
 from ...util import PDate, PTime, round5, tabularize
 from .entry import Entry
@@ -9,7 +9,7 @@ class Routine:
     def __init__(
         self,
         name: str,
-        start: PTime,
+        default_start: PTime,
         items: list = [],
         priority: int = 80,
         notes: str = "",
@@ -19,7 +19,7 @@ class Routine:
         valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
     ) -> None:
         self.name = name
-        self.start = start
+        self.default_start = default_start
         self.items = items
         self.routine_id = ("routine", "", name)
         self.priority = int(priority) or 80
@@ -38,11 +38,23 @@ class Routine:
 
         self.valid_dates = validator
 
+    @classmethod
+    def from_dict(cls, routine_dict: dict[str, Any]) -> "Routine":
+        items: list[str] = []
+        default_start = PTime.from_string(routine_dict["default_time"])
+        return cls(
+            routine_dict["name"],
+            default_start,
+            items,
+        )
+
     def valid_on(self, date: PDate) -> bool:
         return self.valid_dates(date)
 
     def as_entry(self, start: Optional[PTime] = None) -> Entry:
-        return Entry(self.name, start or self.start, priority=self.priority)  # TODO
+        return Entry(
+            self.name, start or self.default_start, priority=self.priority
+        )  # TODO
 
     def as_task(self) -> Task:
         return Task(self.name, self.routine_id, priority=self.priority)  # TODO

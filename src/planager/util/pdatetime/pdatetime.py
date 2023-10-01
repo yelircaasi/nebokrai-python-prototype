@@ -1,6 +1,6 @@
 import re
 from datetime import date, datetime
-from typing import Any, List, Optional, Tuple, Union
+from typing import Any, Optional, Union
 
 # from ..type import Any, PTimeInputType
 from .pdate import PDate
