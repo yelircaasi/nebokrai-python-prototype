@@ -103,7 +103,7 @@ class PDate:
 
     def weekday(self) -> int:
         return self._date.weekday()
-    
+
     def daysto(self, date2: "PDate") -> int:
         return date2.toordinal() - self.toordinal()
 

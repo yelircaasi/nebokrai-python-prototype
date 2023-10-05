@@ -17,7 +17,7 @@ class Projects:
     @classmethod
     def from_dict(cls, roadmap_id: str, projects_dict: dict[str, Any]) -> "Projects":
         projects = cls()
-        
+
         for project_code, project_dict in projects_dict.items():
             if project_dict:
                 projects.add(Project.from_dict(roadmap_id, project_code, project_dict))
@@ -99,11 +99,13 @@ class Projects:
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())  # TODO: make iterate in order
-    
+
     def __len__(self) -> int:
         return len(self._projects)
 
-    def __getitem__(self, __id: Union[tuple[str, str], tuple[str, str, str]]) -> Any:
+    def __getitem__(
+        self, __id: Union[str, tuple[str, str], tuple[str, str, str]]
+    ) -> Any:
         if isinstance(__id, str):
             roadmap_id = list(self._projects)[0][0]
             return self._projects[(roadmap_id, __id)]

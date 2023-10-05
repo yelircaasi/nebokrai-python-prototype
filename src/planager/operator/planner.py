@@ -59,7 +59,7 @@ class Planner:
             plan.add_subplan(project.subplan, project._tasks)
         # plan.reorder_by_precedence()
 
-        #plan = self.patch_plan(plan, plan_patches)
+        # plan = self.patch_plan(plan, plan_patches)
 
         # ----------------------------------------------------------------------------------------------------------------------------------
         # enforce temporal precedence constraints

@@ -43,11 +43,15 @@ class Task:
         self.notes = notes
         self.status = status
         self.project_order = -1
+        self.original_date = PDate.nonedate()
 
     @classmethod
     def from_dict(
         cls, roadmap_code: str, project_code: str, task_dict: dict[str, Any]
     ) -> "Task":
+        def parse_id(s: str) -> tuple[str, str, str]:
+            res = re.split("\W", s)
+            return (res[0], res[1], res[2])
         
         task_id = (roadmap_code, project_code, task_dict["id"])
 
@@ -56,7 +60,7 @@ class Task:
             task_id,
             priority=int(task_dict.get("priority") or cls.PRIORITY_DEFAULT),
             duration=int(task_dict.get("duration") or cls.DURATION_DEFAULT),
-            dependencies=set(re.split(", ?", task_dict.get("categories", ""))),
+            dependencies=set(map(parse_id, re.split(", ?", task_dict.get("categories", "")))),
             notes=task_dict.get("notes") or "",
             status=task_dict.get("status") or "todo",
         )

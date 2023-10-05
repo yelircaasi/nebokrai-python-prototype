@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
-from typing import Any, Optional, Union
+from typing import Any, Iterable, Optional, Union
+
 
 from ...util import PTime, round5, tabularize, wrap_string
 
@@ -57,6 +58,8 @@ class Entry:
         self.maxtime: int = maxtime or int(self.MAXTIME_FACTOR * self.normaltime)
         self.alignend: bool = alignend
         self.order: int = order
+
+        self.subentries: list[Entry] = []
 
     @classmethod
     def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
@@ -234,6 +237,19 @@ class Entry:
 
     def accommodates(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return __entry.fits_in(self, ratio=ratio)
+    
+    def add_subentry(self, subentry: "Entry") -> None:
+        if not self.blocks.intersection(subentry.categories):
+            raise ValueError(f"")
+        if self.accommodates(subentry):
+            self.subentries.append(subentry)
+            self.subentries.sort(key=lambda e: (e.order, e.priority))
+        else:
+            raise ValueError(f"Entry {subentry} does not fit in {self}.")
+        
+    @property
+    def available(self) -> int:
+        return self.start.timeto(self.end) - sum(map(lambda e: e.duration, self.subentries)) if self.blocks else 0
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
@@ -290,6 +306,30 @@ class Empty(Entry):
             normaltime=_time,
             mintime=0,
         )
+
+    @property
+    def available(self) -> int:
+        return self.duration
+
+
+# class Block(Entry):
+#     def __init__(
+#         self, name: str, start: PTime, end: PTime, entries: Iterable[Entry]
+#     ) -> None:
+#         self.name = name
+#         self.start = start
+#         self.end = end
+#         self.entries = list(entries)
+
+#     # @property
+
+#     @property
+#     def available(self) -> int:
+#         return self.start.timeto(self.end) - sum(map(lambda e: e.duration, self.entries))
+
+
+# class RoutineEntry(Entry):
+#     def __init__(self, routine: Routine)
 
 
 FIRST_ENTRY = Entry(

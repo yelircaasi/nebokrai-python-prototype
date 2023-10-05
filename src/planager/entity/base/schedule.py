@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, Iterable, Optional, Union
 
 from ...util import HTML, JSON, Norg, PDate, PTime, round5, tabularize
 from ..container.entries import Entries
@@ -15,19 +15,20 @@ class Schedule:
     def __init__(
         self,
         date: Optional[PDate] = None,
-        schedule: Optional[Entries] = None,
+        schedule: Optional[Iterable[Entry]] = None,
         width: int = 80,
         weight_interval_min: float = 0.8,
         weight_interval_max: float = 1.2,
         prio_transform: Callable = lambda x: (x / 100) ** 1.5,
     ) -> None:
-        self.schedule = schedule or self.make_default_day()
+        self.schedule = Entries(schedule) if schedule is not None else self.make_default_day()
         self.date: PDate = date or PDate.today() + 1
         self.width: int = width
         self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
         self.prio_transform: Callable = prio_transform
+        
 
     def copy(self):
         newschedule = Schedule()
@@ -68,10 +69,10 @@ class Schedule:
         schedule = cls()
         return schedule
 
-    def to_norg(self, path: Path) -> None:
-        norg = self.as_norg()
-        with open(path, "w") as f:
-            f.write(str(norg))
+    # def to_norg(self, path: Path) -> None:
+    #     norg = self.as_norg()
+    #     with open(path, "w") as f:
+    #         f.write(str(norg))
 
     def to_json(self, path: Path) -> None:
         json_obj = self.as_json()
@@ -83,8 +84,8 @@ class Schedule:
         with open(path, "w") as f:
             f.write(html_obj.as_html_string())
 
-    def as_norg(self) -> Norg:
-        return Norg()  # TODO
+    # def as_norg(self) -> Norg:
+    #     return Norg()  # TODO
 
     def as_json(self) -> JSON:
         return JSON()  # TODO
@@ -146,12 +147,38 @@ class Schedule:
         return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
 
     @property
+    def empty_time(self) -> int:
+        return sum(
+            map(
+                lambda e: e.duration,
+                filter(lambda e: isinstance(e, Empty), self.schedule),
+            )
+        )
+    
+    @property
+    def total_available(self) -> int:
+        return sum(map(lambda e: e.available, self.schedule))
+
+    @property
+    def available_dict(self) -> dict[str, int]:
+        time_dict: dict[str, int] = {}
+        time_dict.update({"empty": self.empty_time})
+        time_dict.update({"total": self.total_available})
+        for block in self.schedule.blocks:
+            time_dict.update({block: self.schedule.available_for_block(block)})
+        return time_dict
+
+    @property
     def prio_weighting_function(self) -> Callable[[Union[int, float]], float]:
         def time_weight_from_prio(prio: Union[int, float]) -> float:
             interval = self.weight_interval_max - self.weight_interval_min
             return self.weight_interval_min + interval * self.prio_transform(prio)
 
         return time_weight_from_prio
+    
+    @property
+    def entries(self) -> Entries:
+        return Entries(filter(lambda x: isinstance(x, Entry), self.schedule))
 
     def is_valid(self) -> bool:  # MAKE SIMILAR IN ENTRIES?
         """ """

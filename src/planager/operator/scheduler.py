@@ -3,6 +3,7 @@ from typing import Optional
 from ..entity import (
     Calendar,
     Plan,
+    Roadmaps,
     Routines,
     Schedule,
     SchedulePatches,
@@ -20,15 +21,13 @@ class Scheduler:
 
     def __call__(
         self,
-        plan: Plan,
         calendar: Calendar,
-        tasks: Tasks,
+        plan: Plan,
+        roadmaps: Roadmaps,
         routines: Routines,
-        start_date: Optional[PDate] = PDate.today() + 1,
-        end_date: Optional[PDate] = None,
     ) -> Schedules:
-        start_date_new = start_date or (PDate.tomorrow())
-        end_date_new: PDate = end_date or max(
+        start_date_new = roadmaps.start_date or (PDate.tomorrow())
+        end_date_new: PDate = roadmaps.end_date or max(
             plan.end_date,
             calendar.end_date,
         )
@@ -36,7 +35,7 @@ class Scheduler:
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
             schedule.add_routines(calendar[date].routine_names, routines)
-            schedule.add_from_plan(plan, tasks)
+            schedule.add_from_plan(plan, roadmaps.tasks)
             # schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule
             print(len(schedules))

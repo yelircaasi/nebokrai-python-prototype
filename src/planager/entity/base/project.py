@@ -2,7 +2,15 @@ import re
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional, Union
 
-from ...util import ClusterType, Norg, PDate, Regexes, SubplanType, expand_task_segments, tabularize
+from ...util import (
+    ClusterType,
+    Norg,
+    PDate,
+    Regexes,
+    SubplanType,
+    expand_task_segments,
+    tabularize,
+)
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -39,7 +47,9 @@ class Project:
         )
         self.priority = priority
         self.start = start or PDate.tomorrow() + 730 + (hash(self.name) % 60)
-        self.end = PDate.ensure_is_pdate(end) if end else None#(PDate.tomorrow() + (hash(self.name) % 60) + 180)
+        self.end = (
+            PDate.ensure_is_pdate(end) if end else None
+        )  # (PDate.tomorrow() + (hash(self.name) % 60) + 180)
         self.interval = interval
         self.cluster_size = cluster_size
         self.duration = duration
@@ -47,16 +57,19 @@ class Project:
         self.notes = notes
         self.dependencies = dependencies
         self.categories = categories
-        
+
         if self.end:
-            assert self.end > self.start, f"{self.name}: End date ({self.end}) must be greater than start date ({self.start})."
+            assert (
+                self.end > self.start
+            ), f"{self.name}: End date ({self.end}) must be greater than start date ({self.start})."
 
     @classmethod
-    def from_dict(cls, roadmap_code: str, project_code: str, project_dict: dict[str, Any]) -> "Project":
+    def from_dict(
+        cls, roadmap_code: str, project_code: str, project_dict: dict[str, Any]
+    ) -> "Project":
         project_id = (roadmap_code, project_code)
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
-
 
         return cls(
             project_dict["name"],
@@ -73,66 +86,66 @@ class Project:
             categories=set(re.split(", ?", project_dict.get("categories", ""))),
         )
 
-    @classmethod
-    def from_norg_path(
-        cls,
-        norg_path: Path,
-        project_name: str,
-        priority: int = 10,
-        start: Optional[PDate] = None,
-        end: Optional[PDate] = None,
-        interval: int = 7,
-        cluster_size: int = 1,
-        duration: int = 30,
-        tags: set = set(),
-        description: str = "",
-        notes: str = "",
-        dependencies: set[tuple[str, ...]] = set(),
-        # **kwargs,
-    ) -> "Project":
-        norg_obj = Norg.from_path(norg_path)
-        project_id = (norg_obj.parent, norg_obj.doc_id)
-        tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
-        c = cls(
-            name=norg_obj.title,
-            project_id=project_id,
-            tasks=tasks,
-            priority=priority,
-            start=start,
-            end=end,
-            interval=interval,
-            cluster_size=cluster_size,
-            duration=duration,
-            tags=tags,
-            description=description,
-            notes=notes,
-            path=norg_path,
-            dependencies=dependencies,
-        )
-        return c
+    # @classmethod
+    # def from_norg_path(
+    #     cls,
+    #     norg_path: Path,
+    #     project_name: str,
+    #     priority: int = 10,
+    #     start: Optional[PDate] = None,
+    #     end: Optional[PDate] = None,
+    #     interval: int = 7,
+    #     cluster_size: int = 1,
+    #     duration: int = 30,
+    #     tags: set = set(),
+    #     description: str = "",
+    #     notes: str = "",
+    #     dependencies: set[tuple[str, ...]] = set(),
+    #     # **kwargs,
+    # ) -> "Project":
+    #     norg_obj = Norg.from_path(norg_path)
+    #     project_id = (norg_obj.parent, norg_obj.doc_id)
+    #     tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
+    #     c = cls(
+    #         name=norg_obj.title,
+    #         project_id=project_id,
+    #         tasks=tasks,
+    #         priority=priority,
+    #         start=start,
+    #         end=end,
+    #         interval=interval,
+    #         cluster_size=cluster_size,
+    #         duration=duration,
+    #         tags=tags,
+    #         description=description,
+    #         notes=notes,
+    #         path=norg_path,
+    #         dependencies=dependencies,
+    #     )
+    #     return c
 
-    @classmethod
-    def from_roadmap_item(
-        cls, norg_item_string: str, roadmap_id: str, roadmap_path: Path
-    ) -> "Project":
-        item = Norg.norg_item_from_string(norg_item_string)
-        item_id = item.item_id[-1] if item.item_id else None
-        return cls(
-            name=item.name or "<Placeholder Project Name>",
-            project_id=(roadmap_id, item_id or "<Roadmap Placeholder ID>"),
-            tasks=[],  # TODO
-            priority=item.priority or 10,
-            start=item.start_date or PDate.today() + 7,
-            end=item.end_date or PDate.today() + 107,
-            interval=item.interval or 7,
-            cluster_size=item.cluster_size or 1,
-            duration=item.duration or 30,
-            tags=item.tags or set(),
-            description=item.description or "",
-            notes=item.notes or "",
-            path=item.path,
-            dependencies=item.dependencies or set(),
-        )
+    # @classmethod
+    # def from_roadmap_item(
+    #     cls, norg_item_string: str, roadmap_id: str, roadmap_path: Path
+    # ) -> "Project":
+    #     item = Norg.norg_item_from_string(norg_item_string)
+    #     item_id = item.item_id[-1] if item.item_id else None
+    #     return cls(
+    #         name=item.name or "<Placeholder Project Name>",
+    #         project_id=(roadmap_id, item_id or "<Roadmap Placeholder ID>"),
+    #         tasks=[],  # TODO
+    #         priority=item.priority or 10,
+    #         start=item.start_date or PDate.today() + 7,
+    #         end=item.end_date or PDate.today() + 107,
+    #         interval=item.interval or 7,
+    #         cluster_size=item.cluster_size or 1,
+    #         duration=item.duration or 30,
+    #         tags=item.tags or set(),
+    #         description=item.description or "",
+    #         notes=item.notes or "",
+    #         path=item.path,
+    #         dependencies=item.dependencies or set(),
+    #     )
 
     def copy(self) -> "Project":
         copy = Project(self.name, self.project_id)
@@ -151,7 +164,10 @@ class Project:
         length = len(task_ids)
         quotient, remainder = divmod(length, self.cluster_size)
         num_clusters = quotient + int(bool(remainder))
-        ret: ClusterType = [task_ids[self.cluster_size * i : self.cluster_size * (i + 1)] for i in range(num_clusters)]
+        ret: ClusterType = [
+            task_ids[self.cluster_size * i : self.cluster_size * (i + 1)]
+            for i in range(num_clusters)
+        ]
         return ret
 
     @property
@@ -164,18 +180,18 @@ class Project:
             return {}
         nclusters = len(clusters)
 
-        
         if self.end:
             while nclusters > self.start.daysto(self.end):
-                print(f"Not enough time allocated to '{self.name}': {self.start} - {self.end}, {nclusters} clusters, cluster size {self.cluster_size}.")   
+                print(
+                    f"Not enough time allocated to '{self.name}': {self.start} - {self.end}, {nclusters} clusters, cluster size {self.cluster_size}."
+                )
                 self.cluster_size += 1
                 clusters = self.clusters
                 nclusters = len(clusters)
-            
+
         if len(clusters) == 1:
             return {self.start: clusters[0]}
         elif self.end:
-            
             ndays = int(self.get_end()) - int(self.start)
             factor = ndays / nclusters
             ints = [int(round(i * factor)) for i in range(nclusters)]
@@ -189,10 +205,9 @@ class Project:
                 "Invalid parameter configuration. "
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
             )
-        
 
         # start: PDate = self.start or PDate.tomorrow() + (hash(self.name) % 7)
-        
+
         subplan: SubplanType = {
             self.start + ints[i]: cluster for i, cluster in enumerate(clusters)
         }
@@ -211,17 +226,21 @@ class Project:
         return self._tasks.task_ids
 
     def pretty(self, width: int = 80) -> str:
-        statusdict = {"todo": '☐', "done": '✔'}
+        statusdict = {"todo": "☐", "done": "✔"}
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"Project: {self.name} (ID {'-'.join(self.project_id)})", width, thick=True)
+        top = tabularize(
+            f"Project: {self.name} (ID {'-'.join(self.project_id)})", width, thick=True
+        )
         empty = tabularize("", width, thick=True)
         tasks = map(
             lambda x: tabularize(
-                f"{statusdict[x.status]} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}", width, thick=True
+                f"{statusdict[x.status]} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}",
+                width,
+                thick=True,
             ),
             self._tasks,
         )
@@ -236,8 +255,12 @@ class Project:
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
-    def __getitem__(self, __key: tuple[str, str, str]) -> Task:
-        return self._tasks[__key]
+    def __getitem__(self, __key: Union[str, tuple[str, str, str]]) -> Task:
+        if isinstance(__key, str):
+            return self._tasks[(*self.project_id, __key)]
+        elif isinstance(__key, tuple):
+            print("Accessing a task from Project via a tuple ID is deprecated.")
+            return self._tasks[__key]
 
     def __str__(self) -> str:
         return self.pretty()

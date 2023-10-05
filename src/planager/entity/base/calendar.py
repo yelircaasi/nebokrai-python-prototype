@@ -22,7 +22,7 @@ class Day:
     def __init__(
         self,
         date: PDate,
-        entries: Entries(),
+        entries: Entries = Entries(),
         routine_names: list[str] = [
             "Morning Routine",
             "Midday Routine",
@@ -90,7 +90,7 @@ class Day:
 
     def __str__(self) -> str:
         width = self.WIDTH
-        thickbeam = '┣' + (width - 2) * "━" + "┫\n"
+        thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         header_thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         header_thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
         thinbeam = "\n┠" + +(width - 2) * "─" + "┨\n"
@@ -162,7 +162,7 @@ class Calendar:
         return max(self.days)
 
     def long_repr(self) -> str:
-        spacer = tabularize(' ', thick=True) + '\n'
+        spacer = tabularize(" ", thick=True) + "\n"
         # spacer += spacer
         return spacer.join(map(str, self.days.values()))
 

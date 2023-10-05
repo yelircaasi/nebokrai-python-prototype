@@ -3,6 +3,7 @@ from typing import Any, Iterable, Iterator, Optional, Tuple
 
 from ..base.project import Project
 from ..base.roadmap import Roadmap
+from ..base.task import Task
 from ..container.projects import Projects
 from ..container.tasks import Tasks
 from ...util import Norg, PDate, tabularize
@@ -24,17 +25,17 @@ class Roadmaps:
             ret.add(Roadmap.from_dict(rmid, rmdict))
         return ret
 
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
-        file = workspace_dir / "roadmaps.norg"
-        norg = Norg.from_path(file)
-        roadmap_list = []
-        for item in norg.items:
-            if item.path:
-                roadmap_list.append(Roadmap.from_norg_path(item.path))
-            else:
-                raise ValueError(f"Roadmap item must have a path link: {str(item)}")
-        return cls(roadmap_list, workspace_dir)
+    # @classmethod
+    # def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
+    #     file = workspace_dir / "roadmaps.norg"
+    #     norg = Norg.from_path(file)
+    #     roadmap_list = []
+    #     for item in norg.items:
+    #         if item.path:
+    #             roadmap_list.append(Roadmap.from_norg_path(item.path))
+    #         else:
+    #             raise ValueError(f"Roadmap item must have a path link: {str(item)}")
+    #     return cls(roadmap_list, workspace_dir)
 
     # def open_projects_norg(self) -> Projects:
     #     projects = Projects()
@@ -68,6 +69,14 @@ class Roadmaps:
                 tasks.update(project.tasks)
         return tasks
 
+    @property
+    def start_date(self) -> PDate:
+        return min(roadmap.start_date for roadmap in self._roadmaps.values())
+
+    @property
+    def end_date(self) -> PDate:
+        return max(roadmap.end_date for roadmap in self._roadmaps.values())
+
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
@@ -95,9 +104,13 @@ class Roadmaps:
         assert not __roadmap.roadmap_id in self._roadmaps
         self._roadmaps.update({__roadmap.roadmap_id: __roadmap})
 
+    def get_task(self, task_id: tuple[str, str, str]) -> Task:
+        roadmap_code, project_code, task_code = task_id
+        return self._roadmaps[roadmap_code][project_code][task_code]
+
     def __len__(self) -> int:
         return len(self._roadmaps)
-    
+
     def __iter__(self) -> Iterator[Roadmap]:
         return iter(self._roadmaps.values())
 
