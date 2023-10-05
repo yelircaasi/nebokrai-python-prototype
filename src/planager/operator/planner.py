@@ -34,10 +34,10 @@ class Planner:
 
     def __call__(
         self,
-        roadmaps: Roadmaps,
         calendar: Calendar,
-        task_patches: Optional[TaskPatches] = None,
-        plan_patches: Optional[PlanPatches] = None,
+        roadmaps: Roadmaps,
+        # task_patches: Optional[TaskPatches] = None,
+        # plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
         """
         Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar, as well as task_patches
@@ -52,10 +52,9 @@ class Planner:
             calendar=calendar,
         )
         projects = roadmaps.projects
-        projects.patch_tasks(task_patches)
         # projects.order_by_dependency()
 
-        for project in projects:
+        for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan, project._tasks)
         # plan.reorder_by_precedence()
 

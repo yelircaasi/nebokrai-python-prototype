@@ -74,6 +74,12 @@ class Projects:
                 tasks.add(task)
         return tasks
 
+    @property
+    def iter_by_priority(self) -> Iterator[Project]:
+        return iter(
+            sorted(list(self._projects.values()), key=lambda proj: proj.priority)
+        )  # TODO: make iterate in order
+
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"

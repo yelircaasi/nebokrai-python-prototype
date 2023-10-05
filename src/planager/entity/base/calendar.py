@@ -50,22 +50,40 @@ class Day:
             first_entry = self.entries[0]
             last_entry = self.entries[-1]
 
-        if first_entry.name.lower() == "sleep":
-            pass
-        elif first_entry.overlaps(morning_sleep):
-            raise ValueError("\n".join(("", str(first_entry), str(morning_sleep))))
-        else:
-            self.entries.insert(0, morning_sleep)
+            if first_entry.name.lower() == "sleep":
+                pass
+            elif first_entry.overlaps(morning_sleep):
+                raise ValueError("\n".join(("", str(first_entry), str(morning_sleep))))
+            else:
+                self.entries.insert(0, morning_sleep)
 
-        if last_entry.name.lower() == "sleep":
-            pass
-        elif last_entry.overlaps(evening_sleep):
-            raise ValueError("")
+            if last_entry.name.lower() == "sleep":
+                pass
+            elif last_entry.overlaps(evening_sleep):
+                raise ValueError("")
+            else:
+                self.entries.append(evening_sleep)
+
         else:
+            self.entries.append(morning_sleep)
             self.entries.append(evening_sleep)
 
     def copy(self) -> "Day":
         return Day(self.date.copy(), self.entries.copy(), self.routine_names.copy())
+
+    # @classmethod
+    # def default_day(cls, date: PDate) -> "Day":
+    #     return cls(
+    #         date
+    #         entries: Entries = Entries(),
+    #         routine_names: list[str] = [
+    #             "Morning Routine",
+    #             "Midday Routine",
+    #             "Evening Routine",
+    #         ],
+    #         start: PTime = PTime(5),
+    #         end: PTime = PTime(21),
+    #     )
 
     @classmethod
     def from_dict(cls, date: PDate, day_dict: dict[str, Any]) -> "Day":
@@ -123,27 +141,27 @@ class Calendar:
 
         return cls(days)
 
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Calendar":
-        cal = Calendar()
-        file = workspace_dir / "calendar.norg"
-        norg = Norg.from_path(file)
-        for item in norg.items:
-            date_str = item.name
-            pdate = PDate.from_string(str(date_str))
-            if pdate:
-                date = pdate
-            else:
-                raise ValueError("Date not parsable: {date_str}")
-            # attributes = section.get_attributes(section.text)
-            cal.add(
-                Day(
-                    date,
-                    # **attributes
-                )
-            )
+    # @classmethod
+    # def from_norg_workspace(cls, workspace_dir: Path) -> "Calendar":
+    #     cal = Calendar()
+    #     file = workspace_dir / "calendar.norg"
+    #     norg = Norg.from_path(file)
+    #     for item in norg.items:
+    #         date_str = item.name
+    #         pdate = PDate.from_string(str(date_str))
+    #         if pdate:
+    #             date = pdate
+    #         else:
+    #             raise ValueError("Date not parsable: {date_str}")
+    #         # attributes = section.get_attributes(section.text)
+    #         cal.add(
+    #             Day(
+    #                 date,
+    #                 # **attributes
+    #             )
+    #         )
 
-        return cal
+    #     return cal
 
     def copy(self) -> "Calendar":
         cal = Calendar()
@@ -167,6 +185,8 @@ class Calendar:
         return spacer.join(map(str, self.days.values()))
 
     def __getitem__(self, __date: PDate) -> Day:
+        if not __date in self.days:
+            self.days.update({__date: Day(__date)})
         return self.days[__date]
 
     def __setitem__(self, __name: PDate, __value: Any) -> None:

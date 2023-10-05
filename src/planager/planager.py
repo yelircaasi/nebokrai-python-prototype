@@ -29,7 +29,7 @@ class Planager:
     routines: Routines
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
-    
+
     planner: Planner
     scheduler: Scheduler
 
@@ -73,31 +73,31 @@ class Planager:
         """
 
         # tasks = roadmaps.tasks  # Tasks.from_roadmaps(roadmaps)
-        self.plan = self.planner(self.roadmaps, self.calendar)
-        schedules = self.scheduler(
-            self.calendar,
-            self.plan,
-            self.roadmaps,
-            self.routines,
-        )
+        self.plan = self.planner(self.calendar, self.roadmaps)
+        # schedules = self.scheduler(
+        #     self.calendar,
+        #     self.plan,
+        #     self.roadmaps,
+        #     self.routines,
+        # )
 
-    def reconfigure(self, config: ConfigType) -> None:
-        ...
+    # def reconfigure(self, config: ConfigType) -> None:
+    #     ...
 
-    def write_norg(self) -> None:
-        """
-        Writes derivation to norg workspace.
-        """
+    # def write_norg(self) -> None:
+    #     """
+    #     Writes derivation to norg workspace.
+    #     """
 
     def write_json(self) -> None:
         """
         Writes derivation to json folder.
         """
 
-    def write_html(self) -> None:
-        """
-        Writes derivation to html folder.
-        """
+    # def write_html(self) -> None:
+    #     """
+    #     Writes derivation to html folder.
+    #     """
 
     def roadmap_tree(self) -> str:
         lines = []
@@ -117,19 +117,23 @@ class Planager:
         end_date = PDate.today() + 400
 
         def make_project_line(project: Project) -> str:
-            def get_dates(
-                project: Project, raw: bool
-            ) -> dict[PDate, str]:
+            def get_dates(project: Project, raw: bool) -> dict[PDate, str]:
                 if raw:
                     return {
-                        d: project[l[-1]].status for d, l in project.subplan.items()
+                        d: project[l[-1][-1]].status for d, l in project.subplan.items()
                     }
                 else:
-                    assert self.plan, "Plan must be defined in order to be shown as a gantt."
+                    assert (
+                        self.plan
+                    ), "Plan must be defined in order to be shown as a gantt."
                     rcode, pcode = project.project_id
                     ret: dict[PDate, str] = {}
                     for date, task_ids in self.plan.items():
-                        rel_ids = [(r, p, _) for (r, p, _) in task_ids if (r == rcode and p == pcode)]
+                        rel_ids = [
+                            (r, p, _)
+                            for (r, p, _) in task_ids
+                            if (r == rcode and p == pcode)
+                        ]
                         if rel_ids:
                             task_id = rel_ids[0]
                             ret.update({date: self.roadmaps.get_task(task_id).status})

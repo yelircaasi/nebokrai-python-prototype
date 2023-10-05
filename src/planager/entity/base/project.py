@@ -74,7 +74,9 @@ class Project:
         return cls(
             project_dict["name"],
             project_id,
-            tasks=Tasks.from_dict(roadmap_code, project_code, project_dict["tasks"]),
+            tasks=Tasks.from_dict(
+                roadmap_code, project_code, project_dict["name"], project_dict["tasks"]
+            ),
             priority=int(project_dict.get("priority") or 10),
             start=PDate.ensure_is_pdate(start_str) if start_str else None,
             end=PDate.ensure_is_pdate(end_str) if end_str else None,
@@ -226,7 +228,6 @@ class Project:
         return self._tasks.task_ids
 
     def pretty(self, width: int = 80) -> str:
-        statusdict = {"todo": "☐", "done": "✔"}
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
@@ -238,7 +239,7 @@ class Project:
         empty = tabularize("", width, thick=True)
         tasks = map(
             lambda x: tabularize(
-                f"{statusdict[x.status]} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}",
+                f"{x.status_symbol} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}",
                 width,
                 thick=True,
             ),
@@ -259,6 +260,7 @@ class Project:
         if isinstance(__key, str):
             return self._tasks[(*self.project_id, __key)]
         elif isinstance(__key, tuple):
+            # raise ValueError("Accessing a task from Project via a tuple ID is deprecated.")
             print("Accessing a task from Project via a tuple ID is deprecated.")
             return self._tasks[__key]
 

@@ -19,12 +19,16 @@ class Tasks:
 
     @classmethod
     def from_dict(
-        cls, roadmap_code: str, project_code: str, tasks_dict_list: list[dict[str, Any]]
+        cls,
+        roadmap_code: str,
+        project_code: str,
+        project_name: str,
+        tasks_dict_list: list[dict[str, Any]],
     ) -> "Tasks":
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             # task_id = (roadmap, project, task_dict["id"])
-            task = Task.from_dict(roadmap_code, project_code, task_dict)
+            task = Task.from_dict(roadmap_code, project_code, project_name, task_dict)
             tasks_list.append(task)
 
         return cls(tasks_list)
@@ -43,44 +47,45 @@ class Tasks:
             # name = name if isinstance(name, str) else name.name
             task_id = (*project_id, str(task_id_))
             task = (
-                Task(name, task_id, priority)
+                Task(name, project_name, task_id, priority)
                 if priority is not None
-                else Task(name, task_id)
+                else Task(name, project_name, task_id)
             )
             tasks.add(task)
         return tasks
 
-    @classmethod
-    def from_norg_path(
-        cls,
-        norg_path: Path,
-        project_id: tuple[str, str],
-        project_name: str,  # **kwargs
-    ) -> "Tasks":
-        assert project_name != "/"
-        tasks = cls()
-        norg_obj = Norg.from_path(norg_path)
-        for item in norg_obj.items:
-            item_id = item.name
-            assert item_id, f"Item must have a name: {str(item)}"
-            priority = int(str(item.priority)) if str(item.priority).isdigit() else 10
-            tasks.add(
-                Task(
-                    name=item.name,
-                    task_id=(*project_id, item_id),
-                    priority=priority,
-                )
-            )
-        return tasks
+    # @classmethod
+    # def from_norg_path(
+    #     cls,
+    #     norg_path: Path,
+    #     project_id: tuple[str, str],
+    #     project_name: str,  # **kwargs
+    # ) -> "Tasks":
+    #     assert project_name != "/"
+    #     tasks = cls()
+    #     norg_obj = Norg.from_path(norg_path)
+    #     for item in norg_obj.items:
+    #         item_id = item.name
+    #         assert item_id, f"Item must have a name: {str(item)}"
+    #         priority = int(str(item.priority)) if str(item.priority).isdigit() else 10
+    #         tasks.add(
+    #             Task(
+    #                 name=item.name,
+    #                 project_name=
+    #                 task_id=(*project_id, item_id),
+    #                 priority=priority,
+    #             )
+    #         )
+    #     return tasks
 
-    @classmethod
-    def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
-        new_tasks = Tasks()
-        for roadmap in roadmaps:
-            for project in roadmap:
-                for task in project:
-                    new_tasks._tasks.update({task.task_id: task})
-        return new_tasks
+    # @classmethod
+    # def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
+    #     new_tasks = Tasks()
+    #     for roadmap in roadmaps:
+    #         for project in roadmap:
+    #             for task in project:
+    #                 new_tasks._tasks.update({task.task_id: task})
+    #     return new_tasks
 
     def add(self, task: Task) -> None:
         self._tasks.update({task.task_id: task})

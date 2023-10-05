@@ -21,14 +21,15 @@ class Schedule:
         weight_interval_max: float = 1.2,
         prio_transform: Callable = lambda x: (x / 100) ** 1.5,
     ) -> None:
-        self.schedule = Entries(schedule) if schedule is not None else self.make_default_day()
+        self.schedule = (
+            Entries(schedule) if schedule is not None else self.make_default_schedule()
+        )
         self.date: PDate = date or PDate.today() + 1
         self.width: int = width
         self.overflow: Entries = Entries()
         self.weight_interval_min = weight_interval_min
         self.weight_interval_max = weight_interval_max
         self.prio_transform: Callable = prio_transform
-        
 
     def copy(self):
         newschedule = Schedule()
@@ -42,7 +43,7 @@ class Schedule:
         return sched
 
     @staticmethod
-    def make_default_day() -> Entries:
+    def make_default_schedule() -> Entries:
         return Entries(
             [
                 FIRST_ENTRY,
@@ -154,7 +155,7 @@ class Schedule:
                 filter(lambda e: isinstance(e, Empty), self.schedule),
             )
         )
-    
+
     @property
     def total_available(self) -> int:
         return sum(map(lambda e: e.available, self.schedule))
@@ -175,7 +176,7 @@ class Schedule:
             return self.weight_interval_min + interval * self.prio_transform(prio)
 
         return time_weight_from_prio
-    
+
     @property
     def entries(self) -> Entries:
         return Entries(filter(lambda x: isinstance(x, Entry), self.schedule))

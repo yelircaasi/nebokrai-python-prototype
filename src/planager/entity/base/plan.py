@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Iterable, Optional, Union
+from typing import Iterable, Iterator, Optional, Union
 from itertools import chain
 
 from ...util import ConfigType, PDate
@@ -57,27 +57,31 @@ class Plan:
         self,
         subplan: dict[PDate, list[tuple[str, str, str]]],
         tasks: Tasks,
-    ) -> list[tuple[str, str, str]]:
+    ) -> None:
         """
         Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily
           maximum is exceeded, according to priority.
         """
         if not subplan:
-            return []
-        id_ = list(subplan.values())[0][0]
+            return
+        # id_ = list(subplan.values())[0][0]
+
+        for date, task_id_list in subplan.items():
+            for task_id in task_id_list:
+                tasks[task_id].original_date = date
 
         for task in tasks:
             self._tasks.update({task.task_id: task})
+
+        excess_tasks: list[tuple[str, str, str]] = []
 
         for date, task_id_list in subplan.items():
             self.ensure_date(date)
             rollover: list[tuple[str, str, str]] = self.add_tasks(date, task_id_list)
             next_date = date.copy()
             while rollover:
-                rollover.extend(self.add_tasks(next_date, rollover))
+                rollover = self.add_tasks(next_date, rollover)
                 next_date += 1
-
-        return rollover
 
     def ensure_date(self, date: PDate):
         """ """
@@ -124,11 +128,11 @@ class Plan:
             new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
             return new_t
 
-    def items(self) -> Iterable[tuple[PDate, list[tuple[str, str, str]]]]:
+    def items(self) -> Iterator[tuple[PDate, list[tuple[str, str, str]]]]:
         return iter(self._plan.items())
 
-    def __iter__(self) -> Iterable[tuple[PDate, list[tuple[str, str, str]]]]:
-        return iter(self._plan.items())
+    def __iter__(self) -> Iterator[tuple[PDate, list[tuple[str, str, str]]]]:
+        return iter(sorted(list(self._plan.items()), key=lambda x: x[0]))
 
     def __contains__(self, __date: PDate) -> bool:
         return __date in self._plan
@@ -140,12 +144,20 @@ class Plan:
         self._plan.update({__date: __tasks})
 
     def __str__(self) -> str:
+        def task_repr(task_id: tuple[str, str, str], date: PDate) -> str:
+            task = self._tasks[task_id]
+            name = str(task.name) or str(task.task_id)
+            return f"{task.status_symbol} {task.project_name[:30]: <30}   {name[:30]: <30}   pr {task.priority}     {task.duration}m   orig: {str(task.original_date if task.original_date != date else '')}"
+
         ret = ""
         topline = ""
         monthdayline = ""
         numline = ""
         dottedline = ""
         bottomline = ""
+
+        line = 120 * "─" + "\n"
+
         # nl = "\n"
         # box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
         # task_repr = lambda t: f"[{t.project_name[:40]}] <> {t.name}"
@@ -155,7 +167,13 @@ class Plan:
         #         for a, b in sorted(self._plan.items())
         #     )
         # )
-        return ret
+        newline = "\n"
+        return "\n".join(
+            [
+                f"{line}{str(d)}\n\n{newline.join([task_repr(t, d) for t in ids])}\n"
+                for d, ids in self
+            ]
+        )
 
     def __repr__(self) -> str:
         return self.__str__()

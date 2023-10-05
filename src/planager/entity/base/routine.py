@@ -57,7 +57,9 @@ class Routine:
         )  # TODO
 
     def as_task(self) -> Task:
-        return Task(self.name, self.routine_id, priority=self.priority)  # TODO
+        return Task(
+            self.name, "<Routines>", self.routine_id, priority=self.priority
+        )  # TODO
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"

@@ -237,7 +237,7 @@ class Entry:
 
     def accommodates(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return __entry.fits_in(self, ratio=ratio)
-    
+
     def add_subentry(self, subentry: "Entry") -> None:
         if not self.blocks.intersection(subentry.categories):
             raise ValueError(f"")
@@ -246,10 +246,15 @@ class Entry:
             self.subentries.sort(key=lambda e: (e.order, e.priority))
         else:
             raise ValueError(f"Entry {subentry} does not fit in {self}.")
-        
+
     @property
     def available(self) -> int:
-        return self.start.timeto(self.end) - sum(map(lambda e: e.duration, self.subentries)) if self.blocks else 0
+        return (
+            self.start.timeto(self.end)
+            - sum(map(lambda e: e.duration, self.subentries))
+            if self.blocks
+            else 0
+        )
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"

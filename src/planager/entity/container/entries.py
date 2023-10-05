@@ -6,7 +6,6 @@ from planager.util.pdatetime.ptime import PTime
 from ..base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 
 
-
 class Entries:
     def __init__(self, entries: Union["Entries", Iterable[Entry]] = []) -> None:
         self._entries: list[Entry] = list(entries)
@@ -52,16 +51,21 @@ class Entries:
     @property
     def total_duration(self) -> int:
         return sum(map(lambda e: e.duration, self._entries))
-    
+
     @property
     def blocks(self) -> set[str]:
         block_set = set()
         for entry in self:
             block_set.update(entry.blocks)
         return block_set
-    
+
     def available_for_block(self, block: str) -> int:
-        return sum(map(lambda ent: ent.available, filter(lambda e: block in e.blocks, self._entries)))
+        return sum(
+            map(
+                lambda ent: ent.available,
+                filter(lambda e: block in e.blocks, self._entries),
+            )
+        )
 
     @property
     def ispartitioned(self):
