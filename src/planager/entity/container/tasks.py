@@ -13,16 +13,18 @@ class Tasks:
         if isinstance(tasks, dict):
             self._tasks = tasks
         else:
+            for i, task in enumerate(tasks):
+                task.project_order = i + 1
             self._tasks = dict(map(lambda task: (task.task_id, task), tasks))
 
     @classmethod
     def from_dict(
-        cls, project_id: tuple[str, str], tasks_dict_list: list[dict[str, Any]]
+        cls, roadmap_code: str, project_code: str, tasks_dict_list: list[dict[str, Any]]
     ) -> "Tasks":
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             # task_id = (roadmap, project, task_dict["id"])
-            task = Task.from_dict(project_id, task_dict)
+            task = Task.from_dict(roadmap_code, project_code, task_dict)
             tasks_list.append(task)
 
         return cls(tasks_list)
@@ -85,7 +87,7 @@ class Tasks:
 
     @property
     def task_ids(self) -> list[tuple[str, str, str]]:
-        return sorted(list(self._tasks.keys()))
+        return [t.task_id for t in self]
 
     def pretty(self, width: int = 80) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
@@ -119,7 +121,7 @@ class Tasks:
         return iter(self._tasks.items())
 
     def __iter__(self) -> Iterator[Task]:
-        return iter(self._tasks.values())
+        return iter(sorted(self._tasks.values(), key=lambda t: t.project_order))
 
     def __getitem__(self, __key: tuple[str, str, str]) -> Task:
         return self._tasks[__key]

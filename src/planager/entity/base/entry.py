@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 from typing import Any, Optional, Union
 
 from ...util import PTime, round5, tabularize, wrap_string
@@ -59,7 +60,42 @@ class Entry:
 
     @classmethod
     def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
-        return cls(entry_dict["name"], entry_dict["start"])
+        normaltime = int(entry_dict.get("notes", "30"))
+        idealtime = (
+            int(entry_dict["idealtime"])
+            if "idealtime" in entry_dict
+            else int(1.5 * normaltime)
+        )
+        mintime = (
+            int(entry_dict["mintime"])
+            if "mintime" in entry_dict
+            else int(0.5 * normaltime)
+        )
+        maxtime = (
+            int(entry_dict["maxtime"])
+            if "maxtime" in entry_dict
+            else int(2 * normaltime)
+        )
+        return cls(
+            entry_dict["name"],
+            PTime.from_string(entry_dict["start"]),
+            PTime.from_string(entry_dict["end"]),
+            priority=entry_dict["priority"],
+            blocks=set(re.split("[^A-z] ?", entry_dict["blocks"]))
+            if "blocks" in entry_dict
+            else set(),
+            categories=set(re.split("[^A-z] ?", entry_dict["categories"]))
+            if "categories" in entry_dict
+            else set(),
+            notes=entry_dict.get("notes", ""),
+            normaltime=normaltime,
+            idealtime=idealtime,
+            mintime=mintime,
+            maxtime=maxtime,
+            ismovable=entry_dict.get("ismovable") or True,
+            alignend=entry_dict.get("alignend") or True,
+            order=entry_dict.get("order") or cls.ORDER_DEFAULT,
+        )
 
     def copy(self) -> "Entry":
         return Entry(

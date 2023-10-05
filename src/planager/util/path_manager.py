@@ -1,33 +1,16 @@
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 
 
-class PathManager:
+class PathManager:  # only supports JSON for now
     declaration: Path
     derivation: Path
     tracking: Path
+    txt: Path
 
-    # calendar: Path
-    # config: Path
-    # default_day: Path
-    # habits: Path
-    # routines: Path
-    # plan_patches: Path
-    # roadmaps: Path
-    # schedule_patches: Path
-    # task_patches: Path
-
-    # calendar_folder: Path
-    # completed_folder: Path
-    # plan_folder: Path
-    # projects_folder: Path
-    # roadmaps_folder: Path
-    # schedules_folder: Path
-    # tasks_folder: Path
-
-    def __init__(self, folder: Optional[Path] = None) -> None:
-        self.folder = folder
-        self.filetype = ...
-
-    def __bool__(self) -> bool:
-        return self.folder is not None
+    def __init__(self, folder: Union[Path, str]) -> None:
+        self.folder = Path(folder)
+        self.declaration = self.folder / "declaration.json"
+        self.derivation = self.folder / "derivation.json"
+        self.tracking = self.folder / "tracking.json"
+        self.txt = self.folder / "txt"

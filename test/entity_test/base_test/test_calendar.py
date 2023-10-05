@@ -77,7 +77,7 @@ class CalendarTest:
         """
         calendar = Calendar()
         copy = calendar.copy()
-        
+
         day1 = Day(PDate(0, 0, 0))
         day2 = Day(PDate(0, 0, 0))
         day3 = Day(PDate(0, 0, 0))

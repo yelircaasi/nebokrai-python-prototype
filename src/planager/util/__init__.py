@@ -4,7 +4,7 @@ from .misc import expand_task_segments, round5
 from .path_manager import PathManager
 from .pdatetime import PDate, PDateTime, PTime
 from .regex import Regexes
-from .type import ClusterType, ConfigType
+from .type import ClusterType, ConfigType, SubplanType
 
 __all__ = [
     "ClusterType",
@@ -17,6 +17,7 @@ __all__ = [
     "PDateTime",
     "PTime",
     "Regexes",
+    "SubplanType",
     "expand_task_segments",
     "round5",
     "tabularize",

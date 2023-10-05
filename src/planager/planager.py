@@ -18,11 +18,11 @@ from .entity import (
     Tasks,
 )
 from .operator import Planner, Scheduler
-from .util import ConfigType, PDateTime, PathManager
+from .util import ConfigType, PDate, PathManager
 
 
 class Planager:
-    path_manager: PathManager = PathManager()
+    path_manager: PathManager
     roadmaps: Roadmaps
     projects: Projects
     tasks: Tasks
@@ -58,7 +58,8 @@ class Planager:
         # config = Config.from_dict(dec["config"])
         calendar = Calendar.from_dict(dec["calendar"])
         roadmaps = Roadmaps.from_dict(dec["roadmaps"])
-        routines = Routines.from_dict(dec["routines"])
+        # routines = Routines.from_dict(dec["routines"])
+        routines = Routines()
 
         return cls(calendar, roadmaps, routines, pathmanager)
 
@@ -118,6 +119,71 @@ class Planager:
                 for task in project:
                     lines.append(f"        {task.name} (ID {task.task_id})")
         return "\n".join(lines)
+    
+    def make_gantt_string(self, raw: bool = False) -> str:
+        LENGTH = 30
+                
+        today = PDate.today()
+        # end_date = self.plan.end_date
+        end_date = PDate.today() + 400
+        
+        def make_project_line(project: Project) -> str:
+            def get_dates(project: Project, raw: bool) -> dict[PDate: tuple[str, str, str]]:
+                if raw:
+                    return {d: project[l[-1]].status for d, l in project.subplan.items()}
+                else:
+                    rcode, pcode = project.project_id
+                    return {date: self.roadmaps.get_task((r, p, t)).status for date, (r, p, t) in self.plan.items() if (r==rcode and p==pcode)}
+                
+            def format_name(proj_name: str) -> str:
+                if len(proj_name) <= LENGTH:
+                    return f"{proj_name: <{LENGTH}} ║ "
+                else:
+                    return proj_name[:(LENGTH - 6)] + '…' + proj_name[-5:] + ' ║ '
+
+            
+            status2char = {"todo": '○', "done": '●'}
+            line = format_name(project.name)
+            
+            dates = get_dates(project, raw)
+            middle = ""
+
+            if not dates:
+                return ""
+            elif len(dates) == 1:
+                middle += status2char[dates[min(dates)]]
+            else:
+                middle += status2char[dates[min(dates)]]
+                for d1, d2 in zip(sorted(list(dates))[:-1], sorted(list(dates))[1:]):
+                    if d1 >= today:
+                        middle += (d1.daysto(d2) - 1) * '―' + status2char[dates[d2]]
+                        
+            line += ((today.daysto(min(dates)) * ' ') + middle + (max(dates).daysto(end_date) * ' '))
+            # print(len(line))
+            # print(line)
+            return line
+        
+        roadmap_dict = {r.roadmap_id: i for i, r in enumerate(self.roadmaps)}
+        lines = [(roadmap_dict[project.project_id[0]], make_project_line(project)) for project in self.roadmaps.projects]
+        lines = list(filter(lambda x: x[1] != '', lines))
+        myfind = lambda s, sub: s.find(sub) + 999 * (s.find(sub) < 0)
+        myrfind = lambda s, sub: s.rfind(sub) + 999 * (s.rfind(sub) < 0)
+        # lines.sort(key=lambda line: (line[0], min(myfind(line[1], '○'), myfind(line[1], '●')), min(myrfind(line[1], '○'), myrfind(line[1], '●'))))
+        lines.sort(key=lambda line: (min(myfind(line[1], '○'), myfind(line[1], '●')), min(myrfind(line[1], '○'), myrfind(line[1], '●')), line[0]))
+
+        def make_header() -> str:
+            chars = []
+            t = PDate.today()
+            maxlen = max(map(len, map(lambda x: x[1], lines)))
+            for d in t.range(maxlen):
+                chars.append(('║' * (d.month==1 and d.day==1) + '│' * (d.day == 1) + ' ')[0])
+
+            return LENGTH * ' ' + ' ║ ' + ''.join(chars)
+
+        line1 = make_header()        
+        gantt = '\n'.join([line1, line1, '']) + '\n'.join(map(lambda x: x[1], lines))
+        # print(gantt)
+        return gantt
 
     def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
         if isinstance(__key, str):

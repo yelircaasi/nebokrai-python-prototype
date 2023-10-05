@@ -26,6 +26,8 @@ class PDate:
         elif isinstance(candidate, str):
             if not candidate.strip():
                 pass
+            elif candidate.startswith("in"):
+                return PDate.today() + int(candidate.replace("in", ""))
             try:
                 return PDate.from_string(candidate)
             except:
@@ -101,6 +103,9 @@ class PDate:
 
     def weekday(self) -> int:
         return self._date.weekday()
+    
+    def daysto(self, date2: "PDate") -> int:
+        return date2.toordinal() - self.toordinal()
 
     def __int__(self) -> int:
         return self.toordinal()
@@ -181,6 +186,9 @@ class PDate:
     @staticmethod
     def nonedate() -> "NoneDate":
         return NoneDate()
+
+    def __hash__(self) -> int:
+        return hash((self.year, self.month, self.day))
 
     def __eq__(self, __other: Any) -> bool:
         return (self.year, self.month, self.day) == (

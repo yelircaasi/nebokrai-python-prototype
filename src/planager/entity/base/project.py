@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional, Union
 
-from ...util import Norg, PDate, Regexes, expand_task_segments, tabularize
+from ...util import ClusterType, Norg, PDate, Regexes, SubplanType, expand_task_segments, tabularize
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -19,10 +19,8 @@ class Project:
         interval: int = 7,
         cluster_size: int = 1,
         duration: int = 30,
-        tags: set = set(),
         description: str = "",
         notes: str = "",
-        path: Optional[Path] = None,
         dependencies: set[
             tuple[str, ...]
         ] = set(),  # not maximally strong, but avoids a mypy headache
@@ -40,25 +38,39 @@ class Project:
             else tasks
         )
         self.priority = priority
-        self.start = start or PDate.tomorrow() + (hash(self.name) % 60)
-        self.end = PDate.ensure_is_pdate(end)
+        self.start = start or PDate.tomorrow() + 730 + (hash(self.name) % 60)
+        self.end = PDate.ensure_is_pdate(end) if end else None#(PDate.tomorrow() + (hash(self.name) % 60) + 180)
         self.interval = interval
         self.cluster_size = cluster_size
         self.duration = duration
-        self.tags = tags
         self.description = description
         self.notes = notes
-        self.path = Path(path) if path else path
         self.dependencies = dependencies
         self.categories = categories
+        
+        if self.end:
+            assert self.end > self.start, f"{self.name}: End date ({self.end}) must be greater than start date ({self.start})."
 
     @classmethod
-    def from_dict(cls, roadmap_id: str, project_dict: dict[str, Any]) -> "Project":
-        project_id = (roadmap_id, project_dict["id"])
+    def from_dict(cls, roadmap_code: str, project_code: str, project_dict: dict[str, Any]) -> "Project":
+        project_id = (roadmap_code, project_code)
+        start_str = project_dict["start"] if "start" in project_dict else ""
+        end_str = project_dict["end"] if "end" in project_dict else ""
+
 
         return cls(
             project_dict["name"],
             project_id,
+            tasks=Tasks.from_dict(roadmap_code, project_code, project_dict["tasks"]),
+            priority=int(project_dict.get("priority") or 10),
+            start=PDate.ensure_is_pdate(start_str) if start_str else None,
+            end=PDate.ensure_is_pdate(end_str) if end_str else None,
+            interval=int(project_dict.get("interval") or 7),
+            cluster_size=int(project_dict.get("cluster_size") or 1),
+            duration=int(project_dict.get("duration") or 30),
+            description=project_dict.get("description", ""),
+            notes=project_dict.get("notes", ""),
+            categories=set(re.split(", ?", project_dict.get("categories", ""))),
         )
 
     @classmethod
@@ -130,11 +142,65 @@ class Project:
     # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
     #     ...
 
-    def get_start(self) -> PDate:
-        return self.start or PDate.tomorrow() + (hash(self.name) % 60)
+    @property
+    def clusters(self) -> ClusterType:
+        """
+        Divides a list of tasks into k clusters of size `cluster_size`.
+        """
+        task_ids = self._tasks.task_ids
+        length = len(task_ids)
+        quotient, remainder = divmod(length, self.cluster_size)
+        num_clusters = quotient + int(bool(remainder))
+        ret: ClusterType = [task_ids[self.cluster_size * i : self.cluster_size * (i + 1)] for i in range(num_clusters)]
+        return ret
+
+    @property
+    def subplan(self) -> SubplanType:
+        """
+        Spaces out a list of clusters between a start and end date, given some interval.
+        """
+        clusters = self.clusters
+        if not clusters:
+            return {}
+        nclusters = len(clusters)
+
+        
+        if self.end:
+            while nclusters > self.start.daysto(self.end):
+                print(f"Not enough time allocated to '{self.name}': {self.start} - {self.end}, {nclusters} clusters, cluster size {self.cluster_size}.")   
+                self.cluster_size += 1
+                clusters = self.clusters
+                nclusters = len(clusters)
+            
+        if len(clusters) == 1:
+            return {self.start: clusters[0]}
+        elif self.end:
+            
+            ndays = int(self.get_end()) - int(self.start)
+            factor = ndays / nclusters
+            ints = [int(round(i * factor)) for i in range(nclusters)]
+            # print(nclusters, ndays, ints)
+        elif self.interval:
+            gap = self.interval
+            ints = [i * gap for i in range(nclusters)]
+        else:
+            print(self.name)
+            raise ValueError(
+                "Invalid parameter configuration. "
+                "For `Project` class, two of `start`, `end`, and `interval` must be defined."
+            )
+        
+
+        # start: PDate = self.start or PDate.tomorrow() + (hash(self.name) % 7)
+        
+        subplan: SubplanType = {
+            self.start + ints[i]: cluster for i, cluster in enumerate(clusters)
+        }
+
+        return subplan
 
     def get_end(self) -> PDate:
-        return self.get_start() + 365
+        return self.end or (self.start + 365)
 
     @property
     def tasks(self) -> Tasks:
@@ -145,16 +211,17 @@ class Project:
         return self._tasks.task_ids
 
     def pretty(self, width: int = 80) -> str:
+        statusdict = {"todo": '☐', "done": '✔'}
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"Project: {self.name} (ID {self.project_id})", width)
-        empty = tabularize("", width)
+        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+        top = tabularize(f"Project: {self.name} (ID {'-'.join(self.project_id)})", width, thick=True)
+        empty = tabularize("", width, thick=True)
         tasks = map(
             lambda x: tabularize(
-                f"{format_number(x.task_id)}{x.name} (priority {x.priority})", width
+                f"{statusdict[x.status]} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}", width, thick=True
             ),
             self._tasks,
         )

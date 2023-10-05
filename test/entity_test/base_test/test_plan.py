@@ -26,7 +26,9 @@ def sort_task_by_id(task_ids: list[Task], task_dict: dict) -> list[Task]:
     return sorted(task_ids, key=lambda t: t.priority)
 
 
-def sort_task_ids(task_ids: list[tuple[str, str, str]], task_dict: dict) -> list[tuple[str, str, str]]:
+def sort_task_ids(
+    task_ids: list[tuple[str, str, str]], task_dict: dict
+) -> list[tuple[str, str, str]]:
     return sorted(task_ids, key=lambda t: task_dict[t].priority)
 
 
@@ -149,26 +151,30 @@ class PlanTest:
         2) rollover
         """
         plan_date = PDate(2023, 10, 15)
-        plan_tasks = Tasks([
-            Task("task 1", ("0", "0", "1"), priority=50, duration=30),
-            Task("task 2", ("0", "0", "2"), priority=70, duration=20),
-            Task("task 3", ("0", "0", "3"), priority=80, duration=20),
-            Task("task 4", ("0", "0", "4"), priority=20, duration=40),
-            Task("task 5", ("0", "0", "5"), priority=10, duration=30),
-        ])
+        plan_tasks = Tasks(
+            [
+                Task("task 1", ("0", "0", "1"), priority=50, duration=30),
+                Task("task 2", ("0", "0", "2"), priority=70, duration=20),
+                Task("task 3", ("0", "0", "3"), priority=80, duration=20),
+                Task("task 4", ("0", "0", "4"), priority=20, duration=40),
+                Task("task 5", ("0", "0", "5"), priority=10, duration=30),
+            ]
+        )
         calendar_norollover = Calendar(
             [
                 Day(
                     plan_date,
-                    Entries([
-                        Entry("Sleep", PTime(0), PTime(5)),
-                        Entry("Morning Routine", PTime(5), PTime(6, 20)),
-                        Entry("Travel", PTime(6, 20), PTime(7, 30)),
-                        Entry("Work", PTime(7, 30), PTime(16, 30)),
-                        Entry("Travel", PTime(16, 30), PTime(17, 30)),
-                        Empty(PTime(17, 30), PTime(21)),
-                        Entry("Sleep", PTime(21), PTime(24)),
-            ]),
+                    Entries(
+                        [
+                            Entry("Sleep", PTime(0), PTime(5)),
+                            Entry("Morning Routine", PTime(5), PTime(6, 20)),
+                            Entry("Travel", PTime(6, 20), PTime(7, 30)),
+                            Entry("Work", PTime(7, 30), PTime(16, 30)),
+                            Entry("Travel", PTime(16, 30), PTime(17, 30)),
+                            Empty(PTime(17, 30), PTime(21)),
+                            Entry("Sleep", PTime(21), PTime(24)),
+                        ]
+                    ),
                 ),
             ]
         )
@@ -176,15 +182,17 @@ class PlanTest:
             [
                 Day(
                     plan_date,
-                    Entries([
-                        Entry("Sleep", PTime(0), PTime(5)),
-                        Entry("Morning Routine", PTime(5), PTime(6, 20)),
-                        Entry("Travel", PTime(6, 20), PTime(7, 30)),
-                        Entry("Work", PTime(7, 30), PTime(16, 30)),
-                        Entry("Travel", PTime(16, 30), PTime(17, 30)),
-                        Empty(PTime(17, 30), PTime(21)),
-                        Entry("Sleep", PTime(21), PTime(24)),
-            ]),
+                    Entries(
+                        [
+                            Entry("Sleep", PTime(0), PTime(5)),
+                            Entry("Morning Routine", PTime(5), PTime(6, 20)),
+                            Entry("Travel", PTime(6, 20), PTime(7, 30)),
+                            Entry("Work", PTime(7, 30), PTime(16, 30)),
+                            Entry("Travel", PTime(16, 30), PTime(17, 30)),
+                            Empty(PTime(17, 30), PTime(21)),
+                            Entry("Sleep", PTime(21), PTime(24)),
+                        ]
+                    ),
                 ),
             ]
         )
@@ -192,24 +200,24 @@ class PlanTest:
             [
                 Day(
                     plan_date,
-                    Entries([
-                        Entry("Sleep", PTime(0), PTime(5)),
-                        Entry("Morning Routine", PTime(5), PTime(6, 20)),
-                        Entry("Travel", PTime(6, 20), PTime(7, 30)),
-                        Entry("Work", PTime(7, 30), PTime(16, 30)),
-                        Entry("Travel", PTime(16, 30), PTime(17, 30)),
-                        Entry("Maintenance", PTime(17, 30), PTime(20, 10)),
-                        Empty(PTime(17, 30), PTime(21)),
-                        Entry("Sleep", PTime(21), PTime(24)),
-            ]),
+                    Entries(
+                        [
+                            Entry("Sleep", PTime(0), PTime(5)),
+                            Entry("Morning Routine", PTime(5), PTime(6, 20)),
+                            Entry("Travel", PTime(6, 20), PTime(7, 30)),
+                            Entry("Work", PTime(7, 30), PTime(16, 30)),
+                            Entry("Travel", PTime(16, 30), PTime(17, 30)),
+                            Entry("Maintenance", PTime(17, 30), PTime(20, 10)),
+                            Empty(PTime(17, 30), PTime(21)),
+                            Entry("Sleep", PTime(21), PTime(24)),
+                        ]
+                    ),
                 ),
             ]
         )
-        plan_start = (
-            {
-                plan_date: [("0", "0", "1")],
-            }
-        )
+        plan_start = {
+            plan_date: [("0", "0", "1")],
+        }
 
         plan_norollover = make_plan(
             calendar_norollover,
@@ -343,12 +351,14 @@ class PlanTest:
             ],
             {},
         )
-        assert plan.tasks == Tasks([
-            Task("", ("", "", "")),
-            Task("", ("", "", "")),
-            Task("", ("", "", "")),
-            Task("", ("", "", "")),
-        ])
+        assert plan.tasks == Tasks(
+            [
+                Task("", ("", "", "")),
+                Task("", ("", "", "")),
+                Task("", ("", "", "")),
+                Task("", ("", "", "")),
+            ]
+        )
 
     # def test_reorder_by_precedence(self) -> None:
     #     """

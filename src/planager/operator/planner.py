@@ -56,13 +56,10 @@ class Planner:
         # projects.order_by_dependency()
 
         for project in projects:
-            subplan: SubplanType = self.get_subplan_from_project(
-                project
-            )  # TODO: make subplan respect precedence
-            plan.add_subplan(subplan, project._tasks)
+            plan.add_subplan(project.subplan, project._tasks)
         # plan.reorder_by_precedence()
 
-        plan = self.patch_plan(plan, plan_patches)
+        #plan = self.patch_plan(plan, plan_patches)
 
         # ----------------------------------------------------------------------------------------------------------------------------------
         # enforce temporal precedence constraints
@@ -71,87 +68,6 @@ class Planner:
         # ----------------------------------------------------------------------------------------------------------------------------------
 
         return plan
-
-    def get_subplan_from_project(  # move to Plan?
-        self,
-        project: Project,
-    ) -> SubplanType:
-        """
-        A subplan is a dictionary assigning tasks to days. It is an intermediate step created to be merged into the
-          instance of `Plan`.
-        """
-        # ----------------------------------------------------------------------------------------------------------------------------------
-        # make subplan respect temporal precedence constraints
-        # for task in self._tasks:
-        #     for dep_id in task.dependencies:
-        #         if len(dep_id) == 2:
-        #             if task.tmpdate <
-        #         elif len(dep_id) == 3:
-
-        # for dep_id in project.dependencies:
-        #     newdate = (self.get_end_from_id(dep_id, projects) or PDate.today()) + 1
-        #     project.rigid_shift_start(newdate)
-        # ----------------------------------------------------------------------------------------------------------------------------------
-
-        clusters: ClusterType = self.cluster_task_ids(
-            project.task_ids, project.cluster_size
-        )
-        subplan: SubplanType = self.allocate_in_time(clusters, project)
-
-        return subplan
-
-    @staticmethod
-    def cluster_task_ids(  # move to Plan?
-        task_ids: list[tuple[str, str, str]], cluster_size: int
-    ) -> ClusterType:
-        """
-        Divides a list of tasks into k clusters of size `cluster_size`.
-        """
-        n = cluster_size
-        length = len(task_ids)
-        quotient, remainder = divmod(length, n)
-        num_clusters = quotient + int(bool(remainder))
-        ret: ClusterType = [task_ids[n * i : n * (i + 1)] for i in range(num_clusters)]
-        return ret
-
-    @staticmethod
-    def allocate_in_time(  # move to Plan?
-        clusters: ClusterType,
-        project: Project,
-        # earliest_dates: Dict[tuple[str, str, str], PDate]
-    ) -> SubplanType:
-        """
-        Spaces out a list of clusters between a start and end date, given some interval.
-        """
-        nclusters = len(clusters)
-        if len(clusters) == 1:
-            return {project.get_start(): clusters[0]}
-        elif project.end:
-            ndays = int(project.get_end()) - int(project.get_start())
-            gap = int((ndays - nclusters) / (nclusters - 1))
-        elif project.interval:
-            gap = project.interval - 1
-        else:
-            print(project.name)
-            raise ValueError(
-                "Invalid parameter configuration. "
-                "For `Project` class, two of `start`, `end`, and `interval` must be defined."
-            )
-
-        start: PDate = project.start or PDate.tomorrow() + (hash(project.name) % 7)
-        subplan: SubplanType = {
-            start + (i + i * gap): cluster for i, cluster in enumerate(clusters)
-        }
-
-        return subplan
-
-    # def get_end_from_id(entity_id: Union[tuple[str, str], tuple[str, str, str]], projects: Projects) -> Optional[PDate]:
-    #     if len(entity_id) == 2:
-    #         return projects[entity_id].end
-    #     elif len(entity_id) == 3:
-    #         return projects[entity_id].tmpdate
-    #     else:
-    #         return None
 
     @staticmethod
     def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:

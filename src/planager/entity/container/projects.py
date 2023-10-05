@@ -15,8 +15,14 @@ class Projects:
         # (self.project_order, self.task_order): tuple[list[tuple[str, str]], list[tuple[str, str]]] = self.make_dependency_ordered_lists()
 
     @classmethod
-    def from_dict(cls, projects_dict: dict[str, Any]) -> "Projects":
-        return cls()
+    def from_dict(cls, roadmap_id: str, projects_dict: dict[str, Any]) -> "Projects":
+        projects = cls()
+        
+        for project_code, project_dict in projects_dict.items():
+            if project_dict:
+                projects.add(Project.from_dict(roadmap_id, project_code, project_dict))
+
+        return projects
 
     # @property
     # def project_list(self) -> list[Project]:
@@ -93,9 +99,15 @@ class Projects:
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects.values())  # TODO: make iterate in order
+    
+    def __len__(self) -> int:
+        return len(self._projects)
 
     def __getitem__(self, __id: Union[tuple[str, str], tuple[str, str, str]]) -> Any:
-        if len(__id) == 2:
+        if isinstance(__id, str):
+            roadmap_id = list(self._projects)[0][0]
+            return self._projects[(roadmap_id, __id)]
+        elif len(__id) == 2:
             return self._projects[__id]  # type: ignore
         elif len(__id) == 3:
             return self._tasks[__id]  # type: ignore

@@ -1,11 +1,11 @@
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional, Tuple
 
-from ...util import Norg, PDate, tabularize
 from ..base.project import Project
 from ..base.roadmap import Roadmap
 from ..container.projects import Projects
 from ..container.tasks import Tasks
+from ...util import Norg, PDate, tabularize
 
 
 class Roadmaps:
@@ -19,7 +19,10 @@ class Roadmaps:
 
     @classmethod
     def from_dict(cls, roadmaps_dict: dict[str, Any]) -> "Roadmaps":
-        return cls()
+        ret = cls()
+        for rmid, rmdict in roadmaps_dict.items():
+            ret.add(Roadmap.from_dict(rmid, rmdict))
+        return ret
 
     @classmethod
     def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
@@ -70,13 +73,13 @@ class Roadmaps:
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Roadmaps", width)
-        empty = tabularize("", width)
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+        top = tabularize(" Roadmaps", width, thick=True)
+        empty = tabularize("", width, thick=True)
+        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         names = map(
-            lambda x: tabularize(x.replace(" Roadmap", ""), width),
+            lambda x: tabularize(x.replace(" Roadmap", ""), width, thick=True),
             map(
-                lambda r: format_number(r.roadmap_id) + f"{r.name}",
+                lambda r: f" {r.roadmap_id: <4} │ {r.name}",
                 self._roadmaps.values(),
             ),
         )
@@ -88,6 +91,13 @@ class Roadmaps:
             + bottombeam
         )
 
+    def add(self, __roadmap: Roadmap) -> None:
+        assert not __roadmap.roadmap_id in self._roadmaps
+        self._roadmaps.update({__roadmap.roadmap_id: __roadmap})
+
+    def __len__(self) -> int:
+        return len(self._roadmaps)
+    
     def __iter__(self) -> Iterator[Roadmap]:
         return iter(self._roadmaps.values())
 

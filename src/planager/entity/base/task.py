@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 from typing import (
     Any,
@@ -14,6 +15,7 @@ from .entry import Entry
 
 class Task:
     DURATION_DEFAULT: int = 30
+    PRIORITY_DEFAULT: int = 10
     WIDTH_DEFAULT: int = 80
     tmpdate: PDate = PDate.nonedate()
 
@@ -40,15 +42,24 @@ class Task:
         self.tmpdate = tmpdate if tmpdate else self.tmpdate
         self.notes = notes
         self.status = status
+        self.project_order = -1
 
     @classmethod
     def from_dict(
-        cls, project_id: tuple[str, str], task_dict: dict[str, Any]
+        cls, roadmap_code: str, project_code: str, task_dict: dict[str, Any]
     ) -> "Task":
-        roadmap, project = project_id
-        task_id = (roadmap, project, task_dict["id"])
+        
+        task_id = (roadmap_code, project_code, task_dict["id"])
 
-        return cls(task_dict["name"], task_id)
+        return cls(
+            task_dict["name"],
+            task_id,
+            priority=int(task_dict.get("priority") or cls.PRIORITY_DEFAULT),
+            duration=int(task_dict.get("duration") or cls.DURATION_DEFAULT),
+            dependencies=set(re.split(", ?", task_dict.get("categories", ""))),
+            notes=task_dict.get("notes") or "",
+            status=task_dict.get("status") or "todo",
+        )
 
     def copy(self) -> "Task":
         t = Task(self.name, self.task_id)

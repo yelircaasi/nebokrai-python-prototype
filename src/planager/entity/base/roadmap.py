@@ -22,10 +22,10 @@ class Roadmap:
         self.categories = categories
 
     @classmethod
-    def from_dict(cls, roadmap_dict: dict[str, Any]) -> "Roadmap":
-        projects = Projects()
-
-        return cls(roadmap_dict["name"], roadmap_dict["id"], projects)
+    def from_dict(cls, roadmap_id: str, roadmap_dict: dict[str, Any]) -> "Roadmap":
+        projects = Projects.from_dict(roadmap_id, roadmap_dict["projects"])
+        
+        return cls(roadmap_dict["name"], roadmap_id, projects)
 
     @classmethod
     def from_norg_path(self, norg_path: Path) -> "Roadmap":
@@ -70,12 +70,14 @@ class Roadmap:
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(f"{self.name} (ID {self.roadmap_id})", width)
-        empty = tabularize("", width)
+        top = tabularize(f"{self.name} (ID {self.roadmap_id})", width, thick=True)
+        empty = tabularize("", width, thick=True)
         projects = map(
-            lambda p: format_number(p.project_id) + f"{p.name}", iter(self._projects)
+            lambda p: f"{'-'.join(p.project_id): <9} │ {p.name}", iter(self._projects)
         )
-        projects = map(lambda x: tabularize(x, width), projects)
+        # projects = map(lambda x: tabularize(x.name, width, thick=True), projects)
+        projects = map(lambda x: tabularize(x, width, thick=True), projects)
+        # projects = map(str, projects)
         return (
             "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
             + "\n".join(projects)
@@ -84,11 +86,19 @@ class Roadmap:
             + bottombeam
         )
 
+    def __iter__(self) -> Iterator[Project]:
+        return iter(self._projects)
+        
+    def __len__(self) -> int:
+        return len(self._projects)
+       
+    def __getitem__(self, __project_code: str) -> Project:
+        return self._projects[__project_code]
+       
     def __str__(self) -> str:
         return self.pretty()
 
     def __repr__(self) -> str:
         return self.__str__()
 
-    def __iter__(self) -> Iterator[Project]:
-        return iter(self._projects)
+    

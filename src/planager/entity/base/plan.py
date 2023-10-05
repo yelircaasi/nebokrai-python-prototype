@@ -123,6 +123,12 @@ class Plan:
                 raise ValueError("Impossible task precedence resolution requested.")
             new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
             return new_t
+        
+    def items(self) -> Iterable[tuple[PDate, list[tuple[str, str, str]]]]:
+        return iter(self._plan.items())
+    
+    def __iter__(self) -> Iterable[tuple[PDate, list[tuple[str, str, str]]]]:
+        return iter(self._plan.items())
 
     def __contains__(self, __date: PDate) -> bool:
         return __date in self._plan

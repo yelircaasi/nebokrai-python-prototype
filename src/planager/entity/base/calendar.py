@@ -4,7 +4,7 @@ from typing import Any, Iterable, Optional, Union
 from ...util.pdatetime.ptime import PTime
 from ..container.routines import Routines
 from .entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
-from ...util import Norg, PDate
+from ...util import Norg, PDate, tabularize
 from ..container.entries import Entries
 
 
@@ -15,13 +15,18 @@ class Day:
       around which other entries are to be automatically be scheduled.
     """
 
+    DAY_START_DEFAULT: PTime = PTime(5)
+    DAY_END_DEFAULT: PTime = PTime(22)
+    WIDTH: int = 80
+
     def __init__(
         self,
         date: PDate,
-        entries: Entries = Entries(),
+        entries: Entries(),
         routine_names: list[str] = [
             "Morning Routine",
-            "Midday Routine" "Evening Routine",
+            "Midday Routine",
+            "Evening Routine",
         ],
         start: PTime = PTime(5),
         end: PTime = PTime(21),
@@ -40,17 +45,21 @@ class Day:
         evening_sleep = Entry(
             "Sleep", bedtime, end=PTime(24), priority=70, ismovable=False
         )
+        # print(entries)
+        if self.entries:
+            first_entry = self.entries[0]
+            last_entry = self.entries[-1]
 
-        if self.entries[0].name.lower() == "sleep":
+        if first_entry.name.lower() == "sleep":
             pass
-        elif self.entries[0].overlaps(morning_sleep):
-            raise ValueError("")
+        elif first_entry.overlaps(morning_sleep):
+            raise ValueError("\n".join(("", str(first_entry), str(morning_sleep))))
         else:
             self.entries.insert(0, morning_sleep)
 
-        if self.entries[-1].name.lower() == "sleep":
+        if last_entry.name.lower() == "sleep":
             pass
-        elif self.entries[-1].overlaps(evening_sleep):
+        elif last_entry.overlaps(evening_sleep):
             raise ValueError("")
         else:
             self.entries.append(evening_sleep)
@@ -61,21 +70,41 @@ class Day:
     @classmethod
     def from_dict(cls, date: PDate, day_dict: dict[str, Any]) -> "Day":
         entries = Entries()
-        for entry_name, entry_dict in day_dict["entries"].items():
+        for entry_dict in day_dict["entries"]:
             entries.append(Entry.from_dict(entry_dict))
 
         routine_names = []
         for routine_dict in day_dict["routines"]:
             routine_names.append(routine_dict["name"])
 
-        start = PTime.from_string(day_dict["start"])
-        end = PTime.from_string(day_dict["end"])
+        start = PTime.from_string(day_dict.get("start", str(cls.DAY_START_DEFAULT)))
+        end = PTime.from_string(day_dict.get("end", str(cls.DAY_END_DEFAULT)))
+
+        # print(entries)
 
         return cls(date, entries, routine_names, start=start, end=end)
 
     @property
     def available(self) -> int:
         return sum(map(lambda e: e.normaltime * (e.priority > 0), self.entries))
+
+    def __str__(self) -> str:
+        width = self.WIDTH
+        thickbeam = '┣' + (width - 2) * "━" + "┫\n"
+        header_thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
+        header_thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
+        thinbeam = "\n┠" + +(width - 2) * "─" + "┨\n"
+        bottombeam = "\n┣" + (width - 2) * "━" + "┫\n"
+        header = (
+            header_thickbeam
+            + tabularize(str(self.date) + "  │", width, thick=True)
+            + header_thinbeam
+            + tabularize(", ".join(self.routine_names), width, thick=True)
+            + "\n"
+            # + thickbeam
+        )
+
+        return header + "\n".join(map(str, self.entries)) + bottombeam
 
 
 class Calendar:
@@ -131,6 +160,11 @@ class Calendar:
     @property
     def end_date(self) -> PDate:
         return max(self.days)
+
+    def long_repr(self) -> str:
+        spacer = tabularize(' ', thick=True) + '\n'
+        # spacer += spacer
+        return spacer.join(map(str, self.days.values()))
 
     def __getitem__(self, __date: PDate) -> Day:
         return self.days[__date]

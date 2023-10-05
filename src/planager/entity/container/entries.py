@@ -13,6 +13,9 @@ class Entries:
     def copy(self) -> "Entries":
         return Entries((entry.copy() for entry in self._entries))
 
+    def bool(self) -> bool:
+        return bool(self._entries)
+
     def slice(self, __start: Optional[int], __stop: Optional[int]) -> "Entries":
         # type-idempotent; use indexing to get a single entry
         return Entries(entries=self._entries[__start:__stop])
@@ -396,3 +399,9 @@ class Entries:
             raise ValueError(
                 f"Invalid type for method '__add__' of class 'Entries': {type(__other)}"
             )
+
+    def __str__(self) -> str:
+        return "\n".join(map(str, self._entries))
+
+    def __repr__(self) -> str:
+        return self.__str__()
