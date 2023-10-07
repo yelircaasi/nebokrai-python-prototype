@@ -26,30 +26,60 @@ class Plan:
         return p
 
     def add_tasks(
-        self, date: PDate, task_ids: list[tuple[str, str, str]]
+        self, date: PDate, task_ids_: list[tuple[str, str, str]]
     ) -> list[tuple[str, str, str]]:
         """
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time, the lowest-priority excess
           task ids are returned.
         """
-        # task_ids = [task.task_id for task in tasks]
-        if date in self._plan:
-            task_ids = sorted(
-                list(set(task_ids + self._plan[date])),
-                key=lambda x: self._tasks[x].priority,
-                reverse=True,
-            )
-        excess: list[tuple[str, str, str]] = []
-        total = sum(map(lambda _id: self._tasks[_id].duration, task_ids))
-        available = self._calendar[date].available if self._calendar else 240
+        task_ids = task_ids_[:]
 
+        task_ids = sorted(
+            list(set(task_ids + self._plan.get(date, []))),
+            key=lambda x: (self._tasks[x].status == "done", self._tasks[x].priority),
+            reverse=True,
+        )
+        excess: list[tuple[str, str, str]] = []
+        # available = self._calendar[date].total_available if self._calendar else 240
+        avail_dict = self._calendar[date].available_dict
+
+        # blocking logic
+        category_names = set()
+        for task_id in task_ids:
+            category_names.update(self._tasks[task_id].categories)
+        # if category_names:
+        #     print(category_names)
+
+        blocked_task_ids = []
+        blocks = self._calendar[
+            date
+        ].blocks  # TODO: make `blocks` property correctly detect blocks inside of routine entries
+        # print(blocks)
+        relevant_blocks = list(blocks.intersection(category_names))
+        # if relevant_blocks:
+        #     print(date, relevant_blocks)
+        to_remove = []
+        for block in relevant_blocks:
+            for task_id in task_ids:
+                if block in self._tasks[task_id].categories:
+                    dur = self._tasks[task_id].remaining_duration
+                    if dur <= avail_dict[block]:
+                        self._tasks[task_id].block_assigned = block
+                        blocked_task_ids.append(task_id)
+                        to_remove.append(task_id)
+                        avail_dict[block] -= dur
+        for t_id in to_remove:
+            task_ids.remove(t_id)
+
+        available = avail_dict["empty"]
+        total = sum(map(lambda _id: self._tasks[_id].remaining_duration, task_ids))
         while total > available:
             task_to_move = task_ids.pop()
             excess.append(task_to_move)
-            total -= self._tasks[task_to_move].duration
+            total -= self._tasks[task_to_move].remaining_duration
 
-        self._plan.update({date: task_ids})
-        for task_id in task_ids:
+        self._plan.update({date: blocked_task_ids + task_ids})
+        for task_id in blocked_task_ids + task_ids:
             self._tasks[task_id].tmpdate = date
         return excess
 
@@ -147,7 +177,34 @@ class Plan:
         def task_repr(task_id: tuple[str, str, str], date: PDate) -> str:
             task = self._tasks[task_id]
             name = str(task.name) or str(task.task_id)
-            return f"{task.status_symbol} {task.project_name[:30]: <30}   {name[:30]: <30}   pr {task.priority}     {task.duration}m   orig: {str(task.original_date if task.original_date != date else '')}"
+            orig = (
+                ("orig: " + str(task.original_date))
+                if task.original_date != date
+                else ""
+            )
+            return f"{task.status_symbol} {task.project_name[:30]: <30}   {name[:30]: <30}   pr {task.priority}     {task.duration}m   {orig}   {task.block_assigned}"
+
+        def time_repr(date: PDate) -> str:
+            entry_names = ", ".join([e.name for e in self._calendar[date].entries])
+            blocks = "\n".join(
+                [f"  {b}: {t}" for b, t in self._calendar[date].available_dict.items()]
+            )
+            total_before = self._calendar[date].total_available
+            total_after = total_before - sum(
+                [
+                    self._tasks[task_id].remaining_duration
+                    for task_id in self._plan[date]
+                ]
+            )
+            empty_before = self._calendar[date].empty_time
+            empty_after = empty_before - sum(
+                [
+                    self._tasks[task_id].remaining_duration
+                    for task_id in self._plan[date]
+                    if not self._tasks[task_id].block_assigned
+                ]
+            )
+            return f"Calendar entries: {entry_names}\nBlocks:\n{blocks}\nTotal available on calendar:\n  Before planning: {empty_before}m empty; {total_before}m including blocks\n  After planning:  {empty_after}m empty; {total_after}m including blocks"
 
         ret = ""
         topline = ""
@@ -170,7 +227,7 @@ class Plan:
         newline = "\n"
         return "\n".join(
             [
-                f"{line}{str(d)}\n\n{newline.join([task_repr(t, d) for t in ids])}\n"
+                f"{line}{str(d)}\n\n{time_repr(d)}\n\n{newline.join([task_repr(t, d) for t in ids])}\n"
                 for d, ids in self
             ]
         )

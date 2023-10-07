@@ -20,15 +20,26 @@ class Tasks:
     @classmethod
     def from_dict(
         cls,
+        tasks_dict_list: list[dict[str, Any]],
         roadmap_code: str,
         project_code: str,
         project_name: str,
-        tasks_dict_list: list[dict[str, Any]],
+        project_priority: Optional[int] = None,
+        project_duration: Optional[int] = None,
+        project_categories: set[str] = set(),
     ) -> "Tasks":
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             # task_id = (roadmap, project, task_dict["id"])
-            task = Task.from_dict(roadmap_code, project_code, project_name, task_dict)
+            task = Task.from_dict(
+                task_dict,
+                roadmap_code,
+                project_code,
+                project_name,
+                project_priority,
+                project_duration,
+                project_categories,
+            )
             tasks_list.append(task)
 
         return cls(tasks_list)

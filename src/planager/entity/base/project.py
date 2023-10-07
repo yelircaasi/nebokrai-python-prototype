@@ -71,21 +71,33 @@ class Project:
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
 
+        priority = int(project_dict.get("priority") or 10)
+        duration = int(project_dict.get("duration") or 30)
+        categories = set(
+            filter(bool, re.split(", ?", project_dict.get("categories", "")))
+        )
+
         return cls(
             project_dict["name"],
             project_id,
             tasks=Tasks.from_dict(
-                roadmap_code, project_code, project_dict["name"], project_dict["tasks"]
+                project_dict["tasks"],
+                roadmap_code,
+                project_code,
+                project_dict["name"],
+                project_priority=priority,
+                project_duration=duration,
+                project_categories=categories,
             ),
-            priority=int(project_dict.get("priority") or 10),
+            priority=priority,
             start=PDate.ensure_is_pdate(start_str) if start_str else None,
             end=PDate.ensure_is_pdate(end_str) if end_str else None,
             interval=int(project_dict.get("interval") or 7),
             cluster_size=int(project_dict.get("cluster_size") or 1),
-            duration=int(project_dict.get("duration") or 30),
+            duration=duration,
             description=project_dict.get("description", ""),
             notes=project_dict.get("notes", ""),
-            categories=set(re.split(", ?", project_dict.get("categories", ""))),
+            categories=categories,
         )
 
     # @classmethod

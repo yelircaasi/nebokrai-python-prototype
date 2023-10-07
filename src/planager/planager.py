@@ -57,8 +57,9 @@ class Planager:
         # config = Config.from_dict(dec["config"])
         calendar = Calendar.from_dict(dec["calendar"])
         roadmaps = Roadmaps.from_dict(dec["roadmaps"])
-        # routines = Routines.from_dict(dec["routines"])
-        routines = Routines()
+        routines = Routines.from_dict(dec["routines"])
+
+        calendar.add_routines(routines)
 
         return cls(calendar, roadmaps, routines, pathmanager)
 
@@ -73,13 +74,13 @@ class Planager:
         """
 
         # tasks = roadmaps.tasks  # Tasks.from_roadmaps(roadmaps)
-        self.plan = self.planner(self.calendar, self.roadmaps)
-        # schedules = self.scheduler(
-        #     self.calendar,
-        #     self.plan,
-        #     self.roadmaps,
-        #     self.routines,
-        # )
+        self.plan = self.planner(self.calendar, self.roadmaps, self.routines)
+        self.schedules = self.scheduler(
+            self.calendar,
+            self.plan,
+            self.roadmaps,
+            self.routines,
+        )
 
     # def reconfigure(self, config: ConfigType) -> None:
     #     ...

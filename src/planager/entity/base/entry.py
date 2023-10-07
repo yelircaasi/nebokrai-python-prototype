@@ -30,9 +30,10 @@ class Entry:
         ismovable: bool = True,
         alignend: bool = False,
         order: int = ORDER_DEFAULT,
+        subentries: Iterable["Entry"] = [],
     ) -> None:
         self.name = name
-        self.start: PTime = start or PTime()
+        self.start: PTime = start if isinstance(start, PTime) else PTime()
         self.priority = priority
         self.blocks = blocks
         self.categories = categories.union({"wildcard"})
@@ -59,7 +60,7 @@ class Entry:
         self.alignend: bool = alignend
         self.order: int = order
 
-        self.subentries: list[Entry] = []
+        self.subentries: list[Entry] = list(subentries)
 
     @classmethod
     def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
@@ -81,8 +82,8 @@ class Entry:
         )
         return cls(
             entry_dict["name"],
-            PTime.from_string(entry_dict["start"]),
-            PTime.from_string(entry_dict["end"]),
+            PTime.from_string(entry_dict.get("start") or None),
+            PTime.from_string(entry_dict.get("start") or None),
             priority=entry_dict["priority"],
             blocks=set(re.split("[^A-z] ?", entry_dict["blocks"]))
             if "blocks" in entry_dict
@@ -238,23 +239,30 @@ class Entry:
     def accommodates(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return __entry.fits_in(self, ratio=ratio)
 
-    def add_subentry(self, subentry: "Entry") -> None:
+    def add_subentry(
+        self, subentry: "Entry"
+    ) -> list["Entry"]:  # TODO: rewrite to keep highest-priority
         if not self.blocks.intersection(subentry.categories):
             raise ValueError(f"")
         if self.accommodates(subentry):
             self.subentries.append(subentry)
             self.subentries.sort(key=lambda e: (e.order, e.priority))
+            return []
         else:
-            raise ValueError(f"Entry {subentry} does not fit in {self}.")
+            print(f"Entry {subentry} does not fit in {self}.")
+            return [subentry]
 
     @property
     def available(self) -> int:
         return (
-            self.start.timeto(self.end)
-            - sum(map(lambda e: e.duration, self.subentries))
+            self.duration - sum(map(lambda e: e.duration, self.subentries))
             if self.blocks
             else 0
         )
+
+    @property
+    def unavailable(self) -> int:
+        return self.duration - self.available
 
     def pretty(self, width: int = 80) -> str:
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"

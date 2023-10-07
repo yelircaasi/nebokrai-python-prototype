@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Iterable, Iterator
 
 from ...util import Norg, tabularize
 from ..base.routine import Routine
@@ -11,26 +11,27 @@ class Routines:
 
     """
 
-    def __init__(self) -> None:
-        self._routines: dict[str, Routine] = {}
+    def __init__(self, routines: Iterable[Routine] = []) -> None:
+        self._routines: dict[str, Routine] = {
+            rout.name.split(" ")[0].lower(): rout for rout in routines
+        }
 
     @classmethod
     def from_dict(cls, routines_dict: dict[str, Any]) -> "Routines":
-        return cls()
-
-    @classmethod
-    def from_norg_workspace(cls, workspace: Path) -> "Routines":
-        return cls()
+        routines = []
+        for routine_dict in routines_dict.values():
+            routines.append(Routine.from_dict(routine_dict))
+        return cls(routines)
 
     def add(self, routine: Routine) -> None:
         self._routines.update({routine.name: routine})
 
-    def pretty(self, width: int = 80) -> str:
+    def pretty(self, width: int = 120) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        top = tabularize("Routines", width)
-        empty = tabularize("", width)
+        top = tabularize("Routines", width, thick=True)
+        empty = tabularize("", width, thick=True)
         return (
             "\n".join(("", topbeam, empty, top, empty, ""))
             + "\n".join(map(str, self._routines.values()))
@@ -41,7 +42,10 @@ class Routines:
         return iter(self._routines.values())
 
     def __getitem__(self, __name: str) -> Routine:
-        return self._routines[__name]
+        if " " in __name:
+            return self._routines[__name.split(" ")[0].lower()]
+        else:
+            return self._routines[__name.lower()]
 
     def __str__(self) -> str:
         return self.pretty()

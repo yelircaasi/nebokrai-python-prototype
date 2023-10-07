@@ -69,6 +69,10 @@ class PTime:
     def fromminutes(cls, mins: int) -> "PTime":
         return cls(*divmod(mins, 60))
 
+    @staticmethod
+    def nonetime() -> "NoneTime":
+        return NoneTime()
+
     def timeto(self, time2: "PTime") -> int:
         t2, t1 = time2.tominutes(), self.tominutes()
         return t2 - t1  # if ((t1 is not None) and (t2 is not None)) else None
@@ -105,3 +109,32 @@ class PTime:
 
     def __ge__(self, ptime2: "PTime") -> bool:
         return self.tominutes() >= ptime2.tominutes()
+
+
+class NoneTime(PTime):
+    def __init__(self) -> None:
+        super(NoneTime, self).__init__()
+
+    def __bool__(self) -> bool:
+        return False
+
+    def __eq__(self, __other: Any) -> bool:
+        return isinstance(__other, NoneTime)
+
+    def __lt__(self, __other: Any) -> bool:
+        return False
+
+    def __gt__(self, __other: Any) -> bool:
+        return False
+
+    def __le__(self, __other: Any) -> bool:
+        return True
+
+    def __ge__(self, __other: Any) -> bool:
+        return True
+
+    def __repr__(self) -> str:
+        return self.__str__()
+
+    def __str__(self) -> str:
+        return "NoneTime"

@@ -220,12 +220,16 @@ class NoneDate(PDate):
     def __init__(self) -> None:
         super(NoneDate, self).__init__(1970, 1, 1)
 
+    def __bool__(self) -> bool:
+        return False
+
     def __eq__(self, __other: Any) -> bool:
-        return (self.year, self.month, self.day) == (
-            __other.year,
-            __other.month,
-            __other.day,
-        )
+        return isinstance(__other, NoneDate)
+        # return (self.year, self.month, self.day) == (
+        #     __other.year,
+        #     __other.month,
+        #     __other.day,
+        # )
 
     def __lt__(self, __other: Any) -> bool:
         return False

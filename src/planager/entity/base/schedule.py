@@ -100,7 +100,12 @@ class Schedule:
 
         First checks for a block to add on top of, otherwise follows the default logic.
         """
-        assert self.can_be_added(entry)  # TODO
+        # print(entry.start)
+        # print(bool(entry.start))
+        assert self.can_be_added(
+            entry
+        ), f"--------------------------\n\n{entry}\n\n{self}"
+        # TODO ^
         block_ind = min(self.schedule.get_inds_of_relevant_blocks(entry))
         if block_ind:
             self.schedule.add_to_block_by_index(entry, block_ind)
@@ -121,30 +126,37 @@ class Schedule:
     def starts_strings(self) -> list[str]:
         return [str(x.start) for x in self.schedule]
 
-    def add_routines(
-        self, routines_list: list[str], routines: Routines
-    ) -> None:  #  -> KEEP
-        for routine_name in routines_list:
-            routine = routines[routine_name]
-            if routine.valid_on(self.date):
-                self.add(routine.as_entry())
-                print(self)
-            else:
-                print(f"Not valid on {self.date}.")
-        raise ValueError  # ---
+    # def add_routines(
+    #     self, routines_dict: dict[str, dict], routines: Routines
+    # ) -> None:  #  -> KEEP
+    #     for routine_name in routines_dict:
+    #         routine = routines[routine_name]
+    #         if routine.valid_on(self.date):
+    #             self.add(routine.as_entry())
+    #             print(self)
+    #         else:
+    #             print(f"Not valid on {self.date}.")
+    #     raise ValueError  # ---
 
     def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:  #  -> KEEP
         for task_id in plan[self.date]:
-            self.add(tasks[task_id].as_entry(None))
+            self.add(tasks[task_id].as_entry(PTime.nonetime()))
 
-    def can_be_added(
-        self, entry: Entry
-    ) -> bool:  # MOVE TO ENTRIES? NAH, GOOD TO HAVE ACCESSIBLE
-        assert self.schedule.overlaps_are_movable(entry)
+    def can_be_added(self, entry: Entry) -> bool:
+        # MOVE TO ENTRIES? NAH, GOOD TO HAVE ACCESSIBLE
+        # assert self.schedule.overlaps_are_movable(entry)
+        if not entry.start:
+            return True
+        if not self.schedule.overlaps_are_movable(entry):
+            print("A")
+            return False
         if not entry.ismovable:
+            print("B")
             overlaps = self.schedule.get_overlaps(entry)
             if not all(map(lambda x: x.ismovable, overlaps)):
+                print("C")
                 return False
+        print("D")
         return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
 
     @property

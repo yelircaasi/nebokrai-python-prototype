@@ -23,27 +23,63 @@ class Day:
         self,
         date: PDate,
         entries: Entries = Entries(),
-        routine_names: list[str] = [
-            "Morning Routine",
-            "Midday Routine",
-            "Evening Routine",
-        ],
+        routine_dict: dict[str, dict] = {
+            "Morning Routine": {
+                "default_start": PTime(5),
+                "priority": 80,
+                "normaltime": 60,
+                "mintime": 15,
+                "maxtime": 180,
+            },
+            "Midday Routine": {
+                "default_start": PTime(13),
+                "priority": 60,
+                "normaltime": 30,
+                "mintime": 10,
+                "maxtime": 60,
+            },
+            "Evening Routine": {
+                "default_start": PTime(21),
+                "priority": 80,
+                "normaltime": 60,
+                "mintime": 15,
+                "maxtime": 180,
+            },
+        },
         start: PTime = PTime(5),
         end: PTime = PTime(21),
     ) -> None:
         self.date = date
         self.entries = entries
-        self.routine_names = routine_names
+        self.routine_dict = routine_dict
 
         # self.entries.insert(0, FIRST_ENTRY)
         # self.entries.append(LAST_ENTRY)
         waketime = min(start, self.entries.start)
         bedtime = max(end, self.entries.end)
+        morning_normaltime = PTime(0).timeto(waketime)
+        evening_normaltime = bedtime.timeto(PTime(24))
         morning_sleep = Entry(
-            "Sleep", PTime(0), end=waketime, priority=70, ismovable=False
+            "Sleep",
+            PTime(0),
+            end=waketime,
+            priority=70,
+            normaltime=morning_normaltime,
+            idealtime=morning_normaltime,
+            mintime=morning_normaltime - 1,
+            maxtime=morning_normaltime + 1,
+            ismovable=False,
         )
         evening_sleep = Entry(
-            "Sleep", bedtime, end=PTime(24), priority=70, ismovable=False
+            "Sleep",
+            bedtime,
+            end=PTime(24),
+            priority=70,
+            normaltime=evening_normaltime,
+            idealtime=evening_normaltime,
+            mintime=evening_normaltime - 1,
+            maxtime=evening_normaltime + 1,
+            ismovable=False,
         )
         # print(entries)
         if self.entries:
@@ -69,14 +105,14 @@ class Day:
             self.entries.append(evening_sleep)
 
     def copy(self) -> "Day":
-        return Day(self.date.copy(), self.entries.copy(), self.routine_names.copy())
+        return Day(self.date.copy(), self.entries.copy(), self.routine_dict.copy())
 
     # @classmethod
     # def default_day(cls, date: PDate) -> "Day":
     #     return cls(
     #         date
     #         entries: Entries = Entries(),
-    #         routine_names: list[str] = [
+    #         routine_dict: list[str] = [
     #             "Morning Routine",
     #             "Midday Routine",
     #             "Evening Routine",
@@ -91,20 +127,88 @@ class Day:
         for entry_dict in day_dict["entries"]:
             entries.append(Entry.from_dict(entry_dict))
 
-        routine_names = []
+        routines_dict = {}
         for routine_dict in day_dict["routines"]:
-            routine_names.append(routine_dict["name"])
+            routines_dict.update(
+                {routine_dict["name"].split("  ")[0].lower(): routine_dict}
+            )
 
         start = PTime.from_string(day_dict.get("start", str(cls.DAY_START_DEFAULT)))
         end = PTime.from_string(day_dict.get("end", str(cls.DAY_END_DEFAULT)))
 
         # print(entries)
+        # print('routines_dict:', routines_dict)
 
-        return cls(date, entries, routine_names, start=start, end=end)
+        return cls(date, entries, routines_dict, start=start, end=end)
+
+    def add_routines(self, routines: Routines) -> None:
+        for routine_name, routine_spec in self.routine_dict.items():
+            # print(self.routine_dict)
+            # print(routine_spec.get("start"))
+            # print(self.entries[0].end)
+            # print(PTime(5) - 15)
+            # exit()
+            # if routine_name == "midday":
+            #     exit()
+            routine_entry = routines[routine_name].as_entry(
+                routine_name,
+                start=PTime.ensure_is_ptime(
+                    routine_spec.get("start") or routines[routine_name].start
+                ),
+                priority=int(
+                    routine_spec.get("priority") or routines[routine_name].priority
+                ),
+                normaltime=int(
+                    routine_spec.get("normaltime") or routines[routine_name].normaltime
+                ),
+                idealtime=int(
+                    routine_spec.get("normaltime") or routines[routine_name].idealtime
+                ),
+                mintime=int(
+                    routine_spec.get("mintime") or routines[routine_name].mintime
+                ),
+                maxtime=int(
+                    routine_spec.get("maxtime") or routines[routine_name].maxtime
+                ),
+            )
+
+            self.entries.append(routine_entry)
+            self.entries.sort()
 
     @property
-    def available(self) -> int:
-        return sum(map(lambda e: e.normaltime * (e.priority > 0), self.entries))
+    def blocks(self) -> set[str]:
+        blocks = set()
+        for entry in self.entries:
+            blocks.update(entry.blocks)
+        return blocks
+
+    @property
+    def empty_time(self) -> int:
+        # for e in self.entries:
+        #     print(e.name, e.duration)
+        # return int(1440 - sum(map(lambda e: e.duration * (e.priority > 0), self.entries)))
+        return int(1440 - sum(map(lambda e: e.duration, self.entries)))
+
+    @property
+    def total_available(self) -> int:
+        return int(1440 - sum(map(lambda e: e.unavailable, self.entries)))
+
+    def available_for_block(self, block: str) -> int:
+        return sum(
+            map(
+                lambda ent: ent.available,
+                filter(lambda e: block in e.blocks, self.entries),
+            )
+        )
+
+    @property
+    def available_dict(self) -> dict[str, int]:
+        time_dict: dict[str, int] = {}
+        time_dict.update({"empty": self.empty_time})
+        time_dict.update({"total": self.total_available})
+        for block in self.blocks:
+            time_dict.update({block: self.available_for_block(block)})
+        return time_dict
 
     def __str__(self) -> str:
         width = self.WIDTH
@@ -117,7 +221,7 @@ class Day:
             header_thickbeam
             + tabularize(str(self.date) + "  │", width, thick=True)
             + header_thinbeam
-            + tabularize(", ".join(self.routine_names), width, thick=True)
+            + tabularize(", ".join(self.routine_dict), width, thick=True)
             + "\n"
             # + thickbeam
         )
@@ -170,6 +274,10 @@ class Calendar:
 
     def add(self, day: Day) -> None:
         self.days.update({day.date: day})
+
+    def add_routines(self, routines: Routines) -> None:
+        for day in self.days.values():
+            day.add_routines(routines)
 
     @property
     def start_date(self) -> PDate:

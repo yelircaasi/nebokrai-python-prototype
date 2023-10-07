@@ -87,10 +87,14 @@ class Roadmap:
 
     @property
     def start_date(self) -> PDate:
+        if not self._projects:
+            return PDate.nonedate()
         return min(map(lambda p: p.start, self._projects))
 
     @property
     def end_date(self) -> PDate:
+        if not self._projects:
+            return PDate.nonedate()
         today = PDate.today()
         return max(map(lambda p: p.end or today, self._projects))
 

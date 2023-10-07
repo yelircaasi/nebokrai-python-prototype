@@ -30,6 +30,8 @@ class Task:
         tmpdate: Optional[PDate] = None,
         notes: str = "",
         status: Literal["todo", "done"] = "todo",
+        blocks: set[str] = set(),
+        categories: set[str] = set(),
     ) -> None:
         assert len(task_id) == 3
 
@@ -42,16 +44,21 @@ class Task:
         self.tmpdate = tmpdate if tmpdate else self.tmpdate
         self.notes = notes
         self.status = status
+        self.categories = categories
         self.project_order = -1
         self.original_date: PDate = PDate.nonedate()
+        self.block_assigned = ""
 
     @classmethod
     def from_dict(
         cls,
+        task_dict: dict[str, Any],
         roadmap_code: str,
         project_code: str,
         project_name: str,
-        task_dict: dict[str, Any],
+        project_priority: Optional[int] = None,
+        project_duration: Optional[int] = None,
+        project_categories: set[str] = set(),
     ) -> "Task":
         def parse_id(s: str) -> tuple[str, str, str]:
             print(s)
@@ -60,19 +67,25 @@ class Task:
             return (res[0], res[1], res[2])
 
         task_id = (roadmap_code, project_code, task_dict["id"])
-        deps_raw = re.split(", ?", task_dict.get("categories", ""))
+        deps_raw = re.split(", ?", task_dict.get("dependencies", ""))
+        cats_raw = re.split(", ?", task_dict.get("categories", ""))
 
         return cls(
             task_dict["name"],
             project_name,
             task_id,
-            priority=int(task_dict.get("priority") or cls.PRIORITY_DEFAULT),
-            duration=int(task_dict.get("duration") or cls.DURATION_DEFAULT),
+            priority=int(
+                task_dict.get("priority") or project_priority or cls.PRIORITY_DEFAULT
+            ),
+            duration=int(
+                task_dict.get("duration") or project_duration or cls.DURATION_DEFAULT
+            ),
             dependencies=set(
                 map(parse_id, filter(bool, deps_raw))
             ),  # if deps_raw else set(),
             notes=task_dict.get("notes") or "",
             status=task_dict.get("status") or "todo",
+            categories=set(filter(bool, cats_raw)).union(project_categories),
         )
 
     def copy(self) -> "Task":
@@ -85,11 +98,17 @@ class Task:
 
     def as_entry(self, start: Optional[PTime]) -> Entry:
         # TODO
+        if not start:
+            start = PTime.nonetime()
         return Entry(self.name, start)
 
     @property
     def status_symbol(self) -> str:
         return {"todo": "☐", "done": "✔"}[self.status]
+
+    @property
+    def remaining_duration(self) -> int:
+        return self.duration * (self.status == "todo")
 
     def pretty(self, width: int = WIDTH_DEFAULT) -> str:
         topbeam = "┏" + (width - 2) * "━" + "┓"

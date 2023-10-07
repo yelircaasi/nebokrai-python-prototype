@@ -9,6 +9,7 @@ from ..entity import (
     Project,
     Projects,
     Roadmaps,
+    Routines,
     TaskPatches,
     Task,
     Tasks,
@@ -36,6 +37,7 @@ class Planner:
         self,
         calendar: Calendar,
         roadmaps: Roadmaps,
+        routines: Routines
         # task_patches: Optional[TaskPatches] = None,
         # plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
@@ -51,6 +53,7 @@ class Planner:
             config=self.config,
             calendar=calendar,
         )
+
         projects = roadmaps.projects
         # projects.order_by_dependency()
 

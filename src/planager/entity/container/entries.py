@@ -36,6 +36,9 @@ class Entries:
         entry = self._entries.pop(__index)
         return entry
 
+    def sort(self) -> None:
+        self._entries.sort(key=lambda e: e.start)
+
     @property
     def start(self) -> PTime:
         if not self._entries:
@@ -108,6 +111,8 @@ class Entries:
         Check whether the entries that overlap with the query entry are all movable.
         """
         overlaps = self.get_overlaps(entry)
+        if not overlaps:
+            return True
         return all(map(lambda x: x.ismovable, overlaps))
 
     def get_fixed_groups(self) -> list["Entries"]:
