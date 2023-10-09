@@ -1,7 +1,8 @@
 from typing import Tuple
-import pytest
-from planager.config import _Config
 
+import pytest
+
+from planager.config import _Config
 from planager.entity.base.calendar import Calendar
 from planager.entity.base.plan import Plan
 from planager.entity.base.project import Project

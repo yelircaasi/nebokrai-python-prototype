@@ -1,7 +1,8 @@
 from pathlib import Path
+
 import pytest
 
-from planager.entity.base.entry import Entry, Empty, FIRST_ENTRY, LAST_ENTRY
+from planager.entity.base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.util.pdatetime import PTime
 
 
@@ -195,10 +196,7 @@ class EntryTest:
         assert self.entry_430_630.ismovable == True
         assert self.entry_430_630.blocks == {"block 1", "block 2"}
         assert self.entry_430_630.categories == {"category 1", "category 2", "wildcard"}
-        assert (
-            self.entry_430_630.notes
-            == 5 * "long placeholder notes here that take space; "
-        )
+        assert self.entry_430_630.notes == 5 * "long placeholder notes here that take space; "
         assert self.entry_430_630.normaltime == 120
         assert self.entry_430_630.idealtime == 180
         assert self.entry_430_630.mintime == 60
@@ -213,10 +211,7 @@ class EntryTest:
         assert self.entry_5_520.ismovable == False
         assert self.entry_5_520.blocks == set()
         assert self.entry_5_520.categories == {"category 3", "wildcard"}
-        assert (
-            self.entry_5_520.notes
-            == 3 * "just some placeholder text, !@#$#@%#^$, "[:-2]
-        )
+        assert self.entry_5_520.notes == 3 * "just some placeholder text, !@#$#@%#^$, "[:-2]
         assert self.entry_5_520.normaltime == 20
         assert self.entry_5_520.idealtime == 30
         assert self.entry_5_520.mintime == 10
@@ -377,9 +372,7 @@ class EntryTest:
             "  -- ismovable:  false\n"
             "  -- order:      45"
         )
-        assert self.entry_0_030.as_norg() == (
-            "~ 00:00-00:30 | random name\n" "  -- normaltime: 30"
-        )
+        assert self.entry_0_030.as_norg() == ("~ 00:00-00:30 | random name\n" "  -- normaltime: 30")
 
     # []
     def test_as_json(self) -> None:

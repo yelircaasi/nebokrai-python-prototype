@@ -1,8 +1,8 @@
 from pathlib import Path
 
 import pytest
-from planager.entity.base.project import Project
 
+from planager.entity.base.project import Project
 from planager.entity.base.roadmap import Roadmap
 from planager.entity.container.projects import Projects
 

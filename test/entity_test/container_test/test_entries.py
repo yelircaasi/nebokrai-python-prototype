@@ -1,9 +1,10 @@
 from typing import Set
-import pytest
-from planager.entity.base.schedule import Schedule
 
-from planager.entity.container.entries import Entries
+import pytest
+
 from planager.entity.base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from planager.entity.base.schedule import Schedule
+from planager.entity.container.entries import Entries
 from planager.util.pdatetime.ptime import PTime
 
 

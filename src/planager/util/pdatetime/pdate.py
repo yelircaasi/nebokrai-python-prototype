@@ -1,9 +1,13 @@
 import re
-from datetime import date, datetime
+from datetime import date
 from typing import Any, Optional, Union
 
 
 class PDate:
+    """
+    Bespoke date class designed to simplify the planager codebase.
+    """
+
     date_regex: re.Pattern = re.compile(r"(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")
 
     def __init__(self, year: int, month: int, day: int) -> None:
@@ -19,6 +23,10 @@ class PDate:
         candidate: Any,
         default: Optional["PDate"] = None,
     ) -> "PDate":
+        """
+        Converts values of several types into the corresponding PDate
+        """
+
         if not candidate:
             pass
         elif isinstance(candidate, PDate):
@@ -30,27 +38,22 @@ class PDate:
                 return PDate.today() + int(candidate.replace("in", ""))
             try:
                 return PDate.from_string(candidate)
-            except:
+            except AssertionError:
                 pass
         elif isinstance(candidate, tuple):
             try:
                 return PDate(*map(int, candidate))
-            except:
+            except AssertionError:
                 pass
         elif isinstance(candidate, int):
-            try:
-                return PDate.today() + candidate
-            except:
-                pass
+            return PDate.today() + candidate
         else:
             pass
 
         if default is not None:
             return default
 
-        raise ValueError(
-            f"Impossible conversion requested: {str(candidate)} -> 'PDate'."
-        )
+        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
 
     @property
     def year(self) -> int:
@@ -86,19 +89,18 @@ class PDate:
 
     @classmethod
     def from_string(cls, date_str: str) -> "PDate":
-        result = re.search(cls.date_regex, date_str)
+        result = re.search(cls.date_regex, str(date_str))
         if result:
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
-        else:
-            raise ValueError(f"Invalid string for conversion to PDate: {date_str}")
+        raise ValueError(f"Invalid string for conversion to PDate: {date_str}")
 
     def toordinal(self) -> int:
         return self._date.toordinal()
 
     @classmethod
-    def fromordinal(cls, ord: int) -> "PDate":
-        d = date.fromordinal(ord)
+    def fromordinal(cls, __ord: int) -> "PDate":
+        d = date.fromordinal(__ord)
         return cls(d.year, d.month, d.day)
 
     def weekday(self) -> int:
@@ -117,8 +119,12 @@ class PDate:
     def __sub__(self, days: int) -> "PDate":  # type: ignore
         return PDate.fromordinal(self.toordinal() - int(days))
 
-    def pretty(self):
-        DAYS = {
+    def pretty(self) -> str:
+        """
+        Returns a the date written out in long form.
+        """
+
+        days = {
             0: "Monday",
             1: "Tuesday",
             2: "Wednesday",
@@ -127,7 +133,7 @@ class PDate:
             5: "Saturday",
             6: "Sunday",
         }
-        MONTHS = {
+        months = {
             1: "January",
             2: "February",
             3: "March",
@@ -141,7 +147,7 @@ class PDate:
             11: "November",
             12: "December",
         }
-        ORDINAL_ENDINGS = {
+        ordinal_endings = {
             1: "st",
             2: "nd",
             3: "rd",
@@ -150,10 +156,13 @@ class PDate:
             23: "rd",
             31: "st",
         }
-        ending = ORDINAL_ENDINGS.get(self.day, "th")
-        return f"{DAYS[self.weekday()]}, {MONTHS[self.month]} {self.day}{ending}, {self.year}"
+        ending = ordinal_endings.get(self.day, "th")
+        return f"{days[self.weekday()]}, {months[self.month]} {self.day}{ending}, {self.year}"
 
     def range(self, end: Union["PDate", int], inclusive: bool = True) -> list["PDate"]:
+        """
+        Returns a list of consecutive days, default inclusive. Supports reverse-order ranges.
+        """
         date1 = self.copy()
         if isinstance(end, int):
             date2 = date1 + end
@@ -217,8 +226,12 @@ class PDate:
 
 
 class NoneDate(PDate):
+    """
+    Empty date for cases where this may be superior to using None
+    """
+
     def __init__(self) -> None:
-        super(NoneDate, self).__init__(1970, 1, 1)
+        super().__init__(1970, 1, 1)
 
     def __bool__(self) -> bool:
         return False

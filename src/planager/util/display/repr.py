@@ -3,20 +3,25 @@ def wrap_as_list(
     width: int,
     trailing_spaces: int,
 ) -> list[str]:
+    """
+    Ensures that lines are below a specified length, sending the excess to the next line.
+      Returns a list.
+    """
+
     if len(line) < width:
         return [line]
 
     prefix = trailing_spaces * " "
     lines = []
 
-    def splitline(s: str, width: int, pref: str = prefix) -> tuple[str, str]:
+    def splitline(s: str, width: int) -> tuple[str, str]:
         splitind = s[:width].rfind(" ")
         splitind = width if splitind == -1 else splitind
         line1 = s[:splitind].strip(" ")
         line2 = s[splitind:].strip(" ")
         return line1, line2
 
-    line1, rest = splitline(line, width, pref="")
+    line1, rest = splitline(line, width)
     lines.append(line1)
     width -= trailing_spaces
 
@@ -39,6 +44,11 @@ def wrap_string(
     pad_char: str = " ",
     padding: int = 1,
 ) -> str:
+    """
+    Ensures that lines are below a specified length, sending the excess to the next line.
+      Returns a string.
+    """
+
     if borders:
         pad_chars = pad_char * padding
         bookend1, bookend2 = border_char + pad_chars, pad_chars + border_char
@@ -52,12 +62,13 @@ def wrap_string(
 
 def tabularize(
     s,
-    width: int = 80,
+    width,
     padding: int = 1,
     pad_char: str = " ",
     trailing_spaces: int = 2,
     thick: bool = False,
 ):
+    "Adds table borders to a string, wrapping it as needed."
     border_char = "┃" if thick else "│"
     return wrap_string(
         s,

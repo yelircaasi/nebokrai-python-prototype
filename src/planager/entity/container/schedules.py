@@ -1,20 +1,18 @@
-from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from ...util import Norg, PDate, round5, tabularize
+from ...config import Config
+from ...util import PDate
 from ..base.schedule import Schedule
 
 
 class Schedules:
-    def __init__(self, schedules: Dict[PDate, Schedule] = {}) -> None:
-        self._schedules: Dict[PDate, Schedule] = schedules
+    """
+    Container class for multiple instances of the Schedule class.
+    """
 
-    @classmethod
-    def from_norg_workspace(cls, workspace_dir: Path) -> "Schedules":
-        file = workspace_dir / "roadmaps.norg"
-        parsed: Norg = Norg.from_path(file)
-        ...  # TODO
-        return cls()
+    def __init__(self, config: Config, schedules: Optional[Dict[PDate, Schedule]]) -> None:
+        self.config = config
+        self._schedules: Dict[PDate, Schedule] = schedules or {}
 
     def __len__(self) -> int:
         return len(self._schedules)

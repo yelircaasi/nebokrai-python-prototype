@@ -1,28 +1,28 @@
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Optional, Union
+from typing import Any, Optional, Union
 
+from .config import Config
 from .entity import (
     Calendar,
     Plan,
-    PlanPatches,
     Project,
     Projects,
     Roadmap,
     Roadmaps,
     Routines,
-    SchedulePatches,
     Schedule,
     Schedules,
     Task,
-    TaskPatches,
-    Tasks,
 )
-from .operator import Planner, Scheduler
-from .util import ConfigType, PDate, PathManager
+from .util import PathManager, PDate
 
 
 class Planager:
+    """
+    One class to rule them all.
+    """
+
     path_manager: PathManager
     calendar: Calendar
     roadmaps: Roadmaps
@@ -30,38 +30,29 @@ class Planager:
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
 
-    planner: Planner
-    scheduler: Scheduler
-
-    # plan_patches: PlanPatches
-    # schedule_patches: SchedulePatches
-    # task_patches: TaskPatches
-    # _last_update: Optional[PDateTime]
-
-    def __init__(self, calendar, roadmaps, routines, pathmanager) -> None:
+    def __init__(self, config, calendar, roadmaps, routines, pathmanager) -> None:
+        self.config = config
         self.calendar: Calendar = calendar
         self.roadmaps: Roadmaps = roadmaps
         self.routines: Routines = routines
         self.pathmanager: PathManager = pathmanager
 
-        # operators
-        self.planner = Planner()  # config)
-        self.scheduler = Scheduler()  # config)
-
     @classmethod
     def from_json(cls, json_root: Path) -> "Planager":
+        """
+        Instantiates from declaration.json.
+        """
+
         pathmanager = PathManager(json_root)
-        with open(pathmanager.declaration) as f:
+        with open(pathmanager.declaration, encoding="utf-8") as f:
             dec = json.load(f)
 
-        # config = Config.from_dict(dec["config"])
-        calendar = Calendar.from_dict(dec["calendar"])
-        roadmaps = Roadmaps.from_dict(dec["roadmaps"])
-        routines = Routines.from_dict(dec["routines"])
+        config = Config.from_dict(dec["config"])
+        routines = Routines.from_dict(config, dec["routines"])
+        calendar = Calendar.from_dict(config, routines, dec["calendar"])
+        roadmaps = Roadmaps.from_dict(config, dec["roadmaps"])
 
-        calendar.add_routines(routines)
-
-        return cls(calendar, roadmaps, routines, pathmanager)
+        return cls(config, calendar, roadmaps, routines, pathmanager)
 
     # @classmethod
     # def from_html(cls, html_dir: Path) -> "Planager":
@@ -74,33 +65,120 @@ class Planager:
         """
 
         # tasks = roadmaps.tasks  # Tasks.from_roadmaps(roadmaps)
-        self.plan = self.planner(self.calendar, self.roadmaps, self.routines)
-        self.schedules = self.scheduler(
+        self.plan = self.derive_plan(self.calendar, self.roadmaps)
+        self.schedules = self.derive_schedules(
             self.calendar,
             self.plan,
             self.roadmaps,
-            self.routines,
         )
 
-    # def reconfigure(self, config: ConfigType) -> None:
-    #     ...
+    def derive_plan(
+        self,
+        calendar: Calendar,
+        roadmaps: Roadmaps,
+        # task_patches: Optional[TaskPatches] = None,
+        # plan_patches: Optional[PlanPatches] = None,
+    ) -> Plan:
+        """
+        Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar,
+          as well as task_patches and plan_patches. Designed to be:
+          * declarative (user says what rather than how)
+          * pure (no side effects)
+          * deterministic (same input -> same output)
+          This makes the automated planning process predictable and transparent.
 
-    # def write_norg(self) -> None:
-    #     """
-    #     Writes derivation to norg workspace.
-    #     """
+        Not yet implemented:
+          functionality for breaking up and reallocating clusters. -> Happens automatically?
+        """
+        plan = Plan(
+            config=self.config,
+            calendar=calendar,
+        )
+
+        projects = roadmaps.projects
+        # projects.order_by_dependency()
+
+        for project in projects.iter_by_priority:
+            plan.add_subplan(project.subplan, project.tasks)
+        # plan.reorder_by_precedence()
+
+        # plan = self.patch_plan(plan, plan_patches)
+
+        # -------------------------------------------------------------------------------------
+        # enforce temporal precedence constraints
+
+        self.enforce_precedence_constraints(plan, projects)
+        # -------------------------------------------------------------------------------------
+
+        return plan
+
+    def derive_schedules(
+        self,
+        calendar: Calendar,
+        plan: Plan,
+        roadmaps: Roadmaps,
+    ) -> Schedules:
+        """
+        Use information obtained from the declaration and the derived plan to derive,
+          in turn, the schedules.
+        """
+        start_date_new = roadmaps.start_date or (PDate.tomorrow())
+        end_date_new: PDate = roadmaps.end_date or max(
+            plan.end_date,
+            calendar.end_date,
+        )
+        schedules = Schedules(self.config, {})
+        for date in start_date_new.range(end_date_new):
+            schedule = Schedule.from_calendar(calendar, date)
+            # schedule.add_routines(calendar[date].routine_dict, routines)
+            schedule.add_from_plan(plan, roadmaps.tasks)
+            # schedule = self.patch_schedule(schedule, schedule_patches[date])
+            schedules[date] = schedule
+            # print(len(schedules))
+        return schedules
+
+    @staticmethod
+    def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
+        """
+        Checks that all temporal dependencies are respected and raises an informative
+          error if that is not the case.
+        """
+        inverse_plan = {}
+        for date, ids in plan.items():
+            for task_id in ids:
+                inverse_plan.update({task_id: date})
+
+        def get_date(_id: Union[tuple[str, str, str], tuple[str, str]]) -> PDate:
+            if len(_id) == 2:
+                return max(map(lambda t: inverse_plan[t], (projects[_id])))
+            if len(_id) == 3:
+                return inverse_plan[projects[_id]]
+            raise ValueError("ID must have 2 or 3 elements.")
+
+        for task in projects.tasks:
+            if task.dependencies:
+                plan_date = inverse_plan[task.task_id]
+                limiting_dependency = max(task.dependencies, key=get_date)
+                earliest_date = inverse_plan[limiting_dependency] + 1
+                if plan_date < earliest_date:
+                    raise ValueError(
+                        (
+                            f"Task {'<>'.join(task.task_id)} assigned to {plan_date}, "
+                            f"but earliest permissible date is {earliest_date}."
+                            "Please adjust the declaration and run the derivation again. \n  "
+                            f"Limiting dependency: {'<>'.join(limiting_dependency)}."
+                        )
+                    )
 
     def write_json(self) -> None:
         """
         Writes derivation to json folder.
         """
 
-    # def write_html(self) -> None:
-    #     """
-    #     Writes derivation to html folder.
-    #     """
-
     def roadmap_tree(self) -> str:
+        """
+        Prints the roadmap in a hierarchical tree representation.
+        """
         lines = []
         for roadmap in self.roadmaps:
             lines.append(f"{roadmap.name} (ID {roadmap.roadmap_id})")
@@ -111,7 +189,10 @@ class Planager:
         return "\n".join(lines)
 
     def make_gantt_string(self, raw: bool = False) -> str:
-        LENGTH = 30
+        """
+        Creates a Gantt-style representation of the declaration and resulting plan.
+        """
+        project_name_length = 30
 
         today = PDate.today()
         # end_date = self.plan.end_date
@@ -120,32 +201,22 @@ class Planager:
         def make_project_line(project: Project) -> str:
             def get_dates(project: Project, raw: bool) -> dict[PDate, str]:
                 if raw:
-                    return {
-                        d: project[l[-1][-1]].status for d, l in project.subplan.items()
-                    }
-                else:
-                    assert (
-                        self.plan
-                    ), "Plan must be defined in order to be shown as a gantt."
-                    rcode, pcode = project.project_id
-                    ret: dict[PDate, str] = {}
-                    for date, task_ids in self.plan.items():
-                        rel_ids = [
-                            (r, p, _)
-                            for (r, p, _) in task_ids
-                            if (r == rcode and p == pcode)
-                        ]
-                        if rel_ids:
-                            task_id = rel_ids[0]
-                            ret.update({date: self.roadmaps.get_task(task_id).status})
+                    return {d: project[l[-1][-1]].status for d, l in project.subplan.items()}
+                assert self.plan, "Plan must be defined in order to be shown as a gantt."
+                rcode, pcode = project.project_id
+                ret: dict[PDate, str] = {}
+                for date, task_ids in self.plan.items():
+                    rel_ids = [(r, p, _) for (r, p, _) in task_ids if (r == rcode and p == pcode)]
+                    if rel_ids:
+                        task_id = rel_ids[0]
+                        ret.update({date: self.roadmaps.get_task(task_id).status})
 
-                    return ret
+                return ret
 
             def format_name(proj_name: str) -> str:
-                if len(proj_name) <= LENGTH:
-                    return f"{proj_name: <{LENGTH}} ║ "
-                else:
-                    return proj_name[: (LENGTH - 6)] + "…" + proj_name[-5:] + " ║ "
+                if len(proj_name) <= project_name_length:
+                    return f"{proj_name: <{project_name_length}} ║ "
+                return proj_name[: (project_name_length - 6)] + "…" + proj_name[-5:] + " ║ "
 
             status2char = {"todo": "○", "done": "●"}
             line = format_name(project.name)
@@ -155,7 +226,7 @@ class Planager:
 
             if not dates:
                 return ""
-            elif len(dates) == 1:
+            if len(dates) == 1:
                 middle += status2char[dates[min(dates)]]
             else:
                 middle += status2char[dates[min(dates)]]
@@ -163,11 +234,7 @@ class Planager:
                     if d1 >= today:
                         middle += (d1.daysto(d2) - 1) * "―" + status2char[dates[d2]]
 
-            line += (
-                (today.daysto(min(dates)) * " ")
-                + middle
-                + (max(dates).daysto(end_date) * " ")
-            )
+            line += (today.daysto(min(dates)) * " ") + middle + (max(dates).daysto(end_date) * " ")
             # print(len(line))
             # print(line)
             return line
@@ -178,9 +245,13 @@ class Planager:
             for project in self.roadmaps.projects
         ]
         lines = list(filter(lambda x: x[1] != "", lines))
-        myfind = lambda s, sub: s.find(sub) + 999 * (s.find(sub) < 0)
-        myrfind = lambda s, sub: s.rfind(sub) + 999 * (s.rfind(sub) < 0)
-        # lines.sort(key=lambda line: (line[0], min(myfind(line[1], '○'), myfind(line[1], '●')), min(myrfind(line[1], '○'), myrfind(line[1], '●'))))
+
+        def myfind(s: str, sub: str) -> int:
+            return s.find(sub) + 999 * (s.find(sub) < 0)
+
+        def myrfind(s: str, sub: str) -> int:
+            return s.rfind(sub) + 999 * (s.rfind(sub) < 0)
+
         lines.sort(
             key=lambda line: (
                 min(myfind(line[1], "○"), myfind(line[1], "●")),
@@ -194,11 +265,9 @@ class Planager:
             t = PDate.today()
             maxlen = max(map(len, map(lambda x: x[1], lines)))
             for d in t.range(maxlen):
-                chars.append(
-                    ("║" * (d.month == 1 and d.day == 1) + "│" * (d.day == 1) + " ")[0]
-                )
+                chars.append(("║" * (d.month == 1 and d.day == 1) + "│" * (d.day == 1) + " ")[0])
 
-            return LENGTH * " " + " ║ " + "".join(chars)
+            return project_name_length * " " + " ║ " + "".join(chars)
 
         line1 = make_header()
         gantt = "\n".join([line1, line1, ""]) + "\n".join(map(lambda x: x[1], lines))

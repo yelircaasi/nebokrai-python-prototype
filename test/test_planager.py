@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pytest
 
 from planager import Planager
@@ -18,7 +19,7 @@ from planager.entity import (
     Tasks,
 )
 from planager.operator import Planner, Scheduler
-from planager.util import ConfigType, PDateTime, PathManager
+from planager.util import ConfigType, PathManager, PDateTime
 
 
 class PlanagerTest:

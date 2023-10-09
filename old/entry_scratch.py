@@ -1,9 +1,9 @@
 from pathlib import Path
+
 import pytest
 
-from planager.entity.base.entry import Entry, Empty, FIRST_ENTRY, LAST_ENTRY
+from planager.entity.base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
 from planager.util.pdatetime import PTime
-
 
 entry_0_5 = Entry(
     "First Entry",

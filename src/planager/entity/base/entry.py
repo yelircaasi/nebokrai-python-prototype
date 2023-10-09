@@ -1,27 +1,24 @@
-from pathlib import Path
 import re
 from typing import Any, Iterable, Optional, Union
 
-
-from ...util import PTime, round5, tabularize, wrap_string
+from ...config import Config
+from ...util import PTime, round5, tabularize
 
 
 class Entry:
-    PRIORITY_DEFAULT = 10
-    ORDER_DEFAULT = 50
-    NORMALTIME_DEFAULT = 30
-    IDEALTIME_FACTOR = 1.5
-    MINTIME_FACTOR = 0.5
-    MAXTIME_FACTOR = 2
+    """
+    A single schedule entry to be a part of Day, Routine, or another instance of Entry.
+    """
 
     def __init__(
         self,
+        config: Config,
         name: str,
         start: Optional[PTime],
         end: Optional[PTime] = None,
-        priority: Union[float, int] = PRIORITY_DEFAULT,
-        blocks: set[str] = set(),
-        categories: set[str] = set(),
+        priority: Optional[Union[float, int]] = None,
+        blocks: Optional[set[str]] = None,
+        categories: Optional[set[str]] = None,
         notes: str = "",
         normaltime: Optional[int] = None,
         idealtime: Optional[int] = None,
@@ -29,14 +26,14 @@ class Entry:
         maxtime: Optional[int] = None,
         ismovable: bool = True,
         alignend: bool = False,
-        order: int = ORDER_DEFAULT,
-        subentries: Iterable["Entry"] = [],
+        order: Optional[int] = None,
+        subentries: Optional[Iterable["Entry"]] = None,
     ) -> None:
         self.name = name
         self.start: PTime = start if isinstance(start, PTime) else PTime()
-        self.priority = priority
-        self.blocks = blocks
-        self.categories = categories.union({"wildcard"})
+        self.priority = config.default_priority if priority is None else priority
+        self.blocks = blocks or set([])
+        self.categories = (categories or set([])).union(config.default_categories)
         self.notes = notes
         self.ismovable = ismovable
 
@@ -45,50 +42,57 @@ class Entry:
         elif start and end:
             self.normaltime = start.timeto(end)
         elif idealtime:
-            self.normaltime = round5(idealtime / self.IDEALTIME_FACTOR)
+            self.normaltime = round5(idealtime / config.default_idealtime_factor)
         elif mintime:
-            self.normaltime = round5(mintime / self.MINTIME_FACTOR)
+            self.normaltime = round5(mintime / config.default_mintime_factor)
         elif maxtime:
-            self.normaltime = round5(maxtime / self.MAXTIME_FACTOR)
+            self.normaltime = round5(maxtime / config.default_maxtime_factor)
         else:
-            self.normaltime = self.NORMALTIME_DEFAULT
+            self.normaltime = config.default_normaltime
 
         self.end: PTime = end or (self.start + self.normaltime)
-        self.idealtime: int = idealtime or int(self.IDEALTIME_FACTOR * self.normaltime)
-        self.mintime: int = mintime or int(self.MINTIME_FACTOR * self.normaltime)
-        self.maxtime: int = maxtime or int(self.MAXTIME_FACTOR * self.normaltime)
+        self.idealtime: int = idealtime or int(config.default_idealtime_factor * self.normaltime)
+        self.mintime: int = mintime or round5(config.default_mintime_factor * self.normaltime)
+        self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
         self.alignend: bool = alignend
-        self.order: int = order
+        self.order: int = config.default_order if order is None else order
 
-        self.subentries: list[Entry] = list(subentries)
+        self.subentries: list[Entry] = list(subentries or [])
+        self.config = config
 
     @classmethod
-    def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
-        normaltime = int(entry_dict.get("notes", "30"))
+    def from_dict(cls, config: Config, entry_dict: dict[str, Any]) -> "Entry":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+        normaltime = int(entry_dict.get("normaltime", config.default_normaltime))
         idealtime = (
             int(entry_dict["idealtime"])
             if "idealtime" in entry_dict
-            else int(1.5 * normaltime)
+            else int(config.default_idealtime_factor * normaltime)
         )
         mintime = (
             int(entry_dict["mintime"])
             if "mintime" in entry_dict
-            else int(0.5 * normaltime)
+            else int(config.default_mintime_factor * normaltime)
         )
         maxtime = (
             int(entry_dict["maxtime"])
             if "maxtime" in entry_dict
-            else int(2 * normaltime)
+            else int(config.default_maxtime_factor * normaltime)
         )
         return cls(
+            config,
             entry_dict["name"],
             PTime.from_string(entry_dict.get("start") or None),
-            PTime.from_string(entry_dict.get("start") or None),
+            PTime.from_string(entry_dict.get("end") or None),
             priority=entry_dict["priority"],
             blocks=set(re.split("[^A-z] ?", entry_dict["blocks"]))
             if "blocks" in entry_dict
             else set(),
-            categories=set(re.split("[^A-z] ?", entry_dict["categories"]))
+            categories=set(re.split("[^A-z] ?", entry_dict["categories"])).union(
+                config.default_categories
+            )
             if "categories" in entry_dict
             else set(),
             notes=entry_dict.get("notes", ""),
@@ -98,11 +102,44 @@ class Entry:
             maxtime=maxtime,
             ismovable=entry_dict.get("ismovable") or True,
             alignend=entry_dict.get("alignend") or True,
-            order=entry_dict.get("order") or cls.ORDER_DEFAULT,
+            order=entry_dict.get("order") or config.default_order,
+        )
+
+    @classmethod
+    def first_entry(cls, config: Config) -> "Entry":
+        """
+        Creates the opening bookend entry for padding and placeholding purposes.
+        """
+        return Entry(
+            config,
+            "First",
+            start=PTime(),
+            end=PTime(),
+            ismovable=False,
+            priority=-1.0,
+            mintime=0,
+            maxtime=0,
+            idealtime=0,
+        )
+
+    @classmethod
+    def last_entry(cls, config: Config) -> "Entry":
+        """
+        Creates the opening bookend entry for padding and placeholding purposes.
+        """
+        return Entry(
+            config,
+            "Last",
+            start=PTime(24),
+            end=PTime(24),
+            ismovable=False,
+            priority=-1.0,
+            mintime=0,
         )
 
     def copy(self) -> "Entry":
         return Entry(
+            self.config,
             self.name,
             start=self.start,
             end=self.end,
@@ -127,144 +164,47 @@ class Entry:
     def timespan(self) -> tuple[PTime, PTime]:
         return (self.start, self.end)
 
-    def as_norg(
-        self,
-        # path: Optional[Path] = None,
-        head_prefix: str = "~ ",
-        attr_prefix: str = "  -- ",
-        width: int = 80,
-    ) -> str:
-        lines = "".join(
-            (
-                f"{head_prefix}{self.start}-{self.end} | {self.name}\n",
-                f"{attr_prefix}notes:      {wrap_string(self.notes, width=(width - 14 - len(attr_prefix)), trailing_spaces=19)}\n"
-                if self.notes
-                else "",
-                f"{attr_prefix}priority:   {self.priority}\n"
-                if self.priority != 10
-                else "",
-                f"{attr_prefix}blocks:     {', '.join(sorted(self.blocks))}\n"
-                if self.blocks
-                else "",
-                f"{attr_prefix}categories: {', '.join(sorted(self.categories))}\n"
-                if self.categories != {"wildcard"}
-                else "",
-                f"{attr_prefix}normaltime: {self.normaltime}\n",
-                f"{attr_prefix}idealtime:  {self.idealtime}\n"
-                if self.idealtime != (1.5 * self.normaltime)
-                else "",
-                f"{attr_prefix}mintime:    {self.mintime}\n"
-                if self.mintime != (0.5 * self.normaltime)
-                else "",
-                f"{attr_prefix}maxtime:    {self.maxtime}\n"
-                if self.maxtime != (2 * self.normaltime)
-                else "",
-                f"{attr_prefix}ismovable:  {str(self.ismovable).lower()}\n"
-                if not self.ismovable
-                else "",
-                f"{attr_prefix}order:      {self.order}\n" if self.order != 50 else "",
-                f"{attr_prefix}alignend:   {str(self.alignend).lower()}\n"
-                if self.alignend
-                else "",
-            )
-        ).strip("\n")
-        return lines
-
-    def as_json(self, path: Path) -> str:
-        return ""
-
-    def as_html(self, path: Path) -> str:
-        return ""
-
     def hasmass(self) -> bool:
         return (self.priority > 0) or (self.name in {"First", "Last"})
 
-    def isbefore(self, entry2: "Entry") -> bool:
-        return self.end <= entry2.start
-
-    def isafter(self, entry2: "Entry") -> bool:
-        return self.start >= entry2.end
-
-    def isbefore_by_start(self, entry2: "Entry") -> bool:
-        return self.start < entry2.start
-
-    def isafter_by_start(self, entry2: "Entry") -> bool:
-        return self.start > entry2.start
-
     def overlaps(self, entry2: "Entry") -> bool:
-        return (self.start <= entry2.start < self.end) or (
-            entry2.start <= self.start < entry2.end
-        )
+        return (self.start <= entry2.start < self.end) or (entry2.start <= self.start < entry2.end)
 
-    def overlaps_first(self, entry2: "Entry") -> bool:
-        return (self.start < entry2.start < self.end <= entry2.end) or (
-            self.start <= entry2.start < self.end < entry2.end
-        )
-
-    def overlaps_second(self, entry2: "Entry") -> bool:
-        return (entry2.start < self.start < entry2.end <= self.end) or (
-            entry2.start <= self.start < entry2.end < self.end
-        )
-
-    def surrounds(self, entry2: "Entry") -> bool:
-        return self.start < entry2.start < entry2.end < self.end
-
-    def surrounded_by(self, entry2: "Entry") -> bool:
-        return entry2.start < self.start < self.end < entry2.end
-
-    def shares_start_shorter(self, entry2: "Entry") -> bool:
-        return (self.start == entry2.start) and (self.end < entry2.end)
-
-    def shares_start_longer(self, entry2: "Entry") -> bool:
-        return (self.start == entry2.start) and (self.end > entry2.end)
-
-    def shares_end_shorter(self, entry2: "Entry") -> bool:
-        return (self.start > entry2.start) and (self.end == entry2.end)
-
-    def shares_end_longer(self, entry2: "Entry") -> bool:
-        return (self.start < entry2.start) and (self.end == entry2.end)
-
-    def covers(self, entry2: "Entry") -> bool:
-        return (entry2.start >= self.start) and (entry2.end <= self.end)
-
-    def iscovered(self, entry2: "Entry") -> bool:
-        return (self.start >= entry2.start) and (self.end <= entry2.end)
-
-    def trumps(self, entry2: "Entry") -> bool:
-        return self.priority > entry2.priority
-
-    def fits_in(self, __entry: "Entry", ratio: float = 1.0) -> bool:
+    def fits_into(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return self.mintime <= max(__entry.mintime, ratio * __entry.normaltime)
 
     def accommodates(self, __entry: "Entry", ratio: float = 1.0) -> bool:
-        return __entry.fits_in(self, ratio=ratio)
+        return __entry.fits_into(self, ratio=ratio)
 
     def add_subentry(
         self, subentry: "Entry"
     ) -> list["Entry"]:  # TODO: rewrite to keep highest-priority
+        """
+        Adds another entry to be part of self. Only works if self is a block,
+          i.e. `self.blocks` is not empty.
+        """
         if not self.blocks.intersection(subentry.categories):
-            raise ValueError(f"")
+            raise ValueError(f"Invalid subentry '{subentry.name}' for entry '{self}'")
         if self.accommodates(subentry):
             self.subentries.append(subentry)
             self.subentries.sort(key=lambda e: (e.order, e.priority))
             return []
-        else:
-            print(f"Entry {subentry} does not fit in {self}.")
-            return [subentry]
+        print(f"Entry {subentry} does not fit in {self}.")
+        return [subentry]
 
     @property
     def available(self) -> int:
-        return (
-            self.duration - sum(map(lambda e: e.duration, self.subentries))
-            if self.blocks
-            else 0
-        )
+        return self.duration - sum(map(lambda e: e.duration, self.subentries)) if self.blocks else 0
 
     @property
     def unavailable(self) -> int:
         return self.duration - self.available
 
-    def pretty(self, width: int = 80) -> str:
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Entry instance.
+        """
+        width = self.config.repr_width
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
         header = (
@@ -272,30 +212,36 @@ class Entry:
             + tabularize(f"{self.start}-{self.end} │ {self.name}", width, thick=True)
             + thinbeam
         )
+        timestring = f"{self.normaltime}  ({self.mintime}-{self.maxtime}, ideal: {self.idealtime})"
         return header + "\n".join(
             (
                 tabularize(s, width, thick=True, trailing_spaces=16)
                 for s in (
                     f"notes:        {self.notes}" if self.notes else "",
-                    f"priority:     {self.priority}" if self.priority != 10 else "",
-                    f"time:         {self.normaltime}  ({self.mintime}-{self.maxtime}, ideal: {self.idealtime})",
-                    f"blocks:       {', '.join(sorted(self.blocks))}"
-                    if self.blocks
+                    f"priority:     {self.priority}"
+                    if self.priority != self.config.default_priority
                     else "",
+                    f"time:         {timestring}",
+                    f"blocks:       {', '.join(sorted(self.blocks))}" if self.blocks else "",
                     f"categories:   {', '.join(sorted(self.categories))}"
-                    if self.categories != {"wildcard"}
+                    if self.categories != self.config.default_categories
                     else "",
                     f"ismovable:    {str(self.ismovable).lower()}"
-                    if not self.ismovable
+                    if not self.ismovable == self.config.default_ismovable
                     else "",
                     f"alignend:     {str(self.alignend).lower()}"
-                    if self.alignend
+                    if not self.alignend == self.config.default_alignend
                     else "",
-                    f"order:        {self.order}" if not self.order == 50 else "",
+                    f"order:        {self.order}"
+                    if not self.order == self.config.default_order
+                    else "",
                 )
                 if s
             )
         )
+
+    def __hash__(self) -> int:
+        return hash((self.name, id(self)))
 
     def __eq__(self, entry2: "Entry") -> bool:  # type: ignore
         return self.__str__() == str(entry2)
@@ -308,51 +254,22 @@ class Entry:
 
 
 class Empty(Entry):
-    def __init__(self, start: PTime, end: PTime, time: Optional[int] = None):
-        _time = time or 30
+    """
+    An entry representating a time slot with no assigned activity, i.e. a gap in the schedule.
+    Used in scheduling algorithms.
+    """
+
+    def __init__(self, config: Config, start: PTime, end: PTime):
         super().__init__(
+            config,
             "Empty",
             start=start,
             end=end,
             priority=-1.0,
             blocks={"wildcard"},
-            normaltime=_time,
             mintime=0,
         )
 
     @property
     def available(self) -> int:
         return self.duration
-
-
-# class Block(Entry):
-#     def __init__(
-#         self, name: str, start: PTime, end: PTime, entries: Iterable[Entry]
-#     ) -> None:
-#         self.name = name
-#         self.start = start
-#         self.end = end
-#         self.entries = list(entries)
-
-#     # @property
-
-#     @property
-#     def available(self) -> int:
-#         return self.start.timeto(self.end) - sum(map(lambda e: e.duration, self.entries))
-
-
-# class RoutineEntry(Entry):
-#     def __init__(self, routine: Routine)
-
-
-FIRST_ENTRY = Entry(
-    "First", start=PTime(), end=PTime(), ismovable=False, priority=-1.0, mintime=0
-)
-LAST_ENTRY = Entry(
-    "Last",
-    start=PTime(24),
-    end=PTime(24),
-    ismovable=False,
-    priority=-1.0,
-    mintime=0,
-)

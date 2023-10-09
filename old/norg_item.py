@@ -39,9 +39,7 @@ class NorgItem:
         self.item_id: Optional[str] = str(item_id) if item_id else None
         self.path: Optional[Path] = Path(path) if path else None
         self.parent: Optional[str] = parent if parent else None
-        self.start: Optional[Union[PDate, PTime]] = (
-            PDateTime.parse(start) if start else None
-        )
+        self.start: Optional[Union[PDate, PTime]] = PDateTime.parse(start) if start else None
         self.end: Optional[Union[PDate, PTime]] = PDateTime.parse(end) if end else None
         self.priority: Optional[int] = int(priority) if priority else None
         self.ismovable: Optional[bool] = self.STR2BOOL[ismovable] if ismovable else None
@@ -56,9 +54,7 @@ class NorgItem:
         self.tags: Optional[set[str]] = set(re.split(", *", tags)) if tags else None
         self.description: Optional[str] = description if description else None
         self.alignend: Optional[bool] = self.str2bool[alignend] if alignend else None
-        self.before: Optional[tuple[str, ...]] = (
-            set(re.split(", *", before)) if before else None
-        )
+        self.before: Optional[tuple[str, ...]] = set(re.split(", *", before)) if before else None
         self.dependencies: Optional[tuple[str, ...]] = (
             set(re.split(", *", after)) if after else None
         )
@@ -252,11 +248,7 @@ class NorgItem:
         if not self.before:
             return set()
         elif isinstance(self.before, str):
-            return set(
-                map(
-                    lambda x: tuple(re.split(" ?<> ?", x)), re.split(", ?", self.before)
-                )
-            )
+            return set(map(lambda x: tuple(re.split(" ?<> ?", x)), re.split(", ?", self.before)))
         return self.before
 
     def get_after(self) -> set[tuple[str, ...]]:

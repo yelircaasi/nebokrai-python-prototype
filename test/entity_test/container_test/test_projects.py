@@ -1,7 +1,8 @@
 from typing import Any
-import pytest
-from planager.entity.base.project import Project
 
+import pytest
+
+from planager.entity.base.project import Project
 from planager.entity.container.projects import Projects
 from planager.entity.container.tasks import Tasks
 from planager.entity.patch.task_patch import TaskPatches

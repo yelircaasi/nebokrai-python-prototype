@@ -1,28 +1,39 @@
 from pathlib import Path
-from typing import Any, Iterable, Iterator, Optional, Tuple
+from typing import Any, Iterator, Optional
 
-from ..base.project import Project
+from ...config import Config
+from ...util import PDate, tabularize
 from ..base.roadmap import Roadmap
 from ..base.task import Task
 from ..container.projects import Projects
 from ..container.tasks import Tasks
-from ...util import Norg, PDate, tabularize
 
 
 class Roadmaps:
+    """
+    Container class for multiple instances of the Roadmap class.
+    """
+
     def __init__(
-        self, roadmaps: list[Roadmap] = [], workspace_dir: Optional[Path] = None
+        self,
+        config: Config,
+        roadmaps: Optional[list[Roadmap]] = None,
+        workspace_dir: Optional[Path] = None,
     ) -> None:
+        self.config = config
         self.workspace_dir = workspace_dir
         self._roadmaps: dict[str, Roadmap] = {
-            roadmap.roadmap_id: roadmap for roadmap in roadmaps
+            roadmap.roadmap_id: roadmap for roadmap in (roadmaps or [])
         }
 
     @classmethod
-    def from_dict(cls, roadmaps_dict: dict[str, Any]) -> "Roadmaps":
-        ret = cls()
+    def from_dict(cls, config: Config, roadmaps_dict: dict[str, Any]) -> "Roadmaps":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+        ret = cls(config)
         for rmid, rmdict in roadmaps_dict.items():
-            ret.add(Roadmap.from_dict(rmid, rmdict))
+            ret.add(Roadmap.from_dict(config, rmid, rmdict))
         return ret
 
     # @classmethod
@@ -48,13 +59,14 @@ class Roadmaps:
 
     @property
     def projects(self) -> Projects:  # Dict[tuple[str, str], Project]:
-        projects: Projects = Projects()  # Dict[tuple[str, str], Project] = {}
+        """
+        Returns all projects contained in the current instance, in the form of a Projects instance.
+        """
+        projects: Projects = Projects(self.config)  # Dict[tuple[str, str], Project] = {}
         for roadmap_id, roadmap in self._roadmaps.items():
-            for project_id, project in roadmap._projects._projects.items():
+            for project_id, project in roadmap.items():
                 tuple_id: tuple[str, str] = (
-                    (roadmap_id, project_id)
-                    if isinstance(project_id, int)
-                    else project_id
+                    (roadmap_id, project_id) if isinstance(project_id, int) else project_id
                 )
                 project.project_id = tuple_id
                 projects.add(project)
@@ -63,11 +75,15 @@ class Roadmaps:
 
     @property
     def tasks(self) -> Tasks:
-        tasks: Tasks = Tasks()
-        for roadmap_id, roadmap in self._roadmaps.items():
-            for project_id, project in roadmap._projects._projects.items():
-                tasks.update(project.tasks)
-        return tasks
+        """
+        Returns all tasks contained in the projects contained in the current instance,
+          in the form of a Tasks instance.
+        """
+        _tasks: Tasks = Tasks(self.config)
+        for _, roadmap in self._roadmaps.items():
+            for _, project in roadmap.items():
+                _tasks.update(project.tasks)
+        return _tasks
 
     @property
     def start_date(self) -> PDate:
@@ -77,14 +93,14 @@ class Roadmaps:
     def end_date(self) -> PDate:
         return max(roadmap.end_date for roadmap in self._roadmaps.values())
 
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize(" Roadmaps", width, thick=True)
-        empty = tabularize("", width, thick=True)
-        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Roadmaps instance.
+        """
+
+        width = self.config.repr_width
+
+        empty = "\n" + tabularize("", width, thick=True)
         names = map(
             lambda x: tabularize(x.replace(" Roadmap", ""), width, thick=True),
             map(
@@ -93,11 +109,23 @@ class Roadmaps:
             ),
         )
         return (
-            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
-            + "\n".join(names)
-            + "\n"
+            "\n"
+            + "┏"
+            + (width - 2) * "━"
+            + "┓"
             + empty
-            + bottombeam
+            + tabularize(" Roadmaps", width, thick=True)
+            + empty
+            + "┠"
+            + (width - 2) * "─"
+            + "┨"
+            + empty
+            + "\n"
+            + "\n".join(names)
+            + empty
+            + "\n┗"
+            + (width - 2) * "━"
+            + "┛"
         )
 
     def add(self, __roadmap: Roadmap) -> None:

@@ -2,8 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from planager.entity import Calendar
-from planager.entity import Schedule
+from planager.entity import Calendar, Schedule
 from planager.entity.base.entry import Entry
 from planager.entity.base.plan import Plan
 from planager.entity.container.entries import Entries

@@ -1,5 +1,5 @@
-from datetime import date, datetime, time
 import re
+from datetime import date, datetime, time
 
 import pytest
 

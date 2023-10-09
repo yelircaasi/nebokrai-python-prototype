@@ -1,6 +1,6 @@
 import pytest
 
-from planager.util.misc import round5, expand_task_segments
+from planager.util.misc import expand_task_segments, round5
 
 
 def test_round5() -> None:

@@ -1,63 +1,71 @@
 from typing import Any, Callable, Iterable, Optional, Union
 
-from ...util import PDate, PTime, round5, tabularize
-from .entry import Entry
+from ...config import Config
+from ...util import PDate, PTime, tabularize
 from ..container.entries import Entries
-from .task import Task
+from .entry import Entry
 
 
 class Routine:
+    """
+    Contains all information needed to add a routine to `Day`.
+    """
+
     def __init__(
         self,
+        config: Config,
         name: str,
         start: PTime,
-        items: Iterable[Entry] = [],
-        priority: int = 80,
-        notes: str = "",
-        normaltime: Optional[int] = None,
-        idealtime: Optional[int] = None,
-        mintime: Optional[int] = None,
-        maxtime: Optional[int] = None,
+        items: Iterable[Entry],
+        priority: int,
+        notes: str,
+        normaltime: int,
+        idealtime: int,
+        mintime: int,
+        maxtime: int,
         valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
     ) -> None:
+        self.config = config
         self.name = name
         self.start = start
-        self.items = Entries(items)
-        self.priority = int(priority) or 80
+        self.items = Entries(config, items)
+        self.priority = int(priority)
         self.notes = notes
-        self.normaltime = normaltime or 60
-        self.idealtime = idealtime or round5(self.normaltime * 1.5)
-        self.mintime = mintime or round5(self.normaltime / 4)
-        self.mintime = mintime or round5(self.normaltime * 1.5)
-        self.maxtime = maxtime or round5(self.normaltime * 2)
+        self.normaltime = normaltime
+        self.idealtime = idealtime
+        self.idealtime = mintime
+        self.mintime = mintime
+        self.maxtime = maxtime
 
         def validator(d: PDate) -> bool:
             ret: bool = (
-                (d in valid_dates)
-                if hasattr(valid_dates, "__contains__")
-                else valid_dates(d)
+                (d in valid_dates) if hasattr(valid_dates, "__contains__") else valid_dates(d)
             )
             return ret
 
         self.valid_dates = validator
 
     @classmethod
-    def from_dict(cls, routine_dict: dict[str, Any]) -> "Routine":
+    def from_dict(cls, config, routine_dict: dict[str, Any]) -> "Routine":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+
         items: list[Entry] = []
         for item_dict in routine_dict["items"]:
-            items.append(Entry.from_dict(item_dict))
-        default_start = PTime.from_string(routine_dict["default_start"])
-        normaltime = int(routine_dict.get("default_normaltime") or 60)
+            items.append(Entry.from_dict(config, item_dict))
+
         return cls(
+            config,
             routine_dict["name"],
-            default_start,
+            PTime.from_string(routine_dict["default_start"]),
             items,
-            priority=int(routine_dict.get("default_priority") or 80),
+            priority=int(routine_dict["default_priority"]),
             notes=routine_dict.get("default_notes", ""),
-            normaltime=normaltime,
-            idealtime=int(routine_dict.get("default_idealtime") or 1.5 * normaltime),
-            mintime=int(routine_dict.get("default_mintime") or 0.25 * normaltime),
-            maxtime=int(routine_dict.get("default_maxtime") or 2 * normaltime),
+            normaltime=int(routine_dict["default_normaltime"]),
+            idealtime=int(routine_dict["default_idealtime"]),
+            mintime=int(routine_dict["default_mintime"]),
+            maxtime=int(routine_dict["default_maxtime"]),
         )
 
     def valid_on(self, date: PDate) -> bool:
@@ -65,25 +73,36 @@ class Routine:
 
     def as_entry(
         self,
-        name: str,
         start: PTime,
-        priority: int,
+        priority: Optional[int],
         normaltime: int,
         idealtime: int,
         mintime: int,
         maxtime: int,
     ) -> Entry:
+        """
+        Converts instance of Routine into an instance of Entry.
+        """
         return Entry(
+            self.config,
             self.name,
             start or self.start,
-            priority=self.priority,
+            priority=self.priority if priority is None else priority,
             normaltime=normaltime,
             idealtime=idealtime,
             mintime=mintime,
             maxtime=maxtime,
         )
 
-    def pretty(self, width: int = 120) -> str:
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Routine instance.
+        """
+
+        def format_number(s: Any) -> str:
+            return (len(str(s)) == 1) * " " + f"{s} │ "
+
+        width = self.config.repr_width
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
         header = (
@@ -93,12 +112,9 @@ class Routine:
             + tabularize(f"  Priority: {self.priority}", width, thick=True)
             + thinbeam
         )
-        format_number = lambda s: (len(str(s)) == 1) * " " + f"{s} │ "
         return header + "\n".join(
             [
-                tabularize(
-                    format_number(i) * (len(s.name) > 0) + s.name, width, thick=True
-                )
+                tabularize(format_number(i) * (len(s.name) > 0) + s.name, width, thick=True)
                 for i, s in enumerate(self.items, start=1)
             ]
         )

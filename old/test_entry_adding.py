@@ -88,9 +88,7 @@ class TestEntryAdding(unittest.TestCase):
 
     def test_add_to_empty(self):
         schedule = Schedule()
-        entry = Entry(
-            name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True
-        )
+        entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
         schedule.add(entry)
         print(schedule)
         print(schedule.schedule)
@@ -109,9 +107,7 @@ class TestEntryAdding(unittest.TestCase):
 
     def test_add_room_to_spare(self):
         schedule = self.day1.copy()
-        entry = Entry(
-            name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True
-        )
+        entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
         schedule.add(entry)
         print("\n\n\n")
         print(schedule)
@@ -227,9 +223,7 @@ class TestEntryAdding(unittest.TestCase):
 
     def test_add_minimal_uncompressed(self):
         schedule = self.day1.copy()
-        entry = Entry(
-            name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True
-        )
+        entry = Entry(name="Walk", start=PTime(11), end=PTime(13), priority=50.0, ismovable=True)
         schedule.add(entry)
 
         assert schedule.ispartitioned()

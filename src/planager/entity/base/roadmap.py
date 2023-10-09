@@ -1,31 +1,38 @@
-from pathlib import Path
-from typing import Any, Iterable, Iterator, Optional, Tuple
+from typing import Any, Iterable, Iterator, List, Optional, Tuple
 
-from ...util import Norg, PDate, Regexes, tabularize
+from ...config import Config
+from ...util import PDate, tabularize
 from ..container.projects import Projects
 from .project import Project
 
 
 class Roadmap:
+    """
+    Container for a roadmap, which consists of projects, which in turn consist of tasks.
+    """
+
     def __init__(
         self,
+        config: Config,
         name: str,
         roadmap_id: str,
         projects: Projects,
-        updated: PDate = PDate.today() + 7,
-        categories: Iterable[str] = [],
+        categories: Optional[Iterable[str]] = None,
     ) -> None:
+        self.config = config
         self.name = name
         self.roadmap_id = roadmap_id
         self._projects = projects
-        self.updated = updated
-        self.categories = categories
+        self.categories = categories or set()
 
     @classmethod
-    def from_dict(cls, roadmap_id: str, roadmap_dict: dict[str, Any]) -> "Roadmap":
-        projects = Projects.from_dict(roadmap_id, roadmap_dict["projects"])
+    def from_dict(cls, config: Config, roadmap_id: str, roadmap_dict: dict[str, Any]) -> "Roadmap":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+        projects = Projects.from_dict(config, roadmap_id, roadmap_dict["projects"])
 
-        return cls(roadmap_dict["name"], roadmap_id, projects)
+        return cls(config, roadmap_dict["name"], roadmap_id, projects)
 
     # @classmethod
     # def from_norg_path(self, norg_path: Path) -> "Roadmap":
@@ -57,23 +64,25 @@ class Roadmap:
 
     def copy(self) -> "Roadmap":
         return Roadmap(
+            self.config,
             name=self.name,
             roadmap_id=self.roadmap_id,
             projects=self._projects,
-            updated=self.updated,
             categories=self.categories,
         )
 
-    def pretty(self, width: int = 80) -> str:
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Entry instance.
+        """
+        width = self.config.repr_width
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"{self.name} (ID {self.roadmap_id})", width, thick=True)
         empty = tabularize("", width, thick=True)
-        projects = map(
-            lambda p: f"{'-'.join(p.project_id): <9} │ {p.name}", iter(self._projects)
-        )
+        projects = map(lambda p: f"{'-'.join(p.project_id): <9} │ {p.name}", iter(self._projects))
         # projects = map(lambda x: tabularize(x.name, width, thick=True), projects)
         projects = map(lambda x: tabularize(x, width, thick=True), projects)
         # projects = map(str, projects)
@@ -87,16 +96,27 @@ class Roadmap:
 
     @property
     def start_date(self) -> PDate:
+        """
+        Property returning the earliest date of any task contained in the
+          consituent projects of the given roadmap.
+        """
         if not self._projects:
             return PDate.nonedate()
         return min(map(lambda p: p.start, self._projects))
 
     @property
     def end_date(self) -> PDate:
+        """
+        Property returning the latest date of any task contained in the
+          consituent projects of the given roadmap.
+        """
         if not self._projects:
             return PDate.nonedate()
         today = PDate.today()
         return max(map(lambda p: p.end or today, self._projects))
+
+    def items(self) -> List[Tuple[Tuple[str, str], Project]]:
+        return [(proj.project_id, proj) for proj in self._projects]
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects)

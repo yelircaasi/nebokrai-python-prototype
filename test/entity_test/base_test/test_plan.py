@@ -1,8 +1,9 @@
 from typing import Iterable
+
 import pytest
+
 from planager.entity.base.calendar import Calendar, Day
 from planager.entity.base.entry import Empty, Entry
-
 from planager.entity.base.plan import Plan
 from planager.entity.base.task import Task
 from planager.entity.container.entries import Entries
@@ -242,12 +243,8 @@ class PlanTest:
             ("0", "0", "5"),
         ]
 
-        exp_tasks_norollover = sort_task_ids(
-            [("0", "0", "1")] + to_add, plan_norollover._tasks
-        )
-        exp_tasks_rollover = sort_task_ids(
-            [("0", "0", "1")] + to_add, plan_norollover._tasks
-        )
+        exp_tasks_norollover = sort_task_ids([("0", "0", "1")] + to_add, plan_norollover._tasks)
+        exp_tasks_rollover = sort_task_ids([("0", "0", "1")] + to_add, plan_norollover._tasks)
         exp_tasks_excess = sort_task_ids(
             [("0", "0", "1"), ("0", "0", "2"), ("0", "0", "3")], plan_excess._tasks
         )
@@ -394,8 +391,7 @@ class PlanTest:
 
         # TODO: add error test
         assert (
-            Plan.adjust_tmpdate_to_neighbors(task, task_pre, task_post_impossible)
-            == exp_impossible
+            Plan.adjust_tmpdate_to_neighbors(task, task_pre, task_post_impossible) == exp_impossible
         )
         assert Plan.adjust_tmpdate_to_neighbors(task, task_pre, task_post0) == exp_0
         assert Plan.adjust_tmpdate_to_neighbors(task, task_pre, task_post1) == exp_1

@@ -1,36 +1,33 @@
-from pathlib import Path
-from typing import Iterable, Iterator, Optional, Union
-from itertools import chain
+from typing import Iterator
 
-from ...util import ConfigType, PDate
+from ...config import Config
+from ...util import PDate
 from ..container.tasks import Tasks
 from .calendar import Calendar
 from .task import Task
 
 
 class Plan:
+    """
+    Contains allocation of tasks to days, along with methods for creating such an allocation.
+    """
+
     def __init__(
         self,
-        config: Optional[ConfigType] = None,
-        calendar: Optional[Calendar] = None,
+        config: Config,
+        calendar: Calendar,
     ) -> None:
-        self._config = config
-        self._calendar = calendar or Calendar()
+        self.config = config
+        self._calendar = calendar
         self._tasks: dict[tuple[str, str, str], Task] = {}
         self._plan: dict[PDate, list[tuple[str, str, str]]] = {}
-
-    def copy(self) -> "Plan":
-        p = Plan(self._config, self._calendar)
-        p._tasks = self._tasks
-        p._plan = self._plan
-        return p
 
     def add_tasks(
         self, date: PDate, task_ids_: list[tuple[str, str, str]]
     ) -> list[tuple[str, str, str]]:
         """
-        Add tasks to a specified date in the plan. If the tasks exceed the date's available time, the lowest-priority excess
-          task ids are returned.
+        Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
+          the lowest-priority excess task ids are returned.
         """
         task_ids = task_ids_[:]
 
@@ -89,8 +86,8 @@ class Plan:
         tasks: Tasks,
     ) -> None:
         """
-        Adds subplan (like plan, but corresponding to single project) to the plan, rolling tasks over when the daily
-          maximum is exceeded, according to priority.
+        Adds subplan (like plan, but corresponding to single project) to the plan,
+          rolling tasks over when the daily maximum is exceeded, according to priority.
         """
         if not subplan:
             return
@@ -103,7 +100,7 @@ class Plan:
         for task in tasks:
             self._tasks.update({task.task_id: task})
 
-        excess_tasks: list[tuple[str, str, str]] = []
+        # excess_tasks: list[tuple[str, str, str]] = []
 
         for date, task_id_list in subplan.items():
             self.ensure_date(date)
@@ -114,8 +111,7 @@ class Plan:
                 next_date += 1
 
     def ensure_date(self, date: PDate):
-        """ """
-        if not date in self._plan.keys():
+        if not date in self._plan:
             self._plan.update({date: []})
 
     @property
@@ -128,7 +124,7 @@ class Plan:
 
     @property
     def tasks(self) -> Tasks:
-        return Tasks(self._tasks.values())
+        return Tasks(self.config, self._tasks.values())
 
     # def reorder_by_precedence(self) -> None:
     #     """
@@ -146,17 +142,18 @@ class Plan:
 
     @staticmethod
     def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
-        """ """
+        """
+        Adjusts the .tmpdate attribute to be between the .tmpdate of two other tasks.
+        """
         new_t = t.copy()
         if pre <= new_t <= post:
             return new_t
-        else:
-            limit_before = int(pre.tmpdate) + int(new_t.isafter(pre))
-            limit_after: int = int(post.tmpdate) + int(post.isafter(new_t))
-            if not limit_before <= limit_after:
-                raise ValueError("Impossible task precedence resolution requested.")
-            new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
-            return new_t
+        limit_before = int(pre.tmpdate) + int(new_t.isafter(pre))
+        limit_after: int = int(post.tmpdate) + int(post.isafter(new_t))
+        if not limit_before <= limit_after:
+            raise ValueError("Impossible task precedence resolution requested.")
+        new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
+        return new_t
 
     def items(self) -> Iterator[tuple[PDate, list[tuple[str, str, str]]]]:
         return iter(self._plan.items())
@@ -177,41 +174,43 @@ class Plan:
         def task_repr(task_id: tuple[str, str, str], date: PDate) -> str:
             task = self._tasks[task_id]
             name = str(task.name) or str(task.task_id)
-            orig = (
-                ("orig: " + str(task.original_date))
-                if task.original_date != date
-                else ""
+            orig = ("orig: " + str(task.original_date)) if task.original_date != date else ""
+            return (
+                f"{task.status_symbol} {task.project_name[:30]: <30}   {name[:30]: <30}   "
+                f"pr {task.priority}     {task.duration}m   {orig}   {task.block_assigned}"
             )
-            return f"{task.status_symbol} {task.project_name[:30]: <30}   {name[:30]: <30}   pr {task.priority}     {task.duration}m   {orig}   {task.block_assigned}"
 
         def time_repr(date: PDate) -> str:
             entry_names = ", ".join([e.name for e in self._calendar[date].entries])
             blocks = "\n".join(
-                [f"  {b}: {t}" for b, t in self._calendar[date].available_dict.items()]
+                (f"  {b}: {t}" for b, t in self._calendar[date].available_dict.items())
             )
             total_before = self._calendar[date].total_available
             total_after = total_before - sum(
-                [
-                    self._tasks[task_id].remaining_duration
-                    for task_id in self._plan[date]
-                ]
+                (self._tasks[task_id].remaining_duration for task_id in self._plan[date])
             )
             empty_before = self._calendar[date].empty_time
             empty_after = empty_before - sum(
-                [
+                (
                     self._tasks[task_id].remaining_duration
                     for task_id in self._plan[date]
                     if not self._tasks[task_id].block_assigned
-                ]
+                )
             )
-            return f"Calendar entries: {entry_names}\nBlocks:\n{blocks}\nTotal available on calendar:\n  Before planning: {empty_before}m empty; {total_before}m including blocks\n  After planning:  {empty_after}m empty; {total_after}m including blocks"
+            return (
+                f"Calendar entries: {entry_names}\n"
+                f"Blocks:\n{blocks}\n"
+                "Total available on calendar:\n"
+                f"  Before planning: {empty_before}m empty; {total_before}m including blocks\n"
+                f"  After planning:  {empty_after}m empty; {total_after}m including blocks"
+            )
 
-        ret = ""
-        topline = ""
-        monthdayline = ""
-        numline = ""
-        dottedline = ""
-        bottomline = ""
+        # ret = ""
+        # topline = ""
+        # monthdayline = ""
+        # numline = ""
+        # dottedline = ""
+        # bottomline = ""
 
         line = 120 * "─" + "\n"
 
@@ -224,10 +223,10 @@ class Plan:
         #         for a, b in sorted(self._plan.items())
         #     )
         # )
-        newline = "\n"
+        newl = "\n"
         return "\n".join(
             [
-                f"{line}{str(d)}\n\n{time_repr(d)}\n\n{newline.join([task_repr(t, d) for t in ids])}\n"
+                f"{line}{str(d)}\n\n{time_repr(d)}\n\n{newl.join([task_repr(t, d) for t in ids])}\n"
                 for d, ids in self
             ]
         )

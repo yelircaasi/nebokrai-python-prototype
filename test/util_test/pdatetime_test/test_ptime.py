@@ -1,4 +1,5 @@
 from typing import Set
+
 import pytest
 
 from planager.util.pdatetime import PTime

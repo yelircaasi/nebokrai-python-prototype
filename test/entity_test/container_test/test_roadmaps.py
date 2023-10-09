@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pytest
 
 from planager.entity.base.roadmap import Roadmap

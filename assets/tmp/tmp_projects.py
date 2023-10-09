@@ -1,8 +1,6 @@
 import json
 
-with open(
-    "/home/isaac/Learning/projects/Learning/ganttouchthis-data/projects.json"
-) as f:
+with open("/home/isaac/Learning/projects/Learning/ganttouchthis-data/projects.json") as f:
     p = json.load(f)
 nl = "\n"
 for d in p:

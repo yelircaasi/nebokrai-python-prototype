@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Any
+
 import pytest
 
 from planager.entity.base.calendar import Calendar, Day

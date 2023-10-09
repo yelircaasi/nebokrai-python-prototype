@@ -1,24 +1,29 @@
-from typing import Any, Callable, Iterable, Iterator, Optional, Union
+from typing import Callable, Iterable, Iterator, Optional, Union
 
 from planager.util.misc import round5
 from planager.util.pdatetime.ptime import PTime
 
-from ..base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from ...config import Config
+from ..base.entry import Empty, Entry
+
+EntriesInitType = Optional[Union["Entries", Iterable[Entry]]]
 
 
 class Entries:
-    def __init__(self, entries: Union["Entries", Iterable[Entry]] = []) -> None:
-        self._entries: list[Entry] = list(entries)
+    """
+    Container class for multiple instances of the Entry class.
+    """
+
+    def __init__(self, config: Config, entries: EntriesInitType = None) -> None:
+        self.config = config
+        self._entries: list[Entry] = list(entries or [])
 
     def copy(self) -> "Entries":
-        return Entries((entry.copy() for entry in self._entries))
-
-    def __bool__(self) -> bool:
-        return bool(self._entries)
+        return Entries(self.config, (entry.copy() for entry in self._entries))
 
     def slice(self, __start: Optional[int], __stop: Optional[int]) -> "Entries":
         # type-idempotent; use indexing to get a single entry
-        return Entries(entries=self._entries[__start:__stop])
+        return Entries(self.config, entries=self._entries[__start:__stop])
 
     def insert(self, __index: int, __other: Entry) -> None:
         self._entries.insert(__index, __other)
@@ -36,20 +41,19 @@ class Entries:
         entry = self._entries.pop(__index)
         return entry
 
+    def remove(self, __entry: Entry) -> None:
+        self._entries.remove(__entry)
+
     def sort(self) -> None:
         self._entries.sort(key=lambda e: e.start)
 
     @property
     def start(self) -> PTime:
-        if not self._entries:
-            return PTime()
-        return min(self._entries, key=lambda x: x.start).start
+        return min(self._entries, key=lambda x: x.start).start if self._entries else PTime()
 
     @property
     def end(self) -> PTime:
-        if not self._entries:
-            return PTime(24)
-        return max(self._entries, key=lambda x: x.start).start
+        return max(self._entries, key=lambda x: x.end).end if self._entries else PTime(24)
 
     @property
     def total_duration(self) -> int:
@@ -57,6 +61,9 @@ class Entries:
 
     @property
     def blocks(self) -> set[str]:
+        """
+        Returns the set of blocks contained in the day.
+        """
         block_set = set()
         for entry in self:
             block_set.update(entry.blocks)
@@ -73,8 +80,8 @@ class Entries:
     @property
     def ispartitioned(self):
         """
-        Check whether a list of entries partitions a day, i.e. are sequential and adjacent, begin at 00:00, and end
-          at 24:00.
+        Check whether a list of entries partitions a day, i.e. are sequential and adjacent,
+          begin at 00:00, and end at 24:00.
         """
         if len(self._entries) == 1:
             adjacency = True
@@ -91,20 +98,11 @@ class Entries:
             and (self._entries[-1].end == PTime(24))
         )
 
-    def ensure_bookends(self) -> None:
-        """
-        Verifies that the first and last entries in the schedule are the corresponding placeholder entries.
-        """
-        if not self._entries[0] == FIRST_ENTRY:
-            self._entries.insert(0, FIRST_ENTRY)
-        if not self._entries[-1] == LAST_ENTRY:
-            self.append(LAST_ENTRY)
-
     def get_overlaps(self, entry: Entry) -> "Entries":
         """
         Return an instance of Entries containing all entries that overlap with the query entry.
         """
-        return Entries(filter(lambda x: entry.overlaps(x), self._entries))
+        return Entries(self.config, filter(entry.overlaps, self._entries))
 
     def overlaps_are_movable(self, entry: Entry) -> bool:
         """
@@ -115,45 +113,48 @@ class Entries:
             return True
         return all(map(lambda x: x.ismovable, overlaps))
 
-    def get_fixed_groups(self) -> list["Entries"]:
-        """
-        Return a list of Entries instances, each of which constitutes an immovable block.
-        """
-        ret: list = []
-        entries_fixed, _ = self.get_fixed_and_flex()
-        fixed_indices = list(map(lambda entry: self.index(entry), entries_fixed))
-        if not fixed_indices[0] == 0:
-            fixed_indices.insert(0, 0)
-        fixed_indices.append(len(self._entries))
-        for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
-            group: Entries = self.slice(a, b).copy()
-            if group:
-                ret.append(group)
-        return ret
+    # def get_fixed_groups(self) -> list["Entries"]:
+    #     """
+    #     Return a list of Entries instances, each of which constitutes an immovable block.
+    #     """
+    #     ret: list = []
+    #     entries_fixed, _ = self._get_fixed_and_flex()
+    #     fixed_indices = list(map(self.index, entries_fixed))
+    #     if not fixed_indices[0] == 0:
+    #         fixed_indices.insert(0, 0)
+    #     fixed_indices.append(len(self._entries))
+    #     for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
+    #         group: Entries = self.slice(a, b).copy()
+    #         if group:
+    #             ret.append(group)
+    #     return ret
 
     def get_fixed_and_flex(self) -> tuple["Entries", "Entries"]:
         """
-        Returns two instances of Entries containing, respectively, the fixed (immovable) and flex (movable) entries
-          contained in the current instance.
+        Returns two instances of Entries containing, respectively, the fixed (immovable) and
+          flex (movable) entries contained in the current instance.
         """
         entries_fixed = Entries(
+            self.config,
             sorted(
                 list(filter(lambda x: not x.ismovable, self._entries)),
                 key=lambda x: (x.order, x.priority),
-            )
+            ),
         )
         entries_flex = Entries(
+            self.config,
             sorted(
                 list(filter(lambda x: x.ismovable, self._entries)),
                 key=lambda x: (x.order, x.priority),
-            )
+            ),
         )
         return entries_fixed, entries_flex
 
     def get_inds_of_relevant_blocks(self, entry: Entry) -> list[int]:
         """
-        For the given query entry, return the indices of the entries with blocks matching the query entry's categories,
-          i.e. the indices of the entries over which the query entry can be added.
+        For the given query entry, return the indices of the entries with blocks matching the
+          query entry's categories, i.e. the indices of the entries over which the query entry
+          can be added.
         """
         categories: set = entry.categories
 
@@ -161,7 +162,7 @@ class Entries:
             return bool(categories.intersection(entry_.blocks))
 
         relevant = filter(check, self._entries)
-        return list(map(lambda x: self.index(x), relevant))
+        return list(map(self.index, relevant))
 
     def add_to_block_by_index(
         self, entry: Entry, block_ind: int
@@ -169,7 +170,7 @@ class Entries:
         """
         Add the input entry 'on top of' the entry corresponding to the given index.
         """
-        new_entries = Entries.add_over_block(entry, self._entries[block_ind])
+        new_entries = Entries._add_over_block(entry, self._entries[block_ind])
         self._entries = list(
             self.slice(None, block_ind) + new_entries + self.slice(block_ind + 1, None)
         )
@@ -180,17 +181,14 @@ class Entries:
         """
         return sum(map(lambda x: x.mintime, self._entries)) < (24 * 60)
 
-    def get_gaps(self) -> list[Empty]:
+    @property
+    def gaps(self) -> list[Empty]:
         """
         Return a list of empty entries corresponding to the times which are not yet occupied.
         """
         pairs = zip(self._entries[None:-1], self._entries[1:None])
-        return list(
-            filter(
-                lambda x: x.duration > 0,
-                (Empty(start=a.end, end=b.start) for a, b in pairs),
-            )
-        )
+        gaps = [Empty(self.config, start=a.end, end=b.start) for a, b in pairs]
+        return [gap for gap in gaps if gap.duration > 0]
 
     def fill_gaps(
         self,
@@ -199,12 +197,13 @@ class Entries:
         compression_factor: float = 1.0,
     ) -> None:
         """
-        Takes a list of entries and adds them to the list of entries by filling in gaps according to priority and
-          front-to-back (i.e. back-to-front for entries where entry.alignend is True).
+        Takes a list of entries and adds them to the list of entries by filling in gaps
+          according to priority and front-to-back (i.e. back-to-front for entries where
+          entry.alignend is True).
         """
         while flex_entries:
             flex = flex_entries.pop(0)
-            gaps = self.get_gaps()
+            gaps = self.gaps
 
             i = 0
             while i < len(gaps):
@@ -227,60 +226,77 @@ class Entries:
         priority_weighter: Callable[[Union[int, float]], float],
     ) -> None:
         """
-        Adjusts each sequence of entries (type Entries) between two fixed points to fit consecutively between them,
-          using priority weighting to determine time allocation.
+        Adjusts each sequence of entries (type Entries) between two fixed points to fit
+          consecutively between them, using priority weighting to determine time allocation.
         """
-        result: Entries = Entries()
+        result: Entries = Entries(self.config)
         fixed, flex = self.get_fixed_and_flex()
 
         before_after_dict = {
-            flex_entry: (
-                max(
-                    filter(lambda x: x.end <= flex_entry.start, fixed),
-                    key=lambda x: x.start,
-                ),
-                min(
-                    filter(lambda x: x.start >= flex_entry.end, fixed),
-                    key=lambda x: x.start,
-                ),
-            )
+            flex_entry: (fixed.get_last_before(flex_entry), fixed.get_first_after(flex_entry))
             for flex_entry in flex
-        }  # could be simplified with more methods of Entries
+        }
 
-        flex_groups: dict[tuple[Entry, Entry], Entries] = {
+        flex_groups: dict[tuple[Optional[Entry], Optional[Entry]], Entries] = {
             before_after: Entries(
+                self.config,
                 sorted(
                     [k for k, v in before_after_dict.items() if v == before_after],
                     key=lambda x: x.start,
-                )
+                ),
             )
             for before_after in before_after_dict.values()
         }
 
+        fixed_after = None
         for (fixed_before, fixed_after), flex_group in flex_groups.items():
-            result.append(fixed_before)
+            result.append(fixed_before or Entry.first_entry(self.config))
             result.extend(
-                self.smooth_entries(
-                    flex_group, fixed_before.end, fixed_after.start, priority_weighter
+                self._smooth_entries(
+                    flex_group,
+                    fixed_before.end if fixed_before else PTime(0),
+                    fixed_after.start if fixed_after else PTime(24),
+                    priority_weighter,
                 )
             )
-        result.append(fixed_after)
+        if fixed_after:
+            result.append(fixed_after or Entry.last_entry(self.config))
         self._entries = list(result)[1:-1]
 
+    def get_last_before(self, entry: Entry) -> Optional[Entry]:
+        return (
+            max(
+                filter(lambda x: x.end <= entry.start, self),
+                key=lambda x: x.start,
+            )
+            if self
+            else None
+        )
+
+    def get_first_after(self, entry: Entry) -> Optional[Entry]:
+        return (
+            min(
+                filter(lambda x: x.start >= entry.end, self),
+                key=lambda x: x.start,
+            )
+            if self
+            else None
+        )
+
     @staticmethod
-    def add_over_block(entry: Entry, block: Entry) -> "Entries":
+    def _add_over_block(entry: Entry, block: Entry) -> "Entries":
         """
-        Adds an entry on top of another entry which acts as a block (i.e. which accepts other entries inside it),
-          returning an instance of Entries containing
+        Adds an entry on top of another entry which acts as a block (i.e. which accepts other
+          entries inside it), returning an instance of Entries containing
         """
         entry_dur = entry.duration
         entry.start = block.start
         entry.end = min(block.end, block.start + entry_dur)
         block.start = entry.end
-        return Entries([entry, block])
+        return Entries(entry.config, [entry, block])
 
     @staticmethod
-    def smooth_entries(
+    def _smooth_entries(
         entries: "Entries",
         _start: PTime,
         _end: PTime,
@@ -313,7 +329,7 @@ class Entries:
             time_tmp += entry.duration
             entry.end = time_tmp.copy()
             result.append(entry)
-        empty = Empty(start=result[-1].end, end=_end)
+        empty = Empty(self.config, start=result[-1].end, end=_end)
         result.append(empty)
         self._entries = result
 
@@ -334,9 +350,7 @@ class Entries:
         for entry in self._entries:
             duration: int = entry.duration
             weight = priority_weighter(entry.priority)
-            duration = max(
-                min(round5(weight * ratio * duration), entry.maxtime), entry.mintime
-            )
+            duration = max(min(round5(weight * ratio * duration), entry.maxtime), entry.mintime)
             entry.start = time_tmp.copy()
             time_tmp += duration
             entry.end = time_tmp.copy()
@@ -362,45 +376,14 @@ class Entries:
         total_duration = sum(lengths)
         diff = total - total_duration
         extremum = min if (diff > 0) else max
-        ind_to_adjust = self._entries.index(
-            extremum(self._entries, key=lambda x: x.priority)
-        )
+        ind_to_adjust = self._entries.index(extremum(self._entries, key=lambda x: x.priority))
         self._entries[ind_to_adjust].end += diff
         for ind in range(ind_to_adjust + 1, len(self._entries)):
             self._entries[ind].start += diff
             self._entries[ind].end += diff
 
-    @staticmethod
-    def allocate_in_time(
-        entries: "Entries",
-        prio_weighting_function: Callable,
-    ) -> (
-        "Entries"
-    ):  # MOVE TO ENTRIES? NAH -> need to refactor this, make purely functional
-        """
-        Creates a schedule (i.e. entry list) from a list of entries. Steps:
-          1) check whether the entries fit in a day
-          2) get the compression factor, i.e. how much, on average, the entries need to be compacted in order to fit
-          3) separate entries into fixed (immovable) and flex (movable)
-          4) add the fixed entries to the schedule
-          5) identify the gaps
-          6) fill in the gaps with the flex items TODO
-          7) resize between fixed points to remove small empty patches (where possible)
-          TODO: add alignend functionality (but first get it working without)
-        """
-        # entries.extend(self.schedule)
-        assert Entries.entry_list_fits(entries)
-        compression_factor = round(
-            (24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3
-        )
-
-        entries_fixed, entries_flex = entries.get_fixed_and_flex()
-        schedule = Entries([FIRST_ENTRY, *entries_fixed, LAST_ENTRY])
-
-        schedule.fill_gaps(entries_flex, prio_weighting_function, compression_factor)
-        schedule.smooth_between_fixed(prio_weighting_function)
-
-        return schedule
+    def __bool__(self) -> bool:
+        return bool(self._entries)
 
     def __iter__(self) -> Iterator[Entry]:
         return iter(self._entries)
@@ -413,16 +396,14 @@ class Entries:
 
     def __add__(self, __other: Union["Entries", Entry, list[Entry]]) -> "Entries":
         """
-        An instance of Entries can be added (left or right) to another instance of Entries or to an instance of Entry.
+        An instance of Entries can be added (left or right) to another instance of Entries or to
+          an instance of Entry.
         """
-        if isinstance(__other, Entries) or isinstance(__other, list):
-            return Entries(self._entries + list(__other))
-        elif isinstance(__other, Entry):
-            return Entries(self._entries + [__other])
-        else:
-            raise ValueError(
-                f"Invalid type for method '__add__' of class 'Entries': {type(__other)}"
-            )
+        if isinstance(__other, (Entries, list)):
+            return Entries(self.config, self._entries + list(__other))
+        if isinstance(__other, Entry):
+            return Entries(self.config, self._entries + [__other])
+        raise ValueError(f"Invalid type for method '__add__' of class 'Entries': {type(__other)}")
 
     def __str__(self) -> str:
         return "\n".join(map(str, self._entries))

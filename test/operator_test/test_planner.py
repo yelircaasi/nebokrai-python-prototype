@@ -1,4 +1,5 @@
 from typing import Union
+
 import pytest
 
 from planager.entity.base.calendar import Calendar

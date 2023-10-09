@@ -1,9 +1,11 @@
-import re
-from datetime import date, datetime
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 
 class PTime:
+    """
+    Bespoke time class designed to simplify the planager codebase.
+    """
+
     def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):
         if not ((hour >= 0) and (minute >= 0) and (60 * hour + minute) in range(1441)):
             raise ValueError("Time must be within 00:00..24:00")
@@ -13,6 +15,7 @@ class PTime:
 
     @classmethod
     def from_string(cls, date_string: Optional[str]) -> "PTime":
+        assert isinstance(date_string, str)
         if not date_string:
             res = cls()
             res.isblank = True
@@ -26,35 +29,37 @@ class PTime:
         candidate: Any,
         default: Optional["PTime"] = None,
     ) -> "PTime":
+        """
+        Converts values of several types into the corresponding PTime
+        """
         if (candidate is None) and default:
             return default
         if isinstance(candidate, PTime):
             return candidate
-        elif isinstance(candidate, str):
+        if isinstance(candidate, str):
             if not candidate.strip():
                 pass
             try:
                 return PTime.from_string(candidate)
-            except:
+            except AssertionError:
                 pass
-        elif isinstance(candidate, tuple) and len(candidate) <= 2:
+        elif isinstance(candidate, tuple):
             try:
+                assert len(candidate) == 2
                 hour, minute = map(int, candidate)
                 return PTime(hour, minute)
-            except:
+            except AssertionError:
                 pass
         elif isinstance(candidate, int):
             try:
                 return PTime(candidate)
-            except:
+            except ValueError:
                 pass
         else:
             pass
         if isinstance(default, PTime):
             return default
-        raise ValueError(
-            f"Impossible conversion requested: {str(candidate)} -> 'PTime'."
-        )
+        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
 
     def __bool__(self):
         return not self.isblank
@@ -112,8 +117,12 @@ class PTime:
 
 
 class NoneTime(PTime):
+    """
+    Empty time for cases where this may be superior to using None
+    """
+
     def __init__(self) -> None:
-        super(NoneTime, self).__init__()
+        super().__init__()
 
     def __bool__(self) -> bool:
         return False

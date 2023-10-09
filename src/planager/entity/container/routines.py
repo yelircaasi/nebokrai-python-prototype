@@ -1,32 +1,40 @@
-from pathlib import Path
-from typing import Any, Iterable, Iterator
+from typing import Any, Iterable, Iterator, Optional
 
-from ...util import Norg, tabularize
+from ...config import Config
+from ...util import tabularize
 from ..base.routine import Routine
 
 
 class Routines:
     """
-    Container class for routines, designed to be
-
+    Container class for multiple instances of the Routine class.
     """
 
-    def __init__(self, routines: Iterable[Routine] = []) -> None:
+    def __init__(self, config: Config, routines: Optional[Iterable[Routine]] = None) -> None:
+        self.config = config
         self._routines: dict[str, Routine] = {
-            rout.name.split(" ")[0].lower(): rout for rout in routines
+            rout.name.split(" ")[0].lower(): rout for rout in (routines or [])
         }
 
     @classmethod
-    def from_dict(cls, routines_dict: dict[str, Any]) -> "Routines":
+    def from_dict(cls, config: Config, routines_dict: dict[str, Any]) -> "Routines":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+
         routines = []
         for routine_dict in routines_dict.values():
-            routines.append(Routine.from_dict(routine_dict))
-        return cls(routines)
+            routines.append(Routine.from_dict(config, routine_dict))
+        return cls(config, routines)
 
     def add(self, routine: Routine) -> None:
         self._routines.update({routine.name: routine})
 
     def pretty(self, width: int = 120) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Routines instance.
+        """
+
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
@@ -44,8 +52,7 @@ class Routines:
     def __getitem__(self, __name: str) -> Routine:
         if " " in __name:
             return self._routines[__name.split(" ")[0].lower()]
-        else:
-            return self._routines[__name.lower()]
+        return self._routines[__name.lower()]
 
     def __str__(self) -> str:
         return self.pretty()

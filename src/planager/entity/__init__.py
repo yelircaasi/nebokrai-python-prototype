@@ -1,5 +1,5 @@
 from .base.calendar import Calendar
-from .base.entry import FIRST_ENTRY, LAST_ENTRY, Empty, Entry
+from .base.entry import Empty, Entry
 from .base.plan import Plan
 from .base.project import Project
 from .base.roadmap import Roadmap
@@ -11,19 +11,12 @@ from .container.roadmaps import Roadmaps
 from .container.routines import Routines
 from .container.schedules import Schedules
 from .container.tasks import Tasks
-from .patch.plan_patch import PlanPatch, PlanPatches
-from .patch.schedule_patch import SchedulePatch, SchedulePatches
-from .patch.task_patch import TaskPatch, TaskPatches
 
 __all__ = [
     "Calendar",
     "Empty",
     "Entry",
-    "FIRST_ENTRY",
-    "LAST_ENTRY",
     "Plan",
-    "PlanPatch",
-    "PlanPatches",
     "Project",
     "Projects",
     "Roadmap",
@@ -32,11 +25,6 @@ __all__ = [
     "Routines",
     "Schedule",
     "Schedules",
-    "SchedulePatch",
-    "SchedulePatches",
     "Task",
     "Tasks",
-    "TaskPatch",
-    "TaskPatches",
-    "Universe",
 ]

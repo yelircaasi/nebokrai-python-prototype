@@ -1,8 +1,7 @@
 from pathlib import Path
 
-from ..config import config
+# from ..config import config
 from ..planager import Planager
-
 
 # def derive(root: Path) -> "Planager":
 #     return Planager.from_json(root)

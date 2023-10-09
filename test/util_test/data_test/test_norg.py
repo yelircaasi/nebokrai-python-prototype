@@ -7,7 +7,6 @@ from planager.util import PDate, PDateTime, PTime
 from planager.util.data.norg.norg import Norg
 from planager.util.data.norg.norg_item import NorgItem, NorgItems
 
-
 title = "Test Title"
 description = "Test Description"
 author = "Test Author"
@@ -117,9 +116,7 @@ class NorgTest:
     def test_init(self) -> None:
         items = NorgItems(
             [
-                NorgItem(
-                    item_a_name, priority=priority_a, notes=notes_a, after=after_a_set
-                ),
+                NorgItem(item_a_name, priority=priority_a, notes=notes_a, after=after_a_set),
                 NorgItem(
                     name=item_b_name,
                     link=item_b_link,

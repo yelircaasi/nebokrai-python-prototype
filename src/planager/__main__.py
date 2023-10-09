@@ -1,4 +1,4 @@
-from . import derivation
+import sys
 
 
 def main() -> int:
@@ -6,4 +6,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())

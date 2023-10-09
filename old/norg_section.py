@@ -51,9 +51,7 @@ class NorgSection:
         regx1 = Regexes.asterix_split
         regx2 = Regexes.item_split
         section = re.split(regx1, section)[0]
-        return dict(
-            map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section)))
-        )
+        return dict(map(lambda s: s.split(": "), map(str.strip, re.split(regx2, section))))
 
     @staticmethod
     def parse_subsections(section: str) -> Dict[str, Any]:

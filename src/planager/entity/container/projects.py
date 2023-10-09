@@ -1,26 +1,32 @@
 from typing import Any, Iterator, Optional, Union
 
+from ...config import Config
 from ...util import tabularize
 from ..base.project import Project
 from ..container.tasks import Tasks
-from ..patch.task_patch import TaskPatches
 
 
 class Projects:
-    def __init__(self, projects: list[Project] = []) -> None:
-        self._projects: dict[tuple[str, str], Project] = {
-            p.project_id: p for p in projects
-        }
+    """
+    Container class for multiple instances of the Project class.
+    """
+
+    def __init__(self, config: Config, projects: Optional[list[Project]] = None) -> None:
+        self._projects: dict[tuple[str, str], Project] = {p.project_id: p for p in (projects or [])}
+        self.config = config
         self._tasks: Tasks = self._get_tasks()
-        # (self.project_order, self.task_order): tuple[list[tuple[str, str]], list[tuple[str, str]]] = self.make_dependency_ordered_lists()
 
     @classmethod
-    def from_dict(cls, roadmap_id: str, projects_dict: dict[str, Any]) -> "Projects":
-        projects = cls()
+    def from_dict(cls, config, roadmap_id: str, projects_dict: dict[str, Any]) -> "Projects":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
+
+        projects = cls(config)
 
         for project_code, project_dict in projects_dict.items():
             if project_dict:
-                projects.add(Project.from_dict(roadmap_id, project_code, project_dict))
+                projects.add(Project.from_dict(config, roadmap_id, project_code, project_dict))
 
         return projects
 
@@ -35,42 +41,14 @@ class Projects:
     def add(self, project: Project) -> None:
         self._projects.update({project.project_id: project})
 
-    def patch_tasks(self, task_patches: Optional[TaskPatches] = None):
-        ...
-
-    # def order_by_dependency(self) -> list[tuple[str, str]]:
-    #     # tasks
-    #     roots: list[tuple[str, str, str]] = [t.task_id for t in self._tasks if not t.dependencies]
-    #     # projects
-    #     roots.extend([p.project_id for p in self._projects.values() if all(map(lambda t: not t.dependencies, p))])
-    #     # tasks
-    #     other: list[tuple[str, str, str]] = [t.task_id for t in self._tasks if t.dependencies]
-    #     # projects
-    #     other_projects = [p.project_id for p in self._projects.values() if not all(map(lambda t: not t.dependencies, p))]
-
-    #     breaker = 0
-    #     while other and breaker < 30:
-    #         newroots: list[tuple[str, str, str]] = [t for t in other if all(map(lambda task_id: task_id in roots, self._tasks[t].dependencies))]
-    #         newroots.extend([p for p in other_projects if all(map(lambda project_id: project_id in roots, self._projects[p].dependencies))])
-    #         roots.extend(newroots)
-    #         other = [t for t in other if not all(map(lambda task_id: (task_id in roots), self._tasks[t].dependencies))]
-    #         other_projects = [p for p in other_projects if not all(map(lambda project_id: project_id in roots, self._projects[p].dependencies))]
-    #     if breaker == 30:
-    #         raise ValueError("Dependency ordering did not terminate.")
-
-    #     project_roots = [root for root in roots if len(root) == 3]
-    #     task_roots = [root for root in roots if len(root) == 3]
-
-    #     return project_roots, task_roots
-
     @property
     def tasks(self) -> Tasks:
         return self._tasks
 
     def _get_tasks(self) -> Tasks:
-        tasks = Tasks()
+        tasks = Tasks(self.config)
         for _project in self._projects.values():
-            for task in _project._tasks:
+            for task in _project:
                 tasks.add(task)
         return tasks
 
@@ -80,14 +58,17 @@ class Projects:
             sorted(list(self._projects.values()), key=lambda proj: proj.priority)
         )  # TODO: make iterate in order
 
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Projects", width)
-        empty = tabularize("", width)
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Projects instance.
+        """
+
+        def format_number(s: Any) -> str:
+            return (len(str(s)) == 1) * " " + f" {s} │ "
+
+        width = self.config.repr_width
+
+        empty = "\n" + tabularize("", width)
         names = map(
             lambda x: tabularize(x, width),
             map(
@@ -95,12 +76,26 @@ class Projects:
                 self._projects.values(),
             ),
         )
-        return (
-            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
-            + "\n".join(names)
-            + "\n"
-            + empty
-            + bottombeam
+        return "".join(
+            (
+                "\n",
+                "┏",
+                (width - 2) * "━",
+                "┓",
+                empty,
+                tabularize("Projects", width),
+                empty,
+                "┠",
+                (width - 2) * "─",
+                "┨",
+                empty,
+                "\n",
+                "\n".join(names),
+                empty,
+                "\n┗",
+                (width - 2) * "━",
+                "┛",
+            )
         )
 
     def __iter__(self) -> Iterator[Project]:
@@ -109,18 +104,15 @@ class Projects:
     def __len__(self) -> int:
         return len(self._projects)
 
-    def __getitem__(
-        self, __id: Union[str, tuple[str, str], tuple[str, str, str]]
-    ) -> Any:
+    def __getitem__(self, __id: Union[str, tuple[str, str], tuple[str, str, str]]) -> Any:
         if isinstance(__id, str):
             roadmap_id = list(self._projects)[0][0]
             return self._projects[(roadmap_id, __id)]
-        elif len(__id) == 2:
+        if len(__id) == 2:
             return self._projects[__id]  # type: ignore
-        elif len(__id) == 3:
+        if len(__id) == 3:
             return self._tasks[__id]  # type: ignore
-        else:
-            raise KeyError(f"Invalid key for `Projects`: {__id}.")
+        raise KeyError(f"Invalid key for `Projects`: {__id}.")
 
     def __setitem__(
         self, __id: Union[tuple[str, str], tuple[str, str, str]], __value: Project
@@ -129,8 +121,7 @@ class Projects:
             self._projects.update({__id: __value})  # type: ignore
         elif len(__id) == 3:
             return self._tasks.update({__id: __value})  # type: ignore
-        else:
-            raise KeyError(f"Invalid key for `Projects`: {__id}.")
+        raise KeyError(f"Invalid key for `Projects`: {__id}.")
 
     def __str__(self) -> str:
         return self.pretty()

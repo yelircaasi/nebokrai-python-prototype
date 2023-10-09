@@ -1,18 +1,24 @@
-from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional, Union
 
-from ...util import ConfigType, Norg, PDate, PTime, tabularize
+from ...config import Config
+from ...util import tabularize
 from ..base.task import Task
+
+TaskInitType = Optional[Union[dict[tuple[str, str, str], Task], Iterable[Task]]]
 
 
 class Tasks:
-    def __init__(
-        self, tasks: Union[dict[tuple[str, str, str], Task], Iterable[Task]] = {}
-    ) -> None:
+    """
+    Container class for multiple instances of the Task class.
+    """
+
+    def __init__(self, config: Config, tasks: TaskInitType = None) -> None:
+        self.config = config
         self._tasks: dict[tuple[str, str, str], Task] = {}
         if isinstance(tasks, dict):
             self._tasks = tasks
         else:
+            tasks = tasks or []
             for i, task in enumerate(tasks):
                 task.project_order = i + 1
             self._tasks = dict(map(lambda task: (task.task_id, task), tasks))
@@ -20,50 +26,55 @@ class Tasks:
     @classmethod
     def from_dict(
         cls,
+        config: Config,
         tasks_dict_list: list[dict[str, Any]],
         roadmap_code: str,
         project_code: str,
         project_name: str,
         project_priority: Optional[int] = None,
         project_duration: Optional[int] = None,
-        project_categories: set[str] = set(),
+        project_categories: Optional[set[str]] = None,
     ) -> "Tasks":
+        """
+        Creates instance from dict, intended to be used with .json declaration format.
+        """
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             # task_id = (roadmap, project, task_dict["id"])
             task = Task.from_dict(
+                config,
                 task_dict,
                 roadmap_code,
                 project_code,
                 project_name,
                 project_priority,
                 project_duration,
-                project_categories,
+                project_categories or set(),
             )
             tasks_list.append(task)
 
-        return cls(tasks_list)
+        return cls(config, tasks_list)
 
-    @classmethod
-    def from_string_iterable(
-        cls,
-        task_list: list[str],
-        project_id: tuple[str, str],
-        project_name: str,
-        priority: Optional[int] = None,
-        after: set[tuple[str, ...]] = set(),
-    ) -> "Tasks":
-        tasks = cls()
-        for task_id_, name in enumerate(task_list, start=1):
-            # name = name if isinstance(name, str) else name.name
-            task_id = (*project_id, str(task_id_))
-            task = (
-                Task(name, project_name, task_id, priority)
-                if priority is not None
-                else Task(name, project_name, task_id)
-            )
-            tasks.add(task)
-        return tasks
+    # @classmethod
+    # def from_string_iterable(
+    #     cls,
+    #     task_list: list[str],
+    #     project_id: tuple[str, str],
+    #     project_name: str,
+    #     priority: Optional[int] = None,
+    #     after: set[tuple[str, ...]] = set(),
+    # ) -> "Tasks":
+    #     tasks = cls()
+    #     for task_id_, name in enumerate(task_list, start=1):
+    #         # name = name if isinstance(name, str) else name.name
+    #         task_id = (*project_id, str(task_id_))
+    #         task = (
+    #             Task(config, name, project_name, task_id, priority)
+    #             if priority is not None
+    #             else Task(name, project_name, task_id)
+    #         )
+    #         tasks.add(task)
+    #     return tasks
 
     # @classmethod
     # def from_norg_path(
@@ -106,11 +117,17 @@ class Tasks:
         return [t.task_id for t in self]
 
     def pretty(self, width: int = 80) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Tasks instance.
+        """
+
+        def format_number(s: Any) -> str:
+            return (len(str(s)) == 1) * " " + f" {s} │ "
+
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize("Tasks", width)
         empty = tabularize("", width)
         names = "\n".join(

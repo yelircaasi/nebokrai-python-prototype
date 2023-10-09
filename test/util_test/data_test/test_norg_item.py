@@ -7,7 +7,6 @@ from planager.util import PDate, PDateTime, PTime
 from planager.util.data.norg.norg import Norg
 from planager.util.data.norg.norg_item import NorgItem, NorgItems
 
-
 item_a_name = "Item A"
 item_b_name = "Item B"
 

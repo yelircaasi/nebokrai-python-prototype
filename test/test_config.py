@@ -1,6 +1,6 @@
 import pytest
 
-from planager.config import _Config, ConfigType, config
+from planager.config import ConfigType, _Config, config
 
 
 class _ConfigTest:

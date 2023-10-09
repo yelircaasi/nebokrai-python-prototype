@@ -1,62 +1,59 @@
 import re
-from pathlib import Path
-from typing import Any, Iterable, Iterator, Optional, Union
+from typing import Any, Iterator, Optional, Union
 
-from ...util import (
-    ClusterType,
-    Norg,
-    PDate,
-    Regexes,
-    SubplanType,
-    expand_task_segments,
-    tabularize,
-)
+from ...config import Config
+from ...util import ClusterType, PDate, SubplanType, tabularize
 from ..container.tasks import Tasks
 from .task import Task
 
 
 class Project:
+    """
+    Container for tasks, in addition to project info.
+    """
+
     def __init__(
         self,
+        config: Config,
         name: str,
         project_id: tuple[str, str],
-        tasks: Union[list[str], str, Tasks] = [],
-        priority: int = 10,
-        start: Optional[PDate] = None,
-        end: Optional[PDate] = None,
-        interval: int = 7,
-        cluster_size: int = 1,
-        duration: int = 30,
+        tasks: Tasks,
+        priority: Optional[int],
+        start: Optional[PDate],
+        end: Optional[PDate],
+        interval: Optional[int],
+        cluster_size: Optional[int],
+        duration: Optional[int],
         description: str = "",
         notes: str = "",
-        dependencies: set[
-            tuple[str, ...]
-        ] = set(),  # not maximally strong, but avoids a mypy headache
-        categories: set[str] = set(),
+        dependencies: Optional[set[tuple[str, ...]]] = None,
+        categories: Optional[set[str]] = None,
     ) -> None:
-        self.name = Norg.norg_item_head(name).name
+        self.config = config
+        self.name = name
         self.project_id = project_id
-        self._tasks: Tasks = (
-            Tasks.from_string_iterable(
-                expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
-                project_id=project_id,
-                project_name=name,
-            )
-            if not isinstance(tasks, Tasks)
-            else tasks
+        self._tasks = tasks
+        # self._tasks: Tasks = (
+        #     Tasks.from_string_iterable(
+        #         expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
+        #         project_id=project_id,
+        #         project_name=name,
+        #     )
+        #     if not isinstance(tasks, Tasks)
+        #     else tasks
+        # )
+        self.priority = priority or config.default_priority
+        self.start = start or PDate.tomorrow() + config.default_project_dates_missing_offset + (
+            hash(self.name) % config.default_project_dates_missing_hashmod
         )
-        self.priority = priority
-        self.start = start or PDate.tomorrow() + 730 + (hash(self.name) % 60)
-        self.end = (
-            PDate.ensure_is_pdate(end) if end else None
-        )  # (PDate.tomorrow() + (hash(self.name) % 60) + 180)
-        self.interval = interval
-        self.cluster_size = cluster_size
-        self.duration = duration
+        self.end = PDate.ensure_is_pdate(end) if end else None
+        self.interval = interval or config.default_interval
+        self.cluster_size = cluster_size or config.default_cluster_size
+        self.duration = duration or config.default_duration
         self.description = description
         self.notes = notes
-        self.dependencies = dependencies
-        self.categories = categories
+        self.dependencies = dependencies or set()
+        self.categories = (categories or set()).union(config.default_categories)
 
         if self.end:
             assert (
@@ -65,22 +62,28 @@ class Project:
 
     @classmethod
     def from_dict(
-        cls, roadmap_code: str, project_code: str, project_dict: dict[str, Any]
+        cls, config: Config, roadmap_code: str, project_code: str, project_dict: dict[str, Any]
     ) -> "Project":
+        """
+        Instantiates from config, json-derived dic, and project information.
+        """
+
         project_id = (roadmap_code, project_code)
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
 
-        priority = int(project_dict.get("priority") or 10)
-        duration = int(project_dict.get("duration") or 30)
-        categories = set(
-            filter(bool, re.split(", ?", project_dict.get("categories", "")))
+        priority = int(project_dict.get("priority") or config.default_priority)
+        duration = int(project_dict.get("duration") or config.default_duration)
+        categories = set(filter(bool, re.split(", ?", project_dict.get("categories", "")))).union(
+            config.default_categories
         )
 
         return cls(
+            config,
             project_dict["name"],
             project_id,
             tasks=Tasks.from_dict(
+                config,
                 project_dict["tasks"],
                 roadmap_code,
                 project_code,
@@ -92,8 +95,8 @@ class Project:
             priority=priority,
             start=PDate.ensure_is_pdate(start_str) if start_str else None,
             end=PDate.ensure_is_pdate(end_str) if end_str else None,
-            interval=int(project_dict.get("interval") or 7),
-            cluster_size=int(project_dict.get("cluster_size") or 1),
+            interval=int(project_dict.get("interval") or config.default_interval),
+            cluster_size=int(project_dict.get("cluster_size") or config.default_cluster_size),
             duration=duration,
             description=project_dict.get("description", ""),
             notes=project_dict.get("notes", ""),
@@ -162,7 +165,18 @@ class Project:
     #     )
 
     def copy(self) -> "Project":
-        copy = Project(self.name, self.project_id)
+        copy = Project(
+            self.config,
+            self.name,
+            self.project_id,
+            self.tasks,
+            self.priority,
+            self.start,
+            self.end,
+            self.interval,
+            self.cluster_size,
+            self.duration,
+        )
         copy.__dict__.update(self.__dict__)
         return copy
 
@@ -196,16 +210,16 @@ class Project:
 
         if self.end:
             while nclusters > self.start.daysto(self.end):
-                print(
-                    f"Not enough time allocated to '{self.name}': {self.start} - {self.end}, {nclusters} clusters, cluster size {self.cluster_size}."
-                )
+                time_info = f"{self.start} - {self.end}"
+                cluster_info = "{nclusters} clusters, cluster size {self.cluster_size}"
+                print(f"Not enough time allocated to '{self.name}': {time_info}, {cluster_info}.")
                 self.cluster_size += 1
                 clusters = self.clusters
                 nclusters = len(clusters)
 
         if len(clusters) == 1:
             return {self.start: clusters[0]}
-        elif self.end:
+        if self.end:
             ndays = int(self.get_end()) - int(self.start)
             factor = ndays / nclusters
             ints = [int(round(i * factor)) for i in range(nclusters)]
@@ -222,9 +236,7 @@ class Project:
 
         # start: PDate = self.start or PDate.tomorrow() + (hash(self.name) % 7)
 
-        subplan: SubplanType = {
-            self.start + ints[i]: cluster for i, cluster in enumerate(clusters)
-        }
+        subplan: SubplanType = {self.start + ints[i]: cluster for i, cluster in enumerate(clusters)}
 
         return subplan
 
@@ -239,30 +251,48 @@ class Project:
     def task_ids(self) -> list[tuple[str, str, str]]:
         return self._tasks.task_ids
 
-    def pretty(self, width: int = 80) -> str:
-        topbeam = "┏" + (width - 2) * "━" + "┓"
-        bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
-        thinbeam = "┠" + (width - 2) * "─" + "┨"
-        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
-        top = tabularize(
-            f"Project: {self.name} (ID {'-'.join(self.project_id)})", width, thick=True
+    def pretty(self) -> str:
+        """
+        Creates a detailed and aesthetic string representation of the given Task instance.
+        """
+        width = self.config.repr_width
+        top = (
+            "\n"
+            + tabularize(
+                f"Project: {self.name} (ID {'-'.join(self.project_id)})", width, thick=True
+            )
+            + "\n"
         )
         empty = tabularize("", width, thick=True)
         tasks = map(
             lambda x: tabularize(
-                f"{x.status_symbol} {'-'.join(x.task_id): <14} │ {x.name: <48}{x.duration:>3}m {x.priority:>3}",
+                (
+                    f"{x.status_symbol} {'-'.join(x.task_id): <14} │ "
+                    f"{x.name: <48}{x.duration:>3}m {x.priority:>3}"
+                ),
                 width,
                 thick=True,
             ),
             self._tasks,
         )
         return (
-            "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
+            "\n"
+            + "┏"
+            + (width - 2) * "━"
+            + "┓\n"
+            + empty
+            + top
+            + empty
+            + "\n┠"
+            + (width - 2) * "─"
+            + "┨\n"
+            + empty
             + "\n".join(tasks)
             + "\n"
             + empty
-            + bottombeam
+            + "\n┗"
+            + (width - 2) * "━"
+            + "┛"
         )
 
     def __iter__(self) -> Iterator[Task]:
@@ -271,10 +301,9 @@ class Project:
     def __getitem__(self, __key: Union[str, tuple[str, str, str]]) -> Task:
         if isinstance(__key, str):
             return self._tasks[(*self.project_id, __key)]
-        elif isinstance(__key, tuple):
-            # raise ValueError("Accessing a task from Project via a tuple ID is deprecated.")
-            print("Accessing a task from Project via a tuple ID is deprecated.")
-            return self._tasks[__key]
+        # raise ValueError("Accessing a task from Project via a tuple ID is deprecated.")
+        print("Accessing a task from Project via a tuple ID is deprecated.")
+        return self._tasks[__key]
 
     def __str__(self) -> str:
         return self.pretty()
