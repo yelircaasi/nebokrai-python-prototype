@@ -81,11 +81,12 @@ class Entry:
             if "maxtime" in entry_dict
             else int(config.default_maxtime_factor * normaltime)
         )
+
         return cls(
             config,
             entry_dict["name"],
-            PTime.from_string(entry_dict.get("start") or None),
-            PTime.from_string(entry_dict.get("end") or None),
+            PTime.from_string(entry_dict.get("start") or "nonetime"),
+            PTime.from_string(entry_dict.get("end") or "nonetime"),
             priority=entry_dict["priority"],
             blocks=set(re.split("[^A-z] ?", entry_dict["blocks"]))
             if "blocks" in entry_dict

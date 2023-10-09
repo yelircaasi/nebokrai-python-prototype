@@ -20,6 +20,8 @@ class PTime:
             res = cls()
             res.isblank = True
             return res
+        if date_string.lower().startswith("none"):
+            return PTime.nonetime()
         hour, minute = map(int, date_string.split(":")[:2])
         return cls(hour, minute)
 
