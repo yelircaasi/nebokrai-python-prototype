@@ -27,7 +27,9 @@ class Plan:
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
           the lowest-priority excess task ids are returned.
         """
-        # tasks = tasks_[:]
+        # if date > PDate(2026, 6, 15):
+        #     print(date)
+        #     date = PDate(2026, 6, 15)
 
         tasks = Tasks(self.config, tasks) + self._plan.get(date, [])
         tasks.sort(key=lambda t: (t.status == "done", t.priority), reverse=True)
@@ -67,6 +69,7 @@ class Plan:
         self._plan.update({date: blocked_tasks + tasks})
         for task in blocked_tasks + tasks:
             task.tmpdate = date
+
         return excess
 
     def add_subplan(

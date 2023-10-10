@@ -112,7 +112,7 @@ class Planager:
             plan.end_date,
             calendar.end_date,
         )
-        schedules = Schedules(self.config, {})
+        schedules = Schedules(self.config)
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
             # print("Calendar[date]")
@@ -198,12 +198,12 @@ class Planager:
                 assert self.plan, "Plan must be defined in order to be shown as a gantt."
 
                 ret: dict[PDate, str] = {}
-                for date, task_ids in self.plan.items():
+                for date, tasks in self.plan.items():
                     relevant_tasks = [
-                        _task_id for _task_id in task_ids if _task_id in project.project_id
+                        _task for _task in tasks if _task.task_id in project.project_id
                     ]
                     if relevant_tasks:
-                        task = relevant_tasks[0]
+                        task = relevant_tasks[-1]
                         ret.update({date: task.status})
 
                 return ret
@@ -237,7 +237,11 @@ class Planager:
             (roadmap_dict[project.project_id.roadmap_id], make_project_line(project))
             for project in self.roadmaps.projects
         ]
+        assert lines
+        if not list(filter(lambda x: x[1] != "", lines)):
+            print(lines)
         lines = list(filter(lambda x: x[1] != "", lines))
+        assert lines
 
         def myfind(s: str, sub: str) -> int:
             return s.find(sub) + 999 * (s.find(sub) < 0)
@@ -252,17 +256,18 @@ class Planager:
                 line[0],
             )
         )
+        assert lines
 
-        def make_header() -> str:
+        def make_header(lines_: list[tuple[int, str]]) -> str:
             chars = []
             t = PDate.today()
-            maxlen = max(map(len, map(lambda x: x[1], lines)))
+            maxlen: int = max(map(len, map(lambda x: x[1], lines_)))
             for d in t.range(maxlen):
                 chars.append(("║" * (d.month == 1 and d.day == 1) + "│" * (d.day == 1) + " ")[0])
 
             return project_name_length * " " + " ║ " + "".join(chars)
 
-        line1 = make_header()
+        line1 = make_header(lines)
         gantt = "\n".join([line1, line1, ""]) + "\n".join(map(lambda x: x[1], lines))
         return gantt
 

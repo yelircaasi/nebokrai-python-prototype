@@ -10,7 +10,7 @@ class Schedules:
     Container class for multiple instances of the Schedule class.
     """
 
-    def __init__(self, config: Config, schedules: Optional[Dict[PDate, Schedule]]) -> None:
+    def __init__(self, config: Config, schedules: Optional[Dict[PDate, Schedule]] = None) -> None:
         self.config = config
         self._schedules: Dict[PDate, Schedule] = schedules or {}
 
@@ -23,7 +23,7 @@ class Schedules:
     def __setitem__(self, __key: PDate, __value: Schedule) -> None:
         assert isinstance(__value, Schedule)
         self._schedules.update({__key: __value})
-        raise ValueError(f"Invalid indexed assignment: {{{str(__key)}: {str(__value)}}}")
+        # raise ValueError(f"Invalid indexed assignment: {{{str(__key)}: {str(__value)}}}")
 
     def __str__(self) -> str:
         return "\n".join(map(str, self._schedules.values()))

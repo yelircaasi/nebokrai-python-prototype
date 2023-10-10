@@ -136,6 +136,9 @@ class Tasks:
                 self._tasks.update({__task.task_id: __task})
         return self
 
+    def __bool__(self) -> bool:
+        return bool(self._tasks)
+
     def __iter__(self) -> Iterator[Task]:
         return iter(sorted(self._tasks.values(), key=lambda t: t.project_order))
 

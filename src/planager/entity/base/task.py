@@ -139,6 +139,9 @@ class Task:
             + bottombeam
         )
 
+    def __hash__(self) -> int:
+        return hash(self.task_id)
+
     def __eq__(self, __other: Any) -> bool:
         return self.__dict__ == __other.__dict__
 

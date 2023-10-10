@@ -56,16 +56,34 @@ class Schedule:
 
         First checks for a block to add on top of, otherwise follows the default logic.
         """
-        assert self.can_be_added(entry), f"--------------------------\n\n{entry}\n\n{self}"
+        assert self.can_be_added(entry), (
+            "-------------------------- CANNOT ADD\n\n" f"{entry}\n\nTO\n\n{self}\n\n"
+        )
 
         rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
         block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
+
         if block_ind:
-            self.schedule.add_to_block_by_index(entry, block_ind)
+            self.add_to_block_by_index(entry, block_ind)
+
         else:
-            self.schedule = self.allocate_in_time(
-                self.schedule + [entry], self.prio_weighting_function
-            )
+            self.add_to_empty(entry)
+
+    def add_to_empty(self, __entry: Entry) -> None:
+        self.schedule = self.allocate_in_time(
+            self.schedule + [__entry], self.prio_weighting_function
+        )
+
+    def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None:
+        """
+        Add the input entry 'on top of' the entry corresponding to the given index.
+        """
+
+        block_entry = self.schedule[block_ind]
+        assert id(block_entry) == id(self.schedule[block_ind])
+        assert block_entry.blocks.intersection(entry.categories)
+
+        block_entry.add_subentry(entry)
 
     @staticmethod
     def allocate_in_time(
@@ -110,9 +128,15 @@ class Schedule:
     def starts_strings(self) -> list[str]:
         return [str(x.start) for x in self.schedule]
 
-    def add_from_plan(self, plan: Plan) -> None:  #  -> KEEP
+    def add_from_plan(self, plan: Plan) -> None:
+        """
+        Adds all tasks planned for this day, converting tasks to entries.
+        """
+
         for task in plan[self.date]:
-            self.add(task.as_entry(PTime.nonetime()))
+            entry = task.as_entry(PTime.nonetime())
+
+            self.add(entry)
 
     def can_be_added(self, entry: Entry) -> bool:
         """

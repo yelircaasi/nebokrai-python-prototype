@@ -147,17 +147,6 @@ class Entries:
         relevant = filter(check, self._entries)
         return list(map(self.index, relevant))
 
-    def add_to_block_by_index(
-        self, entry: Entry, block_ind: int
-    ) -> None:  # REWRITE WITH .insert() (?)
-        """
-        Add the input entry 'on top of' the entry corresponding to the given index.
-        """
-        new_entries = Entries._add_over_block(entry, self._entries[block_ind])
-        self._entries = list(
-            self.slice(None, block_ind) + new_entries + self.slice(block_ind + 1, None)
-        )
-
     def entry_list_fits(self) -> bool:
         """
         Check whether the sum of minimum durations of all entries fits in a single day.
