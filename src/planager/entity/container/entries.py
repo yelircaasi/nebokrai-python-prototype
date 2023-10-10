@@ -22,7 +22,6 @@ class Entries:
         return Entries(self.config, (entry.copy() for entry in self._entries))
 
     def slice(self, __start: Optional[int], __stop: Optional[int]) -> "Entries":
-        # type-idempotent; use indexing to get a single entry
         return Entries(self.config, entries=self._entries[__start:__stop])
 
     def insert(self, __index: int, __other: Entry) -> None:
@@ -112,22 +111,6 @@ class Entries:
         if not overlaps:
             return True
         return all(map(lambda x: x.ismovable, overlaps))
-
-    # def get_fixed_groups(self) -> list["Entries"]:
-    #     """
-    #     Return a list of Entries instances, each of which constitutes an immovable block.
-    #     """
-    #     ret: list = []
-    #     entries_fixed, _ = self._get_fixed_and_flex()
-    #     fixed_indices = list(map(self.index, entries_fixed))
-    #     if not fixed_indices[0] == 0:
-    #         fixed_indices.insert(0, 0)
-    #     fixed_indices.append(len(self._entries))
-    #     for a, b in zip(fixed_indices[:-1], fixed_indices[1:]):
-    #         group: Entries = self.slice(a, b).copy()
-    #         if group:
-    #             ret.append(group)
-    #     return ret
 
     def get_fixed_and_flex(self) -> tuple["Entries", "Entries"]:
         """

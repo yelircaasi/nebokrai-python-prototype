@@ -15,10 +15,6 @@ class Day:
       planned in advance, around which other entries are to be automatically be scheduled.
     """
 
-    # DAY_START_DEFAULT: PTime = PTime(5)
-    # DAY_END_DEFAULT: PTime = PTime(22)
-    # WIDTH: int = 80
-
     def __init__(
         self,
         config: Config,
@@ -27,31 +23,6 @@ class Day:
         end: PTime,
         entries: Entries,
         routines: Entries,
-        # routine_dict: dict[str, dict] = {
-        #     "Morning Routine": {
-        #         "default_start": PTime(5),
-        #         "priority": 80,
-        #         "normaltime": 60,
-        #         "mintime": 15,
-        #         "maxtime": 180,
-        #     },
-        #     "Midday Routine": {
-        #         "default_start": PTime(13),
-        #         "priority": 60,
-        #         "normaltime": 30,
-        #         "mintime": 10,
-        #         "maxtime": 60,
-        #     },
-        #     "Evening Routine": {
-        #         "default_start": PTime(21),
-        #         "priority": 80,
-        #         "normaltime": 60,
-        #         "mintime": 15,
-        #         "maxtime": 180,
-        #     },
-        # },
-        # start: PTime = PTime(5),
-        # end: PTime = PTime(21),
     ) -> None:
         self.config = config
         self.date = date
@@ -69,11 +40,11 @@ class Day:
             "Sleep",
             PTime(0),
             end=waketime,
-            priority=70,
+            priority=config.default_sleep_priority,
             normaltime=morning_normaltime,
             idealtime=morning_normaltime,
-            mintime=morning_normaltime - 1,
-            maxtime=morning_normaltime + 1,
+            mintime=morning_normaltime - config.default_sleep_delta_min,
+            maxtime=morning_normaltime + config.default_sleep_delta_max,
             ismovable=False,
         )
         evening_sleep = Entry(
@@ -81,11 +52,11 @@ class Day:
             "Sleep",
             bedtime,
             end=PTime(24),
-            priority=70,
+            priority=config.default_sleep_priority,
             normaltime=evening_normaltime,
             idealtime=evening_normaltime,
-            mintime=evening_normaltime - 1,
-            maxtime=evening_normaltime + 1,
+            mintime=evening_normaltime - config.default_sleep_delta_min,
+            maxtime=evening_normaltime + config.default_sleep_delta_max,
             ismovable=False,
         )
         if self.entries:

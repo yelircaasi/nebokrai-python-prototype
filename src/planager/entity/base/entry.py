@@ -29,12 +29,18 @@ class Entry:
         order: Optional[int] = None,
         subentries: Optional[Iterable["Entry"]] = None,
     ) -> None:
+        self.config = config
+        self.subentries: list[Entry] = list(subentries or [])
+
+        # meta / info
         self.name = name
+        self.notes = notes
+
+        # algo
         self.start: PTime = start if isinstance(start, PTime) else PTime()
         self.priority = config.default_priority if priority is None else priority
         self.blocks = blocks or set([])
         self.categories = (categories or set([])).union(config.default_categories)
-        self.notes = notes
         self.ismovable = ismovable
 
         if normaltime:
@@ -50,15 +56,12 @@ class Entry:
         else:
             self.normaltime = config.default_normaltime
 
-        self.end: PTime = end or (self.start + self.normaltime)
         self.idealtime: int = idealtime or int(config.default_idealtime_factor * self.normaltime)
         self.mintime: int = mintime or round5(config.default_mintime_factor * self.normaltime)
         self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
+        self.end: PTime = end or (self.start + self.normaltime)
         self.alignend: bool = alignend
         self.order: int = config.default_order if order is None else order
-
-        self.subentries: list[Entry] = list(subentries or [])
-        self.config = config
 
     @classmethod
     def from_dict(cls, config: Config, entry_dict: dict[str, Any]) -> "Entry":
@@ -177,9 +180,7 @@ class Entry:
     def accommodates(self, __entry: "Entry", ratio: float = 1.0) -> bool:
         return __entry.fits_into(self, ratio=ratio)
 
-    def add_subentry(
-        self, subentry: "Entry"
-    ) -> list["Entry"]:  # ZUTUN: rewrite to keep highest-priority
+    def add_subentry(self, subentry: "Entry") -> list["Entry"]:
         """
         Adds another entry to be part of self. Only works if self is a block,
           i.e. `self.blocks` is not empty.
@@ -188,10 +189,16 @@ class Entry:
             raise ValueError(f"Invalid subentry '{subentry.name}' for entry '{self}'")
         if self.accommodates(subentry):
             self.subentries.append(subentry)
-            self.subentries.sort(key=lambda e: (e.order, e.priority))
+            self.subentries.sort(key=lambda e: (e.order, -e.priority))
             return []
         print(f"Entry {subentry} does not fit in {self}.")
-        return [subentry]
+        self.subentries.append(subentry)
+        self.subentries.sort(key=lambda e: e.priority, reverse=True)
+        ret: list[Entry] = []
+        while sum(map(Entry.duration, self.subentries)) > self.duration:
+            ret.append(self.subentries.pop())
+        self.subentries.sort(key=lambda e: (e.order, -e.priority))
+        return ret
 
     @property
     def available(self) -> int:
@@ -200,6 +207,24 @@ class Entry:
     @property
     def unavailable(self) -> int:
         return self.duration - self.available
+
+    def subentry_string(self) -> str:
+        """
+        Creates a string representation for the subentries, to be
+        """
+        if not self.subentries:
+            return ""
+        width = self.config.repr_width
+        top = "┠─┬" + (width - 4) * "─" + "┨"
+        bottom = "┠─┴" + (width - 4) * "─" + "┨"
+        middle = "┠─┼" + (width - 4) * "─" + "┨"
+        body = middle.join(
+            map(
+                lambda sub: tabularize(f"{sub.start}-{sub.end} │ {sub.name}", width, thick=True),
+                self.subentries,
+            )
+        )
+        return "\n".join(("", top, body, bottom))
 
     def pretty(self) -> str:
         """
@@ -214,31 +239,36 @@ class Entry:
             + thinbeam
         )
         timestring = f"{self.normaltime}  ({self.mintime}-{self.maxtime}, ideal: {self.idealtime})"
-        return header + "\n".join(
-            (
-                tabularize(s, width, thick=True, trailing_spaces=16)
-                for s in (
-                    f"notes:        {self.notes}" if self.notes else "",
-                    f"priority:     {self.priority}"
-                    if self.priority != self.config.default_priority
-                    else "",
-                    f"time:         {timestring}",
-                    f"blocks:       {', '.join(sorted(self.blocks))}" if self.blocks else "",
-                    f"categories:   {', '.join(sorted(self.categories))}"
-                    if self.categories != self.config.default_categories
-                    else "",
-                    f"ismovable:    {str(self.ismovable).lower()}"
-                    if not self.ismovable == self.config.default_ismovable
-                    else "",
-                    f"alignend:     {str(self.alignend).lower()}"
-                    if not self.alignend == self.config.default_alignend
-                    else "",
-                    f"order:        {self.order}"
-                    if not self.order == self.config.default_order
-                    else "",
+
+        return (
+            header
+            + "\n".join(
+                (
+                    tabularize(s, width, thick=True, trailing_spaces=16)
+                    for s in (
+                        f"notes:        {self.notes}" if self.notes else "",
+                        f"priority:     {self.priority}"
+                        if self.priority != self.config.default_priority
+                        else "",
+                        f"time:         {timestring}",
+                        f"blocks:       {', '.join(sorted(self.blocks))}" if self.blocks else "",
+                        f"categories:   {', '.join(sorted(self.categories))}"
+                        if self.categories != self.config.default_categories
+                        else "",
+                        f"ismovable:    {str(self.ismovable).lower()}"
+                        if not self.ismovable == self.config.default_ismovable
+                        else "",
+                        f"alignend:     {str(self.alignend).lower()}"
+                        if not self.alignend == self.config.default_alignend
+                        else "",
+                        f"order:        {self.order}"
+                        if not self.order == self.config.default_order
+                        else "",
+                    )
+                    if s
                 )
-                if s
             )
+            + self.subentry_string()
         )
 
     def __hash__(self) -> int:

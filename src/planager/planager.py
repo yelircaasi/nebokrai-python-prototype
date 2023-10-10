@@ -55,17 +55,11 @@ class Planager:
 
         return cls(config, calendar, roadmaps, routines, pathmanager)
 
-    # @classmethod
-    # def from_html(cls, html_dir: Path) -> "Planager":
-
-    #     return cls()
-
     def derive(self) -> None:
         """
         Derives plan and schedules from declarations.
         """
 
-        # tasks = roadmaps.tasks  # Tasks.from_roadmaps(roadmaps)
         self.plan = self.derive_plan(self.calendar, self.roadmaps)
         self.schedules = self.derive_schedules(
             self.calendar,
@@ -77,8 +71,6 @@ class Planager:
         self,
         calendar: Calendar,
         roadmaps: Roadmaps,
-        # task_patches: Optional[TaskPatches] = None,
-        # plan_patches: Optional[PlanPatches] = None,
     ) -> Plan:
         """
         Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar,
@@ -97,19 +89,11 @@ class Planager:
         )
 
         projects = roadmaps.projects
-        # projects.order_by_dependency()
 
         for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan, project.tasks)
-        # plan.reorder_by_precedence()
-
-        # plan = self.patch_plan(plan, plan_patches)
-
-        # -------------------------------------------------------------------------------------
-        # enforce temporal precedence constraints
 
         self.enforce_precedence_constraints(plan, projects)
-        # -------------------------------------------------------------------------------------
 
         return plan
 
@@ -193,7 +177,6 @@ class Planager:
         project_name_length = 30
 
         today = PDate.today()
-        # end_date = self.plan.end_date
         end_date = PDate.today() + 400
 
         def make_project_line(project: Project) -> str:
@@ -203,8 +186,9 @@ class Planager:
                         _date: project[_tasks[-1]].status
                         for _date, _tasks in project.subplan.items()
                     }
+
                 assert self.plan, "Plan must be defined in order to be shown as a gantt."
-                # rcode, pcode = project.project_id
+
                 ret: dict[PDate, str] = {}
                 for date, task_ids in self.plan.items():
                     relevant_ids = [

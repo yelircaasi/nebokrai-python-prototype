@@ -18,6 +18,9 @@ pytest = "^7.4.0"
 pydeps = "^1.12.8"
 pylint = "^3.0.1"
 
+[tool.poetry.scripts]
+planager = "planager.__main__:main"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
@@ -39,7 +42,7 @@ disable = [
     "R0914", 
     # "W0511"
 ]
-no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project"
+no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main"
 docstring-min-length = 3
 
 [tool.isort]

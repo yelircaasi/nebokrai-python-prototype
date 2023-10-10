@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
 from ...config import Config
 from ...util import PDate
@@ -20,12 +20,10 @@ class Schedules:
     def __getitem__(self, __key: PDate) -> Schedule:
         return self._schedules[__key]
 
-    def __setitem__(self, __key: Any, __value: Any) -> None:
+    def __setitem__(self, __key: PDate, __value: Schedule) -> None:
         assert isinstance(__value, Schedule)
-        __key = PDate.ensure_is_pdate(__key)
-        if not __key:
-            raise ValueError(f"Date not in schedules: {str(__key)}")
         self._schedules.update({__key: __value})
+        raise ValueError(f"Invalid indexed assignment: {{{str(__key)}: {str(__value)}}}")
 
     def __str__(self) -> str:
         return "\n".join(map(str, self._schedules.values()))

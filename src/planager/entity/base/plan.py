@@ -35,7 +35,6 @@ class Plan:
             reverse=True,
         )
         excess: list[TaskID] = []
-        # available = self._calendar[date].total_available if self._calendar else 240
         avail_dict = self._calendar[date].available_dict
 
         # blocking logic
@@ -45,6 +44,7 @@ class Plan:
 
         blocked_task_ids = []
         blocks = self._calendar[date].blocks
+
         # ZUTUN: make `blocks` property correctly detect blocks inside of routine entries
         relevant_blocks = list(blocks.intersection(category_names))
         to_remove = []
@@ -118,20 +118,6 @@ class Plan:
     def tasks(self) -> Tasks:
         return Tasks(self.config, self._tasks.values())
 
-    # def reorder_by_precedence(self) -> None:
-    #     """
-
-    #     """
-    #     tasks = list(map(lambda t: self._tasks[t.task_id], self.tasks))
-    #     newtasks = []
-    #     self._plan = {}
-    #     for t, pre, post in zip(tasks[:-2], tasks[1:-1], tasks[2:]):
-    #         newtask = self.adjust_tmpdate_to_neighbors(t, pre, post)
-    #         newtasks.append(newtask)
-    #         if not newtask.tmpdate in self._plan:
-    #             self._plan.update({newtask.tmpdate: []})
-    #         self._plan[t.tmpdate].append(newtask.task_id)
-
     @staticmethod
     def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
         """
@@ -157,7 +143,7 @@ class Plan:
         return __date in self._plan
 
     def __getitem__(self, __date: PDate) -> list[TaskID]:
-        return self._plan[__date]
+        return self._plan.get(__date, [])
 
     def __setitem__(self, __date: PDate, __tasks: list[TaskID]) -> None:
         self._plan.update({__date: __tasks})
@@ -197,24 +183,8 @@ class Plan:
                 f"  After planning:  {empty_after}m empty; {total_after}m including blocks"
             )
 
-        # ret = ""
-        # topline = ""
-        # monthdayline = ""
-        # numline = ""
-        # dottedline = ""
-        # bottomline = ""
-
         line = 120 * "─" + "\n"
 
-        # nl = "\n"
-        # box = lambda s: f"┏━{len(str(s)) * '━'}━┓\n┃ {s} ┃\n┗━{len(str(s)) * '━'}━┛"
-        # task_repr = lambda t: f"[{t.project_name[:40]}] <> {t.name}"
-        # return "\n".join(
-        #     (
-        #         f"{box(a)}\n{nl.join(map(task_repr, [self._tasks[task_id] for task_id in b]))}"
-        #         for a, b in sorted(self._plan.items())
-        #     )
-        # )
         newl = "\n"
         return "\n".join(
             [

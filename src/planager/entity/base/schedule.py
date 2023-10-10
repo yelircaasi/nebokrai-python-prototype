@@ -23,11 +23,14 @@ class Schedule:
         weight_interval_max: Optional[float] = None,
         prio_transform: Callable = lambda x: (x / 100) ** 1.5,
     ) -> None:
-        self.schedule = Entries(config, schedule)
         self.config = config
-        self.date: PDate = date
         self.width: int = config.repr_width
-        self.overflow: Entries = Entries(config)
+
+        self.schedule = Entries(config, schedule)
+        # meta / info
+        self.date: PDate = date
+
+        # algo
         self.weight_interval_min = (
             weight_interval_min or config.default_schedule_weight_interval_min
         )
@@ -35,6 +38,9 @@ class Schedule:
             weight_interval_max or config.default_schedule_weight_interval_max
         )
         self.prio_transform: Callable = prio_transform
+
+        # record
+        self.overflow: Entries = Entries(config)
 
     def copy(self):
         newschedule = Schedule(self.config, self.date, [])
@@ -52,7 +58,7 @@ class Schedule:
         First checks for a block to add on top of, otherwise follows the default logic.
         """
         assert self.can_be_added(entry), f"--------------------------\n\n{entry}\n\n{self}"
-        # ZUTUN ^
+
         rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
         block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
         if block_ind:
@@ -66,7 +72,7 @@ class Schedule:
     def allocate_in_time(
         entries: "Entries",
         prio_weighting_function: Callable,
-    ) -> "Entries":  # MOVE TO ENTRIES? NAH -> need to refactor this, make purely functional
+    ) -> "Entries":
         """
         Creates a schedule (i.e. entry list) from a list of entries. Steps:
           1) check whether the entries fit in a day
@@ -75,11 +81,10 @@ class Schedule:
           3) separate entries into fixed (immovable) and flex (movable)
           4) add the fixed entries to the schedule
           5) identify the gaps
-          6) fill in the gaps with the flex items ZUTUN
+          6) fill in the gaps with the flex items
           7) resize between fixed points to remove small empty patches (where possible)
           ZUTUN: add alignend functionality (but first get it working without)
         """
-        # entries.extend(self.schedule)
         assert Entries.entry_list_fits(entries)
         compression_factor = round((24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3)
 
@@ -88,7 +93,6 @@ class Schedule:
             entries.config,
             [Entry.first_entry(entries.config), *entries_fixed, Entry.last_entry(entries.config)],
         )
-        # schedule = Entries(entries.config, [*entries_fixed])
 
         schedule.fill_gaps(entries_flex, prio_weighting_function, compression_factor)
         schedule.smooth_between_fixed(prio_weighting_function)
@@ -168,7 +172,7 @@ class Schedule:
     def entries(self) -> Entries:
         return Entries(self.config, filter(lambda x: isinstance(x, Entry), self.schedule))
 
-    def is_valid(self) -> bool:  # MAKE SIMILAR IN ENTRIES?
+    def is_valid(self) -> bool:
         """
         Checks whether all entries partition the time in the day.
         """

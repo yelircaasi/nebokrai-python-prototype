@@ -30,21 +30,25 @@ class Task:
         blocks: Optional[set[str]] = None,
         categories: Optional[set[str]] = None,
     ) -> None:
-        assert len(task_id) == 3
-
         self.config = config
+
+        # meta / info
         self.name = name
-        self.project_name = project_name
+        self.project_name = project_name  # unnecessary
         self.task_id = task_id
+        self.notes = notes
+
+        # algo
         self.priority = config.default_priority if priority is None else priority
         self.duration = config.default_duration if duration is None else duration
         self.dependencies = dependencies or set()
-        self.tmpdate = tmpdate if tmpdate else self.tmpdate
-        self.notes = notes
+        self.project_order = -1
         self.status = status
         self.blocks = blocks or set()
         self.categories = (categories or set()).union(config.default_categories)
-        self.project_order = -1
+
+        # record
+        self.tmpdate = tmpdate if tmpdate else self.tmpdate
         self.original_date: PDate = PDate.nonedate()
         self.block_assigned = ""
 

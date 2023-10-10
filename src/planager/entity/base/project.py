@@ -41,15 +41,6 @@ class Project:
         self.name = name
         self.project_id = project_id
         self._tasks = tasks
-        # self._tasks: Tasks = (
-        #     Tasks.from_string_iterable(
-        #         expand_task_segments(tasks) if isinstance(tasks, str) else tasks,
-        #         project_id=project_id,
-        #         project_name=name,
-        #     )
-        #     if not isinstance(tasks, Tasks)
-        #     else tasks
-        # )
         self.priority = priority or config.default_priority
         self.start = start or PDate.tomorrow() + config.default_project_dates_missing_offset + (
             hash(self.name) % config.default_project_dates_missing_hashmod
@@ -76,7 +67,6 @@ class Project:
         Instantiates from config, json-derived dic, and project information.
         """
 
-        # project_id = roadmap_id.project_id(project_code)
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
 
@@ -125,9 +115,6 @@ class Project:
         )
         copy.__dict__.update(self.__dict__)
         return copy
-
-    # def get_tasks(self, task_patches: Optional[TaskPatches] = None) -> Tasks:
-    #     ...
 
     @property
     def clusters(self) -> ClusterType:

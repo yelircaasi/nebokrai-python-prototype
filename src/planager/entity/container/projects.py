@@ -32,14 +32,6 @@ class Projects:
 
         return projects
 
-    # @property
-    # def project_list(self) -> list[Project]:
-    #     return list(self._projects.values())
-
-    # @project_list.setter
-    # def projects(self, value):
-    #     raise ValueError("Cannot directly set projects attribute.")
-
     def add(self, project: Project) -> None:
         self._projects.update({project.project_id: project})
 

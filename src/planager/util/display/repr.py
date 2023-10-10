@@ -37,7 +37,7 @@ def wrap_as_list(
 
 def wrap_string(
     line: str,
-    width: int = 80,
+    width: int,
     trailing_spaces: int = 2,
     borders: bool = False,
     border_char: str = "│",
@@ -72,7 +72,7 @@ def tabularize(
     border_char = "┃" if thick else "│"
     return wrap_string(
         s,
-        width=width,
+        width,
         trailing_spaces=trailing_spaces,
         borders=True,
         border_char=border_char,

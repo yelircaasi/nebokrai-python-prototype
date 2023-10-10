@@ -12,6 +12,7 @@ class Config:
     repr_width: int
 
     default_priority: int
+    default_sleep_priority: int
     default_duration: int
     default_interval: int
     default_cluster_size: int
@@ -32,6 +33,9 @@ class Config:
     default_schedule_weight_interval_min: float
     default_schedule_weight_interval_max: float
     default_schedule_weight_transform_exponent: float
+
+    default_sleep_delta_min: int
+    default_sleep_delta_max: int
 
     def __init__(
         self,
@@ -56,6 +60,9 @@ class Config:
         default_schedule_weight_interval_min: float,
         default_schedule_weight_interval_max: float,
         default_schedule_weight_transform_exponent: float,
+        default_sleep_priority: int,
+        default_sleep_delta_min: int,
+        default_sleep_delta_max: int,
     ) -> None:
         self.repr_width = repr_width
 
@@ -81,6 +88,10 @@ class Config:
         self.default_schedule_weight_interval_max = default_schedule_weight_interval_max
         self.default_schedule_weight_transform_exponent = default_schedule_weight_transform_exponent
 
+        self.default_sleep_priority = default_sleep_priority
+        self.default_sleep_delta_min = default_sleep_delta_min
+        self.default_sleep_delta_max = default_sleep_delta_max
+
     @classmethod
     def from_dict(cls, cfg: dict) -> "Config":
         return cls(
@@ -105,6 +116,9 @@ class Config:
             float(cfg["default_schedule_weight_interval_min"]),
             float(cfg["default_schedule_weight_interval_max"]),
             float(cfg["default_schedule_weight_transform_exponent"]),
+            int(cfg["default_sleep_priority"]),
+            int(cfg["default_sleep_delta_min"]),
+            int(cfg["default_sleep_delta_max"]),
         )
 
     @property

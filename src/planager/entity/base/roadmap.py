@@ -54,13 +54,10 @@ class Roadmap:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(f"{self.name} (ID {self.roadmap_id})", width, thick=True)
         empty = tabularize("", width, thick=True)
         projects = map(lambda p: f"{'-'.join(p.project_id): <9} │ {p.name}", iter(self._projects))
-        # projects = map(lambda x: tabularize(x.name, width, thick=True), projects)
         projects = map(lambda x: tabularize(x, width, thick=True), projects)
-        # projects = map(str, projects)
         return (
             "\n".join(("", topbeam, empty, top, empty, thinbeam, empty, ""))
             + "\n".join(projects)

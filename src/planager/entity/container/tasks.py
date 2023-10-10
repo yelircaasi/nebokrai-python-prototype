@@ -39,7 +39,6 @@ class Tasks:
         """
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
-            # task_id = (roadmap, project, task_dict["id"])
             task = Task.from_dict(
                 config,
                 task_dict,
@@ -70,7 +69,6 @@ class Tasks:
 
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
         top = tabularize("Tasks", width)
         empty = tabularize("", width)
