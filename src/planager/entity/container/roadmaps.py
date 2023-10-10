@@ -1,8 +1,9 @@
 from pathlib import Path
-from typing import Any, Iterator, Optional
+from typing import Any, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import PDate, tabularize
+from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
+from ..base.project import Project
 from ..base.roadmap import Roadmap
 from ..base.task import Task
 from ..container.projects import Projects
@@ -22,7 +23,7 @@ class Roadmaps:
     ) -> None:
         self.config = config
         self.workspace_dir = workspace_dir
-        self._roadmaps: dict[str, Roadmap] = {
+        self._roadmaps: dict[RoadmapID, Roadmap] = {
             roadmap.roadmap_id: roadmap for roadmap in (roadmaps or [])
         }
 
@@ -32,45 +33,20 @@ class Roadmaps:
         Creates instance from dict, intended to be used with .json declaration format.
         """
         ret = cls(config)
-        for rmid, rmdict in roadmaps_dict.items():
-            ret.add(Roadmap.from_dict(config, rmid, rmdict))
+        for roadmap_code, roadmap_dict in roadmaps_dict.items():
+            roadmap_id = RoadmapID(roadmap_code)
+            ret.add(Roadmap.from_dict(config, roadmap_id, roadmap_dict))
         return ret
 
-    # @classmethod
-    # def from_norg_workspace(cls, workspace_dir: Path) -> "Roadmaps":
-    #     file = workspace_dir / "roadmaps.norg"
-    #     norg = Norg.from_path(file)
-    #     roadmap_list = []
-    #     for item in norg.items:
-    #         if item.path:
-    #             roadmap_list.append(Roadmap.from_norg_path(item.path))
-    #         else:
-    #             raise ValueError(f"Roadmap item must have a path link: {str(item)}")
-    #     return cls(roadmap_list, workspace_dir)
-
-    # def open_projects_norg(self) -> Projects:
-    #     projects = Projects()
-    #     for roadmap in self._roadmaps.values():
-    #         for project in roadmap:
-    #             _project = project.copy()
-    #             # TODO project.update_from_norg()
-    #             projects.add(_project)
-    #     return projects
-
     @property
-    def projects(self) -> Projects:  # Dict[tuple[str, str], Project]:
+    def projects(self) -> Projects:
         """
         Returns all projects contained in the current instance, in the form of a Projects instance.
         """
-        projects: Projects = Projects(self.config)  # Dict[tuple[str, str], Project] = {}
-        for roadmap_id, roadmap in self._roadmaps.items():
-            for project_id, project in roadmap.items():
-                tuple_id: tuple[str, str] = (
-                    (roadmap_id, project_id) if isinstance(project_id, int) else project_id
-                )
-                project.project_id = tuple_id
+        projects: Projects = Projects(self.config)
+        for _, roadmap in self._roadmaps.items():
+            for _, project in roadmap.items():
                 projects.add(project)
-        # projects.order_by_dependency()
         return projects
 
     @property
@@ -132,9 +108,15 @@ class Roadmaps:
         assert not __roadmap.roadmap_id in self._roadmaps
         self._roadmaps.update({__roadmap.roadmap_id: __roadmap})
 
-    def get_task(self, task_id: tuple[str, str, str]) -> Task:
-        roadmap_code, project_code, task_code = task_id
-        return self._roadmaps[roadmap_code][project_code][task_code]
+    def get_project(self, project_id: ProjectID) -> Project:
+        if isinstance(project_id, ProjectID):
+            return self._roadmaps[project_id.roadmap_id][project_id]
+        raise KeyError(f"Invalid project_id for Roadmaps object: {project_id}")
+
+    def get_task(self, task_id: TaskID) -> Task:
+        if isinstance(task_id, TaskID):
+            return self._roadmaps[task_id.roadmap_id][task_id.project_id][task_id]
+        raise KeyError(f"Invalid task_id for Roadmaps object: {task_id}")
 
     def __len__(self) -> int:
         return len(self._roadmaps)
@@ -142,10 +124,12 @@ class Roadmaps:
     def __iter__(self) -> Iterator[Roadmap]:
         return iter(self._roadmaps.values())
 
-    def __getitem__(self, __key: str) -> Roadmap:
-        return self._roadmaps[__key]
+    def __getitem__(self, __key: Union[RoadmapID, ProjectID, TaskID]) -> Roadmap:
+        if isinstance(__key, RoadmapID):
+            return self._roadmaps[__key]
+        raise KeyError(f"Invalid key for Roadmaps object: {__key}")
 
-    def __setitem__(self, __id: str, __roadmap: Any) -> None:
+    def __setitem__(self, __id: RoadmapID, __roadmap: Roadmap) -> None:
         self._roadmaps.update({__id: __roadmap})
 
     def __str__(self) -> str:

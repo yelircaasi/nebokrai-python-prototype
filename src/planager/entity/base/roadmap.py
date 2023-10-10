@@ -1,9 +1,10 @@
 from typing import Any, Iterable, Iterator, List, Optional, Tuple
 
 from ...config import Config
-from ...util import PDate, tabularize
+from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..container.projects import Projects
 from .project import Project
+from .task import Task
 
 
 class Roadmap:
@@ -15,7 +16,7 @@ class Roadmap:
         self,
         config: Config,
         name: str,
-        roadmap_id: str,
+        roadmap_id: RoadmapID,
         projects: Projects,
         categories: Optional[Iterable[str]] = None,
     ) -> None:
@@ -26,41 +27,15 @@ class Roadmap:
         self.categories = categories or set()
 
     @classmethod
-    def from_dict(cls, config: Config, roadmap_id: str, roadmap_dict: dict[str, Any]) -> "Roadmap":
+    def from_dict(
+        cls, config: Config, roadmap_id: RoadmapID, roadmap_dict: dict[str, Any]
+    ) -> "Roadmap":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
         projects = Projects.from_dict(config, roadmap_id, roadmap_dict["projects"])
 
         return cls(config, roadmap_dict["name"], roadmap_id, projects)
-
-    # @classmethod
-    # def from_norg_path(self, norg_path: Path) -> "Roadmap":
-    #     norg = Norg.from_path(norg_path)
-    #     projects = Projects()  # norg.title, norg.doc_id)
-    #     for item in norg.items:
-    #         item_id = item.item_id[-1] if item.item_id else None
-    #         projects.add(
-    #             Project(
-    #                 item.name or "<Placeholder Project Name>",
-    #                 project_id=(
-    #                     norg.doc_id,
-    #                     item_id or "<Placeholder Project ID>",
-    #                 ),
-    #                 tasks=[],  # TODO
-    #                 priority=item.priority or 10,
-    #                 start=item.start_date or PDate.today() + 7,
-    #                 end=item.end_date or PDate.today() + 107,
-    #                 interval=item.interval or 7,
-    #                 cluster_size=item.cluster_size or 1,
-    #                 duration=item.duration or 30,
-    #                 tags=item.tags or set(),
-    #                 description=item.description or "",
-    #                 notes=item.notes or "",
-    #                 dependencies=item.dependencies or set(),
-    #             )
-    #         )
-    #     return Roadmap(norg.title, norg.doc_id, projects)
 
     def copy(self) -> "Roadmap":
         return Roadmap(
@@ -115,8 +90,13 @@ class Roadmap:
         today = PDate.today()
         return max(map(lambda p: p.end or today, self._projects))
 
-    def items(self) -> List[Tuple[Tuple[str, str], Project]]:
+    def items(self) -> List[Tuple[ProjectID, Project]]:
         return [(proj.project_id, proj) for proj in self._projects]
+
+    def get_task(self, task_id: TaskID) -> Task:
+        if isinstance(task_id, TaskID):
+            return self._projects[task_id.project_id][task_id]
+        raise KeyError(f"Invalid task_id for Roadmap object: {task_id}")
 
     def __iter__(self) -> Iterator[Project]:
         return iter(self._projects)
@@ -124,8 +104,10 @@ class Roadmap:
     def __len__(self) -> int:
         return len(self._projects)
 
-    def __getitem__(self, __project_code: str) -> Project:
-        return self._projects[__project_code]
+    def __getitem__(self, __key: ProjectID) -> Project:
+        if isinstance(__key, ProjectID):
+            return self._projects[__key]
+        raise KeyError(f"Invalid key for Roadmap object: {__key}")
 
     def __str__(self) -> str:
         return self.pretty()

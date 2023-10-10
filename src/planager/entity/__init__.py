@@ -1,4 +1,4 @@
-from .base.calendar import Calendar
+from .base.calendar import Calendar, Day
 from .base.entry import Empty, Entry
 from .base.plan import Plan
 from .base.project import Project
@@ -14,6 +14,7 @@ from .container.tasks import Tasks
 
 __all__ = [
     "Calendar",
+    "Day",
     "Empty",
     "Entry",
     "Plan",

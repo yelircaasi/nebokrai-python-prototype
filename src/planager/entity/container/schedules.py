@@ -17,10 +17,7 @@ class Schedules:
     def __len__(self) -> int:
         return len(self._schedules)
 
-    def __getitem__(self, __key: Any) -> Schedule:
-        __key = PDate.ensure_is_pdate(__key)
-        if not __key:
-            raise ValueError(f"Date not in schedules: {str(__key)}")
+    def __getitem__(self, __key: PDate) -> Schedule:
         return self._schedules[__key]
 
     def __setitem__(self, __key: Any, __value: Any) -> None:

@@ -1,5 +1,6 @@
 from .pdatetime import PDate
+from .entity_ids import TaskID
 
-ClusterType = list[list[tuple[str, str, str]]]
+ClusterType = list[list[TaskID]]
 # SubplanType = dict[PDate, list[int]]
-SubplanType = dict[PDate, list[tuple[str, str, str]]]
+SubplanType = dict[PDate, list[TaskID]]

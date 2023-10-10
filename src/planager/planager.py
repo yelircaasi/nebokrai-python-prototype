@@ -5,6 +5,7 @@ from typing import Any, Optional, Union
 from .config import Config
 from .entity import (
     Calendar,
+    Day,
     Plan,
     Project,
     Projects,
@@ -15,7 +16,7 @@ from .entity import (
     Schedules,
     Task,
 )
-from .util import PathManager, PDate
+from .util import PathManager, PDate, ProjectID, RoadmapID, TaskID
 
 
 class Planager:
@@ -130,11 +131,8 @@ class Planager:
         schedules = Schedules(self.config, {})
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
-            # schedule.add_routines(calendar[date].routine_dict, routines)
             schedule.add_from_plan(plan, roadmaps.tasks)
-            # schedule = self.patch_schedule(schedule, schedule_patches[date])
             schedules[date] = schedule
-            # print(len(schedules))
         return schedules
 
     @staticmethod
@@ -143,16 +141,16 @@ class Planager:
         Checks that all temporal dependencies are respected and raises an informative
           error if that is not the case.
         """
-        inverse_plan = {}
+        inverse_plan: dict[TaskID, PDate] = {}
         for date, ids in plan.items():
             for task_id in ids:
                 inverse_plan.update({task_id: date})
 
-        def get_date(_id: Union[tuple[str, str, str], tuple[str, str]]) -> PDate:
-            if len(_id) == 2:
+        def get_date(_id: Union[TaskID, ProjectID]) -> PDate:
+            if isinstance(_id, ProjectID):
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
-            if len(_id) == 3:
-                return inverse_plan[projects[_id]]
+            if isinstance(_id, TaskID):
+                return inverse_plan[projects.get_task(_id).task_id]
             raise ValueError("ID must have 2 or 3 elements.")
 
         for task in projects.tasks:
@@ -201,14 +199,19 @@ class Planager:
         def make_project_line(project: Project) -> str:
             def get_dates(project: Project, raw: bool) -> dict[PDate, str]:
                 if raw:
-                    return {d: project[l[-1][-1]].status for d, l in project.subplan.items()}
+                    return {
+                        _date: project[_tasks[-1]].status
+                        for _date, _tasks in project.subplan.items()
+                    }
                 assert self.plan, "Plan must be defined in order to be shown as a gantt."
-                rcode, pcode = project.project_id
+                # rcode, pcode = project.project_id
                 ret: dict[PDate, str] = {}
                 for date, task_ids in self.plan.items():
-                    rel_ids = [(r, p, _) for (r, p, _) in task_ids if (r == rcode and p == pcode)]
-                    if rel_ids:
-                        task_id = rel_ids[0]
+                    relevant_ids = [
+                        _task_id for _task_id in task_ids if _task_id in project.project_id
+                    ]
+                    if relevant_ids:
+                        task_id = relevant_ids[0]
                         ret.update({date: self.roadmaps.get_task(task_id).status})
 
                 return ret
@@ -235,13 +238,11 @@ class Planager:
                         middle += (d1.daysto(d2) - 1) * "―" + status2char[dates[d2]]
 
             line += (today.daysto(min(dates)) * " ") + middle + (max(dates).daysto(end_date) * " ")
-            # print(len(line))
-            # print(line)
             return line
 
         roadmap_dict = {r.roadmap_id: i for i, r in enumerate(self.roadmaps)}
         lines = [
-            (roadmap_dict[project.project_id[0]], make_project_line(project))
+            (roadmap_dict[project.project_id.roadmap_id], make_project_line(project))
             for project in self.roadmaps.projects
         ]
         lines = list(filter(lambda x: x[1] != "", lines))
@@ -271,21 +272,20 @@ class Planager:
 
         line1 = make_header()
         gantt = "\n".join([line1, line1, ""]) + "\n".join(map(lambda x: x[1], lines))
-        # print(gantt)
         return gantt
 
-    def __getitem__(self, __key: Union[str, tuple]) -> Union[Roadmap, Project, Task]:
-        if isinstance(__key, str):
+    def __getitem__(
+        self, __key: Union[RoadmapID, ProjectID, TaskID]
+    ) -> Union[Roadmap, Project, Task, Day]:
+        if isinstance(__key, RoadmapID):
             return self.roadmaps[__key]
-        match len(__key):
-            case 2:
-                r, p = __key
-                return self.roadmaps[r]._projects[p]
-            case 3:
-                r, p, t = __key
-                return self.roadmaps[r]._projects[p].tasks[t]
-            case _:
-                raise KeyError(f"Key '{__key}' invalid for 'Planager' object.")
+        if isinstance(__key, ProjectID):
+            return self.roadmaps[__key.roadmap_id][__key]
+        if isinstance(__key, TaskID):
+            return self.roadmaps[__key.roadmap_id][__key.project_id][__key]
+        if isinstance(__key, PDate):
+            return self.schedules[__key]
+        raise KeyError(f"Invalid key for Planager object: {__key}")
 
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...

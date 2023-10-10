@@ -2,7 +2,7 @@ import re
 from typing import Any, Literal, Optional
 
 from planager.config import Config
-from planager.util import PDate, PTime, tabularize
+from planager.util import PDate, ProjectID, PTime, TaskID, tabularize
 
 from .entry import Entry
 
@@ -20,10 +20,10 @@ class Task:
         config: Config,
         name: str,
         project_name: str,
-        task_id: tuple[str, str, str],
+        task_id: TaskID,
         priority: Optional[int],
         duration: Optional[int],
-        dependencies: Optional[set[tuple[str, str, str]]] = None,
+        dependencies: Optional[set[TaskID]] = None,
         tmpdate: Optional[PDate] = None,
         notes: str = "",
         status: Literal["todo", "done"] = "todo",
@@ -53,8 +53,7 @@ class Task:
         cls,
         config: Config,
         task_dict: dict[str, Any],
-        roadmap_code: str,
-        project_code: str,
+        project_id: ProjectID,
         project_name: str,
         project_priority: Optional[int] = None,
         project_duration: Optional[int] = None,
@@ -64,13 +63,11 @@ class Task:
         Instantiates from config, json-derived dic, and project information.
         """
 
-        def parse_id(s: str) -> tuple[str, str, str]:
-            print(s)
+        def parse_id(s: str) -> TaskID:
             res = re.split(r"\W", s)
-            print(res)
-            return (res[0], res[1], res[2])
+            return TaskID(res[0], res[1], res[2])
 
-        task_id = (roadmap_code, project_code, task_dict["id"])
+        task_id = project_id.task_id(task_dict["id"])
         deps_raw = re.split(", ?", task_dict.get("dependencies", ""))
         cats_raw = re.split(", ?", task_dict.get("categories", ""))
 
@@ -101,7 +98,7 @@ class Task:
         """
         Create an instance of Entry from a task.
         """
-        # TODO
+        # ZUTUN
         if not start:
             start = PTime.nonetime()
         return Entry(self.config, self.name, start)

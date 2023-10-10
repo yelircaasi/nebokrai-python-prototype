@@ -1,8 +1,9 @@
 from typing import Any, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import tabularize
+from ...util import ProjectID, RoadmapID, TaskID, tabularize
 from ..base.project import Project
+from ..base.task import Task
 from ..container.tasks import Tasks
 
 
@@ -12,12 +13,12 @@ class Projects:
     """
 
     def __init__(self, config: Config, projects: Optional[list[Project]] = None) -> None:
-        self._projects: dict[tuple[str, str], Project] = {p.project_id: p for p in (projects or [])}
+        self._projects: dict[ProjectID, Project] = {p.project_id: p for p in (projects or [])}
         self.config = config
         self._tasks: Tasks = self._get_tasks()
 
     @classmethod
-    def from_dict(cls, config, roadmap_id: str, projects_dict: dict[str, Any]) -> "Projects":
+    def from_dict(cls, config, roadmap_id: RoadmapID, projects_dict: dict[str, Any]) -> "Projects":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
@@ -25,8 +26,9 @@ class Projects:
         projects = cls(config)
 
         for project_code, project_dict in projects_dict.items():
+            project_id = roadmap_id.project_id(project_code)
             if project_dict:
-                projects.add(Project.from_dict(config, roadmap_id, project_code, project_dict))
+                projects.add(Project.from_dict(config, project_id, project_dict))
 
         return projects
 
@@ -54,9 +56,12 @@ class Projects:
 
     @property
     def iter_by_priority(self) -> Iterator[Project]:
-        return iter(
-            sorted(list(self._projects.values()), key=lambda proj: proj.priority)
-        )  # TODO: make iterate in order
+        return iter(sorted(list(self._projects.values()), key=lambda proj: proj.priority))
+
+    def get_task(self, task_id: TaskID) -> Task:
+        if isinstance(task_id, TaskID):
+            return self._projects[task_id.project_id][task_id]
+        raise KeyError(f"Invalid task_id for Roadmap object: {task_id}")
 
     def pretty(self) -> str:
         """
@@ -99,24 +104,17 @@ class Projects:
         )
 
     def __iter__(self) -> Iterator[Project]:
-        return iter(self._projects.values())  # TODO: make iterate in order
+        return iter(sorted(self._projects.values(), key=lambda p: p.start))
 
     def __len__(self) -> int:
         return len(self._projects)
 
-    def __getitem__(self, __id: Union[str, tuple[str, str], tuple[str, str, str]]) -> Any:
-        if isinstance(__id, str):
-            roadmap_id = list(self._projects)[0][0]
-            return self._projects[(roadmap_id, __id)]
-        if len(__id) == 2:
-            return self._projects[__id]  # type: ignore
-        if len(__id) == 3:
-            return self._tasks[__id]  # type: ignore
-        raise KeyError(f"Invalid key for `Projects`: {__id}.")
+    def __getitem__(self, __key: ProjectID) -> Any:
+        if isinstance(__key, ProjectID):
+            return self._projects[__key]
+        raise KeyError(f"Invalid key for Projects object: {__key}")
 
-    def __setitem__(
-        self, __id: Union[tuple[str, str], tuple[str, str, str]], __value: Project
-    ) -> None:
+    def __setitem__(self, __id: Union[ProjectID, TaskID], __value: Project) -> None:
         if len(__id) == 2:
             self._projects.update({__id: __value})  # type: ignore
         elif len(__id) == 3:

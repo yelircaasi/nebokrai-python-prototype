@@ -98,7 +98,7 @@ class PTime:
         return f"{self.hour:0>2}:{self.minute:0>2}"
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"PTime({self.__str__()})"
 
     def __eq__(self, ptime2: Any) -> bool:  # type: ignore
         if isinstance(ptime2, PTime):

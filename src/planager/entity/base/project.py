@@ -2,7 +2,15 @@ import re
 from typing import Any, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import ClusterType, PDate, SubplanType, tabularize
+from ...util import (
+    ClusterType,
+    PDate,
+    ProjectID,
+    RoadmapID,
+    SubplanType,
+    TaskID,
+    tabularize,
+)
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -16,7 +24,7 @@ class Project:
         self,
         config: Config,
         name: str,
-        project_id: tuple[str, str],
+        project_id: ProjectID,
         tasks: Tasks,
         priority: Optional[int],
         start: Optional[PDate],
@@ -26,7 +34,7 @@ class Project:
         duration: Optional[int],
         description: str = "",
         notes: str = "",
-        dependencies: Optional[set[tuple[str, ...]]] = None,
+        dependencies: Optional[set[Union[RoadmapID, ProjectID, TaskID]]] = None,
         categories: Optional[set[str]] = None,
     ) -> None:
         self.config = config
@@ -62,13 +70,13 @@ class Project:
 
     @classmethod
     def from_dict(
-        cls, config: Config, roadmap_code: str, project_code: str, project_dict: dict[str, Any]
+        cls, config: Config, project_id: ProjectID, project_dict: dict[str, Any]
     ) -> "Project":
         """
         Instantiates from config, json-derived dic, and project information.
         """
 
-        project_id = (roadmap_code, project_code)
+        # project_id = roadmap_id.project_id(project_code)
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
 
@@ -85,8 +93,7 @@ class Project:
             tasks=Tasks.from_dict(
                 config,
                 project_dict["tasks"],
-                roadmap_code,
-                project_code,
+                project_id,
                 project_dict["name"],
                 project_priority=priority,
                 project_duration=duration,
@@ -102,67 +109,6 @@ class Project:
             notes=project_dict.get("notes", ""),
             categories=categories,
         )
-
-    # @classmethod
-    # def from_norg_path(
-    #     cls,
-    #     norg_path: Path,
-    #     project_name: str,
-    #     priority: int = 10,
-    #     start: Optional[PDate] = None,
-    #     end: Optional[PDate] = None,
-    #     interval: int = 7,
-    #     cluster_size: int = 1,
-    #     duration: int = 30,
-    #     tags: set = set(),
-    #     description: str = "",
-    #     notes: str = "",
-    #     dependencies: set[tuple[str, ...]] = set(),
-    #     # **kwargs,
-    # ) -> "Project":
-    #     norg_obj = Norg.from_path(norg_path)
-    #     project_id = (norg_obj.parent, norg_obj.doc_id)
-    #     tasks = Tasks.from_norg_path(norg_path, project_id, project_name)
-    #     c = cls(
-    #         name=norg_obj.title,
-    #         project_id=project_id,
-    #         tasks=tasks,
-    #         priority=priority,
-    #         start=start,
-    #         end=end,
-    #         interval=interval,
-    #         cluster_size=cluster_size,
-    #         duration=duration,
-    #         tags=tags,
-    #         description=description,
-    #         notes=notes,
-    #         path=norg_path,
-    #         dependencies=dependencies,
-    #     )
-    #     return c
-
-    # @classmethod
-    # def from_roadmap_item(
-    #     cls, norg_item_string: str, roadmap_id: str, roadmap_path: Path
-    # ) -> "Project":
-    #     item = Norg.norg_item_from_string(norg_item_string)
-    #     item_id = item.item_id[-1] if item.item_id else None
-    #     return cls(
-    #         name=item.name or "<Placeholder Project Name>",
-    #         project_id=(roadmap_id, item_id or "<Roadmap Placeholder ID>"),
-    #         tasks=[],  # TODO
-    #         priority=item.priority or 10,
-    #         start=item.start_date or PDate.today() + 7,
-    #         end=item.end_date or PDate.today() + 107,
-    #         interval=item.interval or 7,
-    #         cluster_size=item.cluster_size or 1,
-    #         duration=item.duration or 30,
-    #         tags=item.tags or set(),
-    #         description=item.description or "",
-    #         notes=item.notes or "",
-    #         path=item.path,
-    #         dependencies=item.dependencies or set(),
-    #     )
 
     def copy(self) -> "Project":
         copy = Project(
@@ -223,18 +169,14 @@ class Project:
             ndays = int(self.get_end()) - int(self.start)
             factor = ndays / nclusters
             ints = [int(round(i * factor)) for i in range(nclusters)]
-            # print(nclusters, ndays, ints)
         elif self.interval:
             gap = self.interval
             ints = [i * gap for i in range(nclusters)]
         else:
-            print(self.name)
             raise ValueError(
-                "Invalid parameter configuration. "
+                f"Invalid parameter configuration for {self.name}. "
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
             )
-
-        # start: PDate = self.start or PDate.tomorrow() + (hash(self.name) % 7)
 
         subplan: SubplanType = {self.start + ints[i]: cluster for i, cluster in enumerate(clusters)}
 
@@ -248,7 +190,7 @@ class Project:
         return self._tasks
 
     @property
-    def task_ids(self) -> list[tuple[str, str, str]]:
+    def task_ids(self) -> list[TaskID]:
         return self._tasks.task_ids
 
     def pretty(self) -> str:
@@ -298,12 +240,10 @@ class Project:
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
-    def __getitem__(self, __key: Union[str, tuple[str, str, str]]) -> Task:
-        if isinstance(__key, str):
-            return self._tasks[(*self.project_id, __key)]
-        # raise ValueError("Accessing a task from Project via a tuple ID is deprecated.")
-        print("Accessing a task from Project via a tuple ID is deprecated.")
-        return self._tasks[__key]
+    def __getitem__(self, __key: TaskID) -> Task:
+        if isinstance(__key, TaskID):
+            return self._tasks[__key]
+        raise KeyError(f"Invalid key for Project object: {__key}")
 
     def __str__(self) -> str:
         return self.pretty()

@@ -31,8 +31,15 @@ line-length = 100
 
 [tool.pylint]
 # disable = ["C0114", "R0902", "R0913", "R0914"]
-disable = ["C0114", "R0902", "R0904", "R0913", "R0914", "W0511"]
-no-docstring-rgx = "^_|copy|from_string|fromordinal|today"
+disable = [
+    "C0114", 
+    "R0902", 
+    "R0904", 
+    "R0913", 
+    "R0914", 
+    # "W0511"
+]
+no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project"
 docstring-min-length = 3
 
 [tool.isort]

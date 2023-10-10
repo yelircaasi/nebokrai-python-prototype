@@ -1,10 +1,10 @@
 from typing import Any, Iterable, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import tabularize
+from ...util import ProjectID, TaskID, tabularize
 from ..base.task import Task
 
-TaskInitType = Optional[Union[dict[tuple[str, str, str], Task], Iterable[Task]]]
+TaskInitType = Optional[Union[dict[TaskID, Task], Iterable[Task]]]
 
 
 class Tasks:
@@ -14,7 +14,7 @@ class Tasks:
 
     def __init__(self, config: Config, tasks: TaskInitType = None) -> None:
         self.config = config
-        self._tasks: dict[tuple[str, str, str], Task] = {}
+        self._tasks: dict[TaskID, Task] = {}
         if isinstance(tasks, dict):
             self._tasks = tasks
         else:
@@ -28,8 +28,7 @@ class Tasks:
         cls,
         config: Config,
         tasks_dict_list: list[dict[str, Any]],
-        roadmap_code: str,
-        project_code: str,
+        project_id: ProjectID,
         project_name: str,
         project_priority: Optional[int] = None,
         project_duration: Optional[int] = None,
@@ -44,8 +43,7 @@ class Tasks:
             task = Task.from_dict(
                 config,
                 task_dict,
-                roadmap_code,
-                project_code,
+                project_id,
                 project_name,
                 project_priority,
                 project_duration,
@@ -55,65 +53,11 @@ class Tasks:
 
         return cls(config, tasks_list)
 
-    # @classmethod
-    # def from_string_iterable(
-    #     cls,
-    #     task_list: list[str],
-    #     project_id: tuple[str, str],
-    #     project_name: str,
-    #     priority: Optional[int] = None,
-    #     after: set[tuple[str, ...]] = set(),
-    # ) -> "Tasks":
-    #     tasks = cls()
-    #     for task_id_, name in enumerate(task_list, start=1):
-    #         # name = name if isinstance(name, str) else name.name
-    #         task_id = (*project_id, str(task_id_))
-    #         task = (
-    #             Task(config, name, project_name, task_id, priority)
-    #             if priority is not None
-    #             else Task(name, project_name, task_id)
-    #         )
-    #         tasks.add(task)
-    #     return tasks
-
-    # @classmethod
-    # def from_norg_path(
-    #     cls,
-    #     norg_path: Path,
-    #     project_id: tuple[str, str],
-    #     project_name: str,  # **kwargs
-    # ) -> "Tasks":
-    #     assert project_name != "/"
-    #     tasks = cls()
-    #     norg_obj = Norg.from_path(norg_path)
-    #     for item in norg_obj.items:
-    #         item_id = item.name
-    #         assert item_id, f"Item must have a name: {str(item)}"
-    #         priority = int(str(item.priority)) if str(item.priority).isdigit() else 10
-    #         tasks.add(
-    #             Task(
-    #                 name=item.name,
-    #                 project_name=
-    #                 task_id=(*project_id, item_id),
-    #                 priority=priority,
-    #             )
-    #         )
-    #     return tasks
-
-    # @classmethod
-    # def from_roadmaps(cls, roadmaps: Iterable[Iterable[Iterable["Task"]]]) -> "Tasks":
-    #     new_tasks = Tasks()
-    #     for roadmap in roadmaps:
-    #         for project in roadmap:
-    #             for task in project:
-    #                 new_tasks._tasks.update({task.task_id: task})
-    #     return new_tasks
-
     def add(self, task: Task) -> None:
         self._tasks.update({task.task_id: task})
 
     @property
-    def task_ids(self) -> list[tuple[str, str, str]]:
+    def task_ids(self) -> list[TaskID]:
         return [t.task_id for t in self]
 
     def pretty(self, width: int = 80) -> str:
@@ -146,17 +90,17 @@ class Tasks:
             + bottombeam
         )
 
-    def update(self, __tasks: Union["Tasks", dict[tuple[str, str, str], Task]]) -> None:
+    def update(self, __tasks: Union["Tasks", dict[TaskID, Task]]) -> None:
         for task_id, task in __tasks.items():
             self._tasks.update({task_id: task})
 
-    def items(self) -> Iterator[tuple[tuple[str, str, str], Task]]:
+    def items(self) -> Iterator[tuple[TaskID, Task]]:
         return iter(self._tasks.items())
 
     def __iter__(self) -> Iterator[Task]:
         return iter(sorted(self._tasks.values(), key=lambda t: t.project_order))
 
-    def __getitem__(self, __key: tuple[str, str, str]) -> Task:
+    def __getitem__(self, __key: TaskID) -> Task:
         return self._tasks[__key]
 
     def __str__(self) -> str:

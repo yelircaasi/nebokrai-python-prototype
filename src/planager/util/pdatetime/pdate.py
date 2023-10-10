@@ -222,7 +222,7 @@ class PDate:
         return f"{self.year}-{self.month:0>2}-{self.day:0>2}"
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"PDate({self.__str__()})"
 
 
 class NoneDate(PDate):

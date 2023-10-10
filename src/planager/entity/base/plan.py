@@ -1,7 +1,7 @@
 from typing import Iterator
 
 from ...config import Config
-from ...util import PDate
+from ...util import PDate, TaskID
 from ..container.tasks import Tasks
 from .calendar import Calendar
 from .task import Task
@@ -19,12 +19,10 @@ class Plan:
     ) -> None:
         self.config = config
         self._calendar = calendar
-        self._tasks: dict[tuple[str, str, str], Task] = {}
-        self._plan: dict[PDate, list[tuple[str, str, str]]] = {}
+        self._tasks: dict[TaskID, Task] = {}
+        self._plan: dict[PDate, list[TaskID]] = {}
 
-    def add_tasks(
-        self, date: PDate, task_ids_: list[tuple[str, str, str]]
-    ) -> list[tuple[str, str, str]]:
+    def add_tasks(self, date: PDate, task_ids_: list[TaskID]) -> list[TaskID]:
         """
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
           the lowest-priority excess task ids are returned.
@@ -36,7 +34,7 @@ class Plan:
             key=lambda x: (self._tasks[x].status == "done", self._tasks[x].priority),
             reverse=True,
         )
-        excess: list[tuple[str, str, str]] = []
+        excess: list[TaskID] = []
         # available = self._calendar[date].total_available if self._calendar else 240
         avail_dict = self._calendar[date].available_dict
 
@@ -44,17 +42,11 @@ class Plan:
         category_names = set()
         for task_id in task_ids:
             category_names.update(self._tasks[task_id].categories)
-        # if category_names:
-        #     print(category_names)
 
         blocked_task_ids = []
-        blocks = self._calendar[
-            date
-        ].blocks  # TODO: make `blocks` property correctly detect blocks inside of routine entries
-        # print(blocks)
+        blocks = self._calendar[date].blocks
+        # ZUTUN: make `blocks` property correctly detect blocks inside of routine entries
         relevant_blocks = list(blocks.intersection(category_names))
-        # if relevant_blocks:
-        #     print(date, relevant_blocks)
         to_remove = []
         for block in relevant_blocks:
             for task_id in task_ids:
@@ -82,7 +74,7 @@ class Plan:
 
     def add_subplan(
         self,
-        subplan: dict[PDate, list[tuple[str, str, str]]],
+        subplan: dict[PDate, list[TaskID]],
         tasks: Tasks,
     ) -> None:
         """
@@ -100,11 +92,11 @@ class Plan:
         for task in tasks:
             self._tasks.update({task.task_id: task})
 
-        # excess_tasks: list[tuple[str, str, str]] = []
+        # excess_tasks: list[TaskID] = []
 
         for date, task_id_list in subplan.items():
             self.ensure_date(date)
-            rollover: list[tuple[str, str, str]] = self.add_tasks(date, task_id_list)
+            rollover: list[TaskID] = self.add_tasks(date, task_id_list)
             next_date = date.copy()
             while rollover:
                 rollover = self.add_tasks(next_date, rollover)
@@ -155,23 +147,23 @@ class Plan:
         new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
         return new_t
 
-    def items(self) -> Iterator[tuple[PDate, list[tuple[str, str, str]]]]:
+    def items(self) -> Iterator[tuple[PDate, list[TaskID]]]:
         return iter(self._plan.items())
 
-    def __iter__(self) -> Iterator[tuple[PDate, list[tuple[str, str, str]]]]:
+    def __iter__(self) -> Iterator[tuple[PDate, list[TaskID]]]:
         return iter(sorted(list(self._plan.items()), key=lambda x: x[0]))
 
     def __contains__(self, __date: PDate) -> bool:
         return __date in self._plan
 
-    def __getitem__(self, __date: PDate) -> list[tuple[str, str, str]]:
-        return self._plan.get(__date, [])
+    def __getitem__(self, __date: PDate) -> list[TaskID]:
+        return self._plan[__date]
 
-    def __setitem__(self, __date: PDate, __tasks: list[tuple[str, str, str]]) -> None:
+    def __setitem__(self, __date: PDate, __tasks: list[TaskID]) -> None:
         self._plan.update({__date: __tasks})
 
     def __str__(self) -> str:
-        def task_repr(task_id: tuple[str, str, str], date: PDate) -> str:
+        def task_repr(task_id: TaskID, date: PDate) -> str:
             task = self._tasks[task_id]
             name = str(task.name) or str(task.task_id)
             orig = ("orig: " + str(task.original_date)) if task.original_date != date else ""

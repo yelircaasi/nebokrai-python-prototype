@@ -179,7 +179,7 @@ class Entry:
 
     def add_subentry(
         self, subentry: "Entry"
-    ) -> list["Entry"]:  # TODO: rewrite to keep highest-priority
+    ) -> list["Entry"]:  # ZUTUN: rewrite to keep highest-priority
         """
         Adds another entry to be part of self. Only works if self is a block,
           i.e. `self.blocks` is not empty.

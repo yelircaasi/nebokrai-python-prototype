@@ -88,7 +88,6 @@ class Day:
             maxtime=evening_normaltime + 1,
             ismovable=False,
         )
-        # print(entries)
         if self.entries:
             first_entry = self.entries[0]
             last_entry = self.entries[-1]
@@ -103,8 +102,7 @@ class Day:
             if last_entry.name.lower() == "sleep":
                 pass
             elif last_entry.overlaps(evening_sleep):
-                print(last_entry)
-                raise ValueError("")
+                raise ValueError("Day init: last_entry:", last_entry)
             else:
                 self.entries.append(evening_sleep)
 
@@ -145,10 +143,6 @@ class Day:
         start = PTime.from_string(day_dict.get("start", str(config.default_day_start)))
         end = PTime.from_string(day_dict.get("end", str(config.default_day_end)))
 
-        # print(entries)
-        # print('routines_dict:', routines_dict)
-
-        # return cls(date, entries, routines_dict, start, end)
         return cls(config, date, start, end, entries, routine_entries)
 
     @staticmethod
@@ -156,7 +150,7 @@ class Day:
         """
         Creates routine entries from the declaration and from the Routines instance.
         """
-        # print(routine_dict); exit()
+
         for routine_spec in routine_dict.values():
             routine_name = routine_spec["name"]
 

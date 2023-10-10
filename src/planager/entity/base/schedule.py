@@ -25,7 +25,7 @@ class Schedule:
     ) -> None:
         self.schedule = Entries(config, schedule)
         self.config = config
-        self.date: PDate = date or PDate.today() + 1  # TODO: remove default
+        self.date: PDate = date
         self.width: int = config.repr_width
         self.overflow: Entries = Entries(config)
         self.weight_interval_min = (
@@ -51,10 +51,8 @@ class Schedule:
 
         First checks for a block to add on top of, otherwise follows the default logic.
         """
-        # print(entry.start)
-        # print(bool(entry.start))
         assert self.can_be_added(entry), f"--------------------------\n\n{entry}\n\n{self}"
-        # TODO ^
+        # ZUTUN ^
         rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
         block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
         if block_ind:
@@ -77,9 +75,9 @@ class Schedule:
           3) separate entries into fixed (immovable) and flex (movable)
           4) add the fixed entries to the schedule
           5) identify the gaps
-          6) fill in the gaps with the flex items TODO
+          6) fill in the gaps with the flex items ZUTUN
           7) resize between fixed points to remove small empty patches (where possible)
-          TODO: add alignend functionality (but first get it working without)
+          ZUTUN: add alignend functionality (but first get it working without)
         """
         # entries.extend(self.schedule)
         assert Entries.entry_list_fits(entries)
@@ -109,18 +107,6 @@ class Schedule:
     def starts_strings(self) -> list[str]:
         return [str(x.start) for x in self.schedule]
 
-    # def add_routines(
-    #     self, routines_dict: dict[str, dict], routines: Routines
-    # ) -> None:  #  -> KEEP
-    #     for routine_name in routines_dict:
-    #         routine = routines[routine_name]
-    #         if routine.valid_on(self.date):
-    #             self.add(routine.as_entry())
-    #             print(self)
-    #         else:
-    #             print(f"Not valid on {self.date}.")
-    #     raise ValueError  # ---
-
     def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:  #  -> KEEP
         for task_id in plan[self.date]:
             self.add(tasks[task_id].as_entry(PTime.nonetime()))
@@ -129,20 +115,14 @@ class Schedule:
         """
         Checks whether the given entry can be added.
         """
-        # MOVE TO ENTRIES? NAH, GOOD TO HAVE ACCESSIBLE
-        # assert self.schedule.overlaps_are_movable(entry)
         if not entry.start:
             return True
         if not self.schedule.overlaps_are_movable(entry):
-            print("A")
             return False
         if not entry.ismovable:
-            print("B")
             overlaps = self.schedule.get_overlaps(entry)
             if not all(map(lambda x: x.ismovable, overlaps)):
-                print("C")
                 return False
-        print("D")
         return sum(map(lambda x: x.mintime, self.schedule)) + entry.mintime < (24 * 60)
 
     @property

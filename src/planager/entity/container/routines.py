@@ -50,9 +50,7 @@ class Routines:
         return iter(self._routines.values())
 
     def __getitem__(self, __name: str) -> Routine:
-        if " " in __name:
-            return self._routines[__name.split(" ")[0].lower()]
-        return self._routines[__name.lower()]
+        return self._routines[__name.split(" ")[0].lower()]
 
     def __str__(self) -> str:
         return self.pretty()
