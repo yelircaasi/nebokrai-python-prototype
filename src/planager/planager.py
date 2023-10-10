@@ -91,7 +91,7 @@ class Planager:
         projects = roadmaps.projects
 
         for project in projects.iter_by_priority:
-            plan.add_subplan(project.subplan, project.tasks)
+            plan.add_subplan(project.subplan)
 
         self.enforce_precedence_constraints(plan, projects)
 
@@ -115,15 +115,15 @@ class Planager:
         schedules = Schedules(self.config, {})
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
-            print("Calendar[date]")
-            print(calendar[date])
-            print("schedule")
-            print(schedule)
+            # print("Calendar[date]")
+            # print(calendar[date])
+            # print("schedule")
+            # print(schedule)
             # TODO: add .earliest and .latest to entries
-            schedule.add_from_plan(plan, roadmaps.tasks)
-            print("Schedule after adding from plan")
-            print(schedule)
-            exit()
+            schedule.add_from_plan(plan)
+            # print("Schedule after adding from plan")
+            # print(schedule)
+            # exit()
             schedules[date] = schedule
         return schedules
 
@@ -133,22 +133,22 @@ class Planager:
         Checks that all temporal dependencies are respected and raises an informative
           error if that is not the case.
         """
-        inverse_plan: dict[TaskID, PDate] = {}
-        for date, ids in plan.items():
-            for task_id in ids:
-                inverse_plan.update({task_id: date})
+        inverse_plan: dict[Task, PDate] = {}
+        for date, tasks_ in plan.items():
+            for task_ in tasks_:
+                inverse_plan.update({task_: date})
 
         def get_date(_id: Union[TaskID, ProjectID]) -> PDate:
             if isinstance(_id, ProjectID):
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
             if isinstance(_id, TaskID):
-                return inverse_plan[projects.get_task(_id).task_id]
+                return inverse_plan[projects.get_task(_id)]
             raise ValueError("ID must have 2 or 3 elements.")
 
         for task in projects.tasks:
             if task.dependencies:
-                plan_date = inverse_plan[task.task_id]
-                limiting_dependency = max(task.dependencies, key=get_date)
+                plan_date = inverse_plan[task]
+                limiting_dependency = projects.get_task(max(task.dependencies, key=get_date))
                 earliest_date = inverse_plan[limiting_dependency] + 1
                 if plan_date < earliest_date:
                     raise ValueError(
@@ -156,7 +156,7 @@ class Planager:
                             f"Task {'<>'.join(task.task_id)} assigned to {plan_date}, "
                             f"but earliest permissible date is {earliest_date}."
                             "Please adjust the declaration and run the derivation again. \n  "
-                            f"Limiting dependency: {'<>'.join(limiting_dependency)}."
+                            f"Limiting dependency: {limiting_dependency}."
                         )
                     )
 
@@ -191,7 +191,7 @@ class Planager:
             def get_dates(project: Project, raw: bool) -> dict[PDate, str]:
                 if raw:
                     return {
-                        _date: project[_tasks[-1]].status
+                        _date: project[list(_tasks.values())[-1].task_id].status
                         for _date, _tasks in project.subplan.items()
                     }
 
@@ -199,12 +199,12 @@ class Planager:
 
                 ret: dict[PDate, str] = {}
                 for date, task_ids in self.plan.items():
-                    relevant_ids = [
+                    relevant_tasks = [
                         _task_id for _task_id in task_ids if _task_id in project.project_id
                     ]
-                    if relevant_ids:
-                        task_id = relevant_ids[0]
-                        ret.update({date: self.roadmaps.get_task(task_id).status})
+                    if relevant_tasks:
+                        task = relevant_tasks[0]
+                        ret.update({date: task.status})
 
                 return ret
 

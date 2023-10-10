@@ -1,7 +1,7 @@
-from typing import Iterator
+from typing import Iterable, Iterator
 
 from ...config import Config
-from ...util import PDate, TaskID
+from ...util import PDate
 from ..container.tasks import Tasks
 from .calendar import Calendar
 from .task import Task
@@ -19,63 +19,59 @@ class Plan:
     ) -> None:
         self.config = config
         self._calendar = calendar
-        self._tasks: dict[TaskID, Task] = {}
-        self._plan: dict[PDate, list[TaskID]] = {}
+        self._tasks: Tasks = Tasks(config)
+        self._plan: dict[PDate, Tasks] = {date: Tasks(config) for date in calendar}
 
-    def add_tasks(self, date: PDate, task_ids_: list[TaskID]) -> list[TaskID]:
+    def add_tasks(self, date: PDate, tasks: Iterable[Task]) -> Tasks:
         """
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
           the lowest-priority excess task ids are returned.
         """
-        task_ids = task_ids_[:]
+        # tasks = tasks_[:]
 
-        task_ids = sorted(
-            list(set(task_ids + self._plan.get(date, []))),
-            key=lambda x: (self._tasks[x].status == "done", self._tasks[x].priority),
-            reverse=True,
-        )
-        excess: list[TaskID] = []
+        tasks = Tasks(self.config, tasks) + self._plan.get(date, [])
+        tasks.sort(key=lambda t: (t.status == "done", t.priority), reverse=True)
+        excess: Tasks = Tasks(self.config)
         avail_dict = self._calendar[date].available_dict
 
         # blocking logic
         category_names = set()
-        for task_id in task_ids:
-            category_names.update(self._tasks[task_id].categories)
+        for task in tasks:
+            category_names.update(task.categories)
 
-        blocked_task_ids = []
+        blocked_tasks = Tasks(self.config)
         blocks = self._calendar[date].blocks
 
         # TODO: make `blocks` property correctly detect blocks inside of routine entries
         relevant_blocks = list(blocks.intersection(category_names))
-        to_remove = []
+        to_remove: Tasks = Tasks(self.config)
         for block in relevant_blocks:
-            for task_id in task_ids:
-                if block in self._tasks[task_id].categories:
-                    dur = self._tasks[task_id].remaining_duration
+            for task in tasks:
+                if block in task.categories:
+                    dur = task.remaining_duration
                     if dur <= avail_dict[block]:
-                        self._tasks[task_id].block_assigned = block
-                        blocked_task_ids.append(task_id)
-                        to_remove.append(task_id)
+                        task.block_assigned = block
+                        blocked_tasks.add(task)
+                        to_remove.add(task)
                         avail_dict[block] -= dur
-        for t_id in to_remove:
-            task_ids.remove(t_id)
+        for task_ in to_remove:
+            tasks.remove(task_)
 
         available = avail_dict["empty"]
-        total = sum(map(lambda _id: self._tasks[_id].remaining_duration, task_ids))
+        total = tasks.total_remaining_duration
         while total > available:
-            task_to_move = task_ids.pop()
-            excess.append(task_to_move)
-            total -= self._tasks[task_to_move].remaining_duration
+            task_to_move = tasks.pop()
+            excess.add(task_to_move)
+            total -= task_to_move.remaining_duration
 
-        self._plan.update({date: blocked_task_ids + task_ids})
-        for task_id in blocked_task_ids + task_ids:
-            self._tasks[task_id].tmpdate = date
+        self._plan.update({date: blocked_tasks + tasks})
+        for task in blocked_tasks + tasks:
+            task.tmpdate = date
         return excess
 
     def add_subplan(
         self,
-        subplan: dict[PDate, list[TaskID]],
-        tasks: Tasks,
+        subplan: dict[PDate, Tasks],
     ) -> None:
         """
         Adds subplan (like plan, but corresponding to single project) to the plan,
@@ -85,18 +81,19 @@ class Plan:
             return
         # id_ = list(subplan.values())[0][0]
 
-        for date, task_id_list in subplan.items():
-            for task_id in task_id_list:
-                tasks[task_id].original_date = date
+        for date, task_list in subplan.items():
+            for task in task_list:
+                task.original_date = date
 
-        for task in tasks:
-            self._tasks.update({task.task_id: task})
+        for tasks_ in subplan.values():
+            for task_ in tasks_:
+                self._tasks.add(task_)
 
         # excess_tasks: list[TaskID] = []
 
-        for date, task_id_list in subplan.items():
+        for date, task_list in subplan.items():
             self.ensure_date(date)
-            rollover: list[TaskID] = self.add_tasks(date, task_id_list)
+            rollover: Tasks = self.add_tasks(date, task_list)
             next_date = date.copy()
             while rollover:
                 rollover = self.add_tasks(next_date, rollover)
@@ -104,7 +101,7 @@ class Plan:
 
     def ensure_date(self, date: PDate):
         if not date in self._plan:
-            self._plan.update({date: []})
+            self._plan.update({date: Tasks(self.config)})
 
     @property
     def end_date(self) -> PDate:
@@ -133,24 +130,23 @@ class Plan:
         new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
         return new_t
 
-    def items(self) -> Iterator[tuple[PDate, list[TaskID]]]:
+    def items(self) -> Iterator[tuple[PDate, Tasks]]:
         return iter(self._plan.items())
 
-    def __iter__(self) -> Iterator[tuple[PDate, list[TaskID]]]:
-        return iter(sorted(list(self._plan.items()), key=lambda x: x[0]))
+    def __iter__(self) -> Iterator[PDate]:
+        return iter(self._plan.keys())
 
     def __contains__(self, __date: PDate) -> bool:
         return __date in self._plan
 
-    def __getitem__(self, __date: PDate) -> list[TaskID]:
-        return self._plan.get(__date, [])
+    def __getitem__(self, __date: PDate) -> Tasks:
+        return self._plan.get(__date, Tasks(self.config))
 
-    def __setitem__(self, __date: PDate, __tasks: list[TaskID]) -> None:
+    def __setitem__(self, __date: PDate, __tasks: Tasks) -> None:
         self._plan.update({__date: __tasks})
 
     def __str__(self) -> str:
-        def task_repr(task_id: TaskID, date: PDate) -> str:
-            task = self._tasks[task_id]
+        def task_repr(task: Task, date: PDate) -> str:
             name = str(task.name) or str(task.task_id)
             orig = ("orig: " + str(task.original_date)) if task.original_date != date else ""
             return (
@@ -164,16 +160,10 @@ class Plan:
                 (f"  {b}: {t}" for b, t in self._calendar[date].available_dict.items())
             )
             total_before = self._calendar[date].total_available
-            total_after = total_before - sum(
-                (self._tasks[task_id].remaining_duration for task_id in self._plan[date])
-            )
+            total_after = total_before - sum((task.remaining_duration for task in self._plan[date]))
             empty_before = self._calendar[date].empty_time
             empty_after = empty_before - sum(
-                (
-                    self._tasks[task_id].remaining_duration
-                    for task_id in self._plan[date]
-                    if not self._tasks[task_id].block_assigned
-                )
+                (task.remaining_duration for task in self._plan[date] if not task.block_assigned)
             )
             return (
                 f"Calendar entries: {entry_names}\n"
@@ -189,7 +179,7 @@ class Plan:
         return "\n".join(
             [
                 f"{line}{str(d)}\n\n{time_repr(d)}\n\n{newl.join([task_repr(t, d) for t in ids])}\n"
-                for d, ids in self
+                for d, ids in self.items()
             ]
         )
 

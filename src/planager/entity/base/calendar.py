@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Union
+from typing import Any, Iterable, Iterator, Union
 
 from ...config import Config
 from ...util import PDate, tabularize
@@ -32,7 +32,10 @@ class Day:
         self.end = end
 
         waketime = min(start, self.entries.start, self.routines.start)
-        bedtime = max(min(end, self.routines.end), self.entries.end, )
+        bedtime = max(
+            min(end, self.routines.end),
+            self.entries.end,
+        )
         morning_normaltime = PTime(0).timeto(waketime)
         evening_normaltime = bedtime.timeto(PTime(24))
         morning_sleep = Entry(
@@ -127,7 +130,6 @@ class Day:
         for routine_spec in routine_dict.values():
             routine_name = routine_spec["name"]
 
-
             routine_entry = routines[routine_name].as_entry(
                 start=PTime.ensure_is_ptime(
                     routine_spec.get("start") or routines[routine_name].start
@@ -145,7 +147,7 @@ class Day:
 
     @property
     def routine_names(self) -> list[str]:
-        return [rout.name.split(' ')[0] for rout in self.routines]
+        return [rout.name.split(" ")[0] for rout in self.routines]
 
     @property
     def blocks(self) -> set[str]:
@@ -280,6 +282,9 @@ class Calendar:
 
     def __setitem__(self, __name: PDate, __value: Any) -> None:
         ...
+
+    def __iter__(self) -> Iterator[PDate]:
+        return iter(self.days.keys())
 
     def __str__(self) -> str:
         return "need to implement this"

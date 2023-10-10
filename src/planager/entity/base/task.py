@@ -113,7 +113,7 @@ class Task:
 
     @property
     def remaining_duration(self) -> int:
-        return self.duration * (self.status == "todo")
+        return self.duration * int(self.status == "todo")
 
     def pretty(self) -> str:
         """

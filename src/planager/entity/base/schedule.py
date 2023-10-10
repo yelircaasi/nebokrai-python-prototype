@@ -3,7 +3,6 @@ from typing import Callable, Iterable, Optional, Union
 from ...config import Config
 from ...util import PDate, PTime, tabularize
 from ..container.entries import Entries
-from ..container.tasks import Tasks
 from .calendar import Calendar
 from .entry import Empty, Entry
 from .plan import Plan
@@ -111,9 +110,9 @@ class Schedule:
     def starts_strings(self) -> list[str]:
         return [str(x.start) for x in self.schedule]
 
-    def add_from_plan(self, plan: Plan, tasks: Tasks) -> None:  #  -> KEEP
-        for task_id in plan[self.date]:
-            self.add(tasks[task_id].as_entry(PTime.nonetime()))
+    def add_from_plan(self, plan: Plan) -> None:  #  -> KEEP
+        for task in plan[self.date]:
+            self.add(task.as_entry(PTime.nonetime()))
 
     def can_be_added(self, entry: Entry) -> bool:
         """

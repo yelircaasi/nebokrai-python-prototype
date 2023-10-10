@@ -2,15 +2,7 @@ import re
 from typing import Any, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import (
-    ClusterType,
-    PDate,
-    ProjectID,
-    RoadmapID,
-    SubplanType,
-    TaskID,
-    tabularize,
-)
+from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -117,22 +109,21 @@ class Project:
         return copy
 
     @property
-    def clusters(self) -> ClusterType:
+    def clusters(self) -> list[list[Task]]:
         """
         Divides a list of tasks into k clusters of size `cluster_size`.
         """
-        task_ids = self._tasks.task_ids
-        length = len(task_ids)
+        tasks = list(self._tasks)
+        length = len(tasks)
         quotient, remainder = divmod(length, self.cluster_size)
         num_clusters = quotient + int(bool(remainder))
-        ret: ClusterType = [
-            task_ids[self.cluster_size * i : self.cluster_size * (i + 1)]
-            for i in range(num_clusters)
+        ret: list[list[Task]] = [
+            tasks[self.cluster_size * i : self.cluster_size * (i + 1)] for i in range(num_clusters)
         ]
         return ret
 
     @property
-    def subplan(self) -> SubplanType:
+    def subplan(self) -> dict[PDate, Tasks]:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
         """
@@ -151,7 +142,7 @@ class Project:
                 nclusters = len(clusters)
 
         if len(clusters) == 1:
-            return {self.start: clusters[0]}
+            return {self.start: Tasks(self.config, clusters[0])}
         if self.end:
             ndays = int(self.get_end()) - int(self.start)
             factor = ndays / nclusters
@@ -165,7 +156,9 @@ class Project:
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
             )
 
-        subplan: SubplanType = {self.start + ints[i]: cluster for i, cluster in enumerate(clusters)}
+        subplan: dict[PDate, Tasks] = {
+            self.start + ints[i]: Tasks(self.config, cluster) for i, cluster in enumerate(clusters)
+        }
 
         return subplan
 
