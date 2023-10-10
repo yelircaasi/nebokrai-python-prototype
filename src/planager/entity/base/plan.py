@@ -45,7 +45,7 @@ class Plan:
         blocked_task_ids = []
         blocks = self._calendar[date].blocks
 
-        # ZUTUN: make `blocks` property correctly detect blocks inside of routine entries
+        # TODO: make `blocks` property correctly detect blocks inside of routine entries
         relevant_blocks = list(blocks.intersection(category_names))
         to_remove = []
         for block in relevant_blocks:

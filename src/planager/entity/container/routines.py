@@ -37,7 +37,6 @@ class Routines:
 
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         top = tabularize("Routines", width, thick=True)
         empty = tabularize("", width, thick=True)
         return (

@@ -83,7 +83,7 @@ class Schedule:
           5) identify the gaps
           6) fill in the gaps with the flex items
           7) resize between fixed points to remove small empty patches (where possible)
-          ZUTUN: add alignend functionality (but first get it working without)
+          TODO: add alignend functionality (but first get it working without)
         """
         assert Entries.entry_list_fits(entries)
         compression_factor = round((24 * 60) / sum(map(lambda x: x.normaltime, entries)) - 0.01, 3)

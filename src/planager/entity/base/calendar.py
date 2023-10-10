@@ -31,8 +31,8 @@ class Day:
         self.start = start
         self.end = end
 
-        waketime = min(start, self.entries.start)
-        bedtime = max(end, self.entries.end)
+        waketime = min(start, self.entries.start, self.routines.start)
+        bedtime = max(min(end, self.routines.end), self.entries.end, )
         morning_normaltime = PTime(0).timeto(waketime)
         evening_normaltime = bedtime.timeto(PTime(24))
         morning_sleep = Entry(
@@ -122,10 +122,11 @@ class Day:
         Creates routine entries from the declaration and from the Routines instance.
         """
 
+        entries = Entries(routines.config)
+
         for routine_spec in routine_dict.values():
             routine_name = routine_spec["name"]
 
-            entries = Entries(routines.config)
 
             routine_entry = routines[routine_name].as_entry(
                 start=PTime.ensure_is_ptime(
@@ -133,7 +134,7 @@ class Day:
                 ),
                 priority=int(routine_spec.get("priority") or routines[routine_name].priority),
                 normaltime=int(routine_spec.get("normaltime") or routines[routine_name].normaltime),
-                idealtime=int(routine_spec.get("normaltime") or routines[routine_name].idealtime),
+                idealtime=int(routine_spec.get("idealtime") or routines[routine_name].idealtime),
                 mintime=int(routine_spec.get("mintime") or routines[routine_name].mintime),
                 maxtime=int(routine_spec.get("maxtime") or routines[routine_name].maxtime),
             )
@@ -141,6 +142,10 @@ class Day:
             entries.append(routine_entry)
 
         return entries
+
+    @property
+    def routine_names(self) -> list[str]:
+        return [rout.name.split(' ')[0] for rout in self.routines]
 
     @property
     def blocks(self) -> set[str]:
@@ -192,9 +197,9 @@ class Day:
             header_thickbeam
             + tabularize(str(self.date) + "  │", width, thick=True)
             + header_thinbeam
-            # + tabularize(", ".join(self.routine_dict), width, thick=True)
+            + tabularize("Routines: " + ", ".join(self.routine_names), width, thick=True)
+            # + "XXX"
             + "\n"
-            # + thickbeam
         )
 
         return header + "\n".join(map(str, self.entries)) + bottombeam

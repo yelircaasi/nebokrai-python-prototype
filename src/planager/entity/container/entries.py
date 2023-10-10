@@ -298,7 +298,7 @@ class Entries:
         entries.adjust_weighted(_start, _end, priority_weighter)
         entries.ensure_fits(_start, _end)
 
-        # ZUTUN: add safeguard to respect mintime and maxtime
+        # TODO: add safeguard to respect mintime and maxtime
         return entries
 
     def smooth_underfilled(self, _start: PTime, _end: PTime) -> None:

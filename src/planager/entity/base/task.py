@@ -102,7 +102,7 @@ class Task:
         """
         Create an instance of Entry from a task.
         """
-        # ZUTUN
+        # TODO
         if not start:
             start = PTime.nonetime()
         return Entry(self.config, self.name, start)

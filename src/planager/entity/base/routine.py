@@ -33,7 +33,6 @@ class Routine:
         self.notes = notes
         self.normaltime = normaltime
         self.idealtime = idealtime
-        self.idealtime = mintime
         self.mintime = mintime
         self.maxtime = maxtime
 

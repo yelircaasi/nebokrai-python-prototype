@@ -105,7 +105,7 @@ class Entry:
             mintime=mintime,
             maxtime=maxtime,
             ismovable=entry_dict.get("ismovable") or True,
-            alignend=entry_dict.get("alignend") or True,
+            alignend=entry_dict.get("alignend") or False,
             order=entry_dict.get("order") or config.default_order,
         )
 

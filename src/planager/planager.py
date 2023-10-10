@@ -115,7 +115,15 @@ class Planager:
         schedules = Schedules(self.config, {})
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
+            print("Calendar[date]")
+            print(calendar[date])
+            print("schedule")
+            print(schedule)
+            # TODO: add .earliest and .latest to entries
             schedule.add_from_plan(plan, roadmaps.tasks)
+            print("Schedule after adding from plan")
+            print(schedule)
+            exit()
             schedules[date] = schedule
         return schedules
 
