@@ -129,6 +129,12 @@ class NoneTime(PTime):
     def __bool__(self) -> bool:
         return False
 
+    def __add__(self, _: Any) -> "NoneTime":
+        return NoneTime()
+
+    def __subtract__(self, _: Any) -> "NoneTime":
+        return NoneTime()
+
     def __eq__(self, __other: Any) -> bool:
         return isinstance(__other, NoneTime)
 
@@ -148,4 +154,4 @@ class NoneTime(PTime):
         return self.__str__()
 
     def __str__(self) -> str:
-        return "NoneTime"
+        return "XX:XX"

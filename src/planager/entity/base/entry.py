@@ -26,7 +26,7 @@ class Entry:
         maxtime: Optional[int] = None,
         ismovable: bool = True,
         alignend: bool = False,
-        order: Optional[int] = None,
+        order: Optional[float] = None,
         subentries: Optional[Iterable["Entry"]] = None,
     ) -> None:
         self.config = config
@@ -37,7 +37,7 @@ class Entry:
         self.notes = notes
 
         # algo
-        self.start: PTime = start if isinstance(start, PTime) else PTime()
+        self.start: PTime = start if isinstance(start, PTime) else PTime.nonetime()
         self.priority = config.default_priority if priority is None else priority
         self.blocks = blocks or set([])
         self.categories = (categories or set([])).union(config.default_categories)
@@ -61,7 +61,7 @@ class Entry:
         self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
         self.end: PTime = end or (self.start + self.normaltime)
         self.alignend: bool = alignend
-        self.order: int = config.default_order if order is None else order
+        self.order: float = config.default_order if order is None else order
 
     @classmethod
     def from_dict(cls, config: Config, entry_dict: dict[str, Any]) -> "Entry":
@@ -74,16 +74,8 @@ class Entry:
             if "idealtime" in entry_dict
             else int(config.default_idealtime_factor * normaltime)
         )
-        mintime = (
-            int(entry_dict["mintime"])
-            if "mintime" in entry_dict
-            else int(config.default_mintime_factor * normaltime)
-        )
-        maxtime = (
-            int(entry_dict["maxtime"])
-            if "maxtime" in entry_dict
-            else int(config.default_maxtime_factor * normaltime)
-        )
+
+        bool_helper = {None: True, False: False}
 
         return cls(
             config,
@@ -102,10 +94,18 @@ class Entry:
             notes=entry_dict.get("notes", ""),
             normaltime=normaltime,
             idealtime=idealtime,
-            mintime=mintime,
-            maxtime=maxtime,
-            ismovable=entry_dict.get("ismovable") or True,
-            alignend=entry_dict.get("alignend") or False,
+            mintime=(
+                int(entry_dict["mintime"])
+                if "mintime" in entry_dict
+                else int(config.default_mintime_factor * normaltime)
+            ),
+            maxtime=(
+                int(entry_dict["maxtime"])
+                if "maxtime" in entry_dict
+                else int(config.default_maxtime_factor * normaltime)
+            ),
+            ismovable=bool_helper[entry_dict.get("ismovable")],
+            alignend=bool_helper[entry_dict.get("alignend")],
             order=entry_dict.get("order") or config.default_order,
         )
 
@@ -215,12 +215,12 @@ class Entry:
         if not self.subentries:
             return ""
         width = self.config.repr_width
-        top = "┠─┬" + (width - 4) * "─" + "┨"
-        bottom = "┠─┴" + (width - 4) * "─" + "┨"
-        middle = "┠─┼" + (width - 4) * "─" + "┨"
+        top = "┠─┬─────────────┬" + (width - 18) * "─" + "┨"
+        bottom = "┠─┴─────────────┴" + (width - 18) * "─" + "┨"
+        middle = "\n┠─┼─────────────┼" + (width - 18) * "─" + "┨\n"
         body = middle.join(
             map(
-                lambda sub: tabularize(f"{sub.start}-{sub.end} │ {sub.name}", width, thick=True),
+                lambda sub: tabularize(f"│ {sub.start}-{sub.end} │ {sub.name}", width, thick=True),
                 self.subentries,
             )
         )
@@ -261,7 +261,7 @@ class Entry:
                         f"alignend:     {str(self.alignend).lower()}"
                         if not self.alignend == self.config.default_alignend
                         else "",
-                        f"order:        {self.order}"
+                        f"order:        {int(self.order)}"
                         if not self.order == self.config.default_order
                         else "",
                     )

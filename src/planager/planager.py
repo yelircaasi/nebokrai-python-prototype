@@ -6,6 +6,7 @@ from .config import Config
 from .entity import (
     Calendar,
     Day,
+    Entries,
     Plan,
     Project,
     Projects,
@@ -113,6 +114,7 @@ class Planager:
             calendar.end_date,
         )
         schedules = Schedules(self.config)
+        excess_entries: Entries = Entries(self.config)
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
             # print("Calendar[date]")
@@ -120,9 +122,14 @@ class Planager:
             # print("schedule")
             # print(schedule)
             # TODO: add .earliest and .latest to entries
-            schedule.add_from_plan(plan)
+            excess_entries = schedule.add_from_plan_and_excess(plan, excess_entries)
             # print("Schedule after adding from plan")
             # print(schedule)
+            # if date == PDate.today() + 3:
+            # print(schedule)
+            # print(200 * "#")
+            # for x in schedule.entries:
+            #     print(x)
             # exit()
             schedules[date] = schedule
         return schedules

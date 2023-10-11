@@ -98,14 +98,34 @@ class Task:
     def isafter(self, __other: "Task") -> bool:
         return self.task_id in __other.dependencies
 
-    def as_entry(self, start: Optional[PTime]) -> Entry:
+    def as_entry(
+        self,
+        start: Optional[PTime] = None,
+        end: Optional[PTime] = None,
+    ) -> Entry:
         """
         Create an instance of Entry from a task.
         """
         # TODO
         if not start:
             start = PTime.nonetime()
-        return Entry(self.config, self.name, start)
+        return Entry(
+            self.config,
+            self.name,
+            start,
+            end,
+            priority=self.priority,
+            blocks=self.blocks,
+            categories=self.categories,
+            notes=self.notes,
+            normaltime=self.duration,
+            # idealtime=self.idealtime,
+            # mintime=self.mintime,
+            # maxtime=self.maxtime,
+            # ismovable=self.ismovable,
+            # alignend=self,
+            # order=self.order,
+        )
 
     @property
     def status_symbol(self) -> str:

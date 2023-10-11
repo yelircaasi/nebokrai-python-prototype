@@ -139,6 +139,16 @@ class Day:
                 idealtime=int(routine_spec.get("idealtime") or routines[routine_name].idealtime),
                 mintime=int(routine_spec.get("mintime") or routines[routine_name].mintime),
                 maxtime=int(routine_spec.get("maxtime") or routines[routine_name].maxtime),
+                ismovable=bool(
+                    routine_spec.get("ismovable")
+                    if routine_spec.get("ismovable") is not None
+                    else routines[routine_name].ismovable
+                ),
+                order=float(
+                    routine_spec["order"]
+                    if "order" in routine_spec
+                    else routines[routine_name].order
+                ),
             )
 
             entries.append(routine_entry)

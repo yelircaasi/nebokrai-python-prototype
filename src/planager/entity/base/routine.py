@@ -23,6 +23,8 @@ class Routine:
         idealtime: int,
         mintime: int,
         maxtime: int,
+        ismovable: bool,
+        order: float,
         valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
     ) -> None:
         self.config = config
@@ -35,6 +37,8 @@ class Routine:
         self.idealtime = idealtime
         self.mintime = mintime
         self.maxtime = maxtime
+        self.ismovable = ismovable
+        self.order = order
 
         def validator(d: PDate) -> bool:
             ret: bool = (
@@ -45,7 +49,7 @@ class Routine:
         self.valid_dates = validator
 
     @classmethod
-    def from_dict(cls, config, routine_dict: dict[str, Any]) -> "Routine":
+    def from_dict(cls, config: Config, routine_dict: dict[str, Any]) -> "Routine":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
@@ -65,6 +69,14 @@ class Routine:
             idealtime=int(routine_dict["default_idealtime"]),
             mintime=int(routine_dict["default_mintime"]),
             maxtime=int(routine_dict["default_maxtime"]),
+            ismovable=routine_dict["default_ismovable"]
+            if "default_ismovable" in routine_dict
+            else True,
+            order=float(
+                routine_dict["default_order"]
+                if "default_order" in routine_dict
+                else config.default_order
+            ),
         )
 
     def valid_on(self, date: PDate) -> bool:
@@ -78,6 +90,8 @@ class Routine:
         idealtime: int,
         mintime: int,
         maxtime: int,
+        ismovable: bool,
+        order: float,
     ) -> Entry:
         """
         Converts instance of Routine into an instance of Entry.
@@ -91,6 +105,8 @@ class Routine:
             idealtime=idealtime,
             mintime=mintime,
             maxtime=maxtime,
+            ismovable=ismovable,
+            order=order if order is not None else self.order,
         )
 
     def pretty(self) -> str:
