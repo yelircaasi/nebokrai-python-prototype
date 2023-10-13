@@ -251,6 +251,75 @@ class Entries:
                     self.insert(i + 1, flex)
                 i += 1
 
+    def schedule_tail(self, latest: PTime) -> None:
+        """
+        From the last fixed entry contained in _entries to the next fixed entry, fit all within
+          the given time interval.
+        """
+        fixed = self.last_fixed
+        index = self.index(fixed)
+        earliest = fixed.start
+        available = earliest.timeto(latest)
+        ents = self._entries[index:]
+        normaltimes = list(map(lambda e: e.normaltime, ents))
+        total_normaltime = sum(normaltimes)
+        if total_normaltime == available:
+            return
+
+        # weights = list(map(lambda e: prio_weighter(e.priority), ents))
+        weights = list(map(lambda e: 1, ents))
+        pre_times = list(map(lambda wt: wt[0] * wt[1], zip(weights, normaltimes)))
+        pre_total = sum(pre_times)
+        ratio = available / pre_total
+        times = list(
+            map(
+                lambda t: round5(max(min(t[0] * ratio, t[1].maxtime), t[1].mintime)),
+                zip(pre_times, ents),
+            )
+        )
+        surplus_time = sum(times) - available
+        # print("################", weights, pre_times, times, surplus_time)
+
+        for time_, ent in zip(times, ents):
+            ent.assigned_time = time_
+            # print(time_, ent.name)
+
+        def handle_diff(diff: int, ents: Union[Entries, list[Entry]]):
+            num_changes = int(abs(diff / 5))
+            compress = diff > 0
+            increment = -5 if compress else 5
+            inds_by_priority = sorted(
+                range(len(ents)), key=lambda i: ents[i].priority, reverse=compress
+            )
+
+            while num_changes:
+                for ind in inds_by_priority:
+                    # print(num_changes)
+                    ent: Entry = ents[ind]
+                    assert ent.assigned_time
+                    if ent.mintime <= ent.assigned_time + increment <= ent.maxtime:
+                        ent.assigned_time += increment
+                    num_changes -= 1
+                    if not num_changes:
+                        break
+
+            return ents
+
+        ents = handle_diff(surplus_time, ents)
+        # if diff:
+        #     extremum = max if diff > 0 else min
+        #     procrustean_ind = extremum(range(len(ents)), key=lambda i: ents[i].priority)
+        #     times[procrustean_ind] += diff
+
+        tracker = earliest.copy()
+        for ent in ents:
+            ent.start = tracker
+            tracker += ent.assigned_time
+            ent.end = tracker
+        # assert ents[-1].end == latest, f"{latest}\n\n{n.join(map(str, ents))}"
+
+        self._entries = self._entries[:index] + ents
+
     # def smooth_between_fixed(
     #     self,
     #     priority_weighter: Callable[[Union[int, float]], float],

@@ -20,9 +20,19 @@ class Tasks:
             self._tasks = OrderedDict(tasks)
         else:
             tasks = tasks or []
-            for i, task in enumerate(tasks):
-                task.project_order = i + 1
-            self._tasks = OrderedDict(map(lambda task: (task.task_id, task), tasks))
+            # for i, task in enumerate(tasks):
+            #     task.project_order = i + 1
+            self._tasks = OrderedDict(
+                sorted(
+                    map(lambda task: (task.task_id, task), tasks), key=lambda t: t[1].project_order
+                )
+            )
+        # if isinstance(tasks, list) and tasks:
+        #     if tasks[0].project_name == "Notion - F.B. ML & DS":
+        #         print(200 * "!")
+        #         print(self._tasks)
+        #         print(200 * "@")
+        #         exit()
 
     @classmethod
     def from_dict(
@@ -50,8 +60,14 @@ class Tasks:
                 project_categories or set(),
             )
             tasks_list.append(task)
+        # if project_name == "Notion - F.B. ML & DS":
+        #     print(tasks_list)
 
-        return cls(config, tasks_list)
+        ret = cls(config, tasks_list)
+        # if project_name == "Notion - F.B. ML & DS":
+        #     print(ret)
+        #     import pdb; pdb.set_trace()
+        return ret
 
     def add(self, task: Task) -> None:
         self._tasks.update({task.task_id: task})
@@ -70,10 +86,11 @@ class Tasks:
     def total_remaining_duration(self) -> int:
         return sum(map(lambda t: t.remaining_duration, self))
 
-    def pretty(self, width: int = 80) -> str:
+    def pretty(self) -> str:
         """
         Creates a detailed and aesthetic string representation of the given Tasks instance.
         """
+        width = self.config.repr_width
 
         def format_number(s: Any) -> str:
             return (len(str(s)) == 1) * " " + f" {s} │ "
@@ -81,14 +98,14 @@ class Tasks:
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        top = tabularize("Tasks", width)
+        top = tabularize("Tasks", width, thick=True)
         empty = tabularize("", width)
         names = "\n".join(
             map(
                 lambda x: tabularize(
-                    f"{format_number(x[0])}{x[1].name} (ID {x[1].task_id})", width
+                    f"{format_number(x[0])}{str(x[1].task_id): <14} │ {x[1].name}", width
                 ),
-                self._tasks.items(),
+                enumerate(sorted(self._tasks.values(), key=lambda t: t.project_order), start=1),
             )
         )
         return (

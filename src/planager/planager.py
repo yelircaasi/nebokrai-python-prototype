@@ -93,6 +93,11 @@ class Planager:
 
         for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan)
+            # if project.name == "Notion - F.B. ML & DS":
+            #     print(project.subplan)
+            #     import pdb
+            #     pdb.set_trace()
+            #     exit()
 
         self.enforce_precedence_constraints(plan, projects)
 
@@ -117,20 +122,21 @@ class Planager:
         excess_entries: Entries = Entries(self.config)
         for date in start_date_new.range(end_date_new):
             schedule = Schedule.from_calendar(calendar, date)
+            # print(schedule)
             # print("Calendar[date]")
             # print(calendar[date])
             # print("schedule")
             # print(schedule)
             # TODO: add .earliest and .latest to entries
             excess_entries = schedule.add_from_plan_and_excess(plan, excess_entries)
+            # exit()
             # print("Schedule after adding from plan")
             # print(schedule)
             # if date == PDate.today() + 3:
-            # print(schedule)
+            print(date)
             # print(200 * "#")
             # for x in schedule.entries:
             #     print(x)
-            # exit()
             schedules[date] = schedule
         return schedules
 

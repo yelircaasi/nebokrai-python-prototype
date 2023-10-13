@@ -56,12 +56,13 @@ class Entry:
         else:
             self.normaltime = config.default_normaltime
 
-        self.idealtime: int = idealtime or int(config.default_idealtime_factor * self.normaltime)
+        self.idealtime: int = idealtime or round5(config.default_idealtime_factor * self.normaltime)
         self.mintime: int = mintime or round5(config.default_mintime_factor * self.normaltime)
         self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
         self.end: PTime = end or (self.start + self.normaltime)
         self.alignend: bool = alignend
         self.order: float = config.default_order if order is None else order
+        self.assigned_time: Optional[int] = None
 
     @classmethod
     def from_dict(cls, config: Config, entry_dict: dict[str, Any]) -> "Entry":
@@ -160,6 +161,14 @@ class Entry:
             order=self.order,
         )
 
+    # def adjust_times_from_normaltime(self, normaltime: int) -> None:
+    #     old_normaltime = self.normaltime
+
+    #     self.normaltime = round5(normaltime)
+    #     self.idealtime = round5(self.config.default_idealtime_factor * self.normaltime)
+    #     self.mintime = round5(self.config.default_mintime_factor * self.normaltime)
+    #     self.maxtime = round5(self.config.default_maxtime_factor * self.normaltime)
+
     @property
     def duration(self) -> int:
         return self.start.timeto(self.end)
@@ -187,18 +196,28 @@ class Entry:
         """
         if not self.blocks.intersection(subentry.categories):
             raise ValueError(f"Invalid subentry '{subentry.name}' for entry '{self}'")
-        if self.accommodates(subentry):
-            self.subentries.append(subentry)
-            self.subentries.sort(key=lambda e: (e.order, -e.priority))
-            return []
-        print(f"Entry {subentry} does not fit in {self}.")
+
+        excess: list[Entry] = []
         self.subentries.append(subentry)
-        self.subentries.sort(key=lambda e: e.priority, reverse=True)
-        ret: list[Entry] = []
-        while sum(map(Entry.duration, self.subentries)) > self.duration:
-            ret.append(self.subentries.pop())
+
+        self.subentries.sort(key=lambda e: -e.priority)
+        while sum(map(lambda se: se.duration, self.subentries)) > self.duration:
+            excess.append(self.subentries.pop())
+        if excess:
+            print(f"Entry {subentry} does not fit in {self}.")
+
         self.subentries.sort(key=lambda e: (e.order, -e.priority))
-        return ret
+
+        tracker = self.start.copy()
+        # print(tracker)
+        # print(subentry)
+        for subentry_ in self.subentries:
+            subentry_.start = tracker
+            tracker += subentry_.normaltime  # can change to use idealtime
+            subentry_.end = tracker
+
+        # self.subentries.sort(key=lambda e: (e.order, -e.priority))
+        return excess
 
     @property
     def available(self) -> int:
@@ -224,6 +243,14 @@ class Entry:
                 self.subentries,
             )
         )
+
+        free = ""
+        sub_end = self.subentries[-1].end
+        if sub_end < self.end:
+            free = tabularize(f"│ {sub_end}-{self.end} │ ", width, thick=True)
+        if free:
+            body += middle + free
+
         return "\n".join(("", top, body, bottom))
 
     def pretty(self) -> str:

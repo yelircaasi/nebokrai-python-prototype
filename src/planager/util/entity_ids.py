@@ -21,7 +21,8 @@ class RoadmapID(NamedTuple):
         return False
 
     def __str__(self) -> str:
-        return f"RoadmapID('{self.roadmap}')"
+        # return f"RoadmapID('{self.roadmap}')"
+        return self.roadmap
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -51,7 +52,8 @@ class ProjectID(NamedTuple):
         return False
 
     def __str__(self) -> str:
-        return f"ProjectID('{self.roadmap}-{self.project}')"
+        # return f"ProjectID('{self.roadmap}-{self.project}')"
+        return f"{self.roadmap}-{self.project}"
 
     def __repr__(self) -> str:
         return self.__str__()
@@ -84,7 +86,8 @@ class TaskID(NamedTuple):
         return False
 
     def __str__(self) -> str:
-        return f"TaskID('{self.roadmap}-{self.project}-{self.task}')"
+        # return f"TaskID('{self.roadmap}-{self.project}-{self.task}')"
+        return f"{self.roadmap}-{self.project}-{self.task}"
 
     def __repr__(self) -> str:
         return self.__str__()

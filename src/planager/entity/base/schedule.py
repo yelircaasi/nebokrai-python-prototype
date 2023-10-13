@@ -20,7 +20,7 @@ class Schedule:
         schedule: Iterable[Entry],
         weight_interval_min: Optional[float] = None,
         weight_interval_max: Optional[float] = None,
-        prio_transform: Callable = lambda x: (x / 100) ** 1.5,
+        schedule_weight_transform_exponent: Optional[float] = None,
     ) -> None:
         self.config = config
         self.width: int = config.repr_width
@@ -36,7 +36,10 @@ class Schedule:
         self.weight_interval_max = (
             weight_interval_max or config.default_schedule_weight_interval_max
         )
-        self.prio_transform: Callable = prio_transform
+        self.schedule_weight_transform_exponent = (
+            schedule_weight_transform_exponent
+            or self.config.default_schedule_weight_transform_exponent
+        )
 
         # record
         self.overflow: Entries = Entries(config)
@@ -56,6 +59,9 @@ class Schedule:
         """
         # combine entries from plan with excess
         entries = Entries(self.config, map(lambda t: t.as_entry(), plan[self.date]))
+        # print(self.date)
+        # for e in entries:
+        #     print(e)
         entries.extend(excess)
 
         # first, add to blocks where possible
@@ -68,46 +74,58 @@ class Schedule:
         for entry in to_remove:
             entries.remove(entry)
 
-            # rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
-            # block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
+        # print(200 * '$')
+        # print(entries)
+        # print(200 * '$')
+        # rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
+        # block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
 
-            # if block_ind:
-            #     self.add_to_block_by_index(entry, block_ind)
+        # if block_ind:
+        #     self.add_to_block_by_index(entry, block_ind)
 
         # combine entries to add with the flex entries of the day
         flex_entries, fixed_clusters = self.get_flex_list_and_fixed_clusters()
 
+        # print(200 * '$')
+        # print(flex_entries)
+        # print(200 * '$')
+        # print(fixed_clusters)
+        # print(200 * '$')
+
         entries.extend(flex_entries)
         entries.sort(key=lambda e: (e.order, -e.priority))
-        print("entries", ", ".join([f"{e.name} ({e.order}, -{e.priority})" for e in entries]))
-
-        # order flex entries first by order, then by priority as a tiebreaker
-        # flex_entries.sort(key=lambda e: (e.order, -e.priority))
-        # print("flex_entries", ", ".join([f"{e.name} ({e.order}, -{e.priority})"
-        # for e in flex_entries]))
-        # print(f"flex_entries:\n{Entries(self.config, flex_entries)}")
+        # print(entries)
+        # print(200 * '$')
 
         new_entries = Entries(self.config)
         next_entry = entries.pop(0)
+        new_entries.extend(fixed_clusters.pop(0))
+        new_entries.append(next_entry)
 
         # heavy-lifting loop
         while fixed_clusters:
+            hard_start = new_entries.last_fixed.start
+            hard_end = fixed_clusters[0][0].start
+            while entries and (
+                (new_entries.fixed_to_end.total_normaltime + next_entry.normaltime)
+                < hard_start.timeto(hard_end)
+            ):
+                # 1) attempt to add next entry to the next available gap between fixed blocks
+                next_entry = entries.pop(0)
+                # print(f"new_entries:\n{Entries(self.config, new_entries)}")
+                new_entries.append(next_entry)
+            new_entries.schedule_tail(hard_end)
+            # print(new_entries)
             new_entries.extend(fixed_clusters.pop(0))
-            if fixed_clusters:
-                hard_limit = fixed_clusters[0][0].start
-                while entries and (
-                    (new_entries.fixed_to_end.total_normaltime + next_entry.normaltime)
-                    < new_entries.last_fixed.start.timeto(hard_limit)
-                ):
-                    # 1) attempt to add next entry to the next available gap between fixed blocks
-                    next_entry = entries.pop(0)
-                    # print(f"new_entries:\n{Entries(self.config, new_entries)}")
-                    new_entries.append(next_entry)
 
-        print(
-            "new entries", ", ".join([f"{e.name} ({e.order}, -{e.priority})" for e in new_entries])
-        )
+        # print(
+        # "new entries", ", ".join([f"{e.name} ({e.order}, -{e.priority})" for e in new_entries])
+        # )
         self.schedule = new_entries
+        # print(200 * '$')
+        # print(self.schedule)
+
+        # self.schedule.smooth_between_fixed() #TODO
         return entries
 
         # 2) if it does not fit (or is too tight), search for next entry that fits
@@ -273,7 +291,9 @@ class Schedule:
 
         def time_weight_from_prio(prio: Union[int, float]) -> float:
             interval = self.weight_interval_max - self.weight_interval_min
-            return self.weight_interval_min + interval * self.prio_transform(prio)
+            return (
+                self.weight_interval_min + interval * prio / 100
+            ) ** self.schedule_weight_transform_exponent
 
         return time_weight_from_prio
 

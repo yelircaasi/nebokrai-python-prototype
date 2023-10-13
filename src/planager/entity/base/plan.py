@@ -35,6 +35,7 @@ class Plan:
         tasks.sort(key=lambda t: (t.status == "done", t.priority), reverse=True)
         excess: Tasks = Tasks(self.config)
         avail_dict = self._calendar[date].available_dict
+        # print(tasks)
 
         # blocking logic
         category_names = set()
@@ -97,6 +98,8 @@ class Plan:
         for date, task_list in subplan.items():
             self.ensure_date(date)
             rollover: Tasks = self.add_tasks(date, task_list)
+            # print(task_list)
+            # print("%%%%%%%%%%")
             next_date = date.copy()
             while rollover:
                 rollover = self.add_tasks(next_date, rollover)
