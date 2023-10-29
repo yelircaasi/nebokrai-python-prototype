@@ -105,7 +105,7 @@ class Roadmaps:
         )
 
     def add(self, __roadmap: Roadmap) -> None:
-        assert not __roadmap.roadmap_id in self._roadmaps
+        assert __roadmap.roadmap_id not in self._roadmaps
         self._roadmaps.update({__roadmap.roadmap_id: __roadmap})
 
     def get_project(self, project_id: ProjectID) -> Project:

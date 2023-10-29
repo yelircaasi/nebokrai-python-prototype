@@ -27,65 +27,63 @@ class Plan:
         Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
           the lowest-priority excess task ids are returned.
         """
-        self.ensure_date(date)
         tasks = Tasks(self.config, tasks) + self._plan.get(date, [])
-        avail_dict = self._calendar[date].available_dict
+        # print("a")
+        tasks.sort(key=lambda t: (t.status == "done", t.priority), reverse=True)
+        # print("b")
+        excess: Tasks = Tasks(self.config)
+        # print("b2")
 
-        blocked_tasks: Tasks = tasks.pop_tasks_from_blocks(avail_dict)  
-        # filter out "wildcard" and "total" -> blocks = set(avail_dict).difference(
-        # ...{"wildcard", "total"})
-        excess = tasks.pop_excess_tasks(avail_dict["wildcard"])
+        tasks = self._add_to_blocks(date, tasks)
+        # print("c")
+        excess = self._add_to_wildcard(date, tasks, excess)
+        # print("d")
 
-        tasks.extend(blocked_tasks)
-        tasks.sort(key=lambda t: t.priority)
-        tasks.update_tmpdate(date)
-
-        self._plan.update({date: tasks})
         return excess
 
-        # tasks = Tasks(self.config, tasks) + self._plan.get(date, [])
-        # tasks.sort(key=lambda t: (t.status == "done", t.priority), reverse=True)
-        # excess: Tasks = Tasks(self.config)
+    def _add_to_blocks(self, date: PDate, tasks: Tasks) -> Tasks:
+        avail_dict = self._calendar[date].available_dict
+        category_names = set()
+        for task in tasks:
+            category_names.update(task.categories)
 
-        # blocked_tasks = tasks.pop_from_blocks(blocks, avail_dict)
-        # ----------------------------------------------------------------------
-        # # blocking logic
-        # category_names = set()
-        # for task in tasks:
-        #     category_names.update(task.categories)
-        # blocked_tasks = Tasks(self.config)
-        # blocks = self._calendar[date].blocks
-        # relevant_blocks = list(blocks.intersection(category_names))
-        # to_remove: Tasks = Tasks(self.config)
-        # for block in relevant_blocks:
-        #     for task in tasks:
-        #         if block in task.categories:
-        #             dur = task.remaining_duration
-        #             if dur <= avail_dict[block]:
-        #                 task.block_assigned = block
-        #                 blocked_tasks.add(task)
-        #                 to_remove.add(task)
-        #                 avail_dict[block] -= dur
-        # for task_ in to_remove:
-        #     tasks.remove(task_)
-        # ----------------------------------------------------------------------
+        blocked_tasks = Tasks(self.config)
+        blocks = self._calendar[date].blocks
 
-        # excess = tasks.pop_excess(avail_dict["wildcard"])
-        # ----------------------------------------------------------------------
-        # available = avail_dict["empty"]
-        # total = tasks.total_remaining_duration
-        # while total > available:
-        #     task_to_move = tasks.pop()
-        #     excess.add(task_to_move)
-        #     total -= task_to_move.remaining_duration
-        # ----------------------------------------------------------------------
+        relevant_blocks = list(blocks.intersection(category_names))  # REFACTOR
+        to_remove: Tasks = Tasks(self.config)
+        for block in relevant_blocks:
+            for task in tasks:
+                if block in task.categories:
+                    dur = task.remaining_duration
+                    if dur <= avail_dict[block]:
+                        task.block_assigned = block
+                        blocked_tasks.add(task)
+                        to_remove.add(task)
+                        avail_dict[block] -= dur
+        for task_ in to_remove:
+            tasks.remove(task_)
 
-        # tasks.extend(blocked_tasks)
-        # tasks.sort(key=lambda t: t.priority)
-        # self._plan.update({date: tasks})
-        # tasks.update_tmpdate(date)
+        self._plan.update({date: blocked_tasks})
+        for task in blocked_tasks:
+            task.tmpdate = date
 
-        # return excess
+        return tasks
+
+    def _add_to_wildcard(self, date: PDate, tasks: Tasks, excess: Tasks) -> Tasks:
+        avail_dict = self._calendar[date].available_dict
+        available = avail_dict["empty"]
+        total = tasks.total_remaining_duration
+        while total > available:
+            task_to_move = tasks.pop()
+            excess.add(task_to_move)
+            total -= task_to_move.remaining_duration
+
+        self._plan.update({date: tasks})
+        for task in tasks:
+            task.tmpdate = date
+
+        return excess
 
     def add_subplan(
         self,
@@ -95,22 +93,20 @@ class Plan:
         Adds subplan (like plan, but corresponding to single project) to the plan,
           rolling tasks over when the daily maximum is exceeded, according to priority.
         """
-        # for date, tasks_ in subplan.items():
-        # for task in task_list:
-        #     task.original_date = date
-        # self.ensure_date(date)
-        # tasks_.update_original_date(date)
-        # self._tasks.extend(tasks_)
+        if not subplan:
+            return
 
-        # for tasks_ in subplan.values():
-        # # for task_ in tasks_:
-        # #     self._tasks.add(task_)
-        # self._tasks.extend(tasks_)
+        for date, task_list in subplan.items():
+            for task in task_list:
+                task.original_date = date
 
-        for date, tasks_ in subplan.items():
-            tasks_.update_original_date(date)
-            self._tasks.extend(tasks_)
-            rollover: Tasks = self.add_tasks(date, tasks_)
+        for tasks_ in subplan.values():
+            for task_ in tasks_:
+                self._tasks.add(task_)
+
+        for date, task_list in subplan.items():
+            self.ensure_date(date)
+            rollover: Tasks = self.add_tasks(date, task_list)
             next_date = date.copy()
             while rollover:
                 rollover = self.add_tasks(next_date, rollover)
@@ -131,6 +127,21 @@ class Plan:
     @property
     def tasks(self) -> Tasks:
         return Tasks(self.config, self._tasks.values())
+
+    @staticmethod
+    def adjust_tmpdate_to_neighbors(t: Task, pre: Task, post: Task) -> Task:
+        """
+        Adjusts the .tmpdate attribute to be between the .tmpdate of two other tasks.
+        """
+        new_t = t.copy()
+        if pre <= new_t <= post:
+            return new_t
+        limit_before = int(pre.tmpdate) + int(new_t.isafter(pre))
+        limit_after: int = int(post.tmpdate) + int(post.isafter(new_t))
+        if not limit_before <= limit_after:
+            raise ValueError("Impossible task precedence resolution requested.")
+        new_t.tmpdate = PDate.fromordinal(int((limit_before + limit_after) / 2))
+        return new_t
 
     def items(self) -> Iterator[tuple[PDate, Tasks]]:
         return iter(self._plan.items())

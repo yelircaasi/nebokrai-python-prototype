@@ -26,6 +26,7 @@ class Schedule:
         self.width: int = config.repr_width
 
         self.schedule = Entries(config, schedule)
+
         # meta / info
         self.date: PDate = date
 
@@ -53,49 +54,28 @@ class Schedule:
     def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":
         return cls(calendar.config, date, calendar[date].entries)
 
-    def add_from_plan_and_excess(self, plan: Plan, excess: Entries) -> "Entries":
+    def add_from_plan_and_excess(self, plan: Plan, excess: Entries) -> "Entries":  # REFACTOR
         """
         Adds all tasks planned for this day, converting tasks to entries.
         """
         # combine entries from plan with excess
         entries = Entries(self.config, map(lambda t: t.as_entry(), plan[self.date]))
-        # print(self.date)
-        # for e in entries:
-        #     print(e)
         entries.extend(excess)
 
         # first, add to blocks where possible
         to_remove = []
         for entry in entries:
             for block in self.schedule:
-                if entry.categories.intersection(block.blocks) and not entry in to_remove:
+                if entry.categories.intersection(block.blocks) and entry not in to_remove:
                     block.add_subentry(entry)
                     to_remove.append(entry)
         for entry in to_remove:
             entries.remove(entry)
 
-        # print(200 * '$')
-        # print(entries)
-        # print(200 * '$')
-        # rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
-        # block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
-
-        # if block_ind:
-        #     self.add_to_block_by_index(entry, block_ind)
-
-        # combine entries to add with the flex entries of the day
         flex_entries, fixed_clusters = self.get_flex_list_and_fixed_clusters()
-
-        # print(200 * '$')
-        # print(flex_entries)
-        # print(200 * '$')
-        # print(fixed_clusters)
-        # print(200 * '$')
 
         entries.extend(flex_entries)
         entries.sort(key=lambda e: (e.order, -e.priority))
-        # print(entries)
-        # print(200 * '$')
 
         new_entries = Entries(self.config)
         next_entry = entries.pop(0)
@@ -112,35 +92,15 @@ class Schedule:
             ):
                 # 1) attempt to add next entry to the next available gap between fixed blocks
                 next_entry = entries.pop(0)
-                # print(f"new_entries:\n{Entries(self.config, new_entries)}")
                 new_entries.append(next_entry)
             new_entries.schedule_tail(hard_end)
-            # print(new_entries)
             new_entries.extend(fixed_clusters.pop(0))
 
-        # print(
-        # "new entries", ", ".join([f"{e.name} ({e.order}, -{e.priority})" for e in new_entries])
-        # )
         self.schedule = new_entries
-        # print(200 * '$')
-        # print(self.schedule)
 
-        # self.schedule.smooth_between_fixed() #TODO
         return entries
 
-        # 2) if it does not fit (or is too tight), search for next entry that fits
-
-        # go back to (1) and repeat the process
-
-        # return excess entries (should be just entries that don't fit to to clumsy
-        #   arrangement of fixed entries)
-
-        # OLD:
-        # for task in plan[self.date]:
-        #     entry = task.as_entry()
-        #     self.add(entry)
-
-    def get_flex_list_and_fixed_clusters(self) -> tuple[list[Entry], list[list[Entry]]]:
+    def get_flex_list_and_fixed_clusters(self) -> tuple[list[Entry], list[list[Entry]]]:  # REFACTOR
         """
         Gets a list of movable entries and a list of lists (clusters) of adjacent fixed entries.
         """
@@ -156,28 +116,6 @@ class Schedule:
 
         return flex, fixed_clusters
 
-    # def add(self, entry: Entry) -> None:
-    #     """
-    #     Top-level abstraction for adding an entry to the schedule.
-
-    #     First checks for a block to add on top of, otherwise follows the default logic.
-    #     """
-    #     assert self.can_be_added(entry), (
-    #         "-------------------------- CANNOT ADD\n\n" f"{entry}\n\nTO\n\n{self}\n\n"
-    #     )
-
-    #     rel_block_inds = self.schedule.get_inds_of_relevant_blocks(entry)
-    #     block_ind: Optional[int] = min(rel_block_inds) if rel_block_inds else None
-    #     # print("rel_block_inds", rel_block_inds)
-    #     # print("block_ind", block_ind)
-    #     # print(entry.categories)
-
-    #     if block_ind:
-    #         self.add_to_block_by_index(entry, block_ind)
-
-    #     else:
-    #         self.add_to_empty(entry)
-
     def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None:
         """
         Add the input entry 'on top of' the entry corresponding to the given index.
@@ -188,47 +126,6 @@ class Schedule:
         assert block_entry.blocks.intersection(entry.categories)
 
         block_entry.add_subentry(entry)
-
-    # def add_to_empty(self, __entry: Entry) -> None:
-    #     # self.schedule = self.allocate_in_time(
-    #     #     self.schedule + [__entry], self.prio_weighting_function
-    #     # )
-
-    #     # flex_clusters = self.get_flex_clusters()
-    #     self.schedule.get_fixed_and_flex()
-
-    # @staticmethod
-    # def allocate_in_time(
-    #     entries: "Entries",
-    #     prio_weighting_function: Callable,
-    # ) -> "Entries":
-    #     """
-    #     Creates a schedule (i.e. entry list) from a list of entries. Steps:
-    #       1) check whether the entries fit in a day
-    #       2) get the compression factor, i.e. how much, on average,
-    #          the entries need to be compacted in order to fit
-    #       3) separate entries into fixed (immovable) and flex (movable)
-    #       4) add the fixed entries to the schedule
-    #       5) identify the gaps
-    #       6) fill in the gaps with the flex items
-    #       7) resize between fixed points to remove small empty patches (where possible)
-    #       TODO: add alignend functionality (but first get it working without)
-    #     """
-    #     assert entries.entry_list_fits()
-    #     compression_factor = round((24 * 60) / sum(
-    #         map(lambda x: x.normaltime, entries)) - 0.01, 3
-    #     )
-
-    #     entries_fixed, entries_flex = entries.get_fixed_and_flex()
-    #     schedule = Entries(
-    #         entries.config,
-    #         [Entry.first_entry(entries.config), *entries_fixed, Entry.last_entry(entries.config)],
-    #     )
-
-    #     schedule.fill_gaps(entries_flex, prio_weighting_function, compression_factor)
-    #     schedule.smooth_between_fixed(prio_weighting_function)
-
-    #     return schedule
 
     def remove(self, entry: Entry) -> None:
         self.schedule.remove(entry)
@@ -258,12 +155,8 @@ class Schedule:
 
     @property
     def empty_time(self) -> int:
-        return sum(
-            map(
-                lambda e: e.duration,
-                filter(lambda e: isinstance(e, Empty), self.schedule),
-            )
-        )
+        empties = filter(lambda e: isinstance(e, Empty), self.schedule)
+        return sum(map(lambda e: e.duration, empties))
 
     @property
     def total_available(self) -> int:
@@ -305,7 +198,7 @@ class Schedule:
         """
         Checks whether all entries partition the time in the day.
         """
-        return self.schedule.ispartitioned()
+        return self.schedule.ispartitioned
 
     def __str__(self) -> str:
         """ """

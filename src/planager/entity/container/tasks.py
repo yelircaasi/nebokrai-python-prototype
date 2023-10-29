@@ -2,7 +2,7 @@ from collections import OrderedDict
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...config import Config
-from ...util import ProjectID, TaskID, tabularize
+from ...util import PDate, ProjectID, TaskID, tabularize
 from ..base.task import Task
 
 TaskInitType = Optional[Union[Iterable[Task], dict[TaskID, Task]]]
@@ -69,8 +69,55 @@ class Tasks:
         #     import pdb; pdb.set_trace()
         return ret
 
-    def add(self, task: Task) -> None:
-        self._tasks.update({task.task_id: task})
+    def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
+        # ----------------------------------------------------------------------
+        # # blocking logic
+        # category_names = set()
+        # for task in tasks:
+        #     category_names.update(task.categories)
+        # blocked_tasks = Tasks(self.config)
+        # blocks = self._calendar[date].blocks
+        # relevant_blocks = list(blocks.intersection(category_names))
+        # to_remove: Tasks = Tasks(self.config)
+        # for block in relevant_blocks:
+        #     for task in tasks:
+        #         if block in task.categories:
+        #             dur = task.remaining_duration
+        #             if dur <= avail_dict[block]:
+        #                 task.block_assigned = block
+        #                 blocked_tasks.add(task)
+        #                 to_remove.add(task)
+        #                 avail_dict[block] -= dur
+        # for task_ in to_remove:
+        #     tasks.remove(task_)
+        # ----------------------------------------------------------------------
+        ...
+
+    def pop_excess_tasks(self, available_empty: int) -> "Tasks":
+        # ----------------------------------------------------------------------
+        # available = avail_dict["empty"]
+        # total = tasks.total_remaining_duration
+        # while total > available:
+        #     task_to_move = tasks.pop()
+        #     excess.add(task_to_move)
+        #     total -= task_to_move.remaining_duration
+        # ----------------------------------------------------------------------
+        ...
+
+    def update_original_date(self, date: PDate) -> None:
+        for task in self._tasks.values():
+            task.original_date = date
+
+    def update_tmpdate(self, date: PDate) -> None:
+        for task in self._tasks.values():
+            task.tmpdate = date
+    
+    def extend(self, __tasks: "Tasks") -> None:
+        for task in __tasks:
+            self._tasks.update({task.task_id: task})
+    
+    def add(self, __task: Task) -> None:
+        self._tasks.update({__task.task_id: __task})
 
     def remove(self, task: Task) -> None:
         del self._tasks[task.task_id]

@@ -93,6 +93,7 @@ class Planager:
 
         for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan)
+            print(project.name)
             # if project.name == "Notion - F.B. ML & DS":
             #     print(project.subplan)
             #     import pdb
