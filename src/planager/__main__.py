@@ -3,7 +3,7 @@ import argparse
 import os
 from pathlib import Path
 
-from .cli import dashboard, derive, interactive, plan, schedule, shift, track
+from .cli import commands_dict
 
 
 def get_arg_parser() -> argparse.ArgumentParser:
@@ -46,20 +46,7 @@ def main() -> None:
     args = parser.parse_args()
     json_root = Path(args.json_root) if args.json_root else Path(os.environ["PLANAGER_JSON_ROOT"])
 
-    if args.action == "interactive":
-        interactive(json_root)
-    elif args.action == "derive":
-        derive()
-    elif args.action == "plan":
-        plan()
-    elif args.action == "schedule":
-        schedule()
-    elif args.action == "track":
-        track()
-    elif args.action == "dashboard":
-        dashboard()
-    elif args.action == "shift":
-        shift(args.num_days)
+    commands_dict[args.action](json_root)
 
     raise ValueError(f"Invalid action: '{args.action}'.")
 

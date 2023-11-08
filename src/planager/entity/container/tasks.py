@@ -92,6 +92,7 @@ class Tasks:
         #     tasks.remove(task_)
         # ----------------------------------------------------------------------
         ...
+        return Tasks(self.config)
 
     def pop_excess_tasks(self, available_empty: int) -> "Tasks":
         # ----------------------------------------------------------------------
@@ -103,6 +104,7 @@ class Tasks:
         #     total -= task_to_move.remaining_duration
         # ----------------------------------------------------------------------
         ...
+        return Tasks(self.config)
 
     def update_original_date(self, date: PDate) -> None:
         for task in self._tasks.values():

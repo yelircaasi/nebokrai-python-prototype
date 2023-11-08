@@ -11,6 +11,7 @@ class PathManager:  # only supports JSON for now
     declaration: Path
     derivation: Path
     tracking: Path
+    edit_times: Path
     txt: Path
 
     def __init__(self, folder: Union[Path, str]) -> None:
@@ -18,6 +19,7 @@ class PathManager:  # only supports JSON for now
         self.declaration = self.folder / "declaration.json"
         self.derivation = self.folder / "derivation.json"
         self.tracking = self.folder / "tracking.json"
+        self.edit_times = self.folder / "edit_times.json"
         self.txt = self.folder / "txt"
 
     def backup(self, backup_name: str) -> Path:

@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from pathlib import Path
 from typing import Any, Optional, Union
@@ -31,6 +32,10 @@ class Planager:
     routines: Routines
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
+    declaration_edit_time: datetime
+    plan_edit_time: datetime
+    schedule_edit_time: datetime
+    derivation: dict[str, Any]
 
     def __init__(self, config, calendar, roadmaps, routines, pathmanager) -> None:
         self.config = config
@@ -38,6 +43,16 @@ class Planager:
         self.roadmaps: Roadmaps = roadmaps
         self.routines: Routines = routines
         self.pathmanager: PathManager = pathmanager
+
+        with open(pathmanager.edit_times) as f:
+            edit_times = json.load(f)
+        
+        def from_key(k: str) -> datetime:
+            return datetime.fromisoformat(edit_times[k])
+        
+        self.declaration_edit_time = from_key("declaration_edit_time")
+        self.plan_edit_time = from_key("plan_edit_time")
+        self.schedule_edit_time = from_key("schedule_edit_time")
 
     @classmethod
     def from_json(cls, json_root: Path) -> "Planager":
@@ -61,17 +76,11 @@ class Planager:
         Derives plan and schedules from declarations.
         """
 
-        self.plan = self.derive_plan(self.calendar, self.roadmaps)
-        self.schedules = self.derive_schedules(
-            self.calendar,
-            self.plan,
-            self.roadmaps,
-        )
+        self.plan = self.derive_plan()
+        self.schedules = self.derive_schedules()
 
     def derive_plan(
         self,
-        calendar: Calendar,
-        roadmaps: Roadmaps,
     ) -> Plan:
         """
         Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar,
@@ -84,60 +93,42 @@ class Planager:
         Not yet implemented:
           functionality for breaking up and reallocating clusters. -> Happens automatically?
         """
-        plan = Plan(
-            config=self.config,
-            calendar=calendar,
-        )
-
-        projects = roadmaps.projects
+        
+        if self.plan_edit_time > self.declaration_edit_time:
+            plan = Plan(
+                config=self.config,
+                calendar=self.calendar,
+            )
+        else:
+            plan = Plan.from_declaration_path(self.path_manager.declaration)
+        
+        projects = self.roadmaps.projects
 
         for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan)
             print(project.name)
-            # if project.name == "Notion - F.B. ML & DS":
-            #     print(project.subplan)
-            #     import pdb
-            #     pdb.set_trace()
-            #     exit()
-
+            
         self.enforce_precedence_constraints(plan, projects)
 
         return plan
 
-    def derive_schedules(
-        self,
-        calendar: Calendar,
-        plan: Plan,
-        roadmaps: Roadmaps,
-    ) -> Schedules:
+    def derive_schedules(self) -> Schedules:
         """
         Use information obtained from the declaration and the derived plan to derive,
           in turn, the schedules.
         """
-        start_date_new = roadmaps.start_date or (PDate.tomorrow())
-        end_date_new: PDate = roadmaps.end_date or max(
-            plan.end_date,
-            calendar.end_date,
+        assert self.plan
+        start_date_new = self.roadmaps.start_date or (PDate.tomorrow())
+        end_date_new: PDate = self.roadmaps.end_date or max(
+            self.plan.end_date,
+            self.calendar.end_date,
         )
         schedules = Schedules(self.config)
         excess_entries: Entries = Entries(self.config)
         for date in start_date_new.range(end_date_new):
-            schedule = Schedule.from_calendar(calendar, date)
-            # print(schedule)
-            # print("Calendar[date]")
-            # print(calendar[date])
-            # print("schedule")
-            # print(schedule)
+            schedule = Schedule.from_calendar(self.calendar, date)
             # TODO: add .earliest and .latest to entries
-            excess_entries = schedule.add_from_plan_and_excess(plan, excess_entries)
-            # exit()
-            # print("Schedule after adding from plan")
-            # print(schedule)
-            # if date == PDate.today() + 3:
-            print(date)
-            # print(200 * "#")
-            # for x in schedule.entries:
-            #     print(x)
+            excess_entries = schedule.add_from_plan_and_excess(self.plan, excess_entries)
             schedules[date] = schedule
         return schedules
 

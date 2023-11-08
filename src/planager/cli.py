@@ -1,6 +1,8 @@
+import argparse
 from pathlib import Path
+from typing import Callable, Protocol
 
-from planager import Planager
+from .planager import Planager
 
 
 def interactive(json_root: Path) -> None:
@@ -9,28 +11,48 @@ def interactive(json_root: Path) -> None:
     """
     print("Welcome to interactive planager.")
     planager = Planager.from_json(json_root)
-    print(planager)
+    print(planager.summary)
 
 
-def derive() -> None:
-    print("Deriving...")
+def derive(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
+    planager.derive()
+    
+
+def plan(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
+    planager.derive_plan()
 
 
-def plan() -> None:
-    print("Planning...")
+def schedule(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
+    planager.derive_schedules()
 
 
-def schedule() -> None:
-    print("Scheduling...")
-
-
-def track() -> None:
+def track(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
     print("Welcome to planager tracking.")
+    planager.track()
 
 
-def dashboard() -> None:
-    print("Welcome to planager dashboard.")
+def dashboard(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
+    planager.show_dashboard()
 
 
-def shift(ndays: int) -> None:
+def shift(json_root: Path) -> None:
+    planager = Planager.from_json(json_root)
+    _ndays = input("How many days would you like to shift the declaration back by?")
+    ndays = int(_ndays)
     print(f"Shifting by {ndays}...")
+
+
+commands_dict: dict[str, Callable] = {
+    "interactive": interactive,
+    "derive": derive,
+    "plan": plan,
+    "schedule": schedule,
+    "track": track,
+    "dashboard": dashboard,
+    "shift": shift,
+}

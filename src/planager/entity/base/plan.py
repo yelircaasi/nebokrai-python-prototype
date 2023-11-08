@@ -1,4 +1,6 @@
-from typing import Iterable, Iterator
+import json
+from pathlib import Path
+from typing import Any, Iterable, Iterator
 
 from ...config import Config
 from ...util import PDate
@@ -116,6 +118,16 @@ class Plan:
                 rollover = self.add_tasks(next_date, rollover)
                 next_date += 1
 
+    @classmethod
+    def from_declaration_path(cls, declaration_path: Path) -> "Plan":
+        with open(declaration_path) as f:
+            declaration = json.load(f)
+        
+    @property
+    def dictionary(self) -> dict[str, Any]:
+
+        return {}
+    
     def ensure_date(self, date: PDate):
         if date not in self._plan:
             self._plan.update({date: Tasks(self.config)})
