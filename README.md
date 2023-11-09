@@ -21,7 +21,7 @@ anyone who has spent time in or around software development:
   - i.e. what is planned and scheduled follows directly and deterministically from the declaration
   - purity in this context brings with it a striking number of benefits:
     * **transparent relationship** between all components of the system, from long-terms plans and
-      goals down to short-term schedules and to-do lists
+      goals down to short-term schedules and to-do lists - this hints at the possibility of something analogous to backpropagation, but that is not yet on the horizon
     * **attribution**, i.e. low-level details like a daily schedule have their roots in what I really
       want in the long run and if I don't like or understand something, I can trace it back to the
       declaration to understand why the program planned / scheduled it that way - in other words,
@@ -30,7 +30,7 @@ anyone who has spent time in or around software development:
   - life happens, and the ability to adjust a plan following failures  and setbacks is essential
   - plans and goals without resilience are simply too brittle and are likely to be abandoned in 
     frustration
-* **traceability via logging**: the practice and paradigm of keeping detailed notes on what happened
+* **observability and traceability via logging**: the practice and paradigm of keeping detailed notes on what happened
   and how and why is that we can look at what went wrong and, conversely, what went well
   - this brings with it accountability, which it turns out is important for humans for a number of
     reasons
@@ -40,8 +40,6 @@ anyone who has spent time in or around software development:
   and while they interact seamlessly, each is as coherent and self-contained as possible
 
 ## Features
-
-
 
 ### Planning
 
@@ -109,9 +107,13 @@ Constraint types include:
 The scheduler acts as a sort of temporal constraint solver to find the optimal schedule satisfying
 the declaration and (more immediately) the plan.
 
+One of the major benefits of planning in this way is the built-in-by-design requirement that priorities are respected when planning. For example, routines can be declared in their own section of the declaration, referenced on relevant days in the calendar, and then included in planning and scheduling. To borrow yet another phrase from computer science, this is a sort of ahead-of-time compilation, which makes possible a high degree of optimization.
+
 ### Tracking
 
-Coming soon...
+To understand what is working and what is not, it is important to have a clear record of what actually happened. As psychological studies have shown, memory is often unreliable and deceptive. Without data, I can easily overestimate the extent to which I have eaten healthily or the amount of time I spent actually working on projects (with my brain engaged, not just sitting in the right chair). Activity tracking is the antidote to these problems.
+
+On the other hand, tracking is tedious, and in many forms it is quite burdensome. Any system attempting to facilitate tracking needs to mitigate this. An easy interactive CLI and a mobile interface via the Signal app (and later others) are two approaches that make tracking if not outright enjoyable, at least more pleasant and less of a chore.
 
 ### CLI
 
@@ -126,6 +128,9 @@ Coming soon...
 * something akin to GTD (Getting Things Done)
 * Taskwarrior and Timewarrior integration
 * integration with Neorg
+* TUI, including Gantt and calendar views and vim keybindings and color customizations
+* native Android app / Linux mobile / etc
+* 
 
 ## Usage
 
