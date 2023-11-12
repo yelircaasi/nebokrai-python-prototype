@@ -1,5 +1,5 @@
-from datetime import datetime
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional, Union
 
@@ -46,10 +46,10 @@ class Planager:
 
         with open(pathmanager.edit_times) as f:
             edit_times = json.load(f)
-        
+
         def from_key(k: str) -> datetime:
             return datetime.fromisoformat(edit_times[k])
-        
+
         self.declaration_edit_time = from_key("declaration_edit_time")
         self.plan_edit_time = from_key("plan_edit_time")
         self.schedule_edit_time = from_key("schedule_edit_time")
@@ -93,7 +93,7 @@ class Planager:
         Not yet implemented:
           functionality for breaking up and reallocating clusters. -> Happens automatically?
         """
-        
+
         if self.plan_edit_time > self.declaration_edit_time:
             plan = Plan(
                 config=self.config,
@@ -101,13 +101,13 @@ class Planager:
             )
         else:
             plan = Plan.from_declaration_path(self.path_manager.declaration)
-        
+
         projects = self.roadmaps.projects
 
         for project in projects.iter_by_priority:
             plan.add_subplan(project.subplan)
             print(project.name)
-            
+
         self.enforce_precedence_constraints(plan, projects)
 
         return plan

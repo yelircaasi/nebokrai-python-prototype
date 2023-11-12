@@ -17,7 +17,7 @@ def interactive(json_root: Path) -> None:
 def derive(json_root: Path) -> None:
     planager = Planager.from_json(json_root)
     planager.derive()
-    
+
 
 def plan(json_root: Path) -> None:
     planager = Planager.from_json(json_root)

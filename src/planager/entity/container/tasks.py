@@ -113,11 +113,11 @@ class Tasks:
     def update_tmpdate(self, date: PDate) -> None:
         for task in self._tasks.values():
             task.tmpdate = date
-    
+
     def extend(self, __tasks: "Tasks") -> None:
         for task in __tasks:
             self._tasks.update({task.task_id: task})
-    
+
     def add(self, __task: Task) -> None:
         self._tasks.update({__task.task_id: __task})
 
