@@ -1,7 +1,53 @@
+import json
+import os
 import re
-from typing import Any
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Union
 
 from .util import PTime
+
+
+class PathManager:  # only supports JSON for now
+    """
+    Helper class to simplify working with paths in the data directory.
+    """
+
+    declaration: Path
+    derivation: Path
+    tracking: Path
+    edit_times: Path
+    txt: Path
+
+    def __init__(self, folder: Union[Path, str]) -> None:
+        self.folder = Path(folder)
+        self.declaration = self.folder / "declaration.json"
+        self.derivation = self.folder / "derivation.json"
+        self.tracking = self.folder / "tracking.json"
+        self.edit_times = self.folder / "edit_times.json"
+        self.txt = self.folder / "txt"
+
+    def backup(self, backup_name: str) -> Path:
+        """
+        Generates a path to a backup file ensuring that the backups folder exists.
+        """
+        backup_dir = self.folder / "backups"
+        if not backup_dir.exists():
+            backup_dir.mkdir()
+        return backup_dir / backup_name
+
+    def backup_with_date(self, backup_name: str) -> Path:
+        """
+        Generates a path to a backup file containing a timestamp.
+          Ensures that the backups folder exists.
+        """
+        backup_dir = self.folder / "backups"
+        if not backup_dir.exists():
+            backup_dir.mkdir()
+        split_list = backup_name.split(".")
+        split_list[-2] += str(datetime.now()).split(".", maxsplit=1)[0].replace(" ", "_")
+        backup_name = ".".join(split_list[:-1])
+        return backup_dir / backup_name
 
 
 class Config:
@@ -127,3 +173,23 @@ class Config:
 
     def __getitem__(self, __key: str) -> Any:
         return self.__dict__[__key]
+
+
+path_to_dirpath = Path(os.environ.get("PLANAGER_CONFIG_FILE") or "")
+if not path_to_dirpath:
+    path_to_path = Path.home() / ".config/planager/path.txt"
+    if not path_to_dirpath.exists():
+        raise ValueError(f"No configuration file given; should be located at {path_to_path}.")
+else:
+    path_to_dir = Path(path_to_dirpath)
+
+with open(path_to_dir, encoding="ascii") as f:
+    planager_root = Path(f.read())
+
+path_manager = PathManager(planager_root)
+
+with open(path_manager.declaration, encoding="utf-8") as f:
+    config_dict: dict[str, Any] = json.load(f)["config"]
+config = Config.from_dict(config_dict)
+
+__all__ = ["config", "path_manager"]

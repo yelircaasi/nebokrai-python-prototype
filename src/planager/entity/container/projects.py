@@ -1,6 +1,6 @@
 from typing import Any, Iterator, Optional, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import ProjectID, RoadmapID, TaskID, tabularize
 from ..base.project import Project
 from ..base.task import Task
@@ -12,23 +12,22 @@ class Projects:
     Container class for multiple instances of the Project class.
     """
 
-    def __init__(self, config: Config, projects: Optional[list[Project]] = None) -> None:
+    def __init__(self, projects: Optional[list[Project]] = None) -> None:
         self._projects: dict[ProjectID, Project] = {p.project_id: p for p in (projects or [])}
-        self.config = config
         self._tasks: Tasks = self._get_tasks()
 
     @classmethod
-    def from_dict(cls, config, roadmap_id: RoadmapID, projects_dict: dict[str, Any]) -> "Projects":
+    def from_dict(cls, roadmap_id: RoadmapID, projects_dict: dict[str, Any]) -> "Projects":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
 
-        projects = cls(config)
+        projects = cls()
 
         for project_code, project_dict in projects_dict.items():
             project_id = roadmap_id.project_id(project_code)
             if project_dict:
-                projects.add(Project.from_dict(config, project_id, project_dict))
+                projects.add(Project.from_dict(project_id, project_dict))
 
         return projects
 
@@ -40,7 +39,7 @@ class Projects:
         return self._tasks
 
     def _get_tasks(self) -> Tasks:
-        tasks = Tasks(self.config)
+        tasks = Tasks()
         for _project in self._projects.values():
             for task in _project:
                 tasks.add(task)
@@ -63,7 +62,7 @@ class Projects:
         def format_number(s: Any) -> str:
             return (len(str(s)) == 1) * " " + f" {s} │ "
 
-        width = self.config.repr_width
+        width = config.repr_width
 
         empty = "\n" + tabularize("", width)
         names = map(

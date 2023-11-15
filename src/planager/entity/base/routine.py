@@ -1,6 +1,6 @@
 from typing import Any, Callable, Iterable, Optional, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import PDate, PTime, tabularize
 from ..container.entries import Entries
 from .entry import Entry
@@ -13,7 +13,6 @@ class Routine:
 
     def __init__(
         self,
-        config: Config,
         name: str,
         start: PTime,
         items: Iterable[Entry],
@@ -27,10 +26,9 @@ class Routine:
         order: float,
         valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
     ) -> None:
-        self.config = config
         self.name = name
         self.start = start
-        self.items = Entries(config, items)
+        self.items = Entries(items)
         self.priority = int(priority)
         self.notes = notes
         self.normaltime = normaltime
@@ -49,17 +47,16 @@ class Routine:
         self.valid_dates = validator
 
     @classmethod
-    def from_dict(cls, config: Config, routine_dict: dict[str, Any]) -> "Routine":
+    def from_dict(cls, routine_dict: dict[str, Any]) -> "Routine":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
 
         items: list[Entry] = []
         for item_dict in routine_dict["items"]:
-            items.append(Entry.from_dict(config, item_dict))
+            items.append(Entry.from_dict(item_dict))
 
         return cls(
-            config,
             routine_dict["name"],
             PTime.from_string(routine_dict["default_start"]),
             items,
@@ -97,7 +94,6 @@ class Routine:
         Converts instance of Routine into an instance of Entry.
         """
         return Entry(
-            self.config,
             self.name,
             start or self.start,
             priority=self.priority if priority is None else priority,
@@ -117,7 +113,7 @@ class Routine:
         def format_number(s: Any) -> str:
             return (len(str(s)) == 1) * " " + f"{s} │ "
 
-        width = self.config.repr_width
+        width = config.repr_width
         thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         thinbeam = "\n┠" + (width - 2) * "─" + "┨\n"
         header = (

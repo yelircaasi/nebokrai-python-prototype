@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import PDate, ProjectID, TaskID, tabularize
 from ..base.task import Task
 
@@ -13,8 +13,7 @@ class Tasks:
     Container class for multiple instances of the Task class.
     """
 
-    def __init__(self, config: Config, tasks: TaskInitType = None) -> None:
-        self.config = config
+    def __init__(self, tasks: TaskInitType = None) -> None:
         self._tasks: OrderedDict[TaskID, Task] = OrderedDict()
         if isinstance(tasks, dict):
             self._tasks = OrderedDict(tasks)
@@ -37,7 +36,6 @@ class Tasks:
     @classmethod
     def from_dict(
         cls,
-        config: Config,
         tasks_dict_list: list[dict[str, Any]],
         project_id: ProjectID,
         project_name: str,
@@ -51,7 +49,6 @@ class Tasks:
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             task = Task.from_dict(
-                config,
                 task_dict,
                 project_id,
                 project_name,
@@ -63,22 +60,26 @@ class Tasks:
         # if project_name == "Notion - F.B. ML & DS":
         #     print(tasks_list)
 
-        ret = cls(config, tasks_list)
+        ret = cls(tasks_list)
         # if project_name == "Notion - F.B. ML & DS":
         #     print(ret)
         #     import pdb; pdb.set_trace()
         return ret
 
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
+        """
+        To be rewritten!
+        """
+        print(available_dict)
         # ----------------------------------------------------------------------
         # # blocking logic
         # category_names = set()
         # for task in tasks:
         #     category_names.update(task.categories)
-        # blocked_tasks = Tasks(self.config)
+        # blocked_tasks = Tasks()
         # blocks = self._calendar[date].blocks
         # relevant_blocks = list(blocks.intersection(category_names))
-        # to_remove: Tasks = Tasks(self.config)
+        # to_remove: Tasks = Tasks()
         # for block in relevant_blocks:
         #     for task in tasks:
         #         if block in task.categories:
@@ -91,10 +92,14 @@ class Tasks:
         # for task_ in to_remove:
         #     tasks.remove(task_)
         # ----------------------------------------------------------------------
-        ...
-        return Tasks(self.config)
+
+        return Tasks()
 
     def pop_excess_tasks(self, available_empty: int) -> "Tasks":
+        """
+        To be rewritten!
+        """
+        print(available_empty)
         # ----------------------------------------------------------------------
         # available = avail_dict["empty"]
         # total = tasks.total_remaining_duration
@@ -103,8 +108,7 @@ class Tasks:
         #     excess.add(task_to_move)
         #     total -= task_to_move.remaining_duration
         # ----------------------------------------------------------------------
-        ...
-        return Tasks(self.config)
+        return Tasks()
 
     def update_original_date(self, date: PDate) -> None:
         for task in self._tasks.values():
@@ -139,7 +143,7 @@ class Tasks:
         """
         Creates a detailed and aesthetic string representation of the given Tasks instance.
         """
-        width = self.config.repr_width
+        width = config.repr_width
 
         def format_number(s: Any) -> str:
             return (len(str(s)) == 1) * " " + f" {s} │ "

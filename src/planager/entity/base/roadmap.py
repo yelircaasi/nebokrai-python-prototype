@@ -1,6 +1,6 @@
 from typing import Any, Iterable, Iterator, List, Optional, Tuple
 
-from ...config import Config
+from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..container.projects import Projects
 from .project import Project
@@ -14,32 +14,27 @@ class Roadmap:
 
     def __init__(
         self,
-        config: Config,
         name: str,
         roadmap_id: RoadmapID,
         projects: Projects,
         categories: Optional[Iterable[str]] = None,
     ) -> None:
-        self.config = config
         self.name = name
         self.roadmap_id = roadmap_id
         self._projects = projects
         self.categories = categories or set()
 
     @classmethod
-    def from_dict(
-        cls, config: Config, roadmap_id: RoadmapID, roadmap_dict: dict[str, Any]
-    ) -> "Roadmap":
+    def from_dict(cls, roadmap_id: RoadmapID, roadmap_dict: dict[str, Any]) -> "Roadmap":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        projects = Projects.from_dict(config, roadmap_id, roadmap_dict["projects"])
+        projects = Projects.from_dict(roadmap_id, roadmap_dict["projects"])
 
-        return cls(config, roadmap_dict["name"], roadmap_id, projects)
+        return cls(roadmap_dict["name"], roadmap_id, projects)
 
     def copy(self) -> "Roadmap":
         return Roadmap(
-            self.config,
             name=self.name,
             roadmap_id=self.roadmap_id,
             projects=self._projects,
@@ -50,7 +45,7 @@ class Roadmap:
         """
         Creates a detailed and aesthetic string representation of the given Entry instance.
         """
-        width = self.config.repr_width
+        width = config.repr_width
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         thinbeam = "┠" + (width - 2) * "─" + "┨"

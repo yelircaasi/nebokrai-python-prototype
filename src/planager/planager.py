@@ -1,9 +1,8 @@
 import json
 from datetime import datetime
-from pathlib import Path
 from typing import Any, Optional, Union
 
-from .config import Config
+from .configuration import path_manager
 from .entity import (
     Calendar,
     Day,
@@ -17,8 +16,11 @@ from .entity import (
     Schedule,
     Schedules,
     Task,
+    add_from_plan_and_excess,
+    update_plan,
 )
-from .util import PathManager, PDate, ProjectID, RoadmapID, TaskID
+from .tracking.logs import Logs
+from .util import PDate, ProjectID, RoadmapID, TaskID
 
 
 class Planager:
@@ -26,25 +28,23 @@ class Planager:
     One class to rule them all.
     """
 
-    path_manager: PathManager
     calendar: Calendar
     roadmaps: Roadmaps
     routines: Routines
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
+    logs: Logs
     declaration_edit_time: datetime
     plan_edit_time: datetime
     schedule_edit_time: datetime
     derivation: dict[str, Any]
 
-    def __init__(self, config, calendar, roadmaps, routines, pathmanager) -> None:
-        self.config = config
+    def __init__(self, calendar, roadmaps, routines) -> None:
         self.calendar: Calendar = calendar
         self.roadmaps: Roadmaps = roadmaps
         self.routines: Routines = routines
-        self.pathmanager: PathManager = pathmanager
 
-        with open(pathmanager.edit_times) as f:
+        with open(path_manager.edit_times, encoding="utf-8") as f:
             edit_times = json.load(f)
 
         def from_key(k: str) -> datetime:
@@ -55,21 +55,19 @@ class Planager:
         self.schedule_edit_time = from_key("schedule_edit_time")
 
     @classmethod
-    def from_json(cls, json_root: Path) -> "Planager":
+    def from_json(cls) -> "Planager":
         """
         Instantiates from declaration.json.
         """
 
-        pathmanager = PathManager(json_root)
-        with open(pathmanager.declaration, encoding="utf-8") as f:
+        with open(path_manager.declaration, encoding="utf-8") as f:
             dec = json.load(f)
 
-        config = Config.from_dict(dec["config"])
-        routines = Routines.from_dict(config, dec["routines"])
-        calendar = Calendar.from_dict(config, routines, dec["calendar"])
-        roadmaps = Roadmaps.from_dict(config, dec["roadmaps"])
+        routines = Routines.from_dict(dec["routines"])
+        calendar = Calendar.from_dict(routines, dec["calendar"])
+        roadmaps = Roadmaps.from_dict(dec["roadmaps"])
 
-        return cls(config, calendar, roadmaps, routines, pathmanager)
+        return cls(calendar, roadmaps, routines)
 
     def derive(self) -> None:
         """
@@ -96,16 +94,15 @@ class Planager:
 
         if self.plan_edit_time > self.declaration_edit_time:
             plan = Plan(
-                config=self.config,
                 calendar=self.calendar,
             )
         else:
-            plan = Plan.from_declaration_path(self.path_manager.declaration)
+            plan = Plan.from_path(path_manager.declaration)
 
         projects = self.roadmaps.projects
 
         for project in projects.iter_by_priority:
-            plan.add_subplan(project.subplan)
+            plan = update_plan(plan, project.subplan)
             print(project.name)
 
         self.enforce_precedence_constraints(plan, projects)
@@ -117,22 +114,31 @@ class Planager:
         Use information obtained from the declaration and the derived plan to derive,
           in turn, the schedules.
         """
+        start_date_new, end_date_new = self.start_and_end_dates
+        schedules, excess_entries = Schedules(), Entries()
+        for date in start_date_new.range(end_date_new):
+            schedule = Schedule.from_calendar(
+                self.calendar, date
+            )  # TODO: add .earliest and .latest to entries
+            schedules[date], excess_entries = add_from_plan_and_excess(
+                schedule, self.plan, excess_entries
+            )
+        return schedules
+
+    @property
+    def start_and_end_dates(self) -> tuple[PDate, PDate]:
+        """
+        Returns start and end date recovered from information in the  roadmaps.
+        """
         assert self.plan
-        start_date_new = self.roadmaps.start_date or (PDate.tomorrow())
-        end_date_new: PDate = self.roadmaps.end_date or max(
+        start_date = self.roadmaps.start_date or (PDate.tomorrow())
+        end_date: PDate = self.roadmaps.end_date or max(
             self.plan.end_date,
             self.calendar.end_date,
         )
-        schedules = Schedules(self.config)
-        excess_entries: Entries = Entries(self.config)
-        for date in start_date_new.range(end_date_new):
-            schedule = Schedule.from_calendar(self.calendar, date)
-            # TODO: add .earliest and .latest to entries
-            excess_entries = schedule.add_from_plan_and_excess(self.plan, excess_entries)
-            schedules[date] = schedule
-        return schedules
+        return start_date, end_date
 
-    @staticmethod
+    @staticmethod  # refactor
     def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
         """
         Checks that all temporal dependencies are respected and raises an informative
@@ -165,6 +171,9 @@ class Planager:
                         )
                     )
 
+    def track(self) -> None:
+        print("Not yet implemented!")
+
     def write_json(self) -> None:
         """
         Writes derivation to json folder.
@@ -183,11 +192,23 @@ class Planager:
                     lines.append(f"        {task.name} (ID {task.task_id})")
         return "\n".join(lines)
 
+    @property
+    def summary(self) -> str:
+        return "\n\n".join(
+            (
+                self.roadmaps.summary,
+                self.calendar.summary,
+                self.plan.summary if self.plan else "No plan defined.",
+                self.schedules.summary if self.schedules else "No schedule defined.",
+                self.logs.summary,
+            )
+        )
+
     def make_gantt_string(self, raw: bool = False) -> str:
         """
         Creates a Gantt-style representation of the declaration and resulting plan.
         """
-        project_name_length = 30
+        project_name_max_length = 30
 
         today = PDate.today()
         end_date = PDate.today() + 400
@@ -214,9 +235,9 @@ class Planager:
                 return ret
 
             def format_name(proj_name: str) -> str:
-                if len(proj_name) <= project_name_length:
-                    return f"{proj_name: <{project_name_length}} ║ "
-                return proj_name[: (project_name_length - 6)] + "…" + proj_name[-5:] + " ║ "
+                if len(proj_name) <= project_name_max_length:
+                    return f"{proj_name: <{project_name_max_length}} ║ "
+                return proj_name[: (project_name_max_length - 6)] + "…" + proj_name[-5:] + " ║ "
 
             status2char = {"todo": "○", "done": "●"}
             line = format_name(project.name)
@@ -270,11 +291,14 @@ class Planager:
             for d in t.range(maxlen):
                 chars.append(("║" * (d.month == 1 and d.day == 1) + "│" * (d.day == 1) + " ")[0])
 
-            return project_name_length * " " + " ║ " + "".join(chars)
+            return project_name_max_length * " " + " ║ " + "".join(chars)
 
         line1 = make_header(lines)
         gantt = "\n".join([line1, line1, ""]) + "\n".join(map(lambda x: x[1], lines))
         return gantt
+
+    def show_dashboard(self) -> None:
+        print("Not yet implemented!")
 
     def __getitem__(
         self, __key: Union[RoadmapID, ProjectID, TaskID]

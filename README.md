@@ -21,17 +21,19 @@ anyone who has spent time in or around software development:
   - i.e. what is planned and scheduled follows directly and deterministically from the declaration
   - purity in this context brings with it a striking number of benefits:
     * **transparent relationship** between all components of the system, from long-terms plans and
-      goals down to short-term schedules and to-do lists - this hints at the possibility of something analogous to backpropagation, but that is not yet on the horizon
-    * **attribution**, i.e. low-level details like a daily schedule have their roots in what I really
-      want in the long run and if I don't like or understand something, I can trace it back to the
-      declaration to understand why the program planned / scheduled it that way - in other words,
-      nothing is random and everything has a discoverable cause
+      goals down to short-term schedules and to-do lists - this hints at the possibility of
+      something analogous to backpropagation, but that is not yet on the horizon
+    * **attribution**, i.e. low-level details like a daily schedule have their roots in what I 
+      really want in the long run and if I don't like or understand something, I can trace it back 
+      to the  declaration to understand why the program planned / scheduled it that way - in other 
+      words, nothing is random and everything has a discoverable cause
 * **resilience**: known to nerds as "fault tolerance"
   - life happens, and the ability to adjust a plan following failures  and setbacks is essential
   - plans and goals without resilience are simply too brittle and are likely to be abandoned in 
     frustration
-* **observability and traceability via logging**: the practice and paradigm of keeping detailed notes on what happened
-  and how and why is that we can look at what went wrong and, conversely, what went well
+* **observability and traceability via logging**: the practice and paradigm of keeping detailed 
+  notes on what happened and how and why is that we can look at what went wrong and, conversely, 
+  what went well
   - this brings with it accountability, which it turns out is important for humans for a number of
     reasons
   - prevents self-deception

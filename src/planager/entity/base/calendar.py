@@ -1,6 +1,6 @@
 from typing import Any, Iterable, Iterator, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import PDate, tabularize
 from ...util.pdatetime.ptime import PTime
 from ..container.entries import Entries
@@ -17,14 +17,12 @@ class Day:
 
     def __init__(
         self,
-        config: Config,
         date: PDate,
         start: PTime,
         end: PTime,
         entries: Entries,
         routines: Entries,
     ) -> None:
-        self.config = config
         self.date = date
         self.entries = entries
         self.routines = routines
@@ -39,7 +37,6 @@ class Day:
         morning_normaltime = PTime(0).timeto(waketime)
         evening_normaltime = bedtime.timeto(PTime(24))
         morning_sleep = Entry(
-            config,
             "Sleep",
             PTime(0),
             end=waketime,
@@ -51,7 +48,6 @@ class Day:
             ismovable=False,
         )
         evening_sleep = Entry(
-            config,
             "Sleep",
             bedtime,
             end=PTime(24),
@@ -89,7 +85,6 @@ class Day:
 
     def copy(self) -> "Day":
         return Day(
-            self.config,
             self.date.copy(),
             self.start.copy(),
             self.end.copy(),
@@ -98,16 +93,14 @@ class Day:
         )
 
     @classmethod
-    def from_dict(
-        cls, config: Config, routines: Routines, date: PDate, day_dict: dict[str, Any]
-    ) -> "Day":
+    def from_dict(cls, routines: Routines, date: PDate, day_dict: dict[str, Any]) -> "Day":
         """
         Instantiates from config, json-derived dic, and project information.
         """
 
-        entries = Entries(config)
+        entries = Entries()
         for entry_dict in day_dict["entries"]:
-            entries.append(Entry.from_dict(config, entry_dict))
+            entries.append(Entry.from_dict(entry_dict))
 
         routines_dict = {}
         for routine_dict in day_dict["routines"]:
@@ -117,7 +110,7 @@ class Day:
         start = PTime.from_string(day_dict.get("start", str(config.default_day_start)))
         end = PTime.from_string(day_dict.get("end", str(config.default_day_end)))
 
-        return cls(config, date, start, end, entries, routine_entries)
+        return cls(date, start, end, entries, routine_entries)
 
     @staticmethod
     def make_routine_entries(routine_dict: dict[str, dict], routines: Routines) -> Entries:
@@ -125,7 +118,7 @@ class Day:
         Creates routine entries from the declaration and from the Routines instance.
         """
 
-        entries = Entries(routines.config)
+        entries = Entries()
 
         for routine_spec in routine_dict.values():
             routine_name = routine_spec["name"]
@@ -199,7 +192,7 @@ class Day:
         return time_dict
 
     def __str__(self) -> str:
-        width = self.config.repr_width
+        width = config.repr_width
         # thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         header_thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         header_thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
@@ -222,24 +215,21 @@ class Calendar:
     Container for all days, with a few helper methods.
     """
 
-    def __init__(self, config: Config, days: Union[dict[PDate, Day], Iterable[Day]]) -> None:
-        self.config = config
+    def __init__(self, days: Union[dict[PDate, Day], Iterable[Day]]) -> None:
         self.days: dict[PDate, Day] = days if isinstance(days, dict) else {d.date: d for d in days}
 
     @classmethod
-    def from_dict(
-        cls, config: Config, routines: Routines, calendar_dict: dict[str, Any]
-    ) -> "Calendar":
+    def from_dict(cls, routines: Routines, calendar_dict: dict[str, Any]) -> "Calendar":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
         days = {}
         for date_string, day_dict in calendar_dict["days"].items():
             day_date = PDate.from_string(date_string)
-            day = Day.from_dict(config, routines, day_date, day_dict)
+            day = Day.from_dict(routines, day_date, day_dict)
             days.update({day_date: day})
 
-        return cls(config, days)
+        return cls(days)
 
     # @classmethod
     # def from_norg_workspace(cls, workspace_dir: Path) -> "Calendar":
@@ -264,7 +254,7 @@ class Calendar:
     #     return cal
 
     def copy(self) -> "Calendar":
-        cal = Calendar(self.config, {})
+        cal = Calendar({})
         cal.days = {k.copy(): v.copy() for k, v in self.days.items()}
         return cal
 
@@ -284,7 +274,7 @@ class Calendar:
         return max(self.days)
 
     def long_repr(self) -> str:
-        spacer = tabularize(" ", self.config.repr_width, thick=True) + "\n"
+        spacer = tabularize(" ", config.repr_width, thick=True) + "\n"
         return spacer.join(map(str, self.days.values()))
 
     def __getitem__(self, __date: PDate) -> Day:
@@ -295,6 +285,10 @@ class Calendar:
 
     def __iter__(self) -> Iterator[PDate]:
         return iter(self.days.keys())
+
+    @property
+    def summary(self) -> str:
+        return "Calendar.summary property is not yet implemented."
 
     def __str__(self) -> str:
         return "need to implement this"

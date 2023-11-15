@@ -1,9 +1,8 @@
 import re
 from typing import Any, Literal, Optional
 
-from planager.config import Config
-from planager.util import PDate, ProjectID, PTime, TaskID, tabularize
-
+from ...configuration import config
+from ...util import PDate, ProjectID, PTime, TaskID, tabularize
 from .entry import Entry
 
 
@@ -17,7 +16,6 @@ class Task:
 
     def __init__(
         self,
-        config: Config,
         name: str,
         project_name: str,
         task_id: TaskID,
@@ -30,8 +28,6 @@ class Task:
         blocks: Optional[set[str]] = None,
         categories: Optional[set[str]] = None,
     ) -> None:
-        self.config = config
-
         # meta / info
         self.name = name
         self.project_name = project_name  # unnecessary
@@ -55,7 +51,6 @@ class Task:
     @classmethod
     def from_dict(
         cls,
-        config: Config,
         task_dict: dict[str, Any],
         project_id: ProjectID,
         project_name: str,
@@ -76,7 +71,6 @@ class Task:
         cats_raw = re.split(", ?", task_dict.get("categories", ""))
 
         return cls(
-            config,
             task_dict["name"],
             project_name,
             task_id,
@@ -89,9 +83,7 @@ class Task:
         )
 
     def copy(self) -> "Task":
-        t = Task(
-            self.config, self.name, self.project_name, self.task_id, self.priority, self.duration
-        )
+        t = Task(self.name, self.project_name, self.task_id, self.priority, self.duration)
         t.__dict__.update(self.__dict__)
         return t
 
@@ -110,7 +102,6 @@ class Task:
         if not start:
             start = PTime.nonetime()
         return Entry(
-            self.config,
             self.name,
             start,
             end,
@@ -139,7 +130,7 @@ class Task:
         """
         Creates a detailed and aesthetic string representation of the given Task instance.
         """
-        width = self.config.repr_width
+        width = config.repr_width
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
         # thickbeam = "┣" + (width - 2) * "━" + "┫"

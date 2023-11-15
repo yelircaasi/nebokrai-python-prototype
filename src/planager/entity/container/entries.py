@@ -5,7 +5,6 @@ from typing import Any, Callable, Iterable, Iterator, Optional, Union
 from planager.util.misc import round5
 from planager.util.pdatetime.ptime import PTime
 
-from ...config import Config
 from ..base.entry import Empty, Entry
 
 EntriesInitType = Optional[Union["Entries", Iterable[Entry]]]
@@ -16,15 +15,14 @@ class Entries:
     Container class for multiple instances of the Entry class.
     """
 
-    def __init__(self, config: Config, entries: EntriesInitType = None) -> None:
-        self.config = config
+    def __init__(self, entries: EntriesInitType = None) -> None:
         self._entries: list[Entry] = list(entries or [])
 
     def copy(self) -> "Entries":
-        return Entries(self.config, (entry.copy() for entry in self._entries))
+        return Entries((entry.copy() for entry in self._entries))
 
     def slice(self, __start: Optional[int], __stop: Optional[int]) -> "Entries":
-        return Entries(self.config, entries=self._entries[__start:__stop])
+        return Entries(entries=self._entries[__start:__stop])
 
     def insert(self, __index: int, __other: Entry) -> None:
         self._entries.insert(__index, __other)
@@ -71,7 +69,7 @@ class Entries:
         """
         fixed = [e for e in self if not e.ismovable]
         if not fixed:
-            return Entry.first_entry(self.config)
+            return Entry.first_entry()
         return fixed[-1]
 
     @property
@@ -82,7 +80,7 @@ class Entries:
         fixed = [e for e in self if not e.ismovable]
         if not fixed:
             return self
-        return Entries(self.config, self._entries[self.index(fixed[-1]) :])
+        return Entries(self._entries[self.index(fixed[-1]) :])
 
     @property
     def blocks(self) -> set[str]:
@@ -127,7 +125,7 @@ class Entries:
         """
         Return an instance of Entries containing all entries that overlap with the query entry.
         """
-        return Entries(self.config, filter(entry.overlaps, self._entries))
+        return Entries(filter(entry.overlaps, self._entries))
 
     def overlaps_are_movable(self, entry: Entry) -> bool:
         """
@@ -168,14 +166,14 @@ class Entries:
     #     print(indices)
 
     #     entries_fixed = Entries(
-    #         self.config,
+    #         config,
     #         sorted(
     #             list(filter(lambda x: not x.ismovable, self._entries)),
     #             key=lambda x: (x.order, x.priority),
     #         ),
     #     )
     #     entries_flex = Entries(
-    #         self.config,
+    #         config,
     #         sorted(
     #             list(filter(lambda x: x.ismovable, self._entries)),
     #             key=lambda x: (x.order, x.priority),
@@ -217,7 +215,7 @@ class Entries:
         Return a list of empty entries corresponding to the times which are not yet occupied.
         """
         pairs = zip(self._entries[None:-1], self._entries[1:None])
-        gaps = [Empty(self.config, start=a.end, end=b.start) for a, b in pairs]
+        gaps = [Empty(start=a.end, end=b.start) for a, b in pairs]
         return [gap for gap in gaps if gap.duration > 0]
 
     def fill_gaps(
@@ -328,7 +326,7 @@ class Entries:
     #     Adjusts each sequence of entries (type Entries) between two fixed points to fit
     #       consecutively between them, using priority weighting to determine time allocation.
     #     """
-    #     result: Entries = Entries(self.config)
+    #     result: Entries = Entries()
     #     fixed, flex = self.get_fixed_and_flex()
 
     #     before_after_dict = {
@@ -338,7 +336,7 @@ class Entries:
 
     #     flex_groups: dict[tuple[Optional[Entry], Optional[Entry]], Entries] = {
     #         before_after: Entries(
-    #             self.config,
+    #             config,
     #             sorted(
     #                 [k for k, v in before_after_dict.items() if v == before_after],
     #                 key=lambda x: x.start,
@@ -349,7 +347,7 @@ class Entries:
 
     #     fixed_after = None
     #     for (fixed_before, fixed_after), flex_group in flex_groups.items():
-    #         result.append(fixed_before or Entry.first_entry(self.config))
+    #         result.append(fixed_before or Entry.first_entry(config))
     #         result.extend(
     #             self._smooth_entries(
     #                 flex_group,
@@ -359,7 +357,7 @@ class Entries:
     #             )
     #         )
     #     if fixed_after:
-    #         result.append(fixed_after or Entry.last_entry(self.config))
+    #         result.append(fixed_after or Entry.last_entry(config))
     #     self._entries = list(result)[1:-1]
 
     # def get_last_before(self, entry: Entry) -> Optional[Entry]:
@@ -428,7 +426,7 @@ class Entries:
     #         time_tmp += entry.duration
     #         entry.end = time_tmp.copy()
     #         result.append(entry)
-    #     empty = Empty(self.config, start=result[-1].end, end=_end)
+    #     empty = Empty(config, start=result[-1].end, end=_end)
     #     result.append(empty)
     #     self._entries = result
 
@@ -499,9 +497,9 @@ class Entries:
           an instance of Entry.
         """
         if isinstance(__other, (Entries, list)):
-            return Entries(self.config, self._entries + list(__other))
+            return Entries(self._entries + list(__other))
         if isinstance(__other, Entry):
-            return Entries(self.config, self._entries + [__other])
+            return Entries(self._entries + [__other])
         raise ValueError(f"Invalid type for method '__add__' of class 'Entries': {type(__other)}")
 
     def __str__(self) -> str:

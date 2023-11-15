@@ -1,8 +1,12 @@
-from ..config import Config
-from ..util import PathManager
+from ..configuration import path_manager
 
 
 class Tracker:
+    """
+    Responsible for entry of tasks completed, as well as for summary and
+      display.
+    """
+
     emptysquare: str = "□"
     square: str = "■"
     emptycircle: str = "○"
@@ -21,14 +25,13 @@ class Tracker:
     shade2: str = "▒"
     shade3: str = "▓"
 
-    def __init__(self, config: Config, pathmanager: PathManager) -> None:
-        self.config = config
-        self.pathmanager = pathmanager
-        ...
+    def __init__(self, tracking_dict: dict) -> None:
+        self.path_manager = path_manager
+        self.raw = tracking_dict  # change later
 
     @classmethod
-    def from_dict(cls, config: Config, pathmanager: PathManager, tracking_dict) -> "Tracker":
-        return cls(config, pathmanager)
+    def from_dict(cls, tracking_dict: dict) -> "Tracker":
+        return cls(tracking_dict)
 
     def record(self) -> None:
         ...
@@ -37,4 +40,4 @@ class Tracker:
         ...
 
     def dashboard(self) -> str:
-        return ""
+        return "Not yet implemented!"

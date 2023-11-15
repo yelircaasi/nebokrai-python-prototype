@@ -1,7 +1,7 @@
 import re
 from typing import Any, Iterable, Optional, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import PTime, round5, tabularize
 
 
@@ -12,7 +12,6 @@ class Entry:
 
     def __init__(
         self,
-        config: Config,
         name: str,
         start: Optional[PTime],
         end: Optional[PTime] = None,
@@ -29,7 +28,6 @@ class Entry:
         order: Optional[float] = None,
         subentries: Optional[Iterable["Entry"]] = None,
     ) -> None:
-        self.config = config
         self.subentries: list[Entry] = list(subentries or [])
 
         # meta / info
@@ -65,7 +63,7 @@ class Entry:
         self.assigned_time: Optional[int] = None
 
     @classmethod
-    def from_dict(cls, config: Config, entry_dict: dict[str, Any]) -> "Entry":
+    def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
@@ -79,7 +77,6 @@ class Entry:
         bool_helper = {None: True, False: False}
 
         return cls(
-            config,
             entry_dict["name"],
             PTime.from_string(entry_dict.get("start") or "nonetime"),
             PTime.from_string(entry_dict.get("end") or "nonetime"),
@@ -111,12 +108,11 @@ class Entry:
         )
 
     @classmethod
-    def first_entry(cls, config: Config) -> "Entry":
+    def first_entry(cls) -> "Entry":
         """
         Creates the opening bookend entry for padding and placeholding purposes.
         """
         return Entry(
-            config,
             "First",
             start=PTime(),
             end=PTime(),
@@ -128,12 +124,11 @@ class Entry:
         )
 
     @classmethod
-    def last_entry(cls, config: Config) -> "Entry":
+    def last_entry(cls) -> "Entry":
         """
         Creates the opening bookend entry for padding and placeholding purposes.
         """
         return Entry(
-            config,
             "Last",
             start=PTime(24),
             end=PTime(24),
@@ -144,7 +139,6 @@ class Entry:
 
     def copy(self) -> "Entry":
         return Entry(
-            self.config,
             self.name,
             start=self.start,
             end=self.end,
@@ -165,9 +159,9 @@ class Entry:
     #     old_normaltime = self.normaltime
 
     #     self.normaltime = round5(normaltime)
-    #     self.idealtime = round5(self.config.default_idealtime_factor * self.normaltime)
-    #     self.mintime = round5(self.config.default_mintime_factor * self.normaltime)
-    #     self.maxtime = round5(self.config.default_maxtime_factor * self.normaltime)
+    #     self.idealtime = round5(config.default_idealtime_factor * self.normaltime)
+    #     self.mintime = round5(config.default_mintime_factor * self.normaltime)
+    #     self.maxtime = round5(config.default_maxtime_factor * self.normaltime)
 
     @property
     def duration(self) -> int:
@@ -233,7 +227,7 @@ class Entry:
         """
         if not self.subentries:
             return ""
-        width = self.config.repr_width
+        width = config.repr_width
         top = "┠─┬─────────────┬" + (width - 18) * "─" + "┨"
         bottom = "┠─┴─────────────┴" + (width - 18) * "─" + "┨"
         middle = "\n┠─┼─────────────┼" + (width - 18) * "─" + "┨\n"
@@ -257,7 +251,7 @@ class Entry:
         """
         Creates a detailed and aesthetic string representation of the given Entry instance.
         """
-        width = self.config.repr_width
+        width = config.repr_width
         thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
         header = (
@@ -275,21 +269,21 @@ class Entry:
                     for s in (
                         f"notes:        {self.notes}" if self.notes else "",
                         f"priority:     {self.priority}"
-                        if self.priority != self.config.default_priority
+                        if self.priority != config.default_priority
                         else "",
                         f"time:         {timestring}",
                         f"blocks:       {', '.join(sorted(self.blocks))}" if self.blocks else "",
                         f"categories:   {', '.join(sorted(self.categories))}"
-                        if self.categories != self.config.default_categories
+                        if self.categories != config.default_categories
                         else "",
                         f"ismovable:    {str(self.ismovable).lower()}"
-                        if not self.ismovable == self.config.default_ismovable
+                        if not self.ismovable == config.default_ismovable
                         else "",
                         f"alignend:     {str(self.alignend).lower()}"
-                        if not self.alignend == self.config.default_alignend
+                        if not self.alignend == config.default_alignend
                         else "",
                         f"order:        {int(self.order)}"
-                        if not self.order == self.config.default_order
+                        if not self.order == config.default_order
                         else "",
                     )
                     if s
@@ -317,9 +311,8 @@ class Empty(Entry):
     Used in scheduling algorithms.
     """
 
-    def __init__(self, config: Config, start: PTime, end: PTime):
+    def __init__(self, start: PTime, end: PTime):
         super().__init__(
-            config,
             "Empty",
             start=start,
             end=end,

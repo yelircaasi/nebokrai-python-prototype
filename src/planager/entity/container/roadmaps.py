@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Iterator, Optional, Union
 
-from ...config import Config
+from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..base.project import Project
 from ..base.roadmap import Roadmap
@@ -17,25 +17,23 @@ class Roadmaps:
 
     def __init__(
         self,
-        config: Config,
         roadmaps: Optional[list[Roadmap]] = None,
         workspace_dir: Optional[Path] = None,
     ) -> None:
-        self.config = config
         self.workspace_dir = workspace_dir
         self._roadmaps: dict[RoadmapID, Roadmap] = {
             roadmap.roadmap_id: roadmap for roadmap in (roadmaps or [])
         }
 
     @classmethod
-    def from_dict(cls, config: Config, roadmaps_dict: dict[str, Any]) -> "Roadmaps":
+    def from_dict(cls, roadmaps_dict: dict[str, Any]) -> "Roadmaps":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        ret = cls(config)
+        ret = cls()
         for roadmap_code, roadmap_dict in roadmaps_dict.items():
             roadmap_id = RoadmapID(roadmap_code)
-            ret.add(Roadmap.from_dict(config, roadmap_id, roadmap_dict))
+            ret.add(Roadmap.from_dict(roadmap_id, roadmap_dict))
         return ret
 
     @property
@@ -43,7 +41,7 @@ class Roadmaps:
         """
         Returns all projects contained in the current instance, in the form of a Projects instance.
         """
-        projects: Projects = Projects(self.config)
+        projects: Projects = Projects()
         for _, roadmap in self._roadmaps.items():
             for _, project in roadmap.items():
                 projects.add(project)
@@ -55,7 +53,7 @@ class Roadmaps:
         Returns all tasks contained in the projects contained in the current instance,
           in the form of a Tasks instance.
         """
-        _tasks: Tasks = Tasks(self.config)
+        _tasks: Tasks = Tasks()
         for _, roadmap in self._roadmaps.items():
             for _, project in roadmap.items():
                 _tasks.update(project.tasks)
@@ -74,7 +72,7 @@ class Roadmaps:
         Creates a detailed and aesthetic string representation of the given Roadmaps instance.
         """
 
-        width = self.config.repr_width
+        width = config.repr_width
 
         empty = "\n" + tabularize("", width, thick=True)
         names = map(
@@ -131,6 +129,10 @@ class Roadmaps:
 
     def __setitem__(self, __id: RoadmapID, __roadmap: Roadmap) -> None:
         self._roadmaps.update({__id: __roadmap})
+
+    @property
+    def summary(self) -> str:
+        return "Plan.summary property is not yet implemented."
 
     def __str__(self) -> str:
         return self.pretty()

@@ -1,49 +1,59 @@
-import argparse
-from pathlib import Path
-from typing import Callable, Protocol
+from typing import Callable
 
 from .planager import Planager
 
 
-def interactive(json_root: Path) -> None:
+def interactive() -> None:
     """
     Run planager in interactive mode as a CLI.
     """
     print("Welcome to interactive planager.")
-    planager = Planager.from_json(json_root)
+    planager = Planager.from_json()
     print(planager.summary)
 
 
-def derive(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
+def derive() -> None:
+    planager = Planager.from_json()
     planager.derive()
 
 
-def plan(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
+def plan() -> None:
+    planager = Planager.from_json()
     planager.derive_plan()
 
 
-def schedule(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
+def schedule() -> None:
+    planager = Planager.from_json()
     planager.derive_schedules()
 
 
-def track(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
+def track() -> None:
+    """
+    Enters interactive CLI prompt, allowing the user to track activities.
+    """
+    planager = Planager.from_json()
     print("Welcome to planager tracking.")
     planager.track()
 
 
-def dashboard(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
+def dashboard() -> None:
+    planager = Planager.from_json()
     planager.show_dashboard()
 
 
-def shift(json_root: Path) -> None:
-    planager = Planager.from_json(json_root)
-    _ndays = input("How many days would you like to shift the declaration back by?")
-    ndays = int(_ndays)
+def shift() -> None:
+    """
+    Adjusts the declaration by shifting activities back a certain number of days.
+    """
+    planager = Planager.from_json()
+    print(planager.summary)
+    ndays = 999
+    while ndays == 999:
+        try:
+            ndays = int(input("How many days would you like to shift the declaration back by?"))
+        except ValueError:
+            print("Invalid input. Please enter an integer.")
+            ndays = 999
     print(f"Shifting by {ndays}...")
 
 
