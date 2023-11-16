@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+import re
 from typing import Any, Optional, Union
 
 from .configuration import path_manager
@@ -168,6 +169,28 @@ class Planager:
 
     def track(self) -> None:
         print("Not yet implemented!")
+
+    @staticmethod
+    def shift_declaration(ndays: int) -> None:
+        if not ndays:
+            return None
+        with open(path_manager.declaration, encoding="utf-8") as f:
+            declaration_dict = json.load(f)
+        with open(path_manager.tmp_declaration, "w", encoding="utf-8") as f:
+            json.dump(declaration_dict, f, ensure_ascii=False, indent=4)
+        roadmaps_dict = declaration_dict["roadmaps"]
+        roadmaps_string = json.dumps(roadmaps_dict, ensure_ascii=False)
+        
+        all_dates = list(map(PDate.from_string, re.findall(r"(?<=\")\d{4}-\d\d-\d\d(?=\")", roadmaps_string)))
+        min_date, max_date = min(all_dates), max(all_dates)
+        print(min_date, max_date)
+        date_range = max_date.range(min_date) if ndays > 0 else min_date.range(max_date)
+        for date in date_range:
+            roadmaps_string = roadmaps_string.replace(str(date), str(date + ndays))
+        declaration_dict["roadmaps"] = json.loads(roadmaps_string)
+
+        with open(path_manager.declaration, "w", encoding="utf-8") as f:
+            json.dump(declaration_dict, f, indent = 4, ensure_ascii=False)
 
     def write_json(self) -> None:
         """

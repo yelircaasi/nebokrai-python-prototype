@@ -26,6 +26,8 @@ class PathManager:  # only supports JSON for now
         self.tracking = self.folder / "tracking.json"
         self.edit_times = self.folder / "edit_times.json"
         self.txt = self.folder / "txt"
+        self.tmp = self.folder / "tmp"
+        self.tmp_declaration = self.tmp / "declaration.json"
 
     def backup(self, backup_name: str) -> Path:
         """

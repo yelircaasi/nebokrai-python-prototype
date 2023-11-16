@@ -1,6 +1,7 @@
 from typing import Callable
 
 from .planager import Planager
+from .util import prompt_integer
 
 
 def interactive() -> None:
@@ -41,20 +42,18 @@ def dashboard() -> None:
     planager.show_dashboard()
 
 
-def shift() -> None:
+def shift() -> None:                                                                                                    # WORKS!
     """
     Adjusts the declaration by shifting activities back a certain number of days.
     """
     planager = Planager.from_json()
     print(planager.summary)
-    ndays = 999
-    while ndays == 999:
-        try:
-            ndays = int(input("How many days would you like to shift the declaration back by?"))
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
-            ndays = 999
-    print(f"Shifting by {ndays}...")
+    ndays = prompt_integer(
+        "How many days would you like to shift the declaration back by? ",
+        "Invalid input. Please enter an integer."
+    )
+    print(f"Shifting declaration back by {ndays} days...")
+    Planager.shift_declaration(ndays)
 
 
 commands_dict: dict[str, Callable] = {
