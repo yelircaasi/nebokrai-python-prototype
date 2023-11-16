@@ -33,7 +33,7 @@ class Planager:
     routines: Routines
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
-    logs: Logs
+    logs: Optional[Logs] = None
     declaration_edit_time: datetime
     plan_edit_time: datetime
     schedule_edit_time: datetime
@@ -138,38 +138,33 @@ class Planager:
         )
         return start_date, end_date
 
-    @staticmethod  # refactor
+    @staticmethod
     def enforce_precedence_constraints(plan: Plan, projects: Projects) -> None:
         """
         Checks that all temporal dependencies are respected and raises an informative
           error if that is not the case.
         """
-        inverse_plan: dict[Task, PDate] = {}
-        for date, tasks_ in plan.items():
-            for task_ in tasks_:
-                inverse_plan.update({task_: date})
+        inverse_plan = plan.inverse
 
-        def get_date(_id: Union[TaskID, ProjectID]) -> PDate:
+        def get_last_date(_id: Union[TaskID, ProjectID]) -> PDate:
             if isinstance(_id, ProjectID):
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
             if isinstance(_id, TaskID):
                 return inverse_plan[projects.get_task(_id)]
-            raise ValueError("ID must have 2 or 3 elements.")
+            raise ValueError(f"Invalid key for inverse plan [dict]: {_id} [{type(_id)}]")
 
-        for task in projects.tasks:
-            if task.dependencies:
-                plan_date = inverse_plan[task]
-                limiting_dependency = projects.get_task(max(task.dependencies, key=get_date))
-                earliest_date = inverse_plan[limiting_dependency] + 1
-                if plan_date < earliest_date:
-                    raise ValueError(
-                        (
-                            f"Task {'<>'.join(task.task_id)} assigned to {plan_date}, "
-                            f"but earliest permissible date is {earliest_date}."
-                            "Please adjust the declaration and run the derivation again. \n  "
-                            f"Limiting dependency: {limiting_dependency}."
-                        )
-                    )
+        for task in filter(lambda t: bool(t.dependencies), projects.tasks):
+            limiting_dep = projects.get_task(max(task.dependencies, key=get_last_date))
+            if (plan_date := inverse_plan[task]) >= (earliest := inverse_plan[limiting_dep] + 1):
+                continue
+            raise ValueError(
+                (
+                    f"Task {'<>'.join(task.task_id)} assigned to {plan_date}, "
+                    f"but earliest permissible date is {earliest}."
+                    "  Please adjust the declaration and run the derivation again. \n  "
+                    f"  Limiting dependency: {limiting_dep}."
+                )
+            )
 
     def track(self) -> None:
         print("Not yet implemented!")
@@ -196,11 +191,12 @@ class Planager:
     def summary(self) -> str:
         return "\n\n".join(
             (
+                "",
                 self.roadmaps.summary,
                 self.calendar.summary,
                 self.plan.summary if self.plan else "No plan defined.",
                 self.schedules.summary if self.schedules else "No schedule defined.",
-                self.logs.summary,
+                self.logs.summary if self.logs else "No logs defined.",
             )
         )
 

@@ -155,14 +155,6 @@ class Entry:
             order=self.order,
         )
 
-    # def adjust_times_from_normaltime(self, normaltime: int) -> None:
-    #     old_normaltime = self.normaltime
-
-    #     self.normaltime = round5(normaltime)
-    #     self.idealtime = round5(config.default_idealtime_factor * self.normaltime)
-    #     self.mintime = round5(config.default_mintime_factor * self.normaltime)
-    #     self.maxtime = round5(config.default_maxtime_factor * self.normaltime)
-
     @property
     def duration(self) -> int:
         return self.start.timeto(self.end)
@@ -188,30 +180,39 @@ class Entry:
         Adds another entry to be part of self. Only works if self is a block,
           i.e. `self.blocks` is not empty.
         """
+        self.assert_subentry_category(subentry)
+        self.subentries.append(subentry)
+        excess = self.pop_low_prio_subentries()
+        self.subentries.sort(key=lambda e: (e.order, -e.priority))
+        self.adjust_subentry_times()
+
+        return excess
+
+    def assert_subentry_category(self, subentry: "Entry") -> None:
         if not self.blocks.intersection(subentry.categories):
             raise ValueError(f"Invalid subentry '{subentry.name}' for entry '{self}'")
 
+    def pop_low_prio_subentries(self) -> list["Entry"]:
+        """
+        Handle case where subentry does not fit - pop lowest-priority
+        """
         excess: list[Entry] = []
-        self.subentries.append(subentry)
-
         self.subentries.sort(key=lambda e: -e.priority)
         while sum(map(lambda se: se.duration, self.subentries)) > self.duration:
             excess.append(self.subentries.pop())
         if excess:
-            print(f"Entry {subentry} does not fit in {self}.")
-
-        self.subentries.sort(key=lambda e: (e.order, -e.priority))
-
-        tracker = self.start.copy()
-        # print(tracker)
-        # print(subentry)
-        for subentry_ in self.subentries:
-            subentry_.start = tracker
-            tracker += subentry_.normaltime  # can change to use idealtime
-            subentry_.end = tracker
-
-        # self.subentries.sort(key=lambda e: (e.order, -e.priority))
+            print(f"The following entries do not fit in {self}: \n{excess}.")
         return excess
+
+    def adjust_subentry_times(self) -> None:
+        """
+        Adjust times for subentries.
+        """
+        temp = self.start.copy()
+        for subentry_ in self.subentries:
+            subentry_.start = temp
+            temp += subentry_.normaltime  # can change to use idealtime
+            subentry_.end = temp
 
     @property
     def available(self) -> int:

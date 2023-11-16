@@ -107,8 +107,6 @@ class Project:
         Divides a list of tasks into k clusters of size `cluster_size`.
         """
         tasks = list(self._tasks)
-        # print(self._tasks)
-        # print(tasks)
         length = len(tasks)
         quotient, remainder = divmod(length, self.cluster_size)
         num_clusters = quotient + int(bool(remainder))

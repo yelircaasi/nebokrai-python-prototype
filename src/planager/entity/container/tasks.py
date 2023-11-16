@@ -57,13 +57,8 @@ class Tasks:
                 project_categories or set(),
             )
             tasks_list.append(task)
-        # if project_name == "Notion - F.B. ML & DS":
-        #     print(tasks_list)
 
         ret = cls(tasks_list)
-        # if project_name == "Notion - F.B. ML & DS":
-        #     print(ret)
-        #     import pdb; pdb.set_trace()
         return ret
 
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":

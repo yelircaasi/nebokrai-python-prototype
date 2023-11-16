@@ -2,7 +2,6 @@ import itertools
 import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
-from planager.util.misc import round5
 from planager.util.pdatetime.ptime import PTime
 
 from ..base.entry import Empty, Entry
@@ -153,33 +152,36 @@ class Entries:
         entries_list = [[full_list[i] for i in cluster] for cluster in indices]
         return list(zip(entries_list[::2], entries_list[1::2], entries_list[2::2]))
 
-    # def get_fixed_and_flex(self) -> list[tuple["Entries", "Entries"]]:
-    #     """
-    #     Returns two instances of Entries containing, respectively, the fixed (immovable) and
-    #       flex (movable) entries contained in the current instance.
-    #     """
-    #     def get_indices(my_iter: Iterable[Any]) -> list[list[int]]:
-    #         return [[e[0] for e in d[1]] for d in itertools.groupby(enumerate(my_iter),
-    # key=operator.itemgetter(1))]
+    def append_flex_or_fixed(
+        self, flex: list[Entry], fixed: list[Entry]
+    ) -> tuple[list[Entry], list[Entry]]:
+        """
+        Receives two lists, consisting of flex and fixed (movable and immovable) entries.
+          Adds whichever entry comes next, subject to the constraint that if a flex entry is too
+          long to fit before the next fixed entry, the fixed entry will be added.
+        """
+        self._entries = self.entries_sorted
+        if not (flex or fixed):
+            pass
+        if not flex:
+            self._entries.append(fixed.pop(0))
+        elif not fixed:
+            self._entries.append(flex.pop(0))
+        else:
+            hard_boundary = fixed[0].start if fixed else PTime(24)
+            available = self.earliest_end.timeto(hard_boundary)
+            next_entry = flex.pop(0) if available >= flex[0].mintime else fixed.pop(0)
+            self._entries.append(next_entry)
 
-    #     indices = get_indices(map(lambda e: e.ismovable, self._entries))
-    #     print(indices)
+        return flex, fixed
 
-    #     entries_fixed = Entries(
-    #         config,
-    #         sorted(
-    #             list(filter(lambda x: not x.ismovable, self._entries)),
-    #             key=lambda x: (x.order, x.priority),
-    #         ),
-    #     )
-    #     entries_flex = Entries(
-    #         config,
-    #         sorted(
-    #             list(filter(lambda x: x.ismovable, self._entries)),
-    #             key=lambda x: (x.order, x.priority),
-    #         ),
-    #     )
-    #     return entries_fixed, entries_flex
+    @property
+    def earliest_end(self) -> PTime:
+        return PTime(0) if not self._entries else self.entries_sorted[-1].end
+
+    @property
+    def entries_sorted(self) -> list[Entry]:
+        return sorted(self._entries, key=lambda e: e.start)
 
     def get_inds_of_relevant_blocks(self, entry: Entry) -> list[int]:
         """
@@ -217,267 +219,6 @@ class Entries:
         pairs = zip(self._entries[None:-1], self._entries[1:None])
         gaps = [Empty(start=a.end, end=b.start) for a, b in pairs]
         return [gap for gap in gaps if gap.duration > 0]
-
-    def fill_gaps(
-        self,
-        flex_entries: "Entries",
-        priority_weighter: Callable[[Union[int, float]], float],
-        compression_factor: float = 1.0,
-    ) -> None:
-        """
-        Takes a list of entries and adds them to the list of entries by filling in gaps
-          according to priority and front-to-back (i.e. back-to-front for entries where
-          entry.alignend is True).
-        """
-        while flex_entries:
-            flex = flex_entries.pop(0)
-            gaps = self.gaps
-
-            i = 0
-            while i < len(gaps):
-                gap: Empty = gaps[i]
-                if gap.accommodates(flex, ratio=compression_factor):
-                    flex.start = gap.start
-                    duration = round5(compression_factor * flex.normaltime)
-                    duration = round5(
-                        max(
-                            flex.mintime,
-                            priority_weighter(flex.priority) * duration,
-                        )
-                    )
-                    flex.end = flex.start + duration
-                    self.insert(i + 1, flex)
-                i += 1
-
-    def schedule_tail(self, latest: PTime) -> None:
-        """
-        From the last fixed entry contained in _entries to the next fixed entry, fit all within
-          the given time interval.
-        """
-        fixed = self.last_fixed
-        index = self.index(fixed)
-        earliest = fixed.start
-        available = earliest.timeto(latest)
-        ents = self._entries[index:]
-        normaltimes = list(map(lambda e: e.normaltime, ents))
-        total_normaltime = sum(normaltimes)
-        if total_normaltime == available:
-            return
-
-        # weights = list(map(lambda e: prio_weighter(e.priority), ents))
-        weights = list(map(lambda e: 1, ents))
-        pre_times = list(map(lambda wt: wt[0] * wt[1], zip(weights, normaltimes)))
-        pre_total = sum(pre_times)
-        ratio = available / pre_total
-        times = list(
-            map(
-                lambda t: round5(max(min(t[0] * ratio, t[1].maxtime), t[1].mintime)),
-                zip(pre_times, ents),
-            )
-        )
-        surplus_time = sum(times) - available
-        # print("################", weights, pre_times, times, surplus_time)
-
-        for time_, ent in zip(times, ents):
-            ent.assigned_time = time_
-            # print(time_, ent.name)
-
-        def handle_diff(diff: int, ents: Union[Entries, list[Entry]]):
-            num_changes = int(abs(diff / 5))
-            compress = diff > 0
-            increment = -5 if compress else 5
-            inds_by_priority = sorted(
-                range(len(ents)), key=lambda i: ents[i].priority, reverse=compress
-            )
-
-            while num_changes:
-                for ind in inds_by_priority:
-                    # print(num_changes)
-                    ent: Entry = ents[ind]
-                    assert ent.assigned_time
-                    if ent.mintime <= ent.assigned_time + increment <= ent.maxtime:
-                        ent.assigned_time += increment
-                    num_changes -= 1
-                    if not num_changes:
-                        break
-
-            return ents
-
-        ents = handle_diff(surplus_time, ents)
-        # if diff:
-        #     extremum = max if diff > 0 else min
-        #     procrustean_ind = extremum(range(len(ents)), key=lambda i: ents[i].priority)
-        #     times[procrustean_ind] += diff
-
-        tracker = earliest.copy()
-        for ent in ents:
-            ent.start = tracker
-            tracker += ent.assigned_time
-            ent.end = tracker
-        # assert ents[-1].end == latest, f"{latest}\n\n{n.join(map(str, ents))}"
-
-        self._entries = self._entries[:index] + ents
-
-    # def smooth_between_fixed(
-    #     self,
-    #     priority_weighter: Callable[[Union[int, float]], float],
-    # ) -> None:
-    #     """
-    #     Adjusts each sequence of entries (type Entries) between two fixed points to fit
-    #       consecutively between them, using priority weighting to determine time allocation.
-    #     """
-    #     result: Entries = Entries()
-    #     fixed, flex = self.get_fixed_and_flex()
-
-    #     before_after_dict = {
-    #         flex_entry: (fixed.get_last_before(flex_entry), fixed.get_first_after(flex_entry))
-    #         for flex_entry in flex
-    #     }
-
-    #     flex_groups: dict[tuple[Optional[Entry], Optional[Entry]], Entries] = {
-    #         before_after: Entries(
-    #             config,
-    #             sorted(
-    #                 [k for k, v in before_after_dict.items() if v == before_after],
-    #                 key=lambda x: x.start,
-    #             ),
-    #         )
-    #         for before_after in before_after_dict.values()
-    #     }
-
-    #     fixed_after = None
-    #     for (fixed_before, fixed_after), flex_group in flex_groups.items():
-    #         result.append(fixed_before or Entry.first_entry(config))
-    #         result.extend(
-    #             self._smooth_entries(
-    #                 flex_group,
-    #                 fixed_before.end if fixed_before else PTime(0),
-    #                 fixed_after.start if fixed_after else PTime(24),
-    #                 priority_weighter,
-    #             )
-    #         )
-    #     if fixed_after:
-    #         result.append(fixed_after or Entry.last_entry(config))
-    #     self._entries = list(result)[1:-1]
-
-    # def get_last_before(self, entry: Entry) -> Optional[Entry]:
-    #     return (
-    #         max(
-    #             filter(lambda x: x.end <= entry.start, self),
-    #             key=lambda x: x.start,
-    #         )
-    #         if self
-    #         else None
-    #     )
-
-    # def get_first_after(self, entry: Entry) -> Optional[Entry]:
-    #     return (
-    #         min(
-    #             filter(lambda x: x.start >= entry.end, self),
-    #             key=lambda x: x.start,
-    #         )
-    #         if self
-    #         else None
-    #     )
-
-    # @staticmethod
-    # def _add_over_block(entry: Entry, block: Entry) -> "Entries":
-    #     """
-    #     Adds an entry on top of another entry which acts as a block (i.e. which accepts other
-    #       entries inside it), returning an instance of Entries containing
-    #     """
-    #     entry_dur = entry.duration
-    #     entry.start = block.start
-    #     entry.end = min(block.end, block.start + entry_dur)
-    #     block.start = entry.end
-    #     return Entries(entry.config, [entry, block])
-
-    # @staticmethod
-    # def _smooth_entries(
-    #     entries: "Entries",
-    #     _start: PTime,
-    #     _end: PTime,
-    #     priority_weighter: Callable[[Union[int, float]], float],
-    # ) -> "Entries":
-    #     """
-    #     Takes an instance of Entries and ensures that it fits smoothly between _start and _end.
-    #     """
-    #     total = _start.timeto(_end)
-    #     underfilled = sum(map(lambda x: x.maxtime, entries)) < total
-
-    #     if underfilled:
-    #         entries.smooth_underfilled(_start, _end)
-    #         return entries
-
-    #     entries.adjust_weighted(_start, _end, priority_weighter)
-    #     entries.ensure_fits(_start, _end)
-
-    #     # TODO: add safeguard to respect mintime and maxtime
-    #     return entries
-
-    # def smooth_underfilled(self, _start: PTime, _end: PTime) -> None:
-    #     """
-    #     Allocate entries sequentially and without gaps, except at the end.
-    #     """
-    #     result: list[Entry] = []
-    #     time_tmp = _start.copy()
-    #     for entry in self._entries:
-    #         entry.start = time_tmp.copy()
-    #         time_tmp += entry.duration
-    #         entry.end = time_tmp.copy()
-    #         result.append(entry)
-    #     empty = Empty(config, start=result[-1].end, end=_end)
-    #     result.append(empty)
-    #     self._entries = result
-
-    # def adjust_weighted(
-    #     self,
-    #     _start: PTime,
-    #     _end: PTime,
-    #     priority_weighter: Callable[[Union[int, float]], float],
-    # ) -> None:
-    #     """
-    #     Fit the current entries between _start and _end, using priority weighting.
-    #     """
-    #     result: list[Entry] = []
-    #     time_tmp = self._entries[0].start.copy()
-    #     total_duration = sum(map(Entry.duration, self._entries))
-    #     total = _start.timeto(_end)
-    #     ratio = total / total_duration
-    #     for entry in self._entries:
-    #         duration: int = entry.duration
-    #         weight = priority_weighter(entry.priority)
-    #         duration = max(min(round5(weight * ratio * duration), entry.maxtime), entry.mintime)
-    #         entry.start = time_tmp.copy()
-    #         time_tmp += duration
-    #         entry.end = time_tmp.copy()
-    #         result.append(entry)
-    #     self._entries = result
-
-    def ensure_fits(self, _start: PTime, _end: PTime) -> None:
-        """
-        Makes the current entries fit exactly between _start and _end.
-        """
-        total = _start.timeto(_end)
-        total_duration = sum(map(Entry.duration, self._entries))
-        ratio = total / total_duration
-        lengths = list(
-            map(
-                lambda entry: max(
-                    min(round5(ratio * entry.duration), entry.maxtime),
-                    entry.mintime,
-                ),
-                self._entries,
-            )
-        )
-        total_duration = sum(lengths)
-        diff = total - total_duration
-        extremum = min if (diff > 0) else max
-        ind_to_adjust = self._entries.index(extremum(self._entries, key=lambda x: x.priority))
-        self._entries[ind_to_adjust].end += diff
-        for ind in range(ind_to_adjust + 1, len(self._entries)):
-            self._entries[ind].start += diff
-            self._entries[ind].end += diff
 
     def __bool__(self) -> bool:
         return bool(self._entries)

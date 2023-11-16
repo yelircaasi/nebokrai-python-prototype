@@ -117,22 +117,17 @@ class Schedule:
 
         return time_weight_from_prio
 
-    @property
-    def flex_list_and_fixed_clusters(self) -> tuple[list[Entry], list[list[Entry]]]:  # REFACTOR
+    def get_flex_entries_and_fixed_clusters(
+        self, entries: Entries = Entries()
+    ) -> tuple[list[Entry], list[Entry]]:
         """
         Gets a list of movable entries and a list of lists (clusters) of adjacent fixed entries.
         """
-        flex = sorted([e for e in self.schedule if e.ismovable], key=lambda e: e.start)
-        fixed = sorted([e for e in self.schedule if not e.ismovable], key=lambda e: e.start)
-        fixed_clusters = [[fixed.pop(0)]]
-        while fixed:
-            next_entry = fixed.pop(0)
-            if fixed_clusters[-1][-1].end == next_entry.start:
-                fixed_clusters[-1].append(next_entry)
-            else:
-                fixed_clusters.append([next_entry])
+        temp_entries = self.schedule + entries
+        flex = sorted([e for e in temp_entries if e.ismovable], key=lambda e: e.start)
+        fixed = sorted([e for e in temp_entries if not e.ismovable], key=lambda e: e.start)
 
-        return flex, fixed_clusters
+        return flex, fixed
 
     @property
     def entries(self) -> Entries:
@@ -164,20 +159,19 @@ class Schedule:
         return self.__repr__()
 
 
-# TODO:  refactor
-def add_from_plan_and_excess(
-    schedule: Schedule, plan: Optional[Plan], excess: Entries
-) -> tuple[Schedule, "Entries"]:  # REFACTOR
+def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: PDate) -> Entries:
     """
-    Adds all tasks planned for this day, converting tasks to entries.
+    combine entries from plan with excess
     """
-    if plan is None:
-        raise ValueError("'plan' must already be defined when scheduling.")
-    # combine entries from plan with excess
-    entries = Entries(map(lambda t: t.as_entry(), plan[schedule.date]))
+    entries = Entries(map(lambda t: t.as_entry(), plan[date]))
     entries.extend(excess)
+    return entries
 
-    # first, add to blocks where possible
+
+def add_to_blocks(schedule: Schedule, entries: Entries) -> tuple[Schedule, Entries]:
+    """
+    Add entries to blocks in schedule where possible.
+    """
     to_remove = []
     for entry in entries:
         for block in schedule.schedule:
@@ -186,43 +180,49 @@ def add_from_plan_and_excess(
                 to_remove.append(entry)
     for entry in to_remove:
         entries.remove(entry)
-
-    flex_entries, fixed_clusters = schedule.flex_list_and_fixed_clusters
-
-    entries.extend(flex_entries)
-    entries.sort(key=lambda e: (e.order, -e.priority))
-
-    new_entries = Entries()
-    next_entry = entries.pop(0)
-    new_entries.extend(fixed_clusters.pop(0))
-    new_entries.append(next_entry)
-
-    # heavy-lifting loop
-    while fixed_clusters:
-        hard_start = new_entries.last_fixed.start
-        hard_end = fixed_clusters[0][0].start
-        while entries and (
-            (new_entries.fixed_to_end.total_normaltime + next_entry.normaltime)
-            < hard_start.timeto(hard_end)
-        ):
-            # 1) attempt to add next entry to the next available gap between fixed blocks
-            next_entry = entries.pop(0)
-            new_entries.append(next_entry)
-            new_entries.schedule_tail(hard_end)
-            new_entries.extend(fixed_clusters.pop(0))
-
-    schedule.schedule = new_entries
-
     return schedule, entries
 
 
-# rewrite
-def add_to_block_by_index(self, entry: Entry, block_ind: int) -> None:
+def zip_flex_and_fixed(
+    flex_entries: list[Entry],
+    fixed_entries: list[Entry],
+) -> Entries:
     """
-    Add the input entry 'on top of' the entry corresponding to the given index.
+    Adds two lists, consisting of movable and immovable entries, according to which one fits next
+      without violating immovability constraints.
     """
-    block_entry = self.schedule[block_ind]
-    assert id(block_entry) == id(self.schedule[block_ind])
-    assert block_entry.blocks.intersection(entry.categories)
+    flex_entries.sort(key=lambda e: (e.order, -e.priority))
+    new_entries = Entries()
 
-    block_entry.add_subentry(entry)
+    while flex_entries or fixed_entries:
+        flex_entries, fixed_entries = new_entries.append_flex_or_fixed(flex_entries, fixed_entries)
+
+    return new_entries
+
+
+def assert_plan_and_date(plan: Optional[Plan], date: PDate) -> Plan:
+    """
+    Ensures that the plan is not None and contains the specified day.
+    """
+    if plan is None:
+        raise ValueError("'plan' must already be defined when scheduling.")
+    if not plan.get(date):
+        raise ValueError(f"Date '{date}' missing from plan.")
+    return plan
+
+
+def add_from_plan_and_excess(
+    schedule: Schedule, plan: Optional[Plan], excess: Entries
+) -> tuple[Schedule, "Entries"]:
+    """
+    Adds all tasks planned for this day, converting tasks to entries.
+    """
+
+    plan = assert_plan_and_date(plan, schedule.date)
+    entries: Entries = entries_from_plan_and_excess(plan, excess, schedule.date)
+    schedule, entries = add_to_blocks(schedule, entries)
+    flex_entries, fixed_clusters = schedule.get_flex_entries_and_fixed_clusters(entries)
+
+    schedule.schedule = zip_flex_and_fixed(flex_entries, fixed_clusters)
+
+    return schedule, entries

@@ -98,7 +98,6 @@ class Task:
         """
         Create an instance of Entry from a task.
         """
-        # TODO
         if not start:
             start = PTime.nonetime()
         return Entry(
@@ -110,12 +109,6 @@ class Task:
             categories=self.categories,
             notes=self.notes,
             normaltime=self.duration,
-            # idealtime=self.idealtime,
-            # mintime=self.mintime,
-            # maxtime=self.maxtime,
-            # ismovable=self.ismovable,
-            # alignend=self,
-            # order=self.order,
         )
 
     @property
@@ -133,9 +126,7 @@ class Task:
         width = config.repr_width
         topbeam = "┏" + (width - 2) * "━" + "┓"
         bottombeam = "\n┗" + (width - 2) * "━" + "┛"
-        # thickbeam = "┣" + (width - 2) * "━" + "┫"
         thinbeam = "┠" + (width - 2) * "─" + "┨"
-        # format_number = lambda s: (len(str(s)) == 1) * " " + f" {s} │ "
         top = tabularize(
             f"Task: {self.task_id[1][:30]} <> {self.name} (ID {'<>'.join(self.task_id)})",
             width,

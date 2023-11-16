@@ -11,7 +11,7 @@ from .entry import Entry
 class Day:
     """
     Designed as a component of `Calendar`. To be used as an input to scheduling,
-      contining most importantly the max load, routines, and the 'big rock' entries
+      containing most importantly the max load, routines, and the 'big rock' entries
       planned in advance, around which other entries are to be automatically be scheduled.
     """
 
@@ -193,10 +193,8 @@ class Day:
 
     def __str__(self) -> str:
         width = config.repr_width
-        # thickbeam = "┣" + (width - 2) * "━" + "┫\n"
         header_thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"
         header_thinbeam = "\n┠─────────────┴" + (width - 16) * "─" + "┨\n"
-        # thinbeam = "\n┠" + +(width - 2) * "─" + "┨\n"
         bottombeam = "\n┣" + (width - 2) * "━" + "┫\n"
         header = (
             header_thickbeam
@@ -231,28 +229,6 @@ class Calendar:
 
         return cls(days)
 
-    # @classmethod
-    # def from_norg_workspace(cls, workspace_dir: Path) -> "Calendar":
-    #     cal = Calendar()
-    #     file = workspace_dir / "calendar.norg"
-    #     norg = Norg.from_path(file)
-    #     for item in norg.items:
-    #         date_str = item.name
-    #         pdate = PDate.from_string(str(date_str))
-    #         if pdate:
-    #             date = pdate
-    #         else:
-    #             raise ValueError("Date not parsable: {date_str}")
-    #         # attributes = section.get_attributes(section.text)
-    #         cal.add(
-    #             Day(
-    #                 date,
-    #                 # **attributes
-    #             )
-    #         )
-
-    #     return cal
-
     def copy(self) -> "Calendar":
         cal = Calendar({})
         cal.days = {k.copy(): v.copy() for k, v in self.days.items()}
@@ -260,10 +236,6 @@ class Calendar:
 
     def add(self, day: Day) -> None:
         self.days.update({day.date: day})
-
-    # def add_routines(self, routines: Routines) -> None:
-    #     for day in self.days.values():
-    #         day.add_routines(routines)
 
     @property
     def start_date(self) -> PDate:

@@ -3,7 +3,7 @@ import os
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Optional, Union
 
 from .util import PTime
 
@@ -175,16 +175,18 @@ class Config:
         return self.__dict__[__key]
 
 
-path_to_dirpath = Path(os.environ.get("PLANAGER_CONFIG_FILE") or "")
-if not path_to_dirpath:
-    path_to_path = Path.home() / ".config/planager/path.txt"
-    if not path_to_dirpath.exists():
-        raise ValueError(f"No configuration file given; should be located at {path_to_path}.")
+str_path_to_dirpath_file: Optional[str] = os.environ.get("PLANAGER_CONFIG_FILE")
+if not str_path_to_dirpath_file:
+    path_to_dirpath_file = Path.home() / ".config/planager/path.txt"
 else:
-    path_to_dir = Path(path_to_dirpath)
+    path_to_dirpath_file = Path(str_path_to_dirpath_file)
+
+if not path_to_dirpath_file.exists():
+    raise ValueError(f"No configuration file given; should be at {path_to_dirpath_file}.")
+path_to_dir = Path(path_to_dirpath_file)
 
 with open(path_to_dir, encoding="ascii") as f:
-    planager_root = Path(f.read())
+    planager_root = Path(f.read().strip())
 
 path_manager = PathManager(planager_root)
 

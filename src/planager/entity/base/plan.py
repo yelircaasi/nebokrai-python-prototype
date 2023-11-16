@@ -37,6 +37,17 @@ class Plan:
         )
 
     @property
+    def inverse(self) -> dict[Task, PDate]:
+        """
+        Returns a dictionary mapping tasks to dates.
+        """
+        inverse_plan: dict[Task, PDate] = {}
+        for date, tasks_ in self.items():
+            for task_ in tasks_:
+                inverse_plan.update({task_: date})
+        return inverse_plan
+
+    @property
     def dictionary(self) -> dict[str, Any]:
         return {}
 
@@ -62,7 +73,10 @@ class Plan:
         return __date in self.plan_dict
 
     def __getitem__(self, __date: PDate) -> Tasks:
-        return self.plan_dict.get(__date, Tasks())
+        return self.plan_dict[__date]
+
+    def get(self, __date: PDate, __default: Tasks = Tasks()) -> Tasks:
+        return self.plan_dict.get(__date, __default)
 
     def __setitem__(self, __date: PDate, __tasks: Tasks) -> None:
         self.plan_dict.update({__date: __tasks})
@@ -119,7 +133,6 @@ class Plan:
         return self.__str__()
 
 
-# pure
 def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:
     """
     Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
@@ -141,7 +154,6 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
     return plan, excess
 
 
-# pure
 def update_plan(  # add_subplan(
     plan: Plan,
     subplan: dict[PDate, Tasks],

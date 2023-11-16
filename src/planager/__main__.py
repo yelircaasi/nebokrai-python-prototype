@@ -1,7 +1,5 @@
 # https://docs.python.org/3/library/argparse.html#sub-commands
 import argparse
-import os
-from pathlib import Path
 
 from .cli import commands_dict
 
@@ -44,11 +42,8 @@ def get_arg_parser() -> argparse.ArgumentParser:
 def main() -> None:
     parser = get_arg_parser()
     args = parser.parse_args()
-    json_root = Path(args.json_root) if args.json_root else Path(os.environ["PLANAGER_JSON_ROOT"])
 
-    commands_dict[args.action](json_root)
-
-    raise ValueError(f"Invalid action: '{args.action}'.")
+    commands_dict[args.action]()
 
 
 if __name__ == "__main__":
