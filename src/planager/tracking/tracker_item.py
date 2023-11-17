@@ -1,7 +1,15 @@
 from abc import ABCMeta, abstractmethod
-from typing import Any, Protocol, Union
+from typing import Any, Optional, Protocol, Union
 
 from ..configuration import path_manager
+from ..util import PDate, PTime
+from ..util.prompt import (
+    prompt_boolean,
+    prompt_integer,
+    prompt_natural,
+    prompt_natural_sequence,
+    prompt_time,
+)
 
 # class TrackerItem(Protocol):
 #     """
@@ -23,36 +31,14 @@ from ..configuration import path_manager
 #     def read_log_dict(self, log_dict: dict[str, Any]) -> None:
 #         ...
 
+
 class TrackerItem(Protocol):
     name: str
     prompt: str
     desirable: str
     item_type: str
     order: str
-
-    def prompt_interactively(self) -> None:
-        ...
-
-    def as_log_dict(self) -> dict[str, Any]:
-        ...
-
-    def read_log_dict(self, log_dict: dict[str, Any]) -> None:
-        ...
-
-
-class CompositeTrackerItem:
-    name: str
-    prompt: str
-    desirable: str
-    item_type: str
-    order: str
-
-    def __init__(self, item_dict: dict[str, Any]) -> None:
-        self.name: str = item_dict["name"]
-        self.prompt: str = item_dict["prompt"]
-        self.desirable: str = item_dict["desirable"]
-        self.item_type: str = item_dict["type"]
-        self.order: str = item_dict["order"]
+    response: Any
 
     def prompt_interactively(self) -> None:
         ...
@@ -67,9 +53,11 @@ class CompositeTrackerItem:
 class TimeTrackerItem:
     name: str
     prompt: str
+    error_prompt: str = ""
     desirable: str
     item_type: str
     order: str
+    response: Optional[PTime]
 
     def __init__(self, item_dict: dict[str, Any]) -> None:
         self.name: str = item_dict["name"]
@@ -77,9 +65,10 @@ class TimeTrackerItem:
         self.desirable: str = item_dict["desirable"]
         self.item_type: str = item_dict["type"]
         self.order: str = item_dict["order"]
+        self.response = None
 
     def prompt_interactively(self) -> None:
-        ...
+        self.response = prompt_time(self.prompt, self.error_prompt)
 
     def as_log_dict(self) -> dict[str, Any]:
         return {}
@@ -91,9 +80,11 @@ class TimeTrackerItem:
 class NaturalTrackerItem:
     name: str
     prompt: str
+    error_prompt: str
     desirable: str
     item_type: str
     order: str
+    response: Optional[int]
 
     def __init__(self, item_dict: dict[str, Any]) -> None:
         self.name: str = item_dict["name"]
@@ -103,7 +94,7 @@ class NaturalTrackerItem:
         self.order: str = item_dict["order"]
 
     def prompt_interactively(self) -> None:
-        ...
+        self.response = prompt_natural(self.prompt, self.error_prompt)
 
     def as_log_dict(self) -> dict[str, Any]:
         return {}
@@ -115,9 +106,11 @@ class NaturalTrackerItem:
 class BoolTrackerItem:
     name: str
     prompt: str
+    error_prompt: str = ""
     desirable: str
     item_type: str
     order: str
+    response: Optional[bool]
 
     def __init__(self, item_dict: dict[str, Any]) -> None:
         self.name: str = item_dict["name"]
@@ -125,9 +118,10 @@ class BoolTrackerItem:
         self.desirable: str = item_dict["desirable"]
         self.item_type: str = item_dict["type"]
         self.order: str = item_dict["order"]
-
+        self.response: Optional[bool]
+        
     def prompt_interactively(self) -> None:
-        ...
+        self.response = prompt_boolean(self.prompt)
 
     def as_log_dict(self) -> dict[str, Any]:
         return {}
@@ -136,12 +130,40 @@ class BoolTrackerItem:
         ...
 
 
-class SequenceTrackerItem:
+class NaturalSequenceTrackerItem:
     name: str
     prompt: str
+    error_prompt: str = ""
     desirable: str
     item_type: str
     order: str
+    response: Optional[list[Any]]
+
+    def __init__(self, item_dict: dict[str, Any]) -> None:
+        self.name: str = item_dict["name"]
+        self.prompt: str = item_dict["prompt"]
+        self.desirable: str = item_dict["desirable"]
+        self.item_type: str = item_dict["type"]
+        self.order: str = item_dict["order"]
+
+    def prompt_interactively(self) -> None:
+        self.response = prompt_natural_sequence(self.prompt, self.error_prompt)
+
+    def as_log_dict(self) -> dict[str, Any]:
+        return {}
+
+    def read_log_dict(self, log_dict: dict[str, Any]) -> None:
+        ...
+
+
+class CompositeTrackerItem: #TODO; recursive behavior makes this significantly trickier than others
+    name: str
+    prompt: str
+    error_prompt: str = ""
+    desirable: str
+    item_type: str
+    order: str
+    response: Any
 
     def __init__(self, item_dict: dict[str, Any]) -> None:
         self.name: str = item_dict["name"]
@@ -158,11 +180,6 @@ class SequenceTrackerItem:
 
     def read_log_dict(self, log_dict: dict[str, Any]) -> None:
         ...
-
-
-# TrackerItem = Union[
-#     CompositeTrackerItem, TimeTrackerItem, NaturalTrackerItem, BoolTrackerItem, SequenceTrackerItem
-# ]
 
 
 def get_tracker_item(item_dict: dict[str, Union[str, list, dict]]) -> TrackerItem:
@@ -176,6 +193,6 @@ def get_tracker_item(item_dict: dict[str, Union[str, list, dict]]) -> TrackerIte
         case "boolean":
             return BoolTrackerItem(item_dict)
         case "[]natural":
-            return SequenceTrackerItem(item_dict)
+            return NaturalSequenceTrackerItem(item_dict)
         case _:
             raise ValueError(f"{item_dict['type']} is not a valid tracker item type.")
