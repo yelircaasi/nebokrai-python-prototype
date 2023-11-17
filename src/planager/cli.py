@@ -42,7 +42,7 @@ def dashboard() -> None:
     planager.show_dashboard()
 
 
-def shift() -> None:                                                                                                    # WORKS!
+def shift() -> None:  # WORKS!
     """
     Adjusts the declaration by shifting activities back a certain number of days.
     """
@@ -50,7 +50,7 @@ def shift() -> None:                                                            
     print(planager.summary)
     ndays = prompt_integer(
         "How many days would you like to shift the declaration back by? ",
-        "Invalid input. Please enter an integer."
+        "Invalid input. Please enter an integer.",
     )
     print(f"Shifting declaration back by {ndays} days...")
     Planager.shift_declaration(ndays)

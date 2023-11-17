@@ -23,7 +23,8 @@ class PathManager:  # only supports JSON for now
         self.folder = Path(folder)
         self.declaration = self.folder / "declaration.json"
         self.derivation = self.folder / "derivation.json"
-        self.tracking = self.folder / "tracking.json"
+        self.tracking_dir = self.folder / "tracking"
+        self.tracking = self.tracking_dir / "tracking.json"
         self.edit_times = self.folder / "edit_times.json"
         self.txt = self.folder / "txt"
         self.tmp = self.folder / "tmp"
