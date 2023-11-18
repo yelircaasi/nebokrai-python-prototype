@@ -6,27 +6,8 @@ from ..util.prompt import (
     prompt_natural,
     prompt_natural_sequence,
     prompt_time,
+    prompt_typed_list,
 )
-
-# class TrackerItem(Protocol):
-#     """
-#     Single item for tracking, corresponding to an activity such as 'time spent
-#       practicing the piano' or 'workout'.
-#     """
-#     item_type: str
-#     name: str
-#     prompt: str
-#     desirable: str
-
-#     def prompt_interactively(self) -> None:
-#         ...
-
-#     def as_log_dict(self) -> dict[str, Any]:
-
-#         return {}
-
-#     def read_log_dict(self, log_dict: dict[str, Any]) -> None:
-#         ...
 
 
 class TrackerItem(Protocol):
@@ -222,6 +203,7 @@ class CompositeTrackerItem:
         self.item_type: str = item_dict["type"]
         self.order: str = item_dict["order"]
         self.subitems = [get_tracker_item(item_dict) for item_dict in item_dict["items"]]
+        self.quit_string = item_dict.get("quit_string") or "quit"
 
     def prompt_interactively(self) -> None:
         """
@@ -229,8 +211,7 @@ class CompositeTrackerItem:
           subitem.
         """
         print(self.prompt)
-        for subitem in self.subitems:
-            subitem.prompt_interactively()
+        prompt_typed_list(self.item_type, self.prompt, quit_string=self.quit_string)
 
     def as_log_dict(self) -> dict[str, Any]:  # TODO
         return {self.name: [subitem.as_log_dict() for subitem in self.subitems]}
