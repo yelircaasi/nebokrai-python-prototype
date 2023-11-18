@@ -172,8 +172,12 @@ class Planager:
 
     @staticmethod
     def shift_declaration(ndays: int) -> None:
+        """
+        Moves all dates (surrounded by double quotes) under roadmaps back by 'ndays' days. Moves
+          forward, naturally, if 'ndays' is negative.
+        """
         if not ndays:
-            return None
+            return
         with open(path_manager.declaration, encoding="utf-8") as f:
             declaration_dict = json.load(f)
         with open(path_manager.tmp_declaration, "w", encoding="utf-8") as f:

@@ -21,7 +21,7 @@ def prompt_integer(prompt_message: str, invalid_input_message: str = "") -> int:
 
 def prompt_boolean(
     prompt_message: str,
-    valid_true: Iterable[str] = {"y", "true", "done", "yes", "yep"},
+    valid_true: Iterable[str] = ("y", "true", "done", "yes", "yep"),
 ) -> bool:
     """
     Interactively prompts for an boolean. Inputs in 'valid_true' are treated as True; others are
@@ -70,7 +70,8 @@ def prompt_integer_sequence(
 def prompt_natural_sequence(
     prompt_message: str,
     invalid_input_message: str = (
-        "Invalid input. Please enter a sequence of natural numbers separated by spaces, commas, or both."
+        "Invalid input. Please enter a sequence of natural numbers "
+        "separated by spaces, commas, or both."
     ),
 ) -> list[int]:
     """
