@@ -19,22 +19,25 @@ class PathManager:  # only supports JSON for now
     edit_times: Path
     txt: Path
 
-    def __init__(self, folder: Union[Path, str]) -> None:
-        self.folder = Path(folder)
-        self.declaration = self.folder / "declaration.json"
-        self.derivation = self.folder / "derivation.json"
-        self.tracking_dir = self.folder / "tracking"
+    def __init__(self, root: Union[Path, str]) -> None:
+        self.root = Path(root)
+        self.declaration = self.root / "declaration.json"
+        self.derivation_dir = self.root / "derivation"
+        self.backup_dir = self.root / "backup"
+        self.plan = self.derivation_dir / "plan.json"
+        self.schedules = self.derivation_dir / "schedules.json"
+        self.tracking_dir = self.root / "tracking"
         self.tracking = self.tracking_dir / "tracking.json"
-        self.edit_times = self.folder / "edit_times.json"
-        self.txt = self.folder / "txt"
-        self.tmp = self.folder / "tmp"
+        self.edit_times = self.root / "edit_times.json"
+        self.txt = self.root / "txt"
+        self.tmp = self.root / "tmp"
         self.tmp_declaration = self.tmp / "declaration.json"
 
     def backup(self, backup_name: str) -> Path:
         """
         Generates a path to a backup file ensuring that the backups folder exists.
         """
-        backup_dir = self.folder / "backups"
+        backup_dir = self.root / "backups"
         if not backup_dir.exists():
             backup_dir.mkdir()
         return backup_dir / backup_name
@@ -44,13 +47,41 @@ class PathManager:  # only supports JSON for now
         Generates a path to a backup file containing a timestamp.
           Ensures that the backups folder exists.
         """
-        backup_dir = self.folder / "backups"
+        backup_dir = self.root / "backups"
         if not backup_dir.exists():
             backup_dir.mkdir()
         split_list = backup_name.split(".")
         split_list[-2] += str(datetime.now()).split(".", maxsplit=1)[0].replace(" ", "_")
         backup_name = ".".join(split_list[:-1])
         return backup_dir / backup_name
+
+    def _last_backup(self, backup_name: str) -> Path:
+        backup_files = filter(lambda f: f.startswith(backup_name), os.listdir(self.backup_dir))
+        return self.backup_dir / sorted(backup_files)[-1]
+
+    @property
+    def last_schedules_backup(self) -> Path:
+        return self._last_backup("schedules")
+
+    @property
+    def last_plan_backup(self) -> Path:
+        return self._last_backup("plan")
+
+    def _backup(self, backup_name) -> Path:
+        return self.backup_dir / f"{backup_name}_{self.timestamp}.json"
+
+    @property
+    def plan_backup(self) -> Path:
+        return self._backup("plan")
+
+    @property
+    def schedules_backup(self) -> Path:
+        return self._backup("schedules")
+
+    @property
+    def timestamp(self) -> str:
+        dt = datetime.now()
+        return str(dt).split(".")[0].replace(" ", "_").replace(":", "-")
 
 
 class Config:

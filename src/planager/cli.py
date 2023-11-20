@@ -16,16 +16,19 @@ def interactive() -> None:
 def derive() -> None:
     planager = Planager.from_json()
     planager.derive()
+    planager.save_derivation()
 
 
 def plan() -> None:
     planager = Planager.from_json()
     planager.derive_plan()
+    planager.save_plan()
 
 
 def schedule() -> None:
     planager = Planager.from_json()
     planager.derive_schedules()
+    planager.save_schedules()
 
 
 def track() -> None:

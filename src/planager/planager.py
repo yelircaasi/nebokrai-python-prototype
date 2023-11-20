@@ -1,4 +1,5 @@
 import json
+import os
 import re
 from datetime import datetime
 from typing import Any, Optional, Union
@@ -20,7 +21,7 @@ from .entity import (
     add_from_plan_and_excess,
     update_plan,
 )
-from .tracking.logs import Logs
+from .tracking import Logs, Tracker
 from .util import PDate, ProjectID, RoadmapID, TaskID
 
 
@@ -32,6 +33,7 @@ class Planager:
     calendar: Calendar
     roadmaps: Roadmaps
     routines: Routines
+    tracker: Tracker
     plan: Optional[Plan] = None
     schedules: Optional[Schedules] = None
     logs: Optional[Logs] = None
@@ -40,10 +42,13 @@ class Planager:
     schedule_edit_time: datetime
     derivation: dict[str, Any]
 
-    def __init__(self, calendar, roadmaps, routines) -> None:
-        self.calendar: Calendar = calendar
-        self.roadmaps: Roadmaps = roadmaps
-        self.routines: Routines = routines
+    def __init__(
+        self, calendar: Calendar, roadmaps: Roadmaps, routines: Routines, tracker: Tracker
+    ) -> None:
+        self.calendar = calendar
+        self.roadmaps = roadmaps
+        self.routines = routines
+        self.tracker = tracker
 
         with open(path_manager.edit_times, encoding="utf-8") as f:
             edit_times = json.load(f)
@@ -67,8 +72,9 @@ class Planager:
         routines = Routines.from_dict(dec["routines"])
         calendar = Calendar.from_dict(routines, dec["calendar"])
         roadmaps = Roadmaps.from_dict(dec["roadmaps"])
+        tracker = Tracker(dec["tracking"], dec["routines"])
 
-        return cls(calendar, roadmaps, routines)
+        return cls(calendar, roadmaps, routines, tracker)
 
     def derive(self) -> None:
         """
@@ -167,8 +173,23 @@ class Planager:
                 )
             )
 
+    def save_derivation(self) -> None:
+        self.save_plan()
+        self.save_schedules()
+
+    def save_plan(self) -> None:
+        os.rename(path_manager.plan, path_manager.plan_backup)
+        with open(path_manager.plan, "w", encoding="utf-8") as f:
+            json.dump(self.plan, f, indent=4)
+
+    def save_schedules(self) -> None:
+        os.rename(path_manager.schedules, path_manager.schedules_backup)
+        with open(path_manager.schedules, "w", encoding="utf-8") as f:
+            json.dump(self.schedules, f, indent=4)
+
     def track(self) -> None:
-        print("Not yet implemented!")
+        print("Not yet finished!")
+        self.tracker.record()
 
     @staticmethod
     def shift_declaration(ndays: int) -> None:
