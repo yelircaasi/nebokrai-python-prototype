@@ -1,7 +1,9 @@
 from typing import Callable
 
-from .planager import Planager
+import planager
+from .planager import Planager, path_manager
 from .util import prompt_integer
+from .validation import validate_declaration
 
 
 def interactive() -> None:
@@ -11,6 +13,10 @@ def interactive() -> None:
     print("Welcome to interactive planager.")
     planager = Planager.from_json()
     print(planager.summary)
+
+
+def validate() -> None:
+    validate_declaration(path_manager.declaration)
 
 
 def derive() -> None:

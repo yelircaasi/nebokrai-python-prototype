@@ -127,7 +127,7 @@ class NaturalTrackerItem:
         self.item_type: str = item_dict["type"]
         _order = item_dict.get("order", 50.0)
         self.order: float = float(_order or 50.0)
-        self.response: Optional[int]
+        self.response: Optional[int] = None
 
     def prompt_interactively(self) -> None:
         print("Natural =====")
@@ -167,19 +167,22 @@ class BoolTrackerItem:
 
     @classmethod
     def from_routine_item_dict(
-        cls, routine_item_dict: dict[str, Any], routine_name: str
+        cls, routine_item_dict: dict[str, Any], routine_name: str, order: float
     ) -> "BoolTrackerItem":
         """
         Opens a routine item as if it had been defined under "tracking".
         """
+        name = f"[{routine_name}] {routine_item_dict['name']}"
         routine_item_dict.update(
             {
+                "name": name,
                 "desirable": "yes",
-                "prompt": f"Did you complete '{routine_name} : {routine_item_dict['name']}'?",
+                "prompt": f"Did you complete '{name}'?",
                 "type": "boolean",
-                "order": 99,
+                "order": order,
             }
         )
+        # print(order, routine_name, routine_item_dict['name'])
         return cls(routine_item_dict)
 
     def prompt_interactively(self) -> None:
@@ -372,15 +375,20 @@ class SequenceTrackerItem:
         Print the main prompt (a sort of header here) and then run the interactive prompt for each
           subitem.
         """
-        print("Sequence =====")
+        # print("Sequence =====")
 
-        print(self.prompt)
+        # print(self.prompt)
         self.response.extend(
             prompt_typed_list(self.subitem_type, self.prompt, quit_string=self.quit_string)
         )
 
     def as_log_dict(self) -> dict[str, Any]:  # TODO
-        return {self.name: [subitem.as_log_dict() for subitem in self.response]}
+        return {
+            self.name: [
+                subitem if isinstance(subitem, (str, int, float)) else subitem.as_log_dict()
+                for subitem in self.response
+            ]
+        }
 
     def read_log_dict(self, log_dict: dict[str, Any]) -> None:
         assert self.name == log_dict["name"]

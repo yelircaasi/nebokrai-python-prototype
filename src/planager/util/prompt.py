@@ -37,7 +37,9 @@ def prompt_boolean(
     return value
 
 
-def prompt_natural(prompt_message: str, invalid_input_message: str = "") -> int:
+def prompt_natural(
+    prompt_message: str, invalid_input_message: str = "Please enter a nonnegative integer."
+) -> int:
     """
     Interactively prompts for an integer until an integer is given.
     """
@@ -58,14 +60,15 @@ def prompt_integer_sequence(
     invalid_input_message: str = (
         "Invalid input. Please enter a sequence of integers separated by spaces, commas, or both."
     ),
-) -> int:
+) -> list[int]:
     """
     Interactively prompts for an integer until an integer is given.
     """
     isvalid = False
     while not isvalid:
         try:
-            value = int(input(prompt_message))
+            input_str = input(prompt_message).strip()
+            value = list(map(int, re.split("[, ]+", input_str)))
             isvalid = True
         except ValueError:
             print(invalid_input_message)
@@ -87,6 +90,9 @@ def prompt_natural_sequence(
     while not isvalid:
         try:
             input_str = input(prompt_message).strip()
+            if re.match("\d\d?-\d\d?$", input_str):
+                start, end = input_str.split("-")[:2]
+                return list(range(int(start), int(end) + 1))
             value = list(map(int, re.split("[, ]+", input_str)))
             assert all(map(lambda x: x >= 0, value))
             isvalid = True
@@ -129,7 +135,7 @@ def prompt_numerical(
     prompt_message: str, invalid_input_message: str = "Please enter a number."
 ) -> float:
     """
-    Interactively prompts for an integer until an integer is given.
+    Interactively prompts for a number until a number is given.
     """
     isvalid = False
     while not isvalid:
@@ -206,7 +212,11 @@ def prompt_typed_list(item_type: str, prompt_message: str, quit_string: str = "q
     quit = False
     while not quit:
         response = prompt_function(prompt_message)
-        quit = str(response).strip().lower() == quit_string
         if not quit:
             responses.append(response)
+        quit = (
+            str(input(f"Type '{quit_string}' to quit; leave empty to continue.")).strip().lower()
+            == quit_string
+        )
+
     return responses
