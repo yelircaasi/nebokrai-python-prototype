@@ -44,6 +44,10 @@ class ProjectID(NamedTuple):
     def task_id(self, task_code: str) -> "TaskID":
         return TaskID(self.roadmap, self.project, task_code)
 
+    @classmethod
+    def from_string(cls, s: str) -> "ProjectID":
+        return cls(*s.split("-"))
+
     def __contains__(self, __id: Any) -> bool:
         if isinstance(__id, RoadmapID):
             return self.roadmap == __id.roadmap
@@ -69,6 +73,10 @@ class TaskID(NamedTuple):
     roadmap: str
     project: str
     task: str
+
+    @classmethod
+    def from_string(cls, s: str) -> "TaskID":
+        return cls(*s.split("-"))
 
     @property
     def roadmap_id(self) -> RoadmapID:

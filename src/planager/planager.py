@@ -81,12 +81,12 @@ class Planager:
         Derives plan and schedules from declarations.
         """
 
-        self.plan = self.derive_plan()
-        self.schedules = self.derive_schedules()
+        self.derive_plan()
+        self.derive_schedules()
 
     def derive_plan(
         self,
-    ) -> Plan:
+    ) -> None:
         """
         Create the plan (the one instance of the `Plan` class) from the roadmaps and calendar,
           as well as task_patches and plan_patches. Designed to be:
@@ -114,9 +114,9 @@ class Planager:
 
         self.enforce_precedence_constraints(plan, projects)
 
-        return plan
+        self.plan = plan
 
-    def derive_schedules(self) -> Schedules:
+    def derive_schedules(self) -> None:
         """
         Use information obtained from the declaration and the derived plan to derive,
           in turn, the schedules.
@@ -130,7 +130,7 @@ class Planager:
             schedules[date], excess_entries = add_from_plan_and_excess(
                 schedule, self.plan, excess_entries
             )
-        return schedules
+        self.schedules = schedules
 
     @property
     def start_and_end_dates(self) -> tuple[PDate, PDate]:
@@ -178,14 +178,30 @@ class Planager:
         self.save_schedules()
 
     def save_plan(self) -> None:
+        """
+        Writes plan to $PLANAGER_ROOT/derivation/plan.json and backs up the last plan file.
+        """
+        assert self.plan is not None
         os.rename(path_manager.plan, path_manager.plan_backup)
         with open(path_manager.plan, "w", encoding="utf-8") as f:
-            json.dump(self.plan, f, indent=4)
+            json.dump(self.plan.as_dict(), f, ensure_ascii=False, indent=4)
+        with open(path_manager.txt_plan, "w", encoding="utf-8") as f:
+            f.write(str(self.plan))
 
     def save_schedules(self) -> None:
+        """
+        Writes schedules to $PLANAGER_ROOT/derivation/schedules.json and backs up the last schedules file.
+        """
+        assert self.schedules is not None
         os.rename(path_manager.schedules, path_manager.schedules_backup)
         with open(path_manager.schedules, "w", encoding="utf-8") as f:
-            json.dump(self.schedules, f, indent=4)
+            json.dump(self.schedules.as_dicts(), f, ensure_ascii=False, indent=4)
+
+    def open_plan(self) -> None:
+        ...
+
+    def open_schedules(self) -> None:
+        ...
 
     def track(self) -> None:
         print("Not yet finished!")
@@ -217,7 +233,7 @@ class Planager:
         declaration_dict["roadmaps"] = json.loads(roadmaps_string)
 
         with open(path_manager.declaration, "w", encoding="utf-8") as f:
-            json.dump(declaration_dict, f, indent=4, ensure_ascii=False)
+            json.dump(declaration_dict, f, ensure_ascii=False, indent=4)
 
     def write_json(self) -> None:
         """

@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from itertools import chain
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...configuration import config
@@ -61,49 +62,71 @@ class Tasks:
         ret = cls(tasks_list)
         return ret
 
+    def as_dicts(self) -> list[dict[str, dict]]:
+        return list(map(Task.as_dict, self._tasks.values()))
+
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
         """
-        To be rewritten!
+        Get tasks that can be added to the blocks specified in 'available_dict' and remove them
+          from self.
         """
-        print(available_dict)
-        # ----------------------------------------------------------------------
-        # # blocking logic
-        # category_names = set()
-        # for task in tasks:
-        #     category_names.update(task.categories)
-        # blocked_tasks = Tasks()
-        # blocks = self._calendar[date].blocks
-        # relevant_blocks = list(blocks.intersection(category_names))
-        # to_remove: Tasks = Tasks()
-        # for block in relevant_blocks:
-        #     for task in tasks:
-        #         if block in task.categories:
-        #             dur = task.remaining_duration
-        #             if dur <= avail_dict[block]:
-        #                 task.block_assigned = block
-        #                 blocked_tasks.add(task)
-        #                 to_remove.add(task)
-        #                 avail_dict[block] -= dur
-        # for task_ in to_remove:
-        #     tasks.remove(task_)
-        # ----------------------------------------------------------------------
+        # print(available_dict)
+        relevant_block_names = sorted(
+            self.get_relevant_block_names(available_dict), key=lambda bl: available_dict[bl]
+        )
+        blocked_tasks: Tasks = self.get_blocked_tasks(relevant_block_names, available_dict)
+        self.remove_tasks(blocked_tasks)
+        # print(len(blocked_tasks))
 
-        return Tasks()
+        return blocked_tasks
+
+    def get_blocked_tasks(
+        self, relevant_block_names: Iterable[str], available_dict: dict[str, int]
+    ) -> "Tasks":
+        """
+        Get member tasks that can be added to blocks according to the block time availablity
+          dictionary.
+        """
+        blocked_tasks = Tasks()
+
+        for task in self._tasks.values():
+            dur = task.remaining_duration
+            block_filter = lambda bl: (bl in task.categories) and (dur <= available_dict[bl])
+            block_names = list(filter(block_filter, relevant_block_names))
+
+            if block_names and not task.block_assigned:
+                task.block_assigned = (block_name := block_names[0])
+                blocked_tasks.add(task)
+                available_dict[block_name] -= dur
+
+        return blocked_tasks
+
+    def remove_tasks(self, to_remove: Iterable[Task]) -> None:
+        for task in to_remove:
+            del self._tasks[task.task_id]
+
+    def get_relevant_block_names(self, names: Iterable[str]) -> set[str]:
+        """
+        Returns a list of block names that correspond to the categories of this instance's member
+          tasks.
+        """
+        category_sets: list[set[str]] = list(map(lambda t: t.categories, self.values()))
+        category_names = set(chain.from_iterable(category_sets))
+        relevant_block_names = set(names).intersection(category_names)
+        return relevant_block_names
 
     def pop_excess_tasks(self, available_empty: int) -> "Tasks":
         """
         To be rewritten!
         """
-        print(available_empty)
-        # ----------------------------------------------------------------------
-        # available = avail_dict["empty"]
-        # total = tasks.total_remaining_duration
-        # while total > available:
-        #     task_to_move = tasks.pop()
-        #     excess.add(task_to_move)
-        #     total -= task_to_move.remaining_duration
-        # ----------------------------------------------------------------------
-        return Tasks()
+        excess_tasks = Tasks()
+        total = self.total_remaining_duration
+        while total > available_empty:
+            # print(total)
+            task_to_move = self.pop()
+            excess_tasks.add(task_to_move)
+            total -= task_to_move.remaining_duration
+        return excess_tasks
 
     def update_original_date(self, date: PDate) -> None:
         for task in self._tasks.values():
@@ -206,6 +229,9 @@ class Tasks:
 
     def __iter__(self) -> Iterator[Task]:
         return iter(sorted(self._tasks.values(), key=lambda t: t.project_order))
+
+    def __len__(self) -> int:
+        return len(self._tasks)
 
     def __getitem__(self, __key: TaskID) -> Task:
         return self._tasks[__key]

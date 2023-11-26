@@ -82,6 +82,24 @@ class Task:
             categories=set(filter(bool, cats_raw)).union(project_categories or set()),
         )
 
+    def from_full_dict(cls, full_dict: dict[str, Any]) -> "Task":
+        return cls.from_dict(
+            full_dict, ProjectID.from_string(full_dict["project_id"]), full_dict["project_name"]
+        )
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "name": self.name,
+            "project_name": self.project_name,
+            "id": str(self.task_id),
+            "priority": self.priority,
+            "duration": self.duration,
+            "dependencies": ",".join(sorted(map(str, self.dependencies))),
+            "notes": self.notes,
+            "status": self.status,
+            "categories": ",".join(self.categories),
+        }
+
     def copy(self) -> "Task":
         t = Task(self.name, self.project_name, self.task_id, self.priority, self.duration)
         t.__dict__.update(self.__dict__)

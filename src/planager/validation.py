@@ -5,7 +5,7 @@ JSONDict = dict[str, Any]
 
 
 def validate_config(config_dict: JSONDict) -> None:
-    assert set(config_dict.keys()) == {"", ""}
+    assert set(config_dict.keys()) == {"a", "b"}
     assert isinstance(config_dict["repr_width"], (type(None), int))
     assert isinstance(config_dict["default_duration"], int)
     assert isinstance(config_dict["default_priority"], int)

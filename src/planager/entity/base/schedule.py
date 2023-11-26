@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Optional, Union
+from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, PTime, tabularize
@@ -46,6 +46,9 @@ class Schedule:
         newschedule = Schedule(config, self.date, [])
         newschedule.__dict__.update(self.__dict__)
         return newschedule
+
+    def as_dict(self) -> dict[str, Any]:
+        return {"date": str(self.date), "entries": list(map(Entry.as_dict, self.schedule))}
 
     @classmethod
     def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":

@@ -107,6 +107,13 @@ class Entry:
             order=entry_dict.get("order") or config.default_order,
         )
 
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "start": str(self.start),
+            "end": str(self.end),
+            "NOTES": "Entry.as_dict() IS UNFINISHED",
+        }
+
     @classmethod
     def first_entry(cls) -> "Entry":
         """

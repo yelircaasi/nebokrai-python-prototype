@@ -45,7 +45,8 @@ class Tracker:
         print("The following tracking items are available:")
         print("\n".join(map(lambda ia: f"  {ia[0]:>2}) {ia[1].name}", enumerate(self.activities))))
         indices = prompt_natural_sequence(
-            "Please enter a number or list of numbers (seprated by commas, spaces, or both), or leave empty for all items."
+            "Please enter a number or list of numbers (seprated by commas, spaces, or both), "
+            + "or leave empty for all items."
         )
         if not indices:
             for activity in self.activities:

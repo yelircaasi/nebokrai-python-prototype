@@ -12,6 +12,9 @@ class Schedules:
     def __init__(self, schedules: Optional[Dict[PDate, Schedule]] = None) -> None:
         self._schedules: Dict[PDate, Schedule] = schedules or {}
 
+    def as_dicts(self) -> list[dict[str, dict]]:
+        return list(map(Schedule.as_dict, self._schedules.values()))
+
     def __len__(self) -> int:
         return len(self._schedules)
 

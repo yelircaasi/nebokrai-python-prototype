@@ -30,6 +30,8 @@ class PathManager:  # only supports JSON for now
         self.tracking = self.tracking_dir / "tracking.json"
         self.edit_times = self.root / "edit_times.json"
         self.txt = self.root / "txt"
+        self.txt_plan = self.txt / "plan.txt"
+        self.txt_schedule = self.txt / "schedule.txt"
         self.tmp = self.root / "tmp"
         self.tmp_declaration = self.tmp / "declaration.json"
 
@@ -80,8 +82,12 @@ class PathManager:  # only supports JSON for now
 
     @property
     def timestamp(self) -> str:
+        """
+        Creates a timestamp string corresponding to whenever this property is invoked, typically to
+        record when a file was last written.
+        """
         dt = datetime.now()
-        return str(dt).split(".")[0].replace(" ", "_").replace(":", "-")
+        return str(dt).split(".", maxsplit=1)[0].replace(" ", "_").replace(":", "-")
 
 
 class Config:

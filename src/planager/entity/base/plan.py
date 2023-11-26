@@ -36,6 +36,9 @@ class Plan:
             ),
         )
 
+    def as_dict(self) -> dict[str, Any]:
+        return {str(date): tasks.as_dicts() for date, tasks in self.plan_dict.items()}
+
     @property
     def inverse(self) -> dict[Task, PDate]:
         """
@@ -112,19 +115,20 @@ class Plan:
                 )
             )
             return (
-                f"Calendar entries: {entry_names}\n"
+                f"Calendar entries: \n  {entry_names}\n"
                 f"Blocks:\n{blocks}\n"
                 "Total available on calendar:\n"
                 f"  Before planning: {empty_before}m empty; {total_before}m including blocks\n"
                 f"  After planning:  {empty_after}m empty; {total_after}m including blocks"
             )
 
+        double_line = 120 * "═" + "\n"
         line = 120 * "─" + "\n"
 
         newl = "\n"
         return "\n".join(
             [
-                f"{line}{str(d)}\n\n{time_repr(d)}\n\n{newl.join([task_repr(t, d) for t in ids])}\n"
+                f"{double_line}{str(d)}\n{line}{time_repr(d)}\n\n{newl.join([task_repr(t, d) for t in ids])}\n"
                 for d, ids in self.items()
             ]
         )
@@ -138,12 +142,16 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
     Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
       the lowest-priority excess task ids are returned.
     """
+    # print(date)
     plan.ensure_date(date)
     tasks = Tasks(tasks) + plan.plan_dict.get(date, [])
     avail_dict = plan.calendar[date].available_dict
 
+    # print("%%%%%%%%%%")
     blocked_tasks: Tasks = tasks.pop_tasks_from_blocks(avail_dict)
-    excess = tasks.pop_excess_tasks(avail_dict["wildcard"])
+    # print("$$$$$$$$$$")
+    excess = tasks.pop_excess_tasks(avail_dict["empty"])
+    # print("^^^^^^")
 
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
@@ -165,8 +173,8 @@ def update_plan(  # add_subplan(
     for date, tasks_ in subplan.items():
         plan, rollover = add_tasks(plan, date, tasks_)
 
+        next_date = date.copy()
         while rollover:
-            next_date = date.copy()
             plan, rollover = add_tasks(plan, next_date, rollover)
             next_date += 1
 

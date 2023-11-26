@@ -1,6 +1,5 @@
 from typing import Callable
 
-import planager
 from .planager import Planager, path_manager
 from .util import prompt_integer
 from .validation import validate_declaration
