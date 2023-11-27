@@ -86,7 +86,7 @@ feasible plan.
 From the plan, the next step is to create a schedule. Algorithmically, this turns out to be more
 involved - see [this]() for details and discussion. The general process is as follows: 
 
-1. Tasks are converted to entries
+1. Entries are c
 2. Entries are added to days in order of priority such that all constraints are satisfied
 3. Entry times are adjusted such that they partition the available time
 

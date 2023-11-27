@@ -21,7 +21,6 @@ from .entity import (
     add_from_plan_and_excess,
     update_plan,
 )
-
 from .tracking import Logs, Tracker
 from .util import PDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
 
@@ -105,7 +104,7 @@ class Planager:
                 calendar=self.calendar,
             )
         else:
-            plan = Plan.from_path(path_manager.declaration)
+            plan = Plan.from_derivation(path_manager.declaration, path_manager.derivation)
 
         projects = self.roadmaps.projects
 
@@ -195,7 +194,6 @@ class Planager:
             f.write(str(self.plan))
         with open(path_manager.txt_gantt, "w", encoding="utf-8") as f:
             f.write(self.plan.gantt_view)
-        
 
     def save_schedules(self) -> None:
         """

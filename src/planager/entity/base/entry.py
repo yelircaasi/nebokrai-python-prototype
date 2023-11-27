@@ -27,6 +27,7 @@ class Entry:
         alignend: bool = False,
         order: Optional[float] = None,
         subentries: Optional[Iterable["Entry"]] = None,
+        project_name: Optional[str] = None,
     ) -> None:
         self.subentries: list[Entry] = list(subentries or [])
 
@@ -40,6 +41,7 @@ class Entry:
         self.blocks = blocks or set([])
         self.categories = (categories or set([])).union(config.default_categories)
         self.ismovable = ismovable
+        self.project_name = project_name
 
         if normaltime:
             self.normaltime = normaltime
@@ -176,6 +178,10 @@ class Entry:
             alignend=self.alignend,
             order=self.order,
         )
+
+    @property
+    def fullname(self) -> str:
+        return f"{self.name} ({self.project_name})"
 
     @property
     def duration(self) -> int:

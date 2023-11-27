@@ -54,6 +54,13 @@ class Schedule:
     def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":
         return cls(date, calendar[date].entries)
 
+    @classmethod
+    def from_derivation(cls, schedule_derivation_dict: dict[str, Any]) -> "Schedule":
+        ...  # TODO
+        date = PDate(2025, 1, 1)
+        schedule_list: list[Entry] = []
+        return Schedule(date, schedule_list) #TODO
+
     def remove(self, entry: Entry) -> None:
         self.schedule.remove(entry)
 
@@ -142,6 +149,10 @@ class Schedule:
         Checks whether all entries partition the time in the day.
         """
         return self.schedule.ispartitioned
+
+    @property
+    def summary(self) -> str:
+        return "Not yet implemented."
 
     def __str__(self) -> str:
         """ """

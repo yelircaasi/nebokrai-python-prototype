@@ -1,14 +1,14 @@
-from itertools import chain
 import json
+from itertools import chain
 from pathlib import Path
 from typing import Any, Iterable, Iterator
 
 from ...util import PDate, color
-from .project import Project
-from ..container.roadmaps import  Roadmaps
+from ..container.roadmaps import Roadmaps
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .calendar import Calendar
+from .project import Project
 from .task import Task
 
 
@@ -27,7 +27,7 @@ class Plan:
         self.plan_dict: dict[PDate, Tasks] = {date: Tasks() for date in calendar}
 
     @classmethod
-    def from_path(cls, declaration_path: Path) -> "Plan":
+    def from_declaration(cls, declaration_path: Path) -> "Plan":
         """
         Reads a saved plan in .json format.
         """
@@ -35,12 +35,36 @@ class Plan:
             declaration = json.load(f)
 
         routines = Routines.from_dict(declaration["routines"])
-        declaration_dict = declaration["calendar"]
-        return cls(calendar=Calendar.from_dict(routines, declaration_dict))
+        calendar_dict = declaration["calendar"]
+
+        return cls(calendar=Calendar.from_dict(routines, calendar_dict))
 
     def as_dict(self) -> dict[str, Any]:
         return {str(date): tasks.as_dicts() for date, tasks in self.plan_dict.items()}
 
+    @classmethod
+    def from_derivation(cls, declaration_path: Path, plan_derivation_path: Path) -> "Plan":  # TODO
+        """
+        Reads a saved plan in .json format.
+        """
+        with open(declaration_path, encoding="utf-8") as f:
+            declaration = json.load(f)
+        with open(plan_derivation_path, encoding="utf-8") as f:
+            plan_derivation_dict = json.load(f)
+
+        routines = Routines.from_dict(declaration["routines"])
+        calendar_dict = declaration["calendar"]
+        plan = cls(calendar=Calendar.from_dict(routines, calendar_dict))
+        plan.plan_dict = cls.plan_dict_from_derivation(plan_derivation_dict)
+        plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
+
+        return plan
+
+    @staticmethod
+    def plan_dict_from_derivation(derivation_dict) -> dict[PDate, Tasks]:
+        #TODO
+        return {}
+    
     @property
     def inverse(self) -> dict[Task, PDate]:
         """
@@ -97,7 +121,7 @@ class Plan:
     @property
     def summary(self) -> str:
         return "Plan.summary property is not yet implemented."
-    
+
     @property
     def gantt_view(self) -> str:
         # def make_gantt_string(roadmaps: Roadmaps, plan: Plan) -> str:
@@ -108,11 +132,8 @@ class Plan:
         project_name_max_length = 30
 
         linechar = "―"
-        circles = {
-            "todo": "○",
-            "done": "●"
-        }
-        
+        circles = {"todo": "○", "done": "●"}
+
         date2idx = {d: i for i, d in enumerate(min(self.plan_dict).range(max(self.plan_dict)))}
         ndays = len(date2idx)
 
@@ -121,9 +142,11 @@ class Plan:
                 return f"{proj_name: <{project_name_max_length}} ║ "
             return proj_name[: (project_name_max_length - 6)] + "…" + proj_name[-5:] + " ║ "
 
-        project_names = list(set(map(lambda t: t.project_name, chain.from_iterable(self.plan_dict.values()))))
+        project_names = list(
+            set(map(lambda t: t.project_name, chain.from_iterable(self.plan_dict.values())))
+        )
         pname2idx = {p: i for i, p in enumerate(project_names)}
-        
+
         grid = []
         for i in range(len(project_names)):
             line = ndays * [linechar]
@@ -137,10 +160,12 @@ class Plan:
                 grid[pnum][dnum] = symbol
 
         # import pdb; pdb.set_trace()
-        lines = list(map(lambda x: ''.join(x), grid))
-        line_tuples = sorted(zip(map(format_name, project_names), lines), key=lambda x: x[1], reverse=True)
-        
-        return '\n'.join(map(lambda x: ''.join(x), line_tuples))
+        lines = list(map(lambda x: "".join(x), grid))
+        line_tuples = sorted(
+            zip(map(format_name, project_names), lines), key=lambda x: x[1], reverse=True
+        )
+
+        return "\n".join(map(lambda x: "".join(x), line_tuples))
 
     def __str__(self) -> str:
         def task_repr(task: Task, date: PDate) -> str:

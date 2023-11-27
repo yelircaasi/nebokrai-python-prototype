@@ -3,7 +3,6 @@ import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...util import PTime, color
-
 from ..base.entry import Empty, Entry
 
 EntriesInitType = Optional[Union["Entries", Iterable[Entry]]]
@@ -219,6 +218,10 @@ class Entries:
         pairs = zip(self._entries[None:-1], self._entries[1:None])
         gaps = [Empty(start=a.end, end=b.start) for a, b in pairs]
         return [gap for gap in gaps if gap.duration > 0]
+
+    @property
+    def summary(self) -> str:
+        return "Not yet implemented."
 
     def __bool__(self) -> bool:
         return bool(self._entries)

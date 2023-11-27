@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 from ...util import PDate
 from ..base.schedule import Schedule
@@ -11,6 +11,13 @@ class Schedules:
 
     def __init__(self, schedules: Optional[Dict[PDate, Schedule]] = None) -> None:
         self._schedules: Dict[PDate, Schedule] = schedules or {}
+
+    @classmethod
+    def from_derivation(cls, schedules_derivation_dict: dict[str, Any]) -> "Schedules":
+        ...  # TODO
+        schedules_dict: dict[PDate, Schedule] = {}
+        scheds = Schedules(schedules_dict)
+        return scheds
 
     def as_dicts(self) -> list[dict[str, dict]]:
         return list(map(Schedule.as_dict, self._schedules.values()))
