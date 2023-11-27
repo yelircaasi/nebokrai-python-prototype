@@ -19,6 +19,7 @@ pydeps = "^1.12.8"
 pylint = "^3.0.1"
 flake8 = "^6.1.0"
 pyproject-flake8 = "^6.1.0"
+ansi2html = "^1.8.0"
 
 [tool.poetry.scripts]
 planager = "planager.__main__:main"

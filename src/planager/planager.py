@@ -21,8 +21,9 @@ from .entity import (
     add_from_plan_and_excess,
     update_plan,
 )
+
 from .tracking import Logs, Tracker
-from .util import PDate, ProjectID, RoadmapID, TaskID
+from .util import PDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
 
 
 class Planager:
@@ -110,9 +111,10 @@ class Planager:
 
         for project in projects.iter_by_priority:
             plan = update_plan(plan, project.subplan)
-            print(project.name)
+            print(f"Planning {color.magenta(project.name)}.")
 
         self.enforce_precedence_constraints(plan, projects)
+        plan.fill_empty()
 
         self.plan = plan
 
@@ -123,10 +125,14 @@ class Planager:
         """
         start_date_new, end_date_new = self.start_and_end_dates
         schedules, excess_entries = Schedules(), Entries()
+        # ----
+        end_date_new = PDate.from_string("2023-12-31")  # FIXME
+        # ----
         for date in start_date_new.range(end_date_new):
-            schedule = Schedule.from_calendar(
-                self.calendar, date
-            )  # TODO: add .earliest and .latest to entries
+            print(f"Scheduling {color.cyan(str(date))}.")
+            schedule = Schedule.from_calendar(self.calendar, date)
+            # TODO: add .earliest and .latest to entries
+
             schedules[date], excess_entries = add_from_plan_and_excess(
                 schedule, self.plan, excess_entries
             )
@@ -187,6 +193,9 @@ class Planager:
             json.dump(self.plan.as_dict(), f, ensure_ascii=False, indent=4)
         with open(path_manager.txt_plan, "w", encoding="utf-8") as f:
             f.write(str(self.plan))
+        with open(path_manager.txt_gantt, "w", encoding="utf-8") as f:
+            f.write(self.plan.gantt_view)
+        
 
     def save_schedules(self) -> None:
         """
@@ -196,6 +205,8 @@ class Planager:
         os.rename(path_manager.schedules, path_manager.schedules_backup)
         with open(path_manager.schedules, "w", encoding="utf-8") as f:
             json.dump(self.schedules.as_dicts(), f, ensure_ascii=False, indent=4)
+        with open(path_manager.txt_schedules, "w", encoding="utf-8") as f:
+            f.write(str(self.schedules))
 
     def open_plan(self) -> None:
         ...
@@ -209,31 +220,7 @@ class Planager:
 
     @staticmethod
     def shift_declaration(ndays: int) -> None:
-        """
-        Moves all dates (surrounded by double quotes) under roadmaps back by 'ndays' days. Moves
-          forward, naturally, if 'ndays' is negative.
-        """
-        if not ndays:
-            return
-        with open(path_manager.declaration, encoding="utf-8") as f:
-            declaration_dict = json.load(f)
-        with open(path_manager.tmp_declaration, "w", encoding="utf-8") as f:
-            json.dump(declaration_dict, f, ensure_ascii=False, indent=4)
-        roadmaps_dict = declaration_dict["roadmaps"]
-        roadmaps_string = json.dumps(roadmaps_dict, ensure_ascii=False)
-
-        all_dates = list(
-            map(PDate.from_string, re.findall(r"(?<=\")\d{4}-\d\d-\d\d(?=\")", roadmaps_string))
-        )
-        min_date, max_date = min(all_dates), max(all_dates)
-        print(min_date, max_date)
-        date_range = max_date.range(min_date) if ndays > 0 else min_date.range(max_date)
-        for date in date_range:
-            roadmaps_string = roadmaps_string.replace(str(date), str(date + ndays))
-        declaration_dict["roadmaps"] = json.loads(roadmaps_string)
-
-        with open(path_manager.declaration, "w", encoding="utf-8") as f:
-            json.dump(declaration_dict, f, ensure_ascii=False, indent=4)
+        shift_declaration_ndays(path_manager, ndays)
 
     def write_json(self) -> None:
         """
@@ -265,99 +252,6 @@ class Planager:
                 self.logs.summary if self.logs else "No logs defined.",
             )
         )
-
-    def make_gantt_string(self, raw: bool = False) -> str:
-        """
-        Creates a Gantt-style representation of the declaration and resulting plan.
-        """
-        project_name_max_length = 30
-
-        today = PDate.today()
-        end_date = PDate.today() + 400
-
-        def make_project_line(project: Project) -> str:
-            def get_dates(project: Project, raw: bool) -> dict[PDate, str]:
-                if raw:
-                    return {
-                        _date: project[list(_tasks.values())[-1].task_id].status
-                        for _date, _tasks in project.subplan.items()
-                    }
-
-                assert self.plan, "Plan must be defined in order to be shown as a gantt."
-
-                ret: dict[PDate, str] = {}
-                for date, tasks in self.plan.items():
-                    relevant_tasks = [
-                        _task for _task in tasks if _task.task_id in project.project_id
-                    ]
-                    if relevant_tasks:
-                        task = relevant_tasks[-1]
-                        ret.update({date: task.status})
-
-                return ret
-
-            def format_name(proj_name: str) -> str:
-                if len(proj_name) <= project_name_max_length:
-                    return f"{proj_name: <{project_name_max_length}} ║ "
-                return proj_name[: (project_name_max_length - 6)] + "…" + proj_name[-5:] + " ║ "
-
-            status2char = {"todo": "○", "done": "●"}
-            line = format_name(project.name)
-
-            dates = get_dates(project, raw)
-            middle = ""
-
-            if not dates:
-                return ""
-            if len(dates) == 1:
-                middle += status2char[dates[min(dates)]]
-            else:
-                middle += status2char[dates[min(dates)]]
-                for d1, d2 in zip(sorted(list(dates))[:-1], sorted(list(dates))[1:]):
-                    if d1 >= today:
-                        middle += (d1.daysto(d2) - 1) * "―" + status2char[dates[d2]]
-
-            line += (today.daysto(min(dates)) * " ") + middle + (max(dates).daysto(end_date) * " ")
-            return line
-
-        roadmap_dict = {r.roadmap_id: i for i, r in enumerate(self.roadmaps)}
-        lines = [
-            (roadmap_dict[project.project_id.roadmap_id], make_project_line(project))
-            for project in self.roadmaps.projects
-        ]
-        assert lines
-        if not list(filter(lambda x: x[1] != "", lines)):
-            print(lines)
-        lines = list(filter(lambda x: x[1] != "", lines))
-        assert lines
-
-        def myfind(s: str, sub: str) -> int:
-            return s.find(sub) + 999 * (s.find(sub) < 0)
-
-        def myrfind(s: str, sub: str) -> int:
-            return s.rfind(sub) + 999 * (s.rfind(sub) < 0)
-
-        lines.sort(
-            key=lambda line: (
-                min(myfind(line[1], "○"), myfind(line[1], "●")),
-                min(myrfind(line[1], "○"), myrfind(line[1], "●")),
-                line[0],
-            )
-        )
-        assert lines
-
-        def make_header(lines_: list[tuple[int, str]]) -> str:
-            chars = []
-            t = PDate.today()
-            maxlen: int = max(map(len, map(lambda x: x[1], lines_)))
-            for d in t.range(maxlen):
-                chars.append(("║" * (d.month == 1 and d.day == 1) + "│" * (d.day == 1) + " ")[0])
-
-            return project_name_max_length * " " + " ║ " + "".join(chars)
-
-        line1 = make_header(lines)
-        gantt = "\n".join([line1, line1, ""]) + "\n".join(map(lambda x: x[1], lines))
-        return gantt
 
     def show_dashboard(self) -> None:
         print("Not yet implemented!")

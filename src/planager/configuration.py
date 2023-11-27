@@ -31,7 +31,8 @@ class PathManager:  # only supports JSON for now
         self.edit_times = self.root / "edit_times.json"
         self.txt = self.root / "txt"
         self.txt_plan = self.txt / "plan.txt"
-        self.txt_schedule = self.txt / "schedule.txt"
+        self.txt_schedules = self.txt / "schedules.txt"
+        self.txt_gantt = self.txt / "gantt.txt"
         self.tmp = self.root / "tmp"
         self.tmp_declaration = self.tmp / "declaration.json"
 

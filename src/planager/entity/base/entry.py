@@ -109,9 +109,24 @@ class Entry:
 
     def as_dict(self) -> dict[str, Any]:
         return {
+            "name": self.name,
             "start": str(self.start),
             "end": str(self.end),
-            "NOTES": "Entry.as_dict() IS UNFINISHED",
+            "notes": self.notes,
+            "subentries": list(
+                map(Entry.as_dict, self.subentries)
+            ),  #: list[Entry] = list(subentries or [])
+            "priority": self.priority,
+            "blocks": ",".join(self.blocks),
+            "categories": ",".join(self.categories),
+            "ismovable": self.ismovable,
+            "normaltime": self.normaltime,
+            "idealtime": self.idealtime,
+            "mintime": self.mintime,
+            "maxtime": self.maxtime,
+            "alignend": self.alignend,
+            "order": self.order,
+            "assigned_time": self.assigned_time,
         }
 
     @classmethod

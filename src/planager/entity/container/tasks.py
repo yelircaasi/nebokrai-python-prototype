@@ -3,7 +3,7 @@ from itertools import chain
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, ProjectID, TaskID, tabularize
+from ...util import PDate, ProjectID, TaskID, color, tabularize
 from ..base.task import Task
 
 TaskInitType = Optional[Union[Iterable[Task], dict[TaskID, Task]]]
@@ -87,6 +87,9 @@ class Tasks:
         Get member tasks that can be added to blocks according to the block time availablity
           dictionary.
         """
+        # color.pgreen(
+        #     "Available time: " + ", ".join([f"{k}: {v}" for k, v in available_dict.items()])
+        # )
         blocked_tasks = Tasks()
 
         for task in self._tasks.values():

@@ -105,6 +105,10 @@ class Task:
         t.__dict__.update(self.__dict__)
         return t
 
+    @property
+    def fullname(self) -> str:
+        return f"{self.name} ({self.project_name})"
+
     def isafter(self, __other: "Task") -> bool:
         return self.task_id in __other.dependencies
 
@@ -119,7 +123,7 @@ class Task:
         if not start:
             start = PTime.nonetime()
         return Entry(
-            self.name,
+            f"{self.name} ({self.project_name})",
             start,
             end,
             priority=self.priority,

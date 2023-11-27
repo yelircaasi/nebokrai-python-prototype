@@ -2,7 +2,7 @@ import itertools
 import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
-from planager.util.pdatetime.ptime import PTime
+from ...util import PTime, color
 
 from ..base.entry import Empty, Entry
 

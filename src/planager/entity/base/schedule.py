@@ -1,7 +1,7 @@
 from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, PTime, tabularize
+from ...util import PDate, PTime, color, tabularize
 from ..container.entries import Entries
 from .calendar import Calendar
 from .entry import Empty, Entry
@@ -164,7 +164,7 @@ class Schedule:
 
 def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: PDate) -> Entries:
     """
-    combine entries from plan with excess
+    Combine entries from plan with excess
     """
     entries = Entries(map(lambda t: t.as_entry(), plan[date]))
     entries.extend(excess)
@@ -180,9 +180,12 @@ def add_to_blocks(schedule: Schedule, entries: Entries) -> tuple[Schedule, Entri
         for block in schedule.schedule:
             if entry.categories.intersection(block.blocks) and entry not in to_remove:
                 block.add_subentry(entry)
+                print(f"Added {color.yellow(entry.fullname)} to {color.green(str(schedule.date))}.")
+
                 to_remove.append(entry)
     for entry in to_remove:
         entries.remove(entry)
+        print(f"Removed {color.yellow(entry.fullname)} from list.")
     return schedule, entries
 
 
@@ -198,6 +201,8 @@ def zip_flex_and_fixed(
     new_entries = Entries()
 
     while flex_entries or fixed_entries:
+        color.pgreen("Zipping fixed and flex entries:")
+        color.pgreen(new_entries.summary)
         flex_entries, fixed_entries = new_entries.append_flex_or_fixed(flex_entries, fixed_entries)
 
     return new_entries
@@ -209,7 +214,7 @@ def assert_plan_and_date(plan: Optional[Plan], date: PDate) -> Plan:
     """
     if plan is None:
         raise ValueError("'plan' must already be defined when scheduling.")
-    if not plan.get(date):
+    if plan.get(date) is None:
         raise ValueError(f"Date '{date}' missing from plan.")
     return plan
 
@@ -220,6 +225,7 @@ def add_from_plan_and_excess(
     """
     Adds all tasks planned for this day, converting tasks to entries.
     """
+    color.pblack("Entering add_from_plan_and_excess()")
 
     plan = assert_plan_and_date(plan, schedule.date)
     entries: Entries = entries_from_plan_and_excess(plan, excess, schedule.date)
@@ -227,5 +233,7 @@ def add_from_plan_and_excess(
     flex_entries, fixed_clusters = schedule.get_flex_entries_and_fixed_clusters(entries)
 
     schedule.schedule = zip_flex_and_fixed(flex_entries, fixed_clusters)
+
+    color.pblack("Exiting add_from_plan_and_excess()")
 
     return schedule, entries

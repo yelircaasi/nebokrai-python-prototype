@@ -1,8 +1,11 @@
+from itertools import chain
 import json
 from pathlib import Path
 from typing import Any, Iterable, Iterator
 
-from ...util import PDate
+from ...util import PDate, color
+from .project import Project
+from ..container.roadmaps import  Roadmaps
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .calendar import Calendar
@@ -30,11 +33,10 @@ class Plan:
         """
         with open(declaration_path, encoding="utf-8") as f:
             declaration = json.load(f)
-        return cls(
-            calendar=Calendar.from_dict(
-                Routines.from_dict(declaration["routines"]), declaration["calendar"]
-            ),
-        )
+
+        routines = Routines.from_dict(declaration["routines"])
+        declaration_dict = declaration["calendar"]
+        return cls(calendar=Calendar.from_dict(routines, declaration_dict))
 
     def as_dict(self) -> dict[str, Any]:
         return {str(date): tasks.as_dicts() for date, tasks in self.plan_dict.items()}
@@ -66,6 +68,14 @@ class Plan:
     def start_date(self) -> PDate:
         return min(self.plan_dict)
 
+    def fill_empty(self) -> None:
+        """
+        Add an empty Tasks instance to days missing.
+        """
+        for date in self.start_date.range(self.end_date):
+            if not date in self.plan_dict:
+                self.plan_dict.update({date: Tasks()})
+
     def items(self) -> Iterator[tuple[PDate, Tasks]]:
         return iter(self.plan_dict.items())
 
@@ -87,6 +97,50 @@ class Plan:
     @property
     def summary(self) -> str:
         return "Plan.summary property is not yet implemented."
+    
+    @property
+    def gantt_view(self) -> str:
+        # def make_gantt_string(roadmaps: Roadmaps, plan: Plan) -> str:
+        # def make_gantt_string(self, roadmaps: Roadmaps, plan: Plan, raw: bool = False) -> str:
+        """
+        Creates a Gantt-style representation of the declaration and resulting plan.
+        """
+        project_name_max_length = 30
+
+        linechar = "―"
+        circles = {
+            "todo": "○",
+            "done": "●"
+        }
+        
+        date2idx = {d: i for i, d in enumerate(min(self.plan_dict).range(max(self.plan_dict)))}
+        ndays = len(date2idx)
+
+        def format_name(proj_name: str) -> str:
+            if len(proj_name) <= project_name_max_length:
+                return f"{proj_name: <{project_name_max_length}} ║ "
+            return proj_name[: (project_name_max_length - 6)] + "…" + proj_name[-5:] + " ║ "
+
+        project_names = list(set(map(lambda t: t.project_name, chain.from_iterable(self.plan_dict.values()))))
+        pname2idx = {p: i for i, p in enumerate(project_names)}
+        
+        grid = []
+        for i in range(len(project_names)):
+            line = ndays * [linechar]
+            grid.append(line)
+
+        for _date, _tasks in self.plan_dict.items():
+            for task in _tasks:
+                pnum = pname2idx[task.project_name]
+                dnum = date2idx[_date]
+                symbol = circles[task.status]
+                grid[pnum][dnum] = symbol
+
+        # import pdb; pdb.set_trace()
+        lines = list(map(lambda x: ''.join(x), grid))
+        line_tuples = sorted(zip(map(format_name, project_names), lines), key=lambda x: x[1], reverse=True)
+        
+        return '\n'.join(map(lambda x: ''.join(x), line_tuples))
 
     def __str__(self) -> str:
         def task_repr(task: Task, date: PDate) -> str:
@@ -147,11 +201,15 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
     tasks = Tasks(tasks) + plan.plan_dict.get(date, [])
     avail_dict = plan.calendar[date].available_dict
 
-    # print("%%%%%%%%%%")
     blocked_tasks: Tasks = tasks.pop_tasks_from_blocks(avail_dict)
-    # print("$$$$$$$$$$")
+    # if blocked_tasks:
+    #     color.pcyan(f"  Blocked Tasks ({date}):")
+    #     color.pcyan("    " + "\n    ".join(map(lambda t: t.fullname, blocked_tasks)))
+
     excess = tasks.pop_excess_tasks(avail_dict["empty"])
-    # print("^^^^^^")
+    # if excess:
+    #     color.pred(f"  Excess Tasks ({date}):")
+    #     color.pred("    " + "\n    ".join(map(lambda t: t.fullname, excess)))
 
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
@@ -170,12 +228,16 @@ def update_plan(  # add_subplan(
     Adds subplan (like plan, but corresponding to single project) to the plan,
       rolling tasks over when the daily maximum is exceeded, according to priority.
     """
+    # color.pblack("Entering update_plan()")
     for date, tasks_ in subplan.items():
         plan, rollover = add_tasks(plan, date, tasks_)
 
         next_date = date.copy()
         while rollover:
+            # print(f"{color.magenta('Inside rollover loop, date:')} {color.green(str(date))}.")
+            # color.pmagenta("  " + "\n  ".join(map(lambda t: t.fullname, rollover)))
+
             plan, rollover = add_tasks(plan, next_date, rollover)
             next_date += 1
-
+    # color.pblack("Exiting update_plan()")
     return plan
