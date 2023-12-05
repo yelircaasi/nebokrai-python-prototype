@@ -4,6 +4,7 @@ from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, ProjectID, TaskID, color, tabularize
+from ...util.serde.custom_dict_types import TaskDictFullRaw, TaskDictRaw
 from ..base.task import Task
 
 TaskInitType = Optional[Union[Iterable[Task], dict[TaskID, Task]]]
@@ -35,9 +36,9 @@ class Tasks:
         #         exit()
 
     @classmethod
-    def from_dict(
+    def deserialize(
         cls,
-        tasks_dict_list: list[dict[str, Any]],
+        tasks_dict_list: list[TaskDictRaw],
         project_id: ProjectID,
         project_name: str,
         project_priority: Optional[int] = None,
@@ -49,7 +50,7 @@ class Tasks:
         """
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
-            task = Task.from_dict(
+            task = Task.deserialize(
                 task_dict,
                 project_id,
                 project_name,
@@ -62,8 +63,8 @@ class Tasks:
         ret = cls(tasks_list)
         return ret
 
-    def as_dicts(self) -> list[dict[str, dict]]:
-        return list(map(Task.as_dict, self._tasks.values()))
+    def serialize(self) -> list[TaskDictFullRaw]:
+        return list(map(Task.serialize, self._tasks.values()))
 
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
         """

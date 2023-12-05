@@ -2,6 +2,8 @@ from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, PTime, tabularize
+from ...util.serde.custom_dict_types import EntryDictRaw, RoutineDictRaw
+from ...util.serde.deserialization import parse_routine_dict
 from ..container.entries import Entries
 from .entry import Entry
 
@@ -47,14 +49,14 @@ class Routine:
         self.valid_dates = validator
 
     @classmethod
-    def from_dict(cls, routine_dict: dict[str, Any]) -> "Routine":
+    def deserialize(cls, routine_dict: RoutineDictRaw) -> "Routine":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-
+        # routine_dict: Routine = parse_routine_dict(_routine_dict)
         items: list[Entry] = []
         for item_dict in routine_dict["items"]:
-            items.append(Entry.from_dict(item_dict))
+            items.append(Entry.deserialize(item_dict))
 
         return cls(
             routine_dict["name"],
@@ -66,7 +68,7 @@ class Routine:
             idealtime=int(routine_dict["default_idealtime"]),
             mintime=int(routine_dict["default_mintime"]),
             maxtime=int(routine_dict["default_maxtime"]),
-            ismovable=routine_dict["default_ismovable"]
+            ismovable=bool(routine_dict.get("default_ismovable"))
             if "default_ismovable" in routine_dict
             else True,
             order=float(
@@ -82,7 +84,7 @@ class Routine:
     def as_entry(
         self,
         start: PTime,
-        priority: Optional[int],
+        priority: Optional[float],
         normaltime: int,
         idealtime: int,
         mintime: int,

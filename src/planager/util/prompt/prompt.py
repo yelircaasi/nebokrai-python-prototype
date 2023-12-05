@@ -3,10 +3,16 @@ from typing import Any, Callable, Iterable, Union
 
 from typing_extensions import TypedDict
 
-from .pdatetime import PTime
+from ..elementary_types import Natural, PromptTypeName, TrackingActivityType
+from ..pdatetime import PTime
+from ..serde.custom_dict_types import TimedDistance, TimedDistanceWithElevation
 
 
-def prompt_integer(prompt_message: str, invalid_input_message: str = "") -> int:
+def prompt_integer(
+    prompt_message: str,
+    invalid_input_message: str = "",
+    _: str = "",
+) -> int:
     """
     Interactively prompts for an integer until an integer is given.
     """
@@ -21,13 +27,14 @@ def prompt_integer(prompt_message: str, invalid_input_message: str = "") -> int:
     return value
 
 
-def prompt_string(prompt_message: str) -> str:
+def prompt_text(prompt_message: str, _1: str = "", _2: str = "") -> str:
     return input(prompt_message)
 
 
 def prompt_boolean(
     prompt_message: str,
     valid_true: Iterable[str] = ("y", "true", "done", "yes", "yep"),
+    _: str = "",
 ) -> bool:
     """
     Interactively prompts for an boolean. Inputs in 'valid_true' are treated as True; others are
@@ -38,7 +45,9 @@ def prompt_boolean(
 
 
 def prompt_natural(
-    prompt_message: str, invalid_input_message: str = "Please enter a nonnegative integer."
+    prompt_message: str,
+    invalid_input_message: str = "Please enter a nonnegative integer.",
+    _: str = "",
 ) -> int:
     """
     Interactively prompts for an integer until an integer is given.
@@ -60,6 +69,7 @@ def prompt_integer_sequence(
     invalid_input_message: str = (
         "Invalid input. Please enter a sequence of integers separated by spaces, commas, or both."
     ),
+    _: str = "",
 ) -> list[int]:
     """
     Interactively prompts for an integer until an integer is given.
@@ -82,7 +92,8 @@ def prompt_natural_sequence(
         "Invalid input. Please enter a sequence of natural numbers "
         "separated by spaces, commas, or both."
     ),
-) -> list[int]:
+    _: str = "",
+) -> list[Natural]:
     """
     Interactively prompts for an integer until an integer is given.
     """
@@ -102,7 +113,7 @@ def prompt_natural_sequence(
     return value
 
 
-def prompt_time(prompt_message: str, invalid_input_message: str = "") -> PTime:
+def prompt_time(prompt_message: str, invalid_input_message: str = "", _: str = "") -> PTime:
     """
     Interactively prompts for an integer until an integer is given.
     """
@@ -115,20 +126,6 @@ def prompt_time(prompt_message: str, invalid_input_message: str = "") -> PTime:
             print(invalid_input_message)
             continue
     return value
-
-
-TimedDistance = TypedDict(
-    "TimedDistance", {"time (s)": Union[int, float], "distance (km)": Union[int, float]}
-)
-TimedDistanceWithElevation = TypedDict(
-    "TimedDistanceWithElevation",
-    {
-        "time (s)": Union[int, float],
-        "distance (km)": Union[int, float],
-        "up (m)": Union[int, float],
-        "down (m)": Union[int, float],
-    },
-)
 
 
 def prompt_numerical(
@@ -151,7 +148,8 @@ def prompt_numerical(
 def prompt_time_amount(
     prompt_message: str,
     invalid_input_message: str = "Please enter either a number of seconds or a time duration in the form of `mm:ss`.",
-) -> int:
+    _: str = "",
+) -> float:
     """
     Interactively prompts for an integer until an integer is given.
     """
@@ -171,36 +169,40 @@ def prompt_time_amount(
     return int(value)
 
 
-def prompt_timed_distance(prompt_message: str) -> TimedDistance:
+def prompt_timed_distance(prompt_message: str, _1: str = "", _2: str = "") -> TimedDistance:
     print(prompt_message)
-    distance = prompt_numerical("Distance: ")
-    time_seconds = prompt_time_amount("Time: ")
-    return {"distance (km)": distance, "time (s)": time_seconds}
+    distance: float = prompt_numerical("Distance: ")
+    seconds: float = prompt_time_amount("Time: ")
+    return {"kilometers": distance, "seconds": seconds}
 
 
-def prompt_timed_distance_with_elevation(prompt_message: str) -> TimedDistanceWithElevation:
+def prompt_timed_distance_with_elevation(
+    prompt_message: str, _1: str = "", _2: str = ""
+) -> TimedDistanceWithElevation:
     print(prompt_message)
     distance = prompt_numerical("Distance: ")
     time_seconds = prompt_time_amount("Time: ")
     up = prompt_numerical("Up (elevation gain): ")
     down = prompt_numerical("Down (elevation loss): ")
-    return {"distance (km)": distance, "time (s)": time_seconds, "up (m)": up, "down (m)": down}
+    return {"kilometers": distance, "seconds": time_seconds, "up": up, "down": down}
 
 
-simple_prompt_functions: dict[str, Callable] = {
+simple_prompt_functions: dict[PromptTypeName, Callable] = {
     "integer": prompt_integer,
     "boolean": prompt_boolean,
     "natural": prompt_natural,
-    "[]natural": prompt_natural_sequence,
-    "[]integer": prompt_integer_sequence,
-    "text": prompt_string,
+    "natural_sequence": prompt_natural_sequence,
+    "integer_sequence": prompt_integer_sequence,
+    "text": prompt_text,
     "time": prompt_time,
-    "timed distance": prompt_timed_distance,
-    "timed distance with elevation": prompt_timed_distance_with_elevation,
+    "timed_distance": prompt_timed_distance,
+    "timed_distance_with_elevation": prompt_timed_distance_with_elevation,
 }
 
 
-def prompt_typed_list(item_type: str, prompt_message: str, quit_string: str = "q") -> list[Any]:
+def prompt_typed_list(
+    prompt_message: str, quit_string: str, item_type: PromptTypeName
+) -> list[TrackingActivityType]:
     """
     Interactively prompts for an item of type `item_type` until the quit_string is entered.
     """

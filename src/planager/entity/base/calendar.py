@@ -3,6 +3,14 @@ from typing import Any, Iterable, Iterator, Union
 from ...configuration import config
 from ...util import PDate, tabularize
 from ...util.pdatetime.ptime import PTime
+from ...util.serde.custom_dict_types import (
+    CalendarDictParsed,
+    CalendarDictRaw,
+    DayDictRaw,
+    RoutineInCalendarDictRaw,
+    RoutinesInCalendarDictRaw,
+)
+from ...util.serde.deserialization import parse_entry_dict
 from ..container.entries import Entries
 from ..container.routines import Routines
 from .entry import Entry
@@ -93,14 +101,15 @@ class Day:
         )
 
     @classmethod
-    def from_dict(cls, routines: Routines, date: PDate, day_dict: dict[str, Any]) -> "Day":
+    def deserialize(cls, routines: Routines, date: PDate, day_dict: DayDictRaw) -> "Day":
         """
         Instantiates from config, json-derived dic, and project information.
         """
 
         entries = Entries()
         for entry_dict in day_dict["entries"]:
-            entries.append(Entry.from_dict(entry_dict))
+            # entry_dict = parse_entry_dict(_entry_dict)
+            entries.append(Entry.deserialize(entry_dict))
 
         routines_dict = {}
         for routine_dict in day_dict["routines"]:
@@ -113,14 +122,16 @@ class Day:
         return cls(date, start, end, entries, routine_entries)
 
     @staticmethod
-    def make_routine_entries(routine_dict: dict[str, dict], routines: Routines) -> Entries:
+    def make_routine_entries(
+        routines_dict: RoutinesInCalendarDictRaw, routines: Routines
+    ) -> Entries:
         """
         Creates routine entries from the declaration and from the Routines instance.
         """
 
         entries = Entries()
 
-        for routine_spec in routine_dict.values():
+        for routine_spec in routines_dict.values():
             routine_name = routine_spec["name"]
 
             routine_entry = routines[routine_name].as_entry(
@@ -217,14 +228,14 @@ class Calendar:
         self.days: dict[PDate, Day] = days if isinstance(days, dict) else {d.date: d for d in days}
 
     @classmethod
-    def from_dict(cls, routines: Routines, calendar_dict: dict[str, Any]) -> "Calendar":
+    def deserialize(cls, routines: Routines, calendar_dict: CalendarDictRaw) -> "Calendar":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
         days = {}
         for date_string, day_dict in calendar_dict["days"].items():
             day_date = PDate.from_string(date_string)
-            day = Day.from_dict(routines, day_date, day_dict)
+            day = Day.deserialize(routines, day_date, day_dict)
             days.update({day_date: day})
 
         return cls(days)

@@ -2,6 +2,7 @@ from typing import Any, Iterable, Iterator, List, Optional, Tuple
 
 from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
+from ...util.serde.custom_dict_types import RoadmapDictRaw
 from ..container.projects import Projects
 from .project import Project
 from .task import Task
@@ -25,13 +26,14 @@ class Roadmap:
         self.categories = categories or set()
 
     @classmethod
-    def from_dict(cls, roadmap_id: RoadmapID, roadmap_dict: dict[str, Any]) -> "Roadmap":
+    def deserialize(cls, roadmap_id: RoadmapID, roadmap_dict: RoadmapDictRaw) -> "Roadmap":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        projects = Projects.from_dict(roadmap_id, roadmap_dict["projects"])
+        name = roadmap_dict["name"]
+        projects = Projects.deserialize(roadmap_id, roadmap_dict["projects"])
 
-        return cls(roadmap_dict["name"], roadmap_id, projects)
+        return cls(name, roadmap_id, projects)
 
     def copy(self) -> "Roadmap":
         return Roadmap(

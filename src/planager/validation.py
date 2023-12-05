@@ -1,10 +1,16 @@
 from pathlib import Path
 from typing import Any
 
-JSONDict = dict[str, Any]
+from .util.serde.custom_dict_types import (
+    CalendarDictRaw,
+    ConfigDictRaw,
+    RoadmapsDictRaw,
+    RoutinesDictRaw,
+    TrackingDictRaw,
+)
 
 
-def validate_config(config_dict: JSONDict) -> None:
+def validate_config(config_dict: ConfigDictRaw) -> None:
     assert set(config_dict.keys()) == {"a", "b"}
     assert isinstance(config_dict["repr_width"], (type(None), int))
     assert isinstance(config_dict["default_duration"], int)
@@ -32,19 +38,19 @@ def validate_config(config_dict: JSONDict) -> None:
     assert isinstance(config_dict["default_sleep_delta_max"], int)
 
 
-def validate_routines(routines_dict: JSONDict) -> None:
+def validate_routines(routines_dict: RoutinesDictRaw) -> None:
     assert set(routines_dict.keys()) == {"", ""}
 
 
-def validate_tracking(tracking_dict: JSONDict) -> None:
+def validate_tracking(tracking_dict: TrackingDictRaw) -> None:
     assert set(tracking_dict.keys()) == {"", ""}
 
 
-def validate_calendar(calendar_dict: JSONDict) -> None:
+def validate_calendar(calendar_dict: CalendarDictRaw) -> None:
     assert set(calendar_dict.keys()) == {"", ""}
 
 
-def validate_roadmaps(roadmaps_dict: JSONDict) -> None:
+def validate_roadmaps(roadmaps_dict: RoadmapsDictRaw) -> None:
     assert set(roadmaps_dict.keys()) == {"", ""}
 
 

@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator
 
 from ...util import PDate, color
+from ...util.serde.custom_dict_types import PlanDictRaw
 from ..container.roadmaps import Roadmaps
 from ..container.routines import Routines
 from ..container.tasks import Tasks
@@ -34,13 +35,13 @@ class Plan:
         with open(declaration_path, encoding="utf-8") as f:
             declaration = json.load(f)
 
-        routines = Routines.from_dict(declaration["routines"])
+        routines = Routines.deserialize(declaration["routines"])
         calendar_dict = declaration["calendar"]
 
-        return cls(calendar=Calendar.from_dict(routines, calendar_dict))
+        return cls(calendar=Calendar.deserialize(routines, calendar_dict))
 
-    def as_dict(self) -> dict[str, Any]:
-        return {str(date): tasks.as_dicts() for date, tasks in self.plan_dict.items()}
+    def serialize(self) -> PlanDictRaw:
+        return {str(date): tasks.serialize() for date, tasks in self.plan_dict.items()}
 
     @classmethod
     def from_derivation(cls, declaration_path: Path, plan_derivation_path: Path) -> "Plan":  # TODO
@@ -52,9 +53,9 @@ class Plan:
         with open(plan_derivation_path, encoding="utf-8") as f:
             plan_derivation_dict = json.load(f)
 
-        routines = Routines.from_dict(declaration["routines"])
+        routines = Routines.deserialize(declaration["routines"])
         calendar_dict = declaration["calendar"]
-        plan = cls(calendar=Calendar.from_dict(routines, calendar_dict))
+        plan = cls(calendar=Calendar.deserialize(routines, calendar_dict))
         plan.plan_dict = cls.plan_dict_from_derivation(plan_derivation_dict)
         plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
 
@@ -62,9 +63,9 @@ class Plan:
 
     @staticmethod
     def plan_dict_from_derivation(derivation_dict) -> dict[PDate, Tasks]:
-        #TODO
+        # TODO
         return {}
-    
+
     @property
     def inverse(self) -> dict[Task, PDate]:
         """
@@ -75,10 +76,6 @@ class Plan:
             for task_ in tasks_:
                 inverse_plan.update({task_: date})
         return inverse_plan
-
-    @property
-    def dictionary(self) -> dict[str, Any]:
-        return {}
 
     def ensure_date(self, date: PDate):
         if date not in self.plan_dict:

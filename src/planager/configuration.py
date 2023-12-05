@@ -3,9 +3,11 @@ import os
 import re
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any, Iterable, Optional, Union
 
 from .util import PTime
+from .util.serde.custom_dict_types import ConfigDictParsed, ConfigDictRaw
+from .util.serde.deserialization import parse_config_dict
 
 
 class PathManager:  # only supports JSON for now
@@ -98,12 +100,12 @@ class Config:
 
     repr_width: int
 
-    default_priority: int
-    default_sleep_priority: int
+    default_priority: float
+    default_sleep_priority: float
     default_duration: int
     default_interval: int
     default_cluster_size: int
-    default_order: int
+    default_order: float
     default_normaltime: int
     default_idealtime_factor: float
     default_mintime_factor: float
@@ -127,7 +129,7 @@ class Config:
     def __init__(
         self,
         repr_width: int,
-        default_priority: int,
+        default_priority: float,
         default_duration: int,
         default_interval: int,
         default_cluster_size: int,
@@ -147,7 +149,7 @@ class Config:
         default_schedule_weight_interval_min: float,
         default_schedule_weight_interval_max: float,
         default_schedule_weight_transform_exponent: float,
-        default_sleep_priority: int,
+        default_sleep_priority: float,
         default_sleep_delta_min: int,
         default_sleep_delta_max: int,
     ) -> None:
@@ -180,7 +182,7 @@ class Config:
         self.default_sleep_delta_max = default_sleep_delta_max
 
     @classmethod
-    def from_dict(cls, cfg: dict) -> "Config":
+    def deserialize(cls, cfg: ConfigDictParsed) -> "Config":
         return cls(
             int(cfg["repr_width"]),
             int(cfg["default_priority"]),
@@ -195,9 +197,9 @@ class Config:
             set(re.split(", ?", cfg["default_categories"])),
             cfg["default_ismovable"],
             cfg["default_alignend"],
-            PTime.from_string(cfg["default_day_start"]),
-            PTime.from_string(cfg["default_day_end"]),
-            set(re.split(", ?", cfg["default_empty_blocks"])),
+            cfg["default_day_start"],
+            cfg["default_day_end"],
+            cfg["default_empty_blocks"],
             int(cfg["default_project_dates_missing_offset"]),
             int(cfg["default_project_dates_missing_hashmod"]),
             float(cfg["default_schedule_weight_interval_min"]),
@@ -207,6 +209,39 @@ class Config:
             int(cfg["default_sleep_delta_min"]),
             int(cfg["default_sleep_delta_max"]),
         )
+
+    def serialize(self) -> ConfigDictRaw:
+        print("Not yet implemented")
+        return {
+            "repr_width": self.repr_width,
+            "default_priority": self.default_priority,
+            "default_duration": self.default_duration,
+            "default_interval": self.default_interval,
+            "default_cluster_size": self.default_cluster_size,
+            "default_order": self.default_order,
+            "default_normaltime": self.default_normaltime,
+            "default_idealtime_factor": self.default_idealtime_factor,
+            "default_mintime_factor": self.default_mintime_factor,
+            "default_maxtime_factor": self.default_maxtime_factor,
+            "default_categories": self.comma_join(self.default_categories),
+            "default_ismovable": self.default_ismovable,
+            "default_alignend": self.default_alignend,
+            "default_day_start": str(self.default_day_start),
+            "default_day_end": str(self.default_day_end),
+            "default_empty_blocks": self.comma_join(self.default_empty_blocks),
+            "default_project_dates_missing_offset": self.default_project_dates_missing_offset,
+            "default_project_dates_missing_hashmod": self.default_project_dates_missing_hashmod,
+            "default_schedule_weight_interval_min": self.default_schedule_weight_interval_min,
+            "default_schedule_weight_interval_max": self.default_schedule_weight_interval_max,
+            "default_schedule_weight_transform_exponent": self.default_schedule_weight_transform_exponent,
+            "default_sleep_priority": self.default_sleep_priority,
+            "default_sleep_delta_min": self.default_sleep_delta_min,
+            "default_sleep_delta_max": self.default_sleep_delta_max,
+        }
+
+    @staticmethod
+    def comma_join(string_iterable: Iterable[str]) -> str:
+        return ",".join(sorted(string_iterable))
 
     @property
     def default_routine_dict(self) -> dict[str, dict]:
@@ -232,7 +267,7 @@ with open(path_to_dir, encoding="ascii") as f:
 path_manager = PathManager(planager_root)
 
 with open(path_manager.declaration, encoding="utf-8") as f:
-    config_dict: dict[str, Any] = json.load(f)["config"]
-config = Config.from_dict(config_dict)
+    config_dict: ConfigDictParsed = parse_config_dict(json.load(f)["config"])
+config = Config.deserialize(config_dict)
 
 __all__ = ["config", "path_manager"]

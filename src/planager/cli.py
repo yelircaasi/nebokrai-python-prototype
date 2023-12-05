@@ -1,3 +1,5 @@
+import json
+from pathlib import Path
 from typing import Callable
 
 from .planager import Planager, path_manager
@@ -16,6 +18,11 @@ def interactive() -> None:
 
 def validate() -> None:
     validate_declaration(path_manager.declaration)
+
+
+def declare() -> None:
+    planager = Planager.from_json()
+    planager.declare_interactive()
 
 
 def derive() -> None:
@@ -64,9 +71,19 @@ def shift() -> None:  # WORKS!
     Planager.shift_declaration(ndays)
 
 
+def lint() -> None:
+    """
+    Checks the declaration.json file specified for validity.
+    """
+    with open(path_manager.declaration, encoding="utf-8") as f:
+        declaration = json.load(f)
+
+
 commands_dict: dict[str, Callable] = {
     "interactive": interactive,
+    "declare": declare,
     "derive": derive,
+    "lint": lint,
     "plan": plan,
     "schedule": schedule,
     "track": track,

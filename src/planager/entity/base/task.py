@@ -3,6 +3,8 @@ from typing import Any, Literal, Optional
 
 from ...configuration import config
 from ...util import PDate, ProjectID, PTime, TaskID, tabularize
+from ...util.serde.custom_dict_types import TaskDictFullRaw, TaskDictParsed, TaskDictRaw
+from ...util.serde.deserialization import parse_task_dict
 from .entry import Entry
 
 
@@ -19,9 +21,11 @@ class Task:
         name: str,
         project_name: str,
         task_id: TaskID,
-        priority: Optional[int],
+        priority: Optional[float],
         duration: Optional[int],
         dependencies: Optional[set[TaskID]] = None,
+        date_earliest: Optional[PDate] = None,
+        date_latest: Optional[PDate] = None,
         tmpdate: Optional[PDate] = None,
         notes: str = "",
         status: Literal["todo", "done"] = "todo",
@@ -38,6 +42,8 @@ class Task:
         self.priority = config.default_priority if priority is None else priority
         self.duration = config.default_duration if duration is None else duration
         self.dependencies = dependencies or set()
+        self.date_earliest = date_earliest
+        self.date_latest = date_latest
         self.project_order = -1
         self.status = status
         self.blocks = blocks or set()
@@ -49,48 +55,50 @@ class Task:
         self.block_assigned = ""
 
     @classmethod
-    def from_dict(
+    def deserialize(
         cls,
-        task_dict: dict[str, Any],
+        task_dict_raw: TaskDictRaw | TaskDictFullRaw,
         project_id: ProjectID,
         project_name: str,
-        project_priority: Optional[int] = None,
+        project_priority: Optional[float] = None,
         project_duration: Optional[int] = None,
         project_categories: Optional[set[str]] = None,
     ) -> "Task":
         """
         Instantiates from config, json-derived dic, and project information.
         """
+        task_dict: TaskDictParsed = parse_task_dict(task_dict_raw)
 
         def parse_id(s: str) -> TaskID:
             res = re.split(r"\W", s)
             return TaskID(res[0], res[1], res[2])
 
         task_id = project_id.task_id(task_dict["id"])
-        deps_raw = re.split(", ?", task_dict.get("dependencies", ""))
-        cats_raw = re.split(", ?", task_dict.get("categories", ""))
+        priority: float = task_dict.get("priority") or project_priority or config.default_priority
+        duration: int = task_dict.get("duration") or project_duration or config.default_duration
 
         return cls(
             task_dict["name"],
             project_name,
             task_id,
-            priority=int(task_dict.get("priority") or project_priority or config.default_priority),
-            duration=int(task_dict.get("duration") or project_duration or config.default_duration),
-            dependencies=set(map(parse_id, filter(bool, deps_raw))),  # if deps_raw else set(),
-            notes=task_dict.get("notes") or "",
+            priority=priority,
+            duration=duration,
+            notes=task_dict["notes"],
             status=task_dict.get("status") or "todo",
-            categories=set(filter(bool, cats_raw)).union(project_categories or set()),
+            dependencies=task_dict["dependencies"],
+            categories=(task_dict.get("categories") or set()).union(project_categories or set()),
         )
 
-    def from_full_dict(cls, full_dict: dict[str, Any]) -> "Task":
-        return cls.from_dict(
+    def deserialize_from_full(cls, full_dict: TaskDictFullRaw) -> "Task":
+        return cls.deserialize(
             full_dict, ProjectID.from_string(full_dict["project_id"]), full_dict["project_name"]
         )
 
-    def as_dict(self) -> dict[str, Any]:
+    def serialize(self) -> TaskDictFullRaw:
         return {
             "name": self.name,
             "project_name": self.project_name,
+            "project_id": str(self.task_id.project_id),
             "id": str(self.task_id),
             "priority": self.priority,
             "duration": self.duration,

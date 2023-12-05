@@ -5,7 +5,8 @@
             "planager",
             "planager.__main__",
             "planager.cli",
-            "planager.config",
+            "planager.configuration",
+            "planager.declaration",
             "planager.derivation",
             "planager.entity",
             "planager.entity.base",
@@ -28,7 +29,26 @@
             "planager.planager",
             "planager.tracking",
             "planager.tracking.logs",
-            "planager.tracking.tracker"
+            "planager.tracking.tracker",
+            "planager.tracking.tracker_item",
+            "planager.util",
+            "planager.util.color",
+            "planager.util.de_serialization",
+            "planager.util.de_serialization.dict_parsing",
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.display",
+            "planager.util.display.repr",
+            "planager.util.elementary_types",
+            "planager.util.entity_ids",
+            "planager.util.misc",
+            "planager.util.pdatetime",
+            "planager.util.pdatetime.pdate",
+            "planager.util.pdatetime.ptime",
+            "planager.util.prompt",
+            "planager.util.prompt.prompt",
+            "planager.util.regex",
+            "planager.util.shift_declaration",
+            "planager.validation"
         ],
         "name": "__main__",
         "path": null
@@ -37,8 +57,7 @@
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity.base.task",
-            "planager.entity.container.entries"
+            "planager.util"
         ],
         "imports": [
             "planager.planager"
@@ -64,34 +83,46 @@
             "planager.__main__"
         ],
         "imports": [
-            "planager.planager"
+            "planager.planager",
+            "planager.util",
+            "planager.validation"
         ],
         "name": "planager.cli",
         "path": "/home/isaac/Learning/planager-py/src/planager/cli.py"
     },
-    "planager.config": {
+    "planager.configuration": {
         "bacon": 1,
         "imported_by": [
             "__main__",
             "planager.entity.base.calendar",
             "planager.entity.base.entry",
-            "planager.entity.base.plan",
             "planager.entity.base.project",
             "planager.entity.base.roadmap",
             "planager.entity.base.routine",
             "planager.entity.base.schedule",
             "planager.entity.base.task",
-            "planager.entity.container.entries",
             "planager.entity.container.projects",
             "planager.entity.container.roadmaps",
-            "planager.entity.container.routines",
-            "planager.entity.container.schedules",
             "planager.entity.container.tasks",
             "planager.planager",
             "planager.tracking.tracker"
         ],
-        "name": "planager.config",
-        "path": "/home/isaac/Learning/planager-py/src/planager/config.py"
+        "imports": [
+            "planager.util",
+            "planager.util.de_serialization",
+            "planager.util.de_serialization.dict_parsing",
+            "planager.util.de_serialization.dict_typing"
+        ],
+        "name": "planager.configuration",
+        "path": "/home/isaac/Learning/planager-py/src/planager/configuration.py"
+    },
+    "planager.declaration": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__"
+        ],
+        "name": "planager.declaration",
+        "path": "/home/isaac/Learning/planager-py/src/planager/declaration/__init__.py"
     },
     "planager.derivation": {
         "bacon": 1,
@@ -155,11 +186,14 @@
             "planager.entity.base.schedule"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base.entry",
             "planager.entity.container",
             "planager.entity.container.entries",
-            "planager.entity.container.routines"
+            "planager.entity.container.routines",
+            "planager.util",
+            "planager.util.pdatetime",
+            "planager.util.pdatetime.ptime"
         ],
         "name": "planager.entity.base.calendar",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/calendar.py"
@@ -176,7 +210,8 @@
             "planager.entity.container.entries"
         ],
         "imports": [
-            "planager.config"
+            "planager.configuration",
+            "planager.util"
         ],
         "name": "planager.entity.base.entry",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/entry.py"
@@ -189,12 +224,15 @@
             "planager.entity.base.schedule"
         ],
         "imports": [
-            "planager.config",
             "planager.entity.base.calendar",
+            "planager.entity.base.project",
             "planager.entity.base.task",
             "planager.entity.container",
+            "planager.entity.container.roadmaps",
             "planager.entity.container.routines",
-            "planager.entity.container.tasks"
+            "planager.entity.container.tasks",
+            "planager.util",
+            "planager.util.color"
         ],
         "name": "planager.entity.base.plan",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/plan.py"
@@ -204,15 +242,17 @@
         "imported_by": [
             "__main__",
             "planager.entity",
+            "planager.entity.base.plan",
             "planager.entity.base.roadmap",
             "planager.entity.container.projects",
             "planager.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base.task",
             "planager.entity.container",
-            "planager.entity.container.tasks"
+            "planager.entity.container.tasks",
+            "planager.util"
         ],
         "name": "planager.entity.base.project",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/project.py"
@@ -225,11 +265,12 @@
             "planager.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base.project",
             "planager.entity.base.task",
             "planager.entity.container",
-            "planager.entity.container.projects"
+            "planager.entity.container.projects",
+            "planager.util"
         ],
         "name": "planager.entity.base.roadmap",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/roadmap.py"
@@ -242,10 +283,11 @@
             "planager.entity.container.routines"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base.entry",
             "planager.entity.container",
-            "planager.entity.container.entries"
+            "planager.entity.container.entries",
+            "planager.util"
         ],
         "name": "planager.entity.base.routine",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/routine.py"
@@ -258,12 +300,14 @@
             "planager.entity.container.schedules"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base.calendar",
             "planager.entity.base.entry",
             "planager.entity.base.plan",
             "planager.entity.container",
-            "planager.entity.container.entries"
+            "planager.entity.container.entries",
+            "planager.util",
+            "planager.util.color"
         ],
         "name": "planager.entity.base.schedule",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/schedule.py"
@@ -281,9 +325,9 @@
             "planager.entity.container.tasks"
         ],
         "imports": [
-            "planager",
-            "planager.config",
-            "planager.entity.base.entry"
+            "planager.configuration",
+            "planager.entity.base.entry",
+            "planager.util"
         ],
         "name": "planager.entity.base.task",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/task.py"
@@ -315,10 +359,10 @@
             "planager.entity.base.schedule"
         ],
         "imports": [
-            "planager",
-            "planager.config",
             "planager.entity.base",
-            "planager.entity.base.entry"
+            "planager.entity.base.entry",
+            "planager.util",
+            "planager.util.color"
         ],
         "name": "planager.entity.container.entries",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/entries.py"
@@ -332,12 +376,13 @@
             "planager.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base",
             "planager.entity.base.project",
             "planager.entity.base.task",
             "planager.entity.container",
-            "planager.entity.container.tasks"
+            "planager.entity.container.tasks",
+            "planager.util"
         ],
         "name": "planager.entity.container.projects",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/projects.py"
@@ -346,17 +391,19 @@
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity"
+            "planager.entity",
+            "planager.entity.base.plan"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base",
             "planager.entity.base.project",
             "planager.entity.base.roadmap",
             "planager.entity.base.task",
             "planager.entity.container",
             "planager.entity.container.projects",
-            "planager.entity.container.tasks"
+            "planager.entity.container.tasks",
+            "planager.util"
         ],
         "name": "planager.entity.container.roadmaps",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/roadmaps.py"
@@ -370,9 +417,9 @@
             "planager.entity.base.plan"
         ],
         "imports": [
-            "planager.config",
             "planager.entity.base",
-            "planager.entity.base.routine"
+            "planager.entity.base.routine",
+            "planager.util"
         ],
         "name": "planager.entity.container.routines",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/routines.py"
@@ -384,9 +431,9 @@
             "planager.entity"
         ],
         "imports": [
-            "planager.config",
             "planager.entity.base",
-            "planager.entity.base.schedule"
+            "planager.entity.base.schedule",
+            "planager.util"
         ],
         "name": "planager.entity.container.schedules",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/schedules.py"
@@ -402,9 +449,11 @@
             "planager.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.config",
+            "planager.configuration",
             "planager.entity.base",
-            "planager.entity.base.task"
+            "planager.entity.base.task",
+            "planager.util",
+            "planager.util.color"
         ],
         "name": "planager.entity.container.tasks",
         "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/tasks.py"
@@ -426,8 +475,11 @@
             "planager.derivation"
         ],
         "imports": [
-            "planager.config",
-            "planager.entity"
+            "planager.configuration",
+            "planager.entity",
+            "planager.tracking",
+            "planager.util",
+            "planager.util.color"
         ],
         "name": "planager.planager",
         "path": "/home/isaac/Learning/planager-py/src/planager/planager.py"
@@ -435,7 +487,12 @@
     "planager.tracking": {
         "bacon": 1,
         "imported_by": [
-            "__main__"
+            "__main__",
+            "planager.planager"
+        ],
+        "imports": [
+            "planager.tracking.logs",
+            "planager.tracking.tracker"
         ],
         "name": "planager.tracking",
         "path": "/home/isaac/Learning/planager-py/src/planager/tracking/__init__.py"
@@ -443,7 +500,8 @@
     "planager.tracking.logs": {
         "bacon": 1,
         "imported_by": [
-            "__main__"
+            "__main__",
+            "planager.tracking"
         ],
         "name": "planager.tracking.logs",
         "path": "/home/isaac/Learning/planager-py/src/planager/tracking/logs.py"
@@ -451,12 +509,289 @@
     "planager.tracking.tracker": {
         "bacon": 1,
         "imported_by": [
-            "__main__"
+            "__main__",
+            "planager.tracking"
         ],
         "imports": [
-            "planager.config"
+            "planager.configuration",
+            "planager.tracking.tracker_item",
+            "planager.util",
+            "planager.util.de_serialization",
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.prompt"
         ],
         "name": "planager.tracking.tracker",
         "path": "/home/isaac/Learning/planager-py/src/planager/tracking/tracker.py"
+    },
+    "planager.tracking.tracker_item": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.tracking.tracker"
+        ],
+        "imports": [
+            "planager.util",
+            "planager.util.prompt"
+        ],
+        "name": "planager.tracking.tracker_item",
+        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/tracker_item.py"
+    },
+    "planager.util": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.cli",
+            "planager.configuration",
+            "planager.entity.base.calendar",
+            "planager.entity.base.entry",
+            "planager.entity.base.plan",
+            "planager.entity.base.project",
+            "planager.entity.base.roadmap",
+            "planager.entity.base.routine",
+            "planager.entity.base.schedule",
+            "planager.entity.base.task",
+            "planager.entity.container.entries",
+            "planager.entity.container.projects",
+            "planager.entity.container.roadmaps",
+            "planager.entity.container.routines",
+            "planager.entity.container.schedules",
+            "planager.entity.container.tasks",
+            "planager.planager",
+            "planager.tracking.tracker",
+            "planager.tracking.tracker_item",
+            "planager.util",
+            "planager.validation"
+        ],
+        "imports": [
+            "planager",
+            "planager.util",
+            "planager.util.color",
+            "planager.util.display",
+            "planager.util.entity_ids",
+            "planager.util.misc",
+            "planager.util.pdatetime",
+            "planager.util.prompt",
+            "planager.util.regex",
+            "planager.util.shift_declaration"
+        ],
+        "name": "planager.util",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/__init__.py"
+    },
+    "planager.util.color": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity.base.plan",
+            "planager.entity.base.schedule",
+            "planager.entity.container.entries",
+            "planager.entity.container.tasks",
+            "planager.planager",
+            "planager.util"
+        ],
+        "name": "planager.util.color",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/color.py"
+    },
+    "planager.util.de_serialization": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.configuration",
+            "planager.tracking.tracker"
+        ],
+        "name": "planager.util.de_serialization",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/de_serialization/__init__.py"
+    },
+    "planager.util.de_serialization.dict_parsing": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.configuration"
+        ],
+        "imports": [
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.elementary_types",
+            "planager.util.pdatetime",
+            "planager.util.pdatetime.ptime"
+        ],
+        "name": "planager.util.de_serialization.dict_parsing",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/de_serialization/dict_parsing.py"
+    },
+    "planager.util.de_serialization.dict_typing": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.configuration",
+            "planager.tracking.tracker",
+            "planager.util.de_serialization.dict_parsing"
+        ],
+        "imports": [
+            "planager.util.elementary_types",
+            "planager.util.entity_ids",
+            "planager.util.pdatetime",
+            "planager.util.pdatetime.pdate",
+            "planager.util.pdatetime.ptime"
+        ],
+        "name": "planager.util.de_serialization.dict_typing",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/de_serialization/dict_typing.py"
+    },
+    "planager.util.display": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "imports": [
+            "planager.util.display.repr"
+        ],
+        "name": "planager.util.display",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/display/__init__.py"
+    },
+    "planager.util.display.repr": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.display"
+        ],
+        "name": "planager.util.display.repr",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/display/repr.py"
+    },
+    "planager.util.elementary_types": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.de_serialization.dict_parsing",
+            "planager.util.de_serialization.dict_typing"
+        ],
+        "imports": [
+            "planager.util.pdatetime",
+            "planager.util.pdatetime.ptime"
+        ],
+        "name": "planager.util.elementary_types",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/elementary_types.py"
+    },
+    "planager.util.entity_ids": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util",
+            "planager.util.de_serialization.dict_typing"
+        ],
+        "name": "planager.util.entity_ids",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/entity_ids.py"
+    },
+    "planager.util.misc": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "name": "planager.util.misc",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/misc.py"
+    },
+    "planager.util.pdatetime": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity.base.calendar",
+            "planager.util",
+            "planager.util.de_serialization.dict_parsing",
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.elementary_types",
+            "planager.util.prompt.prompt",
+            "planager.util.shift_declaration"
+        ],
+        "imports": [
+            "planager.util.pdatetime.pdate",
+            "planager.util.pdatetime.ptime"
+        ],
+        "name": "planager.util.pdatetime",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/pdatetime/__init__.py"
+    },
+    "planager.util.pdatetime.pdate": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.pdatetime"
+        ],
+        "name": "planager.util.pdatetime.pdate",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/pdatetime/pdate.py"
+    },
+    "planager.util.pdatetime.ptime": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.entity.base.calendar",
+            "planager.util.de_serialization.dict_parsing",
+            "planager.util.de_serialization.dict_typing",
+            "planager.util.elementary_types",
+            "planager.util.pdatetime"
+        ],
+        "name": "planager.util.pdatetime.ptime",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/pdatetime/ptime.py"
+    },
+    "planager.util.prompt": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.tracking.tracker",
+            "planager.tracking.tracker_item",
+            "planager.util"
+        ],
+        "name": "planager.util.prompt",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/prompt/__init__.py"
+    },
+    "planager.util.prompt.prompt": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__"
+        ],
+        "imports": [
+            "planager.util.pdatetime",
+            "typing_extensions"
+        ],
+        "name": "planager.util.prompt.prompt",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/prompt/prompt.py"
+    },
+    "planager.util.regex": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "name": "planager.util.regex",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/regex.py"
+    },
+    "planager.util.shift_declaration": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.util"
+        ],
+        "imports": [
+            "planager.util.pdatetime"
+        ],
+        "name": "planager.util.shift_declaration",
+        "path": "/home/isaac/Learning/planager-py/src/planager/util/shift_declaration.py"
+    },
+    "planager.validation": {
+        "bacon": 1,
+        "imported_by": [
+            "__main__",
+            "planager.cli"
+        ],
+        "imports": [
+            "planager.util"
+        ],
+        "name": "planager.validation",
+        "path": "/home/isaac/Learning/planager-py/src/planager/validation.py"
+    },
+    "typing_extensions": {
+        "bacon": 2,
+        "imported_by": [
+            "planager.util.prompt.prompt"
+        ],
+        "name": "typing_extensions",
+        "path": null
     }
 }

@@ -1,6 +1,8 @@
 import re
 from typing import Any, Iterator, Optional, Union
 
+from planager.util.serde.custom_dict_types import ProjectDictParsed, ProjectDictRaw
+
 from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..container.tasks import Tasks
@@ -17,7 +19,7 @@ class Project:
         name: str,
         project_id: ProjectID,
         tasks: Tasks,
-        priority: Optional[int],
+        priority: Optional[float],
         start: Optional[PDate],
         end: Optional[PDate],
         interval: Optional[int],
@@ -50,7 +52,7 @@ class Project:
             ), f"{self.name}: End date ({self.end}) must be greater than start date ({self.start})."
 
     @classmethod
-    def from_dict(cls, project_id: ProjectID, project_dict: dict[str, Any]) -> "Project":
+    def deserialize(cls, project_id: ProjectID, project_dict: ProjectDictRaw) -> "Project":
         """
         Instantiates from config, json-derived dic, and project information.
         """
@@ -67,7 +69,7 @@ class Project:
         return cls(
             project_dict["name"],
             project_id,
-            tasks=Tasks.from_dict(
+            tasks=Tasks.deserialize(
                 project_dict["tasks"],
                 project_id,
                 project_dict["name"],

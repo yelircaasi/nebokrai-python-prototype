@@ -2,6 +2,7 @@ from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, PTime, color, tabularize
+from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
 from ..container.entries import Entries
 from .calendar import Calendar
 from .entry import Empty, Entry
@@ -47,19 +48,25 @@ class Schedule:
         newschedule.__dict__.update(self.__dict__)
         return newschedule
 
-    def as_dict(self) -> dict[str, Any]:
-        return {"date": str(self.date), "entries": list(map(Entry.as_dict, self.schedule))}
+    def serialize(self) -> ScheduleDictRaw:
+        serialized: ScheduleDictRaw = {
+            "date": str(self.date),
+            "entries": list(map(Entry.serialize, self.entries)),
+        }
+        return serialized
+        # return {"date": str(self.date), "entries": list(map(Entry.serialize, self.schedule))}
+        # return unparse_schedule_dict(parsed)
 
     @classmethod
     def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":
         return cls(date, calendar[date].entries)
 
     @classmethod
-    def from_derivation(cls, schedule_derivation_dict: dict[str, Any]) -> "Schedule":
+    def from_derivation(cls, schedule_derivation_dict: ScheduleDictRaw) -> "Schedule":
         ...  # TODO
         date = PDate(2025, 1, 1)
         schedule_list: list[Entry] = []
-        return Schedule(date, schedule_list) #TODO
+        return Schedule(date, schedule_list)  # TODO
 
     def remove(self, entry: Entry) -> None:
         self.schedule.remove(entry)

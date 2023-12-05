@@ -1,6 +1,7 @@
 from typing import Any, Dict, Optional
 
 from ...util import PDate
+from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
 from ..base.schedule import Schedule
 
 
@@ -13,14 +14,14 @@ class Schedules:
         self._schedules: Dict[PDate, Schedule] = schedules or {}
 
     @classmethod
-    def from_derivation(cls, schedules_derivation_dict: dict[str, Any]) -> "Schedules":
+    def from_derivation(cls, schedules_derivation_dict: ScheduleDictParsed) -> "Schedules":
         ...  # TODO
         schedules_dict: dict[PDate, Schedule] = {}
         scheds = Schedules(schedules_dict)
         return scheds
 
-    def as_dicts(self) -> list[dict[str, dict]]:
-        return list(map(Schedule.as_dict, self._schedules.values()))
+    def serializes(self) -> list[ScheduleDictRaw]:
+        return list(map(Schedule.serialize, self._schedules.values()))
 
     def __len__(self) -> int:
         return len(self._schedules)

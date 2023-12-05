@@ -150,7 +150,25 @@ pipx install planager
 
 ## Roadmap
 
-- [ ] create roadmap :)
-- [ ] re-write in a functional style; 
-  - [ ] all algorithmically interesting methods to their own functions
-  - [ ] make classes handle data and how it is displayed, providing just an interface; all logic should be done in pure functions
+- [x] create roadmap :)
+- [x] re-write in a functional style; 
+  - [x] all algorithmically interesting methods to their own functions (except where there it makes good semantic sense to prefer methods)
+  - [x] make classes handle data and how it is displayed, providing just an interface; all logic should be done in pure functions
+
+mypy errors
+
+- [x] src/planager/cli.py
+- [x] src/planager/entity/container/schedules.py
+- [x] src/planager/entity/base/schedule.py
+- [x] src/planager/entity/base/plan.py
+- [x] src/planager/entity/base/roadmap.py
+- [x] src/planager/entity/base/calendar.py
+- [x] src/planager/entity/container/projects.py
+- [x] src/planager/entity/base/project.py
+- [x] src/planager/entity/base/routine.py
+- [x] src/planager/entity/container/tasks.py
+- [x] src/planager/entity/base/entry.py
+- [x] src/planager/util/serde/deserialization.py
+- [x] src/planager/configuration.py
+- [x] src/planager/util/__init__.py
+- [x] src/planager/util/prompt/prompt.py

@@ -40,7 +40,7 @@ class Planager:
     declaration_edit_time: datetime
     plan_edit_time: datetime
     schedule_edit_time: datetime
-    derivation: dict[str, Any]
+    # derivation:
 
     def __init__(
         self, calendar: Calendar, roadmaps: Roadmaps, routines: Routines, tracker: Tracker
@@ -61,7 +61,7 @@ class Planager:
         self.schedule_edit_time = from_key("schedule_edit_time")
 
     @classmethod
-    def from_json(cls) -> "Planager":
+    def from_json(cls) -> "Planager":  # TODO: move this to init; currently JSON is the One True Way
         """
         Instantiates from declaration.json.
         """
@@ -69,12 +69,15 @@ class Planager:
         with open(path_manager.declaration, encoding="utf-8") as f:
             dec = json.load(f)
 
-        routines = Routines.from_dict(dec["routines"])
-        calendar = Calendar.from_dict(routines, dec["calendar"])
-        roadmaps = Roadmaps.from_dict(dec["roadmaps"])
+        routines = Routines.deserialize(dec["routines"])
+        calendar = Calendar.deserialize(routines, dec["calendar"])
+        roadmaps = Roadmaps.deserialize(dec["roadmaps"])
         tracker = Tracker(dec["tracking"], dec["routines"])
 
         return cls(calendar, roadmaps, routines, tracker)
+
+    def declare_interactive(self) -> None:
+        print("Not yet implemented.")
 
     def derive(self) -> None:
         """
@@ -99,12 +102,12 @@ class Planager:
           functionality for breaking up and reallocating clusters. -> Happens automatically?
         """
 
-        if self.plan_edit_time > self.declaration_edit_time:
-            plan = Plan(
-                calendar=self.calendar,
-            )
-        else:
-            plan = Plan.from_derivation(path_manager.declaration, path_manager.derivation)
+        # if self.plan_edit_time > self.declaration_edit_time:
+        plan = Plan(
+            calendar=self.calendar,
+        )
+        # else:
+        #     plan = Plan.from_derivation(path_manager.declaration, path_manager.derivation)
 
         projects = self.roadmaps.projects
 
@@ -189,7 +192,7 @@ class Planager:
         assert self.plan is not None
         os.rename(path_manager.plan, path_manager.plan_backup)
         with open(path_manager.plan, "w", encoding="utf-8") as f:
-            json.dump(self.plan.as_dict(), f, ensure_ascii=False, indent=4)
+            json.dump(self.plan.serialize(), f, ensure_ascii=False, indent=4)
         with open(path_manager.txt_plan, "w", encoding="utf-8") as f:
             f.write(str(self.plan))
         with open(path_manager.txt_gantt, "w", encoding="utf-8") as f:
@@ -202,7 +205,7 @@ class Planager:
         assert self.schedules is not None
         os.rename(path_manager.schedules, path_manager.schedules_backup)
         with open(path_manager.schedules, "w", encoding="utf-8") as f:
-            json.dump(self.schedules.as_dicts(), f, ensure_ascii=False, indent=4)
+            json.dump(self.schedules.serializes(), f, ensure_ascii=False, indent=4)
         with open(path_manager.txt_schedules, "w", encoding="utf-8") as f:
             f.write(str(self.schedules))
 

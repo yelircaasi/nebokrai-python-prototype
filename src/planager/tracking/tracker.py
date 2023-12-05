@@ -4,7 +4,13 @@ from typing import Any
 from ..configuration import path_manager
 from ..util import PDate, prompt_integer
 from ..util.prompt import prompt_natural_sequence
-from .tracker_item import BoolTrackerItem, TrackerItem, get_tracker_item
+from ..util.serde.custom_dict_types import (
+    ActivityDictRaw,
+    DayLogDictRaw,
+    RoutineDictRaw,
+    RoutinesDictRaw,
+)
+from .tracker_item import TrackerItem
 
 
 class Tracker:
@@ -19,11 +25,11 @@ class Tracker:
         """
         self.activities: list[TrackerItem] = []
         for item_dict in tracking_dict["activities"]:
-            self.activities.append(get_tracker_item(item_dict))
+            self.activities.append(TrackerItem(item_dict))
         self.add_routines(routines_dict)
         self.activities.sort(key=lambda a: (a.order, a.name))
 
-    def add_routines(self, routines_dict: dict[str, dict[str, Any]]) -> None:
+    def add_routines(self, routines_dict: dict[str, RoutineDictRaw]) -> None:
         """
         Adds an item tracker for each item of each routine.
         """
@@ -32,7 +38,7 @@ class Tracker:
             base_order = routine_dict.get("default_order") or 40.0
             for i, item_dict in enumerate(routine_dict["items"]):
                 self.activities.append(
-                    BoolTrackerItem.from_routine_item_dict(
+                    TrackerItem.from_routine_item_dict(
                         item_dict, routine_name, order=base_order + i / 100
                     )
                 )
@@ -60,9 +66,10 @@ class Tracker:
         Records the entire metrics tracked for the day. TODO: make non-destructive for when tracking
           is done multiple times a day.
         """
-        log_dict = {}
+        log_dict: DayLogDictRaw = {}
         for activity in self.activities:
-            log_dict.update(activity.as_log_dict())
+            activity_serialized: ActivityDictRaw = activity.serialize()
+            log_dict.update({activity.name: activity_serialized})
         tracking_path = path_manager.tracking_dir / f"{PDate.today()}.json"
         with open(tracking_path, "w", encoding="utf-8") as f:
             json.dump(log_dict, f, ensure_ascii=False, indent=4)

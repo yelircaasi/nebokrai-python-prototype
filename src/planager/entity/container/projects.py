@@ -2,6 +2,7 @@ from typing import Any, Iterator, Optional, Union
 
 from ...configuration import config
 from ...util import ProjectID, RoadmapID, TaskID, tabularize
+from ...util.serde.custom_dict_types import ProjectDictRaw
 from ..base.project import Project
 from ..base.task import Task
 from ..container.tasks import Tasks
@@ -17,7 +18,9 @@ class Projects:
         self._tasks: Tasks = self._get_tasks()
 
     @classmethod
-    def from_dict(cls, roadmap_id: RoadmapID, projects_dict: dict[str, Any]) -> "Projects":
+    def deserialize(
+        cls, roadmap_id: RoadmapID, projects_dict: dict[str, ProjectDictRaw]
+    ) -> "Projects":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
@@ -27,7 +30,7 @@ class Projects:
         for project_code, project_dict in projects_dict.items():
             project_id = roadmap_id.project_id(project_code)
             if project_dict:
-                projects.add(Project.from_dict(project_id, project_dict))
+                projects.add(Project.deserialize(project_id, project_dict))
 
         return projects
 

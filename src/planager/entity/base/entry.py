@@ -3,6 +3,12 @@ from typing import Any, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PTime, round5, tabularize
+from ...util.serde.custom_dict_types import (
+    EntryDictParsed,
+    EntryDictRaw,
+    RoutineItemDictRaw,
+)
+from ...util.serde.deserialization import parse_entry_dict
 
 
 class Entry:
@@ -23,6 +29,10 @@ class Entry:
         idealtime: Optional[int] = None,
         mintime: Optional[int] = None,
         maxtime: Optional[int] = None,
+        start_earliest: Optional[PTime] = None,
+        start_latest: Optional[PTime] = None,
+        end_earliest: Optional[PTime] = None,
+        end_latest: Optional[PTime] = None,
         ismovable: bool = True,
         alignend: bool = False,
         order: Optional[float] = None,
@@ -60,16 +70,21 @@ class Entry:
         self.mintime: int = mintime or round5(config.default_mintime_factor * self.normaltime)
         self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
         self.end: PTime = end or (self.start + self.normaltime)
+        self.start_earliest = (start_earliest,)
+        self.start_latest = start_latest
+        self.end_earliest = end_earliest
+        self.end_latest = end_latest
         self.alignend: bool = alignend
         self.order: float = config.default_order if order is None else order
-        self.assigned_time: Optional[int] = None
+        self.assigned_time: Optional[PTime] = None
 
     @classmethod
-    def from_dict(cls, entry_dict: dict[str, Any]) -> "Entry":
+    def deserialize(cls, _entry_dict: EntryDictRaw | RoutineItemDictRaw) -> "Entry":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        normaltime = int(entry_dict.get("normaltime", config.default_normaltime))
+        entry_dict: EntryDictParsed = parse_entry_dict(_entry_dict)
+        normaltime: int = entry_dict.get("normaltime", config.default_normaltime)
         idealtime = (
             int(entry_dict["idealtime"])
             if "idealtime" in entry_dict
@@ -80,18 +95,14 @@ class Entry:
 
         return cls(
             entry_dict["name"],
-            PTime.from_string(entry_dict.get("start") or "nonetime"),
-            PTime.from_string(entry_dict.get("end") or "nonetime"),
+            entry_dict.get("start"),
+            entry_dict.get("end"),
             priority=entry_dict["priority"],
-            blocks=set(re.split("[^A-z] ?", entry_dict["blocks"]))
-            if "blocks" in entry_dict
-            else set(),
-            categories=set(re.split("[^A-z] ?", entry_dict["categories"])).union(
-                config.default_categories
-            )
+            blocks=entry_dict["blocks"] if "blocks" in entry_dict else set(),
+            categories=entry_dict["categories"].union(config.default_categories)
             if "categories" in entry_dict
             else set(),
-            notes=entry_dict.get("notes", ""),
+            notes=entry_dict.get("notes") or "",
             normaltime=normaltime,
             idealtime=idealtime,
             mintime=(
@@ -105,18 +116,18 @@ class Entry:
                 else int(config.default_maxtime_factor * normaltime)
             ),
             ismovable=bool_helper[entry_dict.get("ismovable")],
-            alignend=bool_helper[entry_dict.get("alignend")],
+            alignend=entry_dict["alignend"],
             order=entry_dict.get("order") or config.default_order,
         )
 
-    def as_dict(self) -> dict[str, Any]:
+    def serialize(self) -> EntryDictRaw:
         return {
             "name": self.name,
             "start": str(self.start),
             "end": str(self.end),
             "notes": self.notes,
             "subentries": list(
-                map(Entry.as_dict, self.subentries)
+                map(Entry.serialize, self.subentries)
             ),  #: list[Entry] = list(subentries or [])
             "priority": self.priority,
             "blocks": ",".join(self.blocks),
@@ -128,7 +139,7 @@ class Entry:
             "maxtime": self.maxtime,
             "alignend": self.alignend,
             "order": self.order,
-            "assigned_time": self.assigned_time,
+            "assigned_time": str(self.assigned_time or "null"),
         }
 
     @classmethod

@@ -1,6 +1,7 @@
 from typing import Any, Iterable, Iterator, Optional
 
 from ...util import tabularize
+from ...util.serde.custom_dict_types import RoutinesDictRaw
 from ..base.routine import Routine
 
 
@@ -15,14 +16,14 @@ class Routines:
         }
 
     @classmethod
-    def from_dict(cls, routines_dict: dict[str, Any]) -> "Routines":
+    def deserialize(cls, routines_dict: RoutinesDictRaw) -> "Routines":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
 
         routines = []
         for routine_dict in routines_dict.values():
-            routines.append(Routine.from_dict(routine_dict))
+            routines.append(Routine.deserialize(routine_dict))
         return cls(routines)
 
     def add(self, routine: Routine) -> None:
