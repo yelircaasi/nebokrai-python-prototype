@@ -2,8 +2,7 @@ from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, PTime, tabularize
-from ...util.serde.custom_dict_types import EntryDictRaw, RoutineDictRaw
-from ...util.serde.deserialization import parse_routine_dict
+from ...util.serde.custom_dict_types import RoutineDictRaw
 from ..container.entries import Entries
 from .entry import Entry
 

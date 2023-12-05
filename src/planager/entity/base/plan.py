@@ -1,15 +1,13 @@
 import json
 from itertools import chain
 from pathlib import Path
-from typing import Any, Iterable, Iterator
+from typing import Iterable, Iterator
 
-from ...util import PDate, color
-from ...util.serde.custom_dict_types import PlanDictRaw
-from ..container.roadmaps import Roadmaps
+from ...util import PDate
+from ...util.serde.custom_dict_types import DeclarationDictRaw, PlanDictRaw
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .calendar import Calendar
-from .project import Project
 from .task import Task
 
 
@@ -27,21 +25,36 @@ class Plan:
         self.tasks: Tasks = Tasks()
         self.plan_dict: dict[PDate, Tasks] = {date: Tasks() for date in calendar}
 
-    @classmethod
-    def from_declaration(cls, declaration_path: Path) -> "Plan":
-        """
-        Reads a saved plan in .json format.
-        """
-        with open(declaration_path, encoding="utf-8") as f:
-            declaration = json.load(f)
+    def serialize(self) -> PlanDictRaw:
+        return {str(date): tasks.serialize() for date, tasks in self.plan_dict.items()}
 
-        routines = Routines.deserialize(declaration["routines"])
-        calendar_dict = declaration["calendar"]
+    @classmethod
+    def deserialize(
+        cls, declaration_dict: DeclarationDictRaw, plan_derivation_dict: PlanDictRaw
+    ) -> "Plan":
+        """
+        Instantiate Plan object from dictio-ry corresponding to JSON format.
+        """
+        # routines = Routines.deserialize(declaration["routines"])
+        # calendar_dict = declaration["calendar"]
+
+        routines = Routines.deserialize(declaration_dict["routines"])
+        calendar_dict = declaration_dict["calendar"]
+        plan = cls(calendar=Calendar.deserialize(routines, calendar_dict))
+        plan.plan_dict = cls.deserialize_plan_dict(plan_derivation_dict)
+        plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
 
         return cls(calendar=Calendar.deserialize(routines, calendar_dict))
 
-    def serialize(self) -> PlanDictRaw:
-        return {str(date): tasks.serialize() for date, tasks in self.plan_dict.items()}
+    # @classmethod
+    # def from_declaration(cls, declaration_path: Path) -> "Plan":
+    #     """
+    #     Reads a saved plan in .json format.
+    #     """
+    #     with open(declaration_path, encoding="utf-8") as f:
+    #         declaration: DeclarationDictRaw = json.load(f)
+
+    #     return cls.deserialize(declaration)
 
     @classmethod
     def from_derivation(cls, declaration_path: Path, plan_derivation_path: Path) -> "Plan":  # TODO
@@ -51,20 +64,16 @@ class Plan:
         with open(declaration_path, encoding="utf-8") as f:
             declaration = json.load(f)
         with open(plan_derivation_path, encoding="utf-8") as f:
-            plan_derivation_dict = json.load(f)
+            plan_derivation = json.load(f)
 
-        routines = Routines.deserialize(declaration["routines"])
-        calendar_dict = declaration["calendar"]
-        plan = cls(calendar=Calendar.deserialize(routines, calendar_dict))
-        plan.plan_dict = cls.plan_dict_from_derivation(plan_derivation_dict)
-        plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
-
-        return plan
+        return cls.deserialize(declaration, plan_derivation)
 
     @staticmethod
-    def plan_dict_from_derivation(derivation_dict) -> dict[PDate, Tasks]:
-        # TODO
-        return {}
+    def deserialize_plan_dict(plan_derivation_dict: PlanDictRaw) -> dict[PDate, Tasks]:
+        return {
+            PDate.from_string(date): Tasks.deserialize(tasks)
+            for date, tasks in plan_derivation_dict.items()
+        }
 
     @property
     def inverse(self) -> dict[Task, PDate]:
@@ -157,12 +166,12 @@ class Plan:
                 grid[pnum][dnum] = symbol
 
         # import pdb; pdb.set_trace()
-        lines = list(map(lambda x: "".join(x), grid))
+        lines = list(map("".join, grid))
         line_tuples = sorted(
             zip(map(format_name, project_names), lines), key=lambda x: x[1], reverse=True
         )
 
-        return "\n".join(map(lambda x: "".join(x), line_tuples))
+        return "\n".join(map("".join, line_tuples))
 
     def __str__(self) -> str:
         def task_repr(task: Task, date: PDate) -> str:
@@ -204,7 +213,10 @@ class Plan:
         newl = "\n"
         return "\n".join(
             [
-                f"{double_line}{str(d)}\n{line}{time_repr(d)}\n\n{newl.join([task_repr(t, d) for t in ids])}\n"
+                (
+                    f"{double_line}{str(d)}\n{line}{time_repr(d)}\n\n"
+                    f"{newl.join([task_repr(t, d) for t in ids])}\n"
+                )
                 for d, ids in self.items()
             ]
         )

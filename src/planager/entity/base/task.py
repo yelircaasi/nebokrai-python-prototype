@@ -1,9 +1,8 @@
-import re
 from typing import Any, Literal, Optional
 
 from ...configuration import config
 from ...util import PDate, ProjectID, PTime, TaskID, tabularize
-from ...util.serde.custom_dict_types import TaskDictFullRaw, TaskDictParsed, TaskDictRaw
+from ...util.serde.custom_dict_types import TaskDictParsed, TaskDictRaw, TaskFullDictRaw
 from ...util.serde.deserialization import parse_task_dict
 from .entry import Entry
 
@@ -57,9 +56,9 @@ class Task:
     @classmethod
     def deserialize(
         cls,
-        task_dict_raw: TaskDictRaw | TaskDictFullRaw,
-        project_id: ProjectID,
-        project_name: str,
+        task_dict_raw: TaskDictRaw | TaskFullDictRaw,
+        project_id: Optional[ProjectID],
+        project_name: Optional[str],
         project_priority: Optional[float] = None,
         project_duration: Optional[int] = None,
         project_categories: Optional[set[str]] = None,
@@ -69,17 +68,18 @@ class Task:
         """
         task_dict: TaskDictParsed = parse_task_dict(task_dict_raw)
 
-        def parse_id(s: str) -> TaskID:
-            res = re.split(r"\W", s)
-            return TaskID(res[0], res[1], res[2])
-
-        task_id = project_id.task_id(task_dict["id"])
+        project_name_str: str = task_dict.get("project_name") or project_name or "?"
+        roadmap_id: str = project_id.roadmap if project_id else "?"
+        project_id_str: str = (
+            project_id.roadmap if project_id else str(task_dict.get("project_id") or "?")
+        )
+        task_id = TaskID(roadmap_id, project_id_str, task_dict["id"])
         priority: float = task_dict.get("priority") or project_priority or config.default_priority
         duration: int = task_dict.get("duration") or project_duration or config.default_duration
 
         return cls(
             task_dict["name"],
-            project_name,
+            project_name_str,
             task_id,
             priority=priority,
             duration=duration,
@@ -89,12 +89,18 @@ class Task:
             categories=(task_dict.get("categories") or set()).union(project_categories or set()),
         )
 
-    def deserialize_from_full(cls, full_dict: TaskDictFullRaw) -> "Task":
-        return cls.deserialize(
-            full_dict, ProjectID.from_string(full_dict["project_id"]), full_dict["project_name"]
+    @classmethod
+    def deserialize_from_full(cls, full_dict: TaskFullDictRaw) -> "Task":
+        """
+        Instantiate Task object from dictio-ry corresponding to JSON format.
+        """
+        project_id_str: Optional[str] = full_dict["project_id"]
+        project_id: Optional[ProjectID] = (
+            ProjectID.from_string(project_id_str) if project_id_str else None
         )
+        return cls.deserialize(full_dict, project_id, full_dict["project_name"])
 
-    def serialize(self) -> TaskDictFullRaw:
+    def serialize(self) -> TaskFullDictRaw:
         return {
             "name": self.name,
             "project_name": self.project_name,

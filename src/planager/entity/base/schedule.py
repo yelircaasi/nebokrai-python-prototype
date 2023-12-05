@@ -1,8 +1,8 @@
-from typing import Any, Callable, Iterable, Optional, Union
+from typing import Callable, Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, PTime, color, tabularize
-from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
+from ...util.serde.custom_dict_types import ScheduleDictRaw
 from ..container.entries import Entries
 from .calendar import Calendar
 from .entry import Empty, Entry
@@ -37,7 +37,7 @@ class Schedule:
             weight_interval_max or config.default_schedule_weight_interval_max
         )
         self.schedule_weight_transform_exponent = (
-            schedule_weight_transform_exponent or config.default_schedule_weight_transform_exponent
+            schedule_weight_transform_exponent or config.default_sched_weight_transform_exp
         )
 
         # record
@@ -49,6 +49,9 @@ class Schedule:
         return newschedule
 
     def serialize(self) -> ScheduleDictRaw:
+        """
+        Serialize contents of the current instance as a JSON-writable dictionary.
+        """
         serialized: ScheduleDictRaw = {
             "date": str(self.date),
             "entries": list(map(Entry.serialize, self.entries)),
@@ -63,7 +66,10 @@ class Schedule:
 
     @classmethod
     def from_derivation(cls, schedule_derivation_dict: ScheduleDictRaw) -> "Schedule":
-        ...  # TODO
+        """
+        Create an instance from the dictionary from derivation/plan.json.
+        """
+        print(schedule_derivation_dict)  # TODO
         date = PDate(2025, 1, 1)
         schedule_list: list[Entry] = []
         return Schedule(date, schedule_list)  # TODO

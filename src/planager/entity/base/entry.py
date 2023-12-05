@@ -1,5 +1,4 @@
-import re
-from typing import Any, Iterable, Optional, Union
+from typing import Iterable, Optional, Union
 
 from ...configuration import config
 from ...util import PTime, round5, tabularize

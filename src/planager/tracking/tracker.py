@@ -1,14 +1,12 @@
 import json
-from typing import Any
 
 from ..configuration import path_manager
-from ..util import PDate, prompt_integer
+from ..util import PDate
 from ..util.prompt import prompt_natural_sequence
 from ..util.serde.custom_dict_types import (
     ActivityDictRaw,
     DayLogDictRaw,
     RoutineDictRaw,
-    RoutinesDictRaw,
 )
 from .tracker_item import TrackerItem
 
@@ -48,6 +46,9 @@ class Tracker:
         self.write()
 
     def prompt_interactively(self) -> None:
+        """
+        Elicit user input for all activities, according to their declared data type and prompt.
+        """
         print("The following tracking items are available:")
         print("\n".join(map(lambda ia: f"  {ia[0]:>2}) {ia[1].name}", enumerate(self.activities))))
         indices = prompt_natural_sequence(

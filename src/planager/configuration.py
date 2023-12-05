@@ -121,7 +121,7 @@ class Config:
     default_project_dates_missing_hashmod: int
     default_schedule_weight_interval_min: float
     default_schedule_weight_interval_max: float
-    default_schedule_weight_transform_exponent: float
+    default_sched_weight_transform_exp: float
 
     default_sleep_delta_min: int
     default_sleep_delta_max: int
@@ -148,7 +148,7 @@ class Config:
         default_project_dates_missing_hashmod: int,
         default_schedule_weight_interval_min: float,
         default_schedule_weight_interval_max: float,
-        default_schedule_weight_transform_exponent: float,
+        default_sched_weight_transform_exp: float,
         default_sleep_priority: float,
         default_sleep_delta_min: int,
         default_sleep_delta_max: int,
@@ -175,7 +175,7 @@ class Config:
         self.default_project_dates_missing_hashmod = default_project_dates_missing_hashmod
         self.default_schedule_weight_interval_min = default_schedule_weight_interval_min
         self.default_schedule_weight_interval_max = default_schedule_weight_interval_max
-        self.default_schedule_weight_transform_exponent = default_schedule_weight_transform_exponent
+        self.default_sched_weight_transform_exp = default_sched_weight_transform_exp
 
         self.default_sleep_priority = default_sleep_priority
         self.default_sleep_delta_min = default_sleep_delta_min
@@ -204,7 +204,7 @@ class Config:
             int(cfg["default_project_dates_missing_hashmod"]),
             float(cfg["default_schedule_weight_interval_min"]),
             float(cfg["default_schedule_weight_interval_max"]),
-            float(cfg["default_schedule_weight_transform_exponent"]),
+            float(cfg["default_sched_weight_transform_exp"]),
             int(cfg["default_sleep_priority"]),
             int(cfg["default_sleep_delta_min"]),
             int(cfg["default_sleep_delta_max"]),
@@ -233,7 +233,7 @@ class Config:
             "default_project_dates_missing_hashmod": self.default_project_dates_missing_hashmod,
             "default_schedule_weight_interval_min": self.default_schedule_weight_interval_min,
             "default_schedule_weight_interval_max": self.default_schedule_weight_interval_max,
-            "default_schedule_weight_transform_exponent": self.default_schedule_weight_transform_exponent,
+            "default_sched_weight_transform_exp": self.default_sched_weight_transform_exp,
             "default_sleep_priority": self.default_sleep_priority,
             "default_sleep_delta_min": self.default_sleep_delta_min,
             "default_sleep_delta_max": self.default_sleep_delta_max,

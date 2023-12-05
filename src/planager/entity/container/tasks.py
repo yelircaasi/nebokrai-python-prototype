@@ -3,8 +3,8 @@ from itertools import chain
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, ProjectID, TaskID, color, tabularize
-from ...util.serde.custom_dict_types import TaskDictFullRaw, TaskDictRaw
+from ...util import PDate, ProjectID, TaskID, tabularize
+from ...util.serde.custom_dict_types import TaskDictRaw, TaskFullDictRaw
 from ..base.task import Task
 
 TaskInitType = Optional[Union[Iterable[Task], dict[TaskID, Task]]]
@@ -38,9 +38,9 @@ class Tasks:
     @classmethod
     def deserialize(
         cls,
-        tasks_dict_list: list[TaskDictRaw],
-        project_id: ProjectID,
-        project_name: str,
+        tasks_dict_list: list[TaskDictRaw] | list[TaskFullDictRaw],
+        project_id: Optional[ProjectID] = None,
+        project_name: Optional[str] = None,
         project_priority: Optional[int] = None,
         project_duration: Optional[int] = None,
         project_categories: Optional[set[str]] = None,
@@ -63,7 +63,7 @@ class Tasks:
         ret = cls(tasks_list)
         return ret
 
-    def serialize(self) -> list[TaskDictFullRaw]:
+    def serialize(self) -> list[TaskFullDictRaw]:
         return list(map(Task.serialize, self._tasks.values()))
 
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
@@ -93,10 +93,15 @@ class Tasks:
         # )
         blocked_tasks = Tasks()
 
+        def block_filter(categories: set[str]) -> Callable[[str], bool]:
+            def inner(block_name: str) -> bool:
+                return (block_name in categories) and (dur <= available_dict[block_name])
+
+            return inner
+
         for task in self._tasks.values():
             dur = task.remaining_duration
-            block_filter = lambda bl: (bl in task.categories) and (dur <= available_dict[bl])
-            block_names = list(filter(block_filter, relevant_block_names))
+            block_names = list(filter(block_filter(task.categories), relevant_block_names))
 
             if block_names and not task.block_assigned:
                 task.block_assigned = (block_name := block_names[0])

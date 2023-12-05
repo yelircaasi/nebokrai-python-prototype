@@ -40,12 +40,13 @@ line-length = 100
 disable = [
     "C0114", 
     "R0902", 
+    "R0903",
     "R0904", 
     "R0913", 
     "R0914", 
     "W0511"
 ]
-no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main"
+no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main|parse_|.*?Raw|.*?Parsed"
 docstring-min-length = 3
 
 [tool.isort]

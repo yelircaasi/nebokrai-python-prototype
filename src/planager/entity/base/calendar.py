@@ -4,13 +4,10 @@ from ...configuration import config
 from ...util import PDate, tabularize
 from ...util.pdatetime.ptime import PTime
 from ...util.serde.custom_dict_types import (
-    CalendarDictParsed,
     CalendarDictRaw,
     DayDictRaw,
-    RoutineInCalendarDictRaw,
     RoutinesInCalendarDictRaw,
 )
-from ...util.serde.deserialization import parse_entry_dict
 from ..container.entries import Entries
 from ..container.routines import Routines
 from .entry import Entry

@@ -7,32 +7,22 @@ from ..elementary_types import (
     StatusLiteral,
     T,
     TimeAmountRaw,
+    TimedDistance,
+    TimedDistanceWithElevation,
     TrackingActivityType,
     WeekdayLiteral,
 )
-from ..entity_ids import TaskID
+from ..entity_ids import ProjectID, TaskID
 from ..pdatetime.pdate import PDate
 from ..pdatetime.ptime import PTime
 
 RoutinesDictRaw = dict[str, "RoutineDictRaw"]
 RoutinesDictParsed = dict[str, "RoutineDictParsed"]
-PlanDictRaw = dict[str, list["TaskDictFullRaw"]]
+PlanDictRaw = dict[str, list["TaskFullDictRaw"]]
 PlanDictParsed = dict[PDate, "PlanTaskParsed"]
 RoadmapsDictRaw = dict[str, "RoadmapDictRaw"]
 RoadmapsDictParsed = dict[str, "RoadmapDictParsed"]
 RoutinesInCalendarDictRaw = dict[str, "RoutineInCalendarDictRaw"]
-
-
-class TimedDistance(TypedDict):
-    seconds: float
-    kilometers: float
-
-
-class TimedDistanceWithElevation(TypedDict):
-    seconds: float
-    kilometers: float
-    up: float
-    down: float
 
 
 PromptResponseType = Union[
@@ -44,6 +34,11 @@ RawPromptResponseType = Union[
 
 
 class PromptResponseParserDispatcher(TypedDict):
+    """
+    Implementation of (quasi) strategy pattern for dynamic selection of parser for different
+      response types.
+    """
+
     boolean: Callable[[str], bool]
     natural: Callable[[Natural], Natural]
     natural_sequence: Callable[[list[Natural]], list[Natural]]
@@ -59,6 +54,10 @@ class PromptResponseParserDispatcher(TypedDict):
 
 
 class DeclarationDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read declaration.json file.
+    """
+
     config: "ConfigDictRaw"
     routines: "RoutinesDictRaw"
     tracking: "TrackingDictRaw"
@@ -67,6 +66,10 @@ class DeclarationDictRaw(TypedDict):
 
 
 class DeclarationDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read and type-converted declaration.json file.
+    """
+
     config: "ConfigDictParsed"
     routines: "RoutinesDictParsed"
     tracking: "TrackingDictParsed"
@@ -75,6 +78,10 @@ class DeclarationDictParsed(TypedDict):
 
 
 class ConfigDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read 'config' subdict of a declaration.json file.
+    """
+
     repr_width: int
     default_duration: int
     default_priority: float
@@ -96,12 +103,17 @@ class ConfigDictRaw(TypedDict):
     default_project_dates_missing_hashmod: int
     default_schedule_weight_interval_min: float
     default_schedule_weight_interval_max: float
-    default_schedule_weight_transform_exponent: float
+    default_sched_weight_transform_exp: float
     default_sleep_delta_min: int
     default_sleep_delta_max: int
 
 
 class ConfigDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read and type-converted 'config' subdict of a
+      declaration.json file.
+    """
+
     repr_width: int
     default_duration: int
     default_priority: float
@@ -123,12 +135,17 @@ class ConfigDictParsed(TypedDict):
     default_project_dates_missing_hashmod: int
     default_schedule_weight_interval_min: float
     default_schedule_weight_interval_max: float
-    default_schedule_weight_transform_exponent: float
+    default_sched_weight_transform_exp: float
     default_sleep_delta_min: int
     default_sleep_delta_max: int
 
 
 class RoutineDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read routine subdict of the 'routines' subdict of a
+      declaration.json file.
+    """
+
     name: str
     default_start: str
     default_priority: float
@@ -143,6 +160,11 @@ class RoutineDictRaw(TypedDict):
 
 
 class RoutineDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read routine subdict of the 'routines' subdict of a
+      declaration.json file.
+    """
+
     name: str
     default_start: PTime
     default_priority: float
@@ -157,6 +179,11 @@ class RoutineDictParsed(TypedDict):
 
 
 class RoutineItemDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read item dict of the 'routine' subdict of a
+      declaration.json file.
+    """
+
     name: str
     id: str
     priority: float
@@ -183,14 +210,28 @@ RoutineItemDictParsed = RoutineItemDictRaw
 
 
 class TrackingDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read 'tracking' subdict of a declaration.json file.
+    """
+
     activities: list["ActivityDictRaw"]
 
 
 class TrackingDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read and type-converted 'tracking' subdict of a
+      declaration.json file.
+    """
+
     activities: list["ActivityDictParsed"]
 
 
 class ActivityDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read activity subdict of 'tracking' subdict of a
+      declaration.json file.
+    """
+
     name: str
     dtype: PromptTypeName
     desirable: DesirabilityString
@@ -201,6 +242,11 @@ class ActivityDictRaw(TypedDict):
 
 
 class ActivityDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read and type-converted activity subdict of the 'tracking'
+      subdict of a declaration.json file.
+    """
+
     name: str
     dtype: PromptTypeName
     desirable: DesirabilityString
@@ -211,6 +257,11 @@ class ActivityDictParsed(TypedDict):
 
 
 class PromptDispatcherType(TypedDict):
+    """
+    Implementation of (quasi) strategy pattern for dynamic selection of prompter, according to
+      data type specified for a given activity.
+    """
+
     sequence: Callable[[str, str, PromptTypeName], list]
     time: Callable[[str, str, str], PTime]
     integer: Callable[[str, str, str], int]
@@ -225,6 +276,10 @@ class PromptDispatcherType(TypedDict):
 
 
 class CalendarDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read 'calendar' subdict a declaration.json file.
+    """
+
     days: dict[str, "DayDictRaw"]
 
 
@@ -233,6 +288,11 @@ class CalendarDictParsed(TypedDict):
 
 
 class DayDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read day subdict of a 'calendar' subdict a
+      declaration.json file.
+    """
+
     start: str
     end: str
     weekday: WeekdayLiteral
@@ -357,6 +417,8 @@ class ProjectDictParsed(TypedDict):
 class TaskDictRaw(TypedDict):
     name: str
     id: str
+    project_id: NotRequired[Optional[str]]
+    project_name: NotRequired[Optional[str]]
     priority: NotRequired[float]
     status: NotRequired[StatusLiteral]
     duration: NotRequired[int]
@@ -365,14 +427,14 @@ class TaskDictRaw(TypedDict):
     notes: NotRequired[str]
 
 
-class TaskDictFullRaw(TypedDict):
+class TaskFullDictRaw(TypedDict):
     name: str
     id: str
     priority: float
+    project_id: Optional[str]
+    project_name: Optional[str]
     status: StatusLiteral
     duration: int
-    project_id: str
-    project_name: str
     dependencies: str
     notes: str
     categories: str
@@ -381,6 +443,8 @@ class TaskDictFullRaw(TypedDict):
 class TaskDictParsed(TypedDict):
     name: str
     id: str
+    project_id: Optional[ProjectID]
+    project_name: Optional[str]
     priority: Optional[float]
     status: Optional[StatusLiteral]
     notes: str

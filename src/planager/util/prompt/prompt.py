@@ -1,7 +1,5 @@
 import re
-from typing import Any, Callable, Iterable, Union
-
-from typing_extensions import TypedDict
+from typing import Any, Callable, Iterable
 
 from ..elementary_types import Natural, PromptTypeName, TrackingActivityType
 from ..pdatetime import PTime
@@ -101,7 +99,7 @@ def prompt_natural_sequence(
     while not isvalid:
         try:
             input_str = input(prompt_message).strip()
-            if re.match("\d\d?-\d\d?$", input_str):
+            if re.match(r"\d\d?-\d\d?$", input_str):
                 start, end = input_str.split("-")[:2]
                 return list(range(int(start), int(end) + 1))
             value = list(map(int, re.split("[, ]+", input_str)))
@@ -147,7 +145,9 @@ def prompt_numerical(
 
 def prompt_time_amount(
     prompt_message: str,
-    invalid_input_message: str = "Please enter either a number of seconds or a time duration in the form of `mm:ss`.",
+    invalid_input_message: str = (
+        "Please enter either a number of seconds or a time duration in the form of `mm:ss`."
+    ),
     _: str = "",
 ) -> float:
     """
@@ -158,8 +158,8 @@ def prompt_time_amount(
         try:
             string_value = (input(prompt_message)).strip()
             if ":" in string_value:
-                min, sec = string_value.split(":")[:2]
-                value = 60 * float(min) + float(sec)
+                mins, secs = string_value.split(":")[:2]
+                value = 60 * float(mins) + float(secs)
             else:
                 value = float(string_value)
             isvalid = True
@@ -170,6 +170,9 @@ def prompt_time_amount(
 
 
 def prompt_timed_distance(prompt_message: str, _1: str = "", _2: str = "") -> TimedDistance:
+    """
+    Interactively solicit distance and time, e.g. of a run/walk.
+    """
     print(prompt_message)
     distance: float = prompt_numerical("Distance: ")
     seconds: float = prompt_time_amount("Time: ")
@@ -179,6 +182,10 @@ def prompt_timed_distance(prompt_message: str, _1: str = "", _2: str = "") -> Ti
 def prompt_timed_distance_with_elevation(
     prompt_message: str, _1: str = "", _2: str = ""
 ) -> TimedDistanceWithElevation:
+    """
+    Interactively solicit distance, time, elevaition gain, and elevation loss, e.g. of a run/walk.
+    """
+
     print(prompt_message)
     distance = prompt_numerical("Distance: ")
     time_seconds = prompt_time_amount("Time: ")
@@ -211,12 +218,12 @@ def prompt_typed_list(
     print(f"Enter {quit_string} when you are finished.")
     prompt_function = simple_prompt_functions[item_type]
 
-    quit = False
-    while not quit:
+    quit_loop = False
+    while not quit_loop:
         response = prompt_function(prompt_message)
-        if not quit:
+        if not quit_loop:
             responses.append(response)
-        quit = (
+        quit_loop = (
             str(input(f"Type '{quit_string}' to quit; leave empty to continue.")).strip().lower()
             == quit_string
         )

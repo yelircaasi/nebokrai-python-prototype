@@ -1,6 +1,5 @@
 import json
 import os
-import re
 from datetime import datetime
 from typing import Any, Optional, Union
 
@@ -200,7 +199,8 @@ class Planager:
 
     def save_schedules(self) -> None:
         """
-        Writes schedules to $PLANAGER_ROOT/derivation/schedules.json and backs up the last schedules file.
+        Writes schedules to $PLANAGER_ROOT/derivation/schedules.json and backs up the last
+          schedules file.
         """
         assert self.schedules is not None
         os.rename(path_manager.schedules, path_manager.schedules_backup)

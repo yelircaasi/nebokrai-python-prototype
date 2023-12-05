@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Iterator, Optional, Union
+from typing import Iterator, Optional, Union
 
 from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize

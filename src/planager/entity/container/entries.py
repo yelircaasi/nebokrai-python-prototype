@@ -2,7 +2,7 @@ import itertools
 import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
-from ...util import PTime, color
+from ...util import PTime
 from ..base.entry import Empty, Entry
 
 EntriesInitType = Optional[Union["Entries", Iterable[Entry]]]

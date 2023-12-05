@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Iterator, List, Optional, Tuple
+from typing import Iterable, Iterator, List, Optional, Tuple
 
 from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize

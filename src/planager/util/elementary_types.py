@@ -1,9 +1,9 @@
-import re
 from dataclasses import dataclass
-from typing import Annotated, Callable, Iterable, Literal, Protocol, TypeVar, Union
+from typing import Annotated, Literal, Protocol, TypedDict, TypeVar, Union
 
 from .pdatetime.ptime import PTime
-from .serde.custom_dict_types import TimedDistance
+
+# from .serde.custom_dict_types import TimedDistance
 
 T = TypeVar("T")
 
@@ -24,6 +24,7 @@ class BaseMetadata:
     __slots__ = ()
 
 
+@dataclass(frozen=True)
 class Ge(BaseMetadata):
     """Ge(ge=x) implies that the value must be greater than or equal to x.
 
@@ -32,6 +33,27 @@ class Ge(BaseMetadata):
     """
 
     ge: SupportsGe
+
+
+class TimedDistance(TypedDict):
+    """
+    Data type intended primarily for recording run/walk information.
+    """
+
+    seconds: float
+    kilometers: float
+
+
+class TimedDistanceWithElevation(TypedDict):
+    """
+    Data type intended primarily for recording run/walk information, with positive and negative
+      elevation recorded separately.
+    """
+
+    seconds: float
+    kilometers: float
+    up: float
+    down: float
 
 
 DesirabilityString = Literal["yes", "no"]

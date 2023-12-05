@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 from typing import Callable
 
 from .planager import Planager, path_manager
@@ -17,27 +16,42 @@ def interactive() -> None:
 
 
 def validate() -> None:
+    """
+    CLI to validate the data found in the planager root folder. Non-destructive.
+    """
     validate_declaration(path_manager.declaration)
 
 
 def declare() -> None:
+    """
+    CLI to create or edit the declaration.json file interactively.
+    """
     planager = Planager.from_json()
     planager.declare_interactive()
 
 
 def derive() -> None:
+    """
+    CLI to derive and write the plan and schedules from the declaration file.
+    """
     planager = Planager.from_json()
     planager.derive()
     planager.save_derivation()
 
 
 def plan() -> None:
+    """
+    Derive and save only plan.
+    """
     planager = Planager.from_json()
     planager.derive_plan()
     planager.save_plan()
 
 
 def schedule() -> None:
+    """
+    Derive and save only schedule.
+    """
     planager = Planager.from_json()
     planager.derive_schedules()
     planager.save_schedules()
@@ -53,6 +67,9 @@ def track() -> None:
 
 
 def dashboard() -> None:
+    """
+    Show the dashboard, a visualization of the progress one has made.
+    """
     planager = Planager.from_json()
     planager.show_dashboard()
 
@@ -77,6 +94,8 @@ def lint() -> None:
     """
     with open(path_manager.declaration, encoding="utf-8") as f:
         declaration = json.load(f)
+    print(declaration)
+    print("Not yet implemented!")
 
 
 commands_dict: dict[str, Callable] = {

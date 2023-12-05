@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Iterator, Optional
+from typing import Iterable, Iterator, Optional
 
 from ...util import tabularize
 from ...util.serde.custom_dict_types import RoutinesDictRaw

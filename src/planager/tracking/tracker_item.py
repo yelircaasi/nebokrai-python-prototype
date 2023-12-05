@@ -1,6 +1,5 @@
-from typing import Any, Callable, Optional, Protocol, Union
+from typing import Optional, Union
 
-from ..util import PTime
 from ..util.elementary_types import (
     DesirabilityString,
     PromptTypeName,
@@ -23,10 +22,8 @@ from ..util.serde.custom_dict_types import (
     ActivityDictRaw,
     PromptDispatcherType,
     RoutineItemDictRaw,
-    TimedDistance,
-    TimedDistanceWithElevation,
 )
-from ..util.serde.deserialization import parse_activity_dict, parse_day_log
+from ..util.serde.deserialization import parse_activity_dict
 
 JSONDict = dict[str, Union[str, float, list[dict], dict[str, Union[list, dict, float, str]]]]
 
@@ -100,6 +97,7 @@ class TrackerItem:
         _order: Optional[float] = item_dict.get("order", 50.0)
         self.order: float = float(_order or 50.0)
         self.response = None
+        self.items: list[PromptTypeName] = []
 
     @classmethod
     def from_routine_item_dict(
@@ -122,6 +120,9 @@ class TrackerItem:
         return cls(activity_item_dict)
 
     def prompt_interactively(self) -> None:
+        """
+        Master method for interactive prompting, supporting all prompt data types.
+        """
         if self.item_type == "sequence":
             subtype: PromptTypeName = self.items[0] if (self.items) else "natural"
             self.response = prompt_dispatcher[self.item_type](
@@ -133,6 +134,9 @@ class TrackerItem:
             )
 
     def deserialize(self, log_dict: ActivityDictRaw) -> None:
+        """
+        Instantiate from an activity subdict of the 'tracker' subdict of declaration.json.
+        """
         assert self.name == log_dict["name"]
         assert self.item_type == log_dict["dtype"]
         self.response = log_dict.get("response") or self.response
@@ -466,7 +470,7 @@ class TrackerItem:
 #     order: float
 #     response: Any
 
-#     def __init__(self, item_dict: JSONDict) -> None:  # TODO
+#     def __init__(self, item_dict: JSONDict) -> None:
 #         self.name: str = item_dict["name"]
 #         self.prompt: str = item_dict["prompt"].strip() + "  "
 #         self.error_prompt: str = item_dict.get("error_prompt", "")
@@ -491,7 +495,7 @@ class TrackerItem:
 #             prompt_typed_list(self.subitem_type, self.prompt, quit_string=self.quit_string)
 #         )
 
-#     def as_log_dict(self) -> JSONDict:  # TODO
+#     def as_log_dict(self) -> JSONDict:
 #         return {
 #             self.name: [
 #                 subitem if isinstance(subitem, (str, int, float)) else subitem.as_log_dict()

@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Any
 
 from .util.serde.custom_dict_types import (
     CalendarDictRaw,
@@ -11,6 +10,10 @@ from .util.serde.custom_dict_types import (
 
 
 def validate_config(config_dict: ConfigDictRaw) -> None:
+    """
+    Checks 'config' subdict of the declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
     assert set(config_dict.keys()) == {"a", "b"}
     assert isinstance(config_dict["repr_width"], (type(None), int))
     assert isinstance(config_dict["default_duration"], int)
@@ -33,27 +36,46 @@ def validate_config(config_dict: ConfigDictRaw) -> None:
     assert isinstance(config_dict["default_project_dates_missing_hashmod"], int)
     assert isinstance(config_dict["default_schedule_weight_interval_min"], float)
     assert isinstance(config_dict["default_schedule_weight_interval_max"], float)
-    assert isinstance(config_dict["default_schedule_weight_transform_exponent"], int)
+    assert isinstance(config_dict["default_sched_weight_transform_exp"], int)
     assert isinstance(config_dict["default_sleep_delta_min"], int)
     assert isinstance(config_dict["default_sleep_delta_max"], int)
 
 
 def validate_routines(routines_dict: RoutinesDictRaw) -> None:
-    assert set(routines_dict.keys()) == {"", ""}
+    """
+    Checks 'routines' subdict of the declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
+    assert set(routines_dict.keys()) == {"", "."}
 
 
 def validate_tracking(tracking_dict: TrackingDictRaw) -> None:
-    assert set(tracking_dict.keys()) == {"", ""}
+    """
+    Checks 'tracking' subdict of the declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
+    assert set(tracking_dict.keys()) == {"", "."}
 
 
 def validate_calendar(calendar_dict: CalendarDictRaw) -> None:
-    assert set(calendar_dict.keys()) == {"", ""}
+    """
+    Checks 'calendar' subdict of the declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
+    assert set(calendar_dict.keys()) == {"", "."}
 
 
 def validate_roadmaps(roadmaps_dict: RoadmapsDictRaw) -> None:
-    assert set(roadmaps_dict.keys()) == {"", ""}
+    """
+    Checks 'roadmaps' subdict of the declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
+    assert set(roadmaps_dict.keys()) == {"", "."}
 
 
 def validate_declaration(dec_path: Path) -> None:
+    """
+    Checks entire declaration.json file for validity.
+      All attributes must me present and of the proper form.
+    """
     print(f"Validating declaration at {dec_path}.")
-    return None

@@ -1,30 +1,24 @@
 import re
-from dataclasses import dataclass
-from typing import Annotated, Callable, Iterable, Literal, Protocol, TypeVar, Union
+from typing import Iterable
 
 from ...configuration import config
-from ...util.entity_ids import TaskID
+from ...util.entity_ids import ProjectID, TaskID
 from ...util.pdatetime.pdate import PDate
-from ..elementary_types import Natural, T, TimeAmountRaw, TrueString, true_strings
+from ..elementary_types import Natural, T, TimeAmountRaw, true_strings
 from ..pdatetime.ptime import PTime
 from .custom_dict_types import (
     ActivityDictParsed,
     ActivityDictRaw,
     CalendarDictParsed,
     CalendarDictRaw,
-    ConfigDictParsed,
-    ConfigDictRaw,
     DayDictParsed,
     DayDictRaw,
-    DayLogDictParsed,
     DayLogDictRaw,
     DeclarationDictParsed,
     DeclarationDictRaw,
     EntryDictParsed,
     EntryDictRaw,
     PromptResponseParserDispatcher,
-    PromptResponseType,
-    RawPromptResponseType,
     RoadmapDictParsed,
     RoadmapDictRaw,
     RoadmapsDictParsed,
@@ -35,20 +29,15 @@ from .custom_dict_types import (
     RoutineInCalendarDictRaw,
     RoutineItemDictParsed,
     RoutineItemDictRaw,
-    RoutinesDictParsed,
     RoutinesDictRaw,
-    TaskDictFullRaw,
     TaskDictParsed,
     TaskDictRaw,
-    TimedDistance,
-    TimedDistanceWithElevation,
+    TaskFullDictRaw,
     TrackingDictParsed,
     TrackingDictRaw,
 )
-
-
-def split_tag_sequence(tags: str) -> set[str]:
-    return set(re.split(r", ?|,? ", tags))
+from .for_config import parse_config_dict
+from .util import split_tag_sequence
 
 
 def parse_declaration_dict(decl_dict: DeclarationDictRaw) -> DeclarationDictParsed:
@@ -59,38 +48,6 @@ def parse_declaration_dict(decl_dict: DeclarationDictRaw) -> DeclarationDictPars
         "tracking": parse_tracking_dict(decl_dict["tracking"]),
         "calendar": parse_calendar_dict(decl_dict["calendar"]),
         "roadmaps": parse_roadmaps_dict(decl_dict["roadmaps"]),
-    }
-
-
-def parse_config_dict(conf_dict: ConfigDictRaw) -> ConfigDictParsed:
-    """ """
-    return {
-        "repr_width": conf_dict["repr_width"],
-        "default_duration": conf_dict["default_duration"],
-        "default_priority": conf_dict["default_priority"],
-        "default_sleep_priority": conf_dict["default_sleep_priority"],
-        "default_interval": conf_dict["default_interval"],
-        "default_cluster_size": conf_dict["default_cluster_size"],
-        "default_order": conf_dict["default_order"],
-        "default_normaltime": conf_dict["default_normaltime"],
-        "default_idealtime_factor": conf_dict["default_idealtime_factor"],
-        "default_mintime_factor": conf_dict["default_mintime_factor"],
-        "default_maxtime_factor": conf_dict["default_maxtime_factor"],
-        "default_categories": conf_dict["default_categories"],
-        "default_ismovable": conf_dict["default_ismovable"],
-        "default_alignend": conf_dict["default_alignend"],
-        "default_day_start": PTime.from_string(conf_dict["default_day_start"]),
-        "default_day_end": PTime.from_string(conf_dict["default_day_end"]),
-        "default_empty_blocks": split_tag_sequence(conf_dict["default_empty_blocks"]),
-        "default_project_dates_missing_offset": conf_dict["default_project_dates_missing_offset"],
-        "default_project_dates_missing_hashmod": conf_dict["default_project_dates_missing_hashmod"],
-        "default_schedule_weight_interval_min": conf_dict["default_schedule_weight_interval_min"],
-        "default_schedule_weight_interval_max": conf_dict["default_schedule_weight_interval_max"],
-        "default_schedule_weight_transform_exponent": conf_dict[
-            "default_schedule_weight_transform_exponent"
-        ],
-        "default_sleep_delta_min": conf_dict["default_sleep_delta_min"],
-        "default_sleep_delta_max": conf_dict["default_sleep_delta_max"],
     }
 
 
@@ -174,7 +131,7 @@ def parse_calendar_routine(
     }
 
 
-def parse_task_dict(task_dict: TaskDictRaw | TaskDictFullRaw) -> TaskDictParsed:
+def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
     def parse_id(s: str) -> TaskID:
         res = re.split(r"\W", s)
         return TaskID(res[0], res[1], res[2])
@@ -184,13 +141,16 @@ def parse_task_dict(task_dict: TaskDictRaw | TaskDictFullRaw) -> TaskDictParsed:
     dependencies = set(map(parse_id, filter(bool, deps_raw)))
     categories = set(filter(bool, cats_raw)) or set()
 
+    project_id_str = task_dict.get("project_id")
+
     return {
         "name": task_dict["name"],
         "id": task_dict["name"],
+        "project_name": task_dict.get("project_name"),
+        "project_id": ProjectID.from_string(project_id_str) if project_id_str else None,
         "priority": task_dict.get("priority"),  # , config.default_priority),
         "notes": task_dict.get("notes") or "",
         "duration": task_dict.get("duration") or config.default_duration,
-        "status": task_dict.get("status"),
         "status": task_dict.get("status"),
         "dependencies": dependencies,
         "categories": categories,
@@ -226,6 +186,7 @@ def parse_roadmaps_dict(roadmaps_dict: RoadmapsDictRaw) -> RoadmapsDictParsed:
 
 
 def parse_roadmap_dict(roadmap_dict: RoadmapDictRaw) -> RoadmapDictParsed:
+    print(roadmap_dict)
     return {"tmp": "placeholder"}
 
 
@@ -245,6 +206,8 @@ def parse_day_log(log_dict: DayLogDictRaw) -> DayLogDictRaw:
         "timed_distance_with_elevation": identity,
         # "typed_list": parse_typed_list,
     }
+    print(log_dict)
+    print(dispatch)
     return {}
 
 

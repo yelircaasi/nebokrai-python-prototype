@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 
 from ...util import PDate
 from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
@@ -15,7 +15,10 @@ class Schedules:
 
     @classmethod
     def from_derivation(cls, schedules_derivation_dict: ScheduleDictParsed) -> "Schedules":
-        ...  # TODO
+        """
+        Create an instance from the dictionary read from from derivation/schedules.json.
+        """
+        print(schedules_derivation_dict)  # TODO
         schedules_dict: dict[PDate, Schedule] = {}
         scheds = Schedules(schedules_dict)
         return scheds
