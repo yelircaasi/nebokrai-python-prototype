@@ -4,5 +4,5 @@ from ..planager import Planager
 
 
 def derive_from_json() -> "Planager":
-    plgr = Planager.from_json()
+    plgr = Planager()
     return plgr

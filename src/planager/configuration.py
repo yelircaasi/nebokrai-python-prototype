@@ -6,8 +6,7 @@ from pathlib import Path
 from typing import Any, Iterable, Optional, Union
 
 from .util import PTime
-from .util.serde.custom_dict_types import ConfigDictParsed, ConfigDictRaw
-from .util.serde.deserialization import parse_config_dict
+from .util.serde.for_config import ConfigDictParsed, ConfigDictRaw, parse_config_dict
 
 
 class PathManager:  # only supports JSON for now

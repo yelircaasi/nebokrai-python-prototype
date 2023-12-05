@@ -3,7 +3,8 @@ import os
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from .configuration import path_manager
+from . import configuration
+from .configuration import PathManager
 from .entity import (
     Calendar,
     Day,
@@ -29,6 +30,7 @@ class Planager:
     One class to rule them all.
     """
 
+    path_manager: PathManager
     calendar: Calendar
     roadmaps: Roadmaps
     routines: Routines
@@ -42,14 +44,20 @@ class Planager:
     # derivation:
 
     def __init__(
-        self, calendar: Calendar, roadmaps: Roadmaps, routines: Routines, tracker: Tracker
+        self,
+        path_manager_obj: Optional[PathManager] = None,
     ) -> None:
-        self.calendar = calendar
-        self.roadmaps = roadmaps
-        self.routines = routines
-        self.tracker = tracker
+        self.path_manager = path_manager_obj or configuration.path_manager
 
-        with open(path_manager.edit_times, encoding="utf-8") as f:
+        with open(self.path_manager.declaration, encoding="utf-8") as f:
+            dec = json.load(f)
+
+        self.roadmaps = Roadmaps.deserialize(dec["roadmaps"])
+        self.routines = Routines.deserialize(dec["routines"])
+        self.calendar = Calendar.deserialize(self.routines, dec["calendar"])
+        self.tracker = Tracker(dec["tracking"], dec["routines"])
+
+        with open(self.path_manager.edit_times, encoding="utf-8") as f:
             edit_times = json.load(f)
 
         def from_key(k: str) -> datetime:
@@ -58,22 +66,6 @@ class Planager:
         self.declaration_edit_time = from_key("declaration_edit_time")
         self.plan_edit_time = from_key("plan_edit_time")
         self.schedule_edit_time = from_key("schedule_edit_time")
-
-    @classmethod
-    def from_json(cls) -> "Planager":  # TODO: move this to init; currently JSON is the One True Way
-        """
-        Instantiates from declaration.json.
-        """
-
-        with open(path_manager.declaration, encoding="utf-8") as f:
-            dec = json.load(f)
-
-        routines = Routines.deserialize(dec["routines"])
-        calendar = Calendar.deserialize(routines, dec["calendar"])
-        roadmaps = Roadmaps.deserialize(dec["roadmaps"])
-        tracker = Tracker(dec["tracking"], dec["routines"])
-
-        return cls(calendar, roadmaps, routines, tracker)
 
     def declare_interactive(self) -> None:
         print("Not yet implemented.")
@@ -189,12 +181,12 @@ class Planager:
         Writes plan to $PLANAGER_ROOT/derivation/plan.json and backs up the last plan file.
         """
         assert self.plan is not None
-        os.rename(path_manager.plan, path_manager.plan_backup)
-        with open(path_manager.plan, "w", encoding="utf-8") as f:
+        os.rename(self.path_manager.plan, self.path_manager.plan_backup)
+        with open(self.path_manager.plan, "w", encoding="utf-8") as f:
             json.dump(self.plan.serialize(), f, ensure_ascii=False, indent=4)
-        with open(path_manager.txt_plan, "w", encoding="utf-8") as f:
+        with open(self.path_manager.txt_plan, "w", encoding="utf-8") as f:
             f.write(str(self.plan))
-        with open(path_manager.txt_gantt, "w", encoding="utf-8") as f:
+        with open(self.path_manager.txt_gantt, "w", encoding="utf-8") as f:
             f.write(self.plan.gantt_view)
 
     def save_schedules(self) -> None:
@@ -203,10 +195,10 @@ class Planager:
           schedules file.
         """
         assert self.schedules is not None
-        os.rename(path_manager.schedules, path_manager.schedules_backup)
-        with open(path_manager.schedules, "w", encoding="utf-8") as f:
+        os.rename(self.path_manager.schedules, self.path_manager.schedules_backup)
+        with open(self.path_manager.schedules, "w", encoding="utf-8") as f:
             json.dump(self.schedules.serializes(), f, ensure_ascii=False, indent=4)
-        with open(path_manager.txt_schedules, "w", encoding="utf-8") as f:
+        with open(self.path_manager.txt_schedules, "w", encoding="utf-8") as f:
             f.write(str(self.schedules))
 
     def open_plan(self) -> None:
@@ -219,9 +211,8 @@ class Planager:
         print("Not yet finished!")
         self.tracker.record()
 
-    @staticmethod
-    def shift_declaration(ndays: int) -> None:
-        shift_declaration_ndays(path_manager, ndays)
+    def shift_declaration(self, ndays: int) -> None:
+        shift_declaration_ndays(self.path_manager, ndays)
 
     def write_json(self) -> None:
         """

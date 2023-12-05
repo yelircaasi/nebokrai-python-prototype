@@ -103,7 +103,7 @@ class Plan:
         Add an empty Tasks instance to days missing.
         """
         for date in self.start_date.range(self.end_date):
-            if not date in self.plan_dict:
+            if date not in self.plan_dict:
                 self.plan_dict.update({date: Tasks()})
 
     def items(self) -> Iterator[tuple[PDate, Tasks]]:

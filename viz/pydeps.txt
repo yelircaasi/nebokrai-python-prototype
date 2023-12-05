@@ -39,7 +39,8 @@
     "planager": {
         "bacon": 1,
         "imported_by": [
-            "__main__"
+            "__main__",
+            "planager.entity.base.project"
         ],
         "imports": [
             "planager.planager"
@@ -196,10 +197,8 @@
         ],
         "imports": [
             "planager.entity.base.calendar",
-            "planager.entity.base.project",
             "planager.entity.base.task",
             "planager.entity.container",
-            "planager.entity.container.roadmaps",
             "planager.entity.container.routines",
             "planager.entity.container.tasks"
         ],
@@ -211,12 +210,12 @@
         "imported_by": [
             "__main__",
             "planager.entity",
-            "planager.entity.base.plan",
             "planager.entity.base.roadmap",
             "planager.entity.container.projects",
             "planager.entity.container.roadmaps"
         ],
         "imports": [
+            "planager",
             "planager.configuration",
             "planager.entity.base.task",
             "planager.entity.container",
@@ -351,8 +350,7 @@
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.plan"
+            "planager.entity"
         ],
         "imports": [
             "planager.configuration",

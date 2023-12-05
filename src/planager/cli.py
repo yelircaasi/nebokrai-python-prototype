@@ -1,7 +1,8 @@
 import json
 from typing import Callable
 
-from .planager import Planager, path_manager
+from .configuration import path_manager
+from .planager import Planager
 from .util import prompt_integer
 from .validation import validate_declaration
 
@@ -11,7 +12,7 @@ def interactive() -> None:
     Run planager in interactive mode as a CLI.
     """
     print("Welcome to interactive planager.")
-    planager = Planager.from_json()
+    planager = Planager()
     print(planager.summary)
 
 
@@ -26,7 +27,7 @@ def declare() -> None:
     """
     CLI to create or edit the declaration.json file interactively.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     planager.declare_interactive()
 
 
@@ -34,7 +35,7 @@ def derive() -> None:
     """
     CLI to derive and write the plan and schedules from the declaration file.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     planager.derive()
     planager.save_derivation()
 
@@ -43,7 +44,7 @@ def plan() -> None:
     """
     Derive and save only plan.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     planager.derive_plan()
     planager.save_plan()
 
@@ -52,7 +53,7 @@ def schedule() -> None:
     """
     Derive and save only schedule.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     planager.derive_schedules()
     planager.save_schedules()
 
@@ -61,7 +62,7 @@ def track() -> None:
     """
     Enters interactive CLI prompt, allowing the user to track activities.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     print("Welcome to planager tracking.")
     planager.track()
 
@@ -70,7 +71,7 @@ def dashboard() -> None:
     """
     Show the dashboard, a visualization of the progress one has made.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     planager.show_dashboard()
 
 
@@ -78,14 +79,14 @@ def shift() -> None:  # WORKS!
     """
     Adjusts the declaration by shifting activities back a certain number of days.
     """
-    planager = Planager.from_json()
+    planager = Planager()
     print(planager.summary)
     ndays = prompt_integer(
         "How many days would you like to shift the declaration back by? ",
         "Invalid input. Please enter an integer.",
     )
     print(f"Shifting declaration back by {ndays} days...")
-    Planager.shift_declaration(ndays)
+    planager.shift_declaration(ndays)
 
 
 def lint() -> None:
