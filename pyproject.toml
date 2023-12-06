@@ -39,15 +39,7 @@ line-length = 100
 
 [tool.pylint]
 # disable = ["C0114", "R0902", "R0913", "R0914"]
-disable = [
-    "C0114", 
-    "R0902", 
-    "R0903",
-    "R0904", 
-    "R0913", 
-    "R0914", 
-    "W0511"
-]
+disable = ["C0114", "R0902", "R0903", "R0904", "R0913", "R0914", "W0511"]
 no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main|parse_|.*?Raw|.*?Parsed"
 docstring-min-length = 3
 
@@ -57,8 +49,8 @@ profile = "black"
 [tool.flake8]
 max-line-length = 100
 ignore = [
-    "E203",  # whitespace before ':'
-    "W503",  # line break before binary operator
+    "E203", # whitespace before ':'
+    "W503", # line break before binary operator
 ]
 
 [tool.ruff]
@@ -67,3 +59,36 @@ line-length = 100
 [tool.pytest.ini_options]
 testpaths = "test"
 python_classes = "*Test"
+addopts = ["--cov=planager", "--cov-report=html"]
+
+[tool.coverage.run]
+dynamic_context = "test_function"
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+]
+
+# ignore_errors = true
+
+# [tool.coverage.html] https://coverage.readthedocs.io/en/7.3.2/config.html
+# directory = "coverage_html_report"
+# extra_css = ""
+show_contexts = true
+skip_covered = true
+skip_empty = true
+# title = ""
