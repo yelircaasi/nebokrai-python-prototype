@@ -132,8 +132,8 @@ class Day:
             routine_name = routine_spec["name"]
 
             routine_entry = routines[routine_name].as_entry(
-                start=PTime.ensure_is_ptime(
-                    routine_spec.get("start") or routines[routine_name].start
+                start=PTime.from_string(
+                    routine_spec.get("start") or str(routines[routine_name].start)
                 ),
                 priority=int(routine_spec.get("priority") or routines[routine_name].priority),
                 normaltime=int(routine_spec.get("normaltime") or routines[routine_name].normaltime),

@@ -39,7 +39,17 @@ line-length = 100
 
 [tool.pylint]
 # disable = ["C0114", "R0902", "R0913", "R0914"]
-disable = ["C0114", "R0902", "R0903", "R0904", "R0913", "R0914", "W0511"]
+disable = [
+    "C0114",
+    "C0325",
+    "R0801", # in practice: toggle on and off, but usually annoying and not in line with what I want
+    "R0902", 
+    "R0903", 
+    "R0904", 
+    "R0913", 
+    "R0914", 
+    "W0511"
+]
 no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main|parse_|.*?Raw|.*?Parsed"
 docstring-min-length = 3
 
@@ -59,7 +69,7 @@ line-length = 100
 [tool.pytest.ini_options]
 testpaths = "test"
 python_classes = "*Test"
-addopts = ["--cov=planager", "--cov-report=html"]
+addopts = ["--cov=planager", "--cov-report", "html", "--cov-report", "term"]
 
 [tool.coverage.run]
 dynamic_context = "test_function"
@@ -85,10 +95,10 @@ exclude_also = [
 
 # ignore_errors = true
 
-# [tool.coverage.html] https://coverage.readthedocs.io/en/7.3.2/config.html
+[tool.coverage.html] # https://coverage.readthedocs.io/en/7.3.2/config.html
 # directory = "coverage_html_report"
 # extra_css = ""
 show_contexts = true
-skip_covered = true
+# skip_covered = true
 skip_empty = true
 # title = ""

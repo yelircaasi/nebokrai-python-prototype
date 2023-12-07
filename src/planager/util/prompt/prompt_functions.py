@@ -5,6 +5,9 @@ from ..elementary_types import Natural, PromptTypeName, TrackingActivityType
 from ..pdatetime import PTime
 from ..serde.custom_dict_types import TimedDistance, TimedDistanceWithElevation
 
+# def prompt_by_type(prompt_type: PromptTypeName) -> TrackingActivityType:
+#     ...
+
 
 def prompt_integer(
     prompt_message: str,
@@ -229,3 +232,19 @@ def prompt_typed_list(
         )
 
     return responses
+
+
+# prompt_dispatcher: PromptDispatcherType = {
+#     "sequence": prompt_typed_list,
+#     "time": prompt_time,
+#     "integer": prompt_integer,
+#     "float": prompt_integer,
+#     "integer_sequence": prompt_integer_sequence,
+#     "natural": prompt_natural,
+#     "time_amount": prompt_time_amount,
+#     "boolean": prompt_boolean,
+#     "natural_sequence": prompt_natural_sequence,
+#     "text": prompt_text,
+#     "timed_distance": prompt_timed_distance,
+#     "timed_distance_with_elevation": prompt_timed_distance_with_elevation,
+# }

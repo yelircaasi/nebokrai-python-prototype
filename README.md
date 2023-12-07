@@ -172,3 +172,5 @@ mypy errors
 - [x] src/planager/configuration.py
 - [x] src/planager/util/__init__.py
 - [x] src/planager/util/prompt/prompt.py
+
+- [ ] re-wite in Rust with WASM (or Janet/Lua/Fennel/Teal?) plugin system -> https://nullderef.com/series/rust-plugins/

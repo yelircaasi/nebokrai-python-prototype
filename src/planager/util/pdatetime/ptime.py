@@ -15,53 +15,55 @@ class PTime:
 
     @classmethod
     def from_string(cls, date_string: Optional[str]) -> "PTime":
-        assert isinstance(date_string, str)
-        if not date_string:
-            res = cls()
-            res.isblank = True
-            return res
+        assert isinstance(
+            date_string, str
+        ), f"Argument to PTime.from_string must be str, not '{type(date_string)}'."
         if date_string.lower().startswith("none"):
             return PTime.nonetime()
-        hour, minute = map(int, date_string.split(":")[:2])
+        substrings = date_string.split(":")
+        assert (
+            len(substrings) == 2
+        ), f"Argument to PTime.from_string must have exactly one colon. Given: '{date_string}'."
+        hour, minute = map(int, substrings)
         return cls(hour, minute)
 
-    @classmethod
-    def ensure_is_ptime(
-        cls,
-        candidate: Any,
-        default: Optional["PTime"] = None,
-    ) -> "PTime":
-        """
-        Converts values of several types into the corresponding PTime
-        """
-        if (candidate is None) and default:
-            return default
-        if isinstance(candidate, PTime):
-            return candidate
-        if isinstance(candidate, str):
-            if not candidate.strip():
-                pass
-            try:
-                return PTime.from_string(candidate)
-            except AssertionError:
-                pass
-        elif isinstance(candidate, tuple):
-            try:
-                assert len(candidate) == 2
-                hour, minute = map(int, candidate)
-                return PTime(hour, minute)
-            except AssertionError:
-                pass
-        elif isinstance(candidate, int):
-            try:
-                return PTime(candidate)
-            except ValueError:
-                pass
-        else:
-            pass
-        if isinstance(default, PTime):
-            return default
-        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
+    # @classmethod
+    # def ensure_is_ptime(
+    #     cls,
+    #     candidate: Any,
+    #     default: Optional["PTime"] = None,
+    # ) -> "PTime":
+    #     """
+    #     Converts values of several types into the corresponding PTime
+    #     """
+    #     if (candidate is None) and default:
+    #         return default
+    #     if isinstance(candidate, PTime):
+    #         return candidate
+    #     if isinstance(candidate, str):
+    #         if not candidate.strip():
+    #             pass
+    #         try:
+    #             return PTime.from_string(candidate)
+    #         except AssertionError:
+    #             pass
+    #     elif isinstance(candidate, tuple):
+    #         try:
+    #             assert len(candidate) == 2
+    #             hour, minute = map(int, candidate)
+    #             return PTime(hour, minute)
+    #         except AssertionError:
+    #             pass
+    #     elif isinstance(candidate, int):
+    #         try:
+    #             return PTime(candidate)
+    #         except ValueError:
+    #             pass
+    #     else:
+    #         pass
+    #     if isinstance(default, PTime):
+    #         return default
+    #     raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
 
     def __bool__(self):
         return not self.isblank
@@ -132,7 +134,7 @@ class NoneTime(PTime):
     def __add__(self, _: Any) -> "NoneTime":
         return NoneTime()
 
-    def __subtract__(self, _: Any) -> "NoneTime":
+    def __sub__(self, _: Any) -> "NoneTime":
         return NoneTime()
 
     def __eq__(self, __other: Any) -> bool:
@@ -145,10 +147,10 @@ class NoneTime(PTime):
         return False
 
     def __le__(self, __other: Any) -> bool:
-        return True
+        return False
 
     def __ge__(self, __other: Any) -> bool:
-        return True
+        return False
 
     def __repr__(self) -> str:
         return self.__str__()

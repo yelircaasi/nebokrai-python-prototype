@@ -3,7 +3,7 @@ from typing import Callable
 
 from .configuration import path_manager
 from .planager import Planager
-from .util import prompt_integer
+from .util.prompt.prompt_functions import prompt_integer
 from .validation import validate_declaration
 
 

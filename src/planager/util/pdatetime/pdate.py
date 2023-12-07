@@ -1,6 +1,6 @@
 import re
 from datetime import date
-from typing import Any, Optional, Union
+from typing import Any, Union
 
 
 class PDate:
@@ -17,43 +17,43 @@ class PDate:
         self._day = day
         self._date = date(year, month, day)
 
-    @classmethod
-    def ensure_is_pdate(
-        cls,
-        candidate: Any,
-        default: Optional["PDate"] = None,
-    ) -> "PDate":
-        """
-        Converts values of several types into the corresponding PDate
-        """
+    # @classmethod
+    # def ensure_is_pdate(
+    #     cls,
+    #     candidate: Union["PDate", str, tuple[str], int, ],
+    #     default: Optional["PDate"] = None,
+    # ) -> "PDate":
+    #     """
+    #     Converts values of several types into the corresponding PDate
+    #     """
 
-        if not candidate:
-            pass
-        elif isinstance(candidate, PDate):
-            return candidate
-        elif isinstance(candidate, str):
-            if not candidate.strip():
-                pass
-            elif candidate.startswith("in"):
-                return PDate.today() + int(candidate.replace("in", ""))
-            try:
-                return PDate.from_string(candidate)
-            except AssertionError:
-                pass
-        elif isinstance(candidate, tuple):
-            try:
-                return PDate(*map(int, candidate))
-            except AssertionError:
-                pass
-        elif isinstance(candidate, int):
-            return PDate.today() + candidate
-        else:
-            pass
+    #     if not candidate:
+    #         pass
+    #     elif isinstance(candidate, PDate):
+    #         return candidate
+    #     elif isinstance(candidate, str):
+    #         if not candidate.strip():
+    #             pass
+    #         elif candidate.startswith("in"):
+    #             return PDate.today() + int(candidate.replace("in", ""))
+    #         try:
+    #             return PDate.from_string(candidate)
+    #         except AssertionError:
+    #             pass
+    #     elif isinstance(candidate, tuple):
+    #         try:
+    #             return PDate(*map(int, candidate))
+    #         except AssertionError:
+    #             pass
+    #     elif isinstance(candidate, int):
+    #         return PDate.today() + candidate
+    #     else:
+    #         pass
 
-        if default is not None:
-            return default
+    #     if default is not None:
+    #         return default
 
-        raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
+    #     raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
 
     @property
     def year(self) -> int:
@@ -89,11 +89,15 @@ class PDate:
 
     @classmethod
     def from_string(cls, date_str: str) -> "PDate":
+        if not isinstance(date_str, str):
+            raise TypeError(
+                f"Invalid type for PDate.from_string: '{type(date_str)}' (value: '{date_str}')."
+            )
         result = re.search(cls.date_regex, str(date_str))
         if result:
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
-        raise ValueError(f"Invalid string for conversion to PDate: {date_str}")
+        raise ValueError(f"Invalid string for conversion to PDate: '{date_str}'.")
 
     def toordinal(self) -> int:
         return self._date.toordinal()
@@ -163,11 +167,14 @@ class PDate:
         """
         Returns a list of consecutive days, default inclusive. Supports reverse-order ranges.
         """
+        inclusive = inclusive and (self != end) and (end != 0)
+
         date1 = self.copy()
         if isinstance(end, int):
             date2 = date1 + end
         else:
             date2 = end
+
         reverse: bool = False
 
         if date1 > date2:
@@ -175,7 +182,10 @@ class PDate:
             reverse = True
 
         if not inclusive:
-            date2 -= 1
+            if not reverse:
+                date2 -= 1
+            else:
+                date1 += 1
 
         date_i = date1
         dates = [date_i]
@@ -199,7 +209,9 @@ class PDate:
     def __hash__(self) -> int:
         return hash((self.year, self.month, self.day))
 
-    def __eq__(self, __other: Any) -> bool:
+    def __eq__(self, __other: object) -> bool:
+        if not isinstance(__other, (date, PDate)):
+            return False
         return (self.year, self.month, self.day) == (
             __other.year,
             __other.month,
@@ -207,15 +219,23 @@ class PDate:
         )
 
     def __lt__(self, __other: Any) -> bool:
+        if isinstance(__other, NoneDate):
+            return False
         return self.__int__() < int(__other)
 
     def __gt__(self, __other: Any) -> bool:
+        if isinstance(__other, NoneDate):
+            return False
         return self.__int__() > int(__other)
 
     def __le__(self, __other: Any) -> bool:
+        if isinstance(__other, NoneDate):
+            return False
         return self.__int__() <= int(__other)
 
     def __ge__(self, __other: Any) -> bool:
+        if isinstance(__other, NoneDate):
+            return False
         return self.__int__() >= int(__other)
 
     def __str__(self) -> str:
@@ -236,7 +256,7 @@ class NoneDate(PDate):
     def __bool__(self) -> bool:
         return False
 
-    def __eq__(self, __other: Any) -> bool:
+    def __eq__(self, __other: object) -> bool:
         return isinstance(__other, NoneDate)
         # return (self.year, self.month, self.day) == (
         #     __other.year,
@@ -244,14 +264,20 @@ class NoneDate(PDate):
         #     __other.day,
         # )
 
-    def __lt__(self, __other: Any) -> bool:
+    def __lt__(self, __other: object) -> bool:
         return False
 
-    def __gt__(self, __other: Any) -> bool:
+    def __gt__(self, __other: object) -> bool:
         return False
 
-    def __le__(self, __other: Any) -> bool:
-        return True
+    def __le__(self, __other: object) -> bool:
+        return False
 
-    def __ge__(self, __other: Any) -> bool:
-        return True
+    def __ge__(self, __other: object) -> bool:
+        return False
+
+    def __str__(self) -> str:
+        return "NoneDate"
+
+    def __repr__(self) -> str:
+        return self.__str__()

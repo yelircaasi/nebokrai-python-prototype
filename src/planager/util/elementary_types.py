@@ -61,7 +61,18 @@ WeekdayLiteral = Literal["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 StatusLiteral = Literal["todo", "done"]
 Natural = Annotated[int, Ge(ge=0)]
 TrackingActivityType = Union[
-    int, list[int], str, float, TimedDistance, Natural, bool, list[Natural], PTime, None
+    int,
+    list[int],
+    str,
+    float,
+    TimedDistance,
+    Natural,
+    bool,
+    list[Natural],
+    PTime,
+    None,
+    list["TrackingActivityType"],
+    dict[str, "TrackingActivityType"],
 ]
 # int | list[int] | str | float |
 TimeAmountRaw = Union[str, int]
@@ -69,8 +80,10 @@ TrueString = Literal["y", "yes", "✔"]
 true_strings = set(["y", "yes", "✔"])
 PromptTypeName = Literal[
     "boolean",
+    "float",
     "integer_sequence",
     "integer",
+    "nonnegative",
     "natural_sequence",
     "natural",
     "text",
@@ -80,3 +93,5 @@ PromptTypeName = Literal[
     "timed_distance",
 ]
 # typed_list: Callable[[list[RawPromptResponseType]], list[PromptResponseType]]
+
+prompt_type_mapping: dict[PromptTypeName, TrackingActivityType] = {}

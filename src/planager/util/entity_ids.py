@@ -1,4 +1,4 @@
-from typing import Any, NamedTuple
+from typing import NamedTuple
 
 
 class RoadmapID(NamedTuple):
@@ -15,17 +15,19 @@ class RoadmapID(NamedTuple):
     def task_id(self, project_code: str, task_code: str) -> "TaskID":
         return TaskID(self.roadmap, project_code, task_code)
 
-    def __contains__(self, __id: Any) -> bool:
-        if isinstance(__id, (RoadmapID, ProjectID)):
+    def __contains__(self, __id: object) -> bool:
+        if isinstance(__id, (RoadmapID, ProjectID, TaskID)):
             return self.roadmap == __id.roadmap
-        return False
+        raise TypeError(
+            "RoadmapID.__contains__ only supports instances of RoadmapID, ProjectID, or TaskID, "
+            f"not type '{type(__id)}' (value: '{__id}')."
+        )
 
     def __str__(self) -> str:
-        # return f"RoadmapID('{self.roadmap}')"
         return self.roadmap
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"RoadmapID('{self.roadmap}')"
 
 
 class ProjectID(NamedTuple):
@@ -48,19 +50,21 @@ class ProjectID(NamedTuple):
     def from_string(cls, s: str) -> "ProjectID":
         return cls(*s.split("-"))
 
-    def __contains__(self, __id: Any) -> bool:
+    def __contains__(self, __id: object) -> bool:
         if isinstance(__id, RoadmapID):
             return self.roadmap == __id.roadmap
-        if isinstance(__id, TaskID):
+        if isinstance(__id, (ProjectID, TaskID)):
             return (self.roadmap == __id.roadmap) and (self.project == __id.project)
-        return False
+        raise TypeError(
+            "ProjectID.__contains__ only supports instances of RoadmapID, ProjectID, or TaskID, "
+            f"not type '{type(__id)}' (value: '{__id}')."
+        )
 
     def __str__(self) -> str:
-        # return f"ProjectID('{self.roadmap}-{self.project}')"
         return f"{self.roadmap}-{self.project}"
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"ProjectID('{self.roadmap}-{self.project}')"
 
 
 class TaskID(NamedTuple):
@@ -86,16 +90,24 @@ class TaskID(NamedTuple):
     def project_id(self) -> ProjectID:
         return ProjectID(self.roadmap, self.project)
 
-    def __contains__(self, __id: Any) -> bool:
+    def __contains__(self, __id: object) -> bool:
         if isinstance(__id, RoadmapID):
             return self.roadmap == __id.roadmap
         if isinstance(__id, ProjectID):
             return (self.roadmap == __id.roadmap) and (self.project == __id.project)
-        return False
+        if isinstance(__id, TaskID):
+            return (
+                (self.roadmap == __id.roadmap)
+                and (self.project == __id.project)
+                and (self.task == __id.task)
+            )
+        raise TypeError(
+            "TaskID.__contains__ only supports instances of RoadmapID, ProjectID, or TaskID, "
+            f"not type '{type(__id)}' (value: '{__id}')."
+        )
 
     def __str__(self) -> str:
-        # return f"TaskID('{self.roadmap}-{self.project}-{self.task}')"
         return f"{self.roadmap}-{self.project}-{self.task}"
 
     def __repr__(self) -> str:
-        return self.__str__()
+        return f"TaskID('{self.roadmap}-{self.project}-{self.task}')"

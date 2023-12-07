@@ -2,7 +2,7 @@ import json
 
 from ..configuration import path_manager
 from ..util import PDate
-from ..util.prompt import prompt_natural_sequence
+from ..util.prompt.prompt_functions import prompt_natural_sequence
 from ..util.serde.custom_dict_types import (
     ActivityDictRaw,
     DayLogDictRaw,

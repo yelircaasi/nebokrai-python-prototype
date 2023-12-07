@@ -37,7 +37,7 @@ class Project:
         self.start = start or PDate.tomorrow() + config.default_project_dates_missing_offset + (
             hash(self.name) % config.default_project_dates_missing_hashmod
         )
-        self.end = PDate.ensure_is_pdate(end) if end else None
+        self.end = end if end else None
         self.interval = interval or config.default_interval
         self.cluster_size = cluster_size or config.default_cluster_size
         self.duration = duration or config.default_duration
@@ -78,8 +78,8 @@ class Project:
                 project_categories=categories,
             ),
             priority=priority,
-            start=PDate.ensure_is_pdate(start_str) if start_str else None,
-            end=PDate.ensure_is_pdate(end_str) if end_str else None,
+            start=PDate.from_string(start_str) if start_str else None,
+            end=PDate.from_string(end_str) if end_str else None,
             interval=int(project_dict.get("interval") or config.default_interval),
             cluster_size=int(project_dict.get("cluster_size") or config.default_cluster_size),
             duration=duration,

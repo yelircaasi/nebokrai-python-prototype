@@ -3,7 +3,7 @@ from .display import tabularize, wrap_string
 from .entity_ids import ProjectID, RoadmapID, TaskID
 from .misc import round5
 from .pdatetime import PDate, PTime
-from .prompt import prompt_integer, prompt_natural
+from .prompt import PromptConfig, prompt_any, prompt_configs
 from .regex import Regexes
 from .shift_declaration import shift_declaration_ndays
 
@@ -15,8 +15,9 @@ __all__ = [
     "RoadmapID",
     "TaskID",
     "color",
-    "prompt_integer",
-    "prompt_natural",
+    "PromptConfig",
+    "prompt_any",
+    "prompt_configs",
     "round5",
     "shift_declaration_ndays",
     "tabularize",
