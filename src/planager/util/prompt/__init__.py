@@ -2,14 +2,14 @@ import re
 from dataclasses import dataclass
 from typing import Any, Callable, Iterable, NamedTuple, Optional
 
-from ..elementary_types import Natural, PromptTypeName, TrackingActivityType
+from ..elementary_types import Natural, PromptTypeName, TrackingActivityResponseType
 from ..pdatetime import PTime
 from ..serde.custom_dict_types import (
     PromptDispatcherType,
     TimedDistance,
     TimedDistanceWithElevation,
 )
-from .prompt_config import PromptConfig, prompt_configs
+from .prompt_config import PromptConfig
 
 __all__ = ["PromptConfig", "prompt_any", "prompt_configs"]
 # from .prompt_functions import (
@@ -46,7 +46,7 @@ __all__ = ["PromptConfig", "prompt_any", "prompt_configs"]
 # ]
 
 
-def prompt_single(prompt_config: "PromptConfig") -> Optional[TrackingActivityType]:
+def prompt_atomic(prompt_config: "PromptConfig") -> Optional[TrackingActivityResponseType]:
     """
     Interactively prompts for the desired type until the desired type is given or the quit string is
       given.
@@ -65,21 +65,21 @@ def prompt_single(prompt_config: "PromptConfig") -> Optional[TrackingActivityTyp
     return value
 
 
-def prompt_composite(prompt_config: PromptConfig) -> dict[str, TrackingActivityType]:
+def prompt_composite(prompt_config: PromptConfig) -> dict[str, TrackingActivityResponseType]:
     """
     Run the input prompt corresponding to types with subfields.
     """
     assert prompt_config.components is not None
-    ret: dict[str, TrackingActivityType] = {}
+    ret: dict[str, TrackingActivityResponseType] = {}
     for k, kconfig in prompt_config.components.items():
-        parsed_response: TrackingActivityType = prompt_any(kconfig)
+        parsed_response: TrackingActivityResponseType = prompt_any(kconfig)
         # if parsed_response is None:
         #     return None
         ret.update({k: parsed_response})
     return ret
 
 
-def prompt_sequence(prompt_config: "PromptConfig") -> list[TrackingActivityType]:
+def prompt_sequence(prompt_config: "PromptConfig") -> list[TrackingActivityResponseType]:
     """
     Interactively prompts for an item of type `item_type` until the quit_string is entered.
     """
@@ -97,15 +97,15 @@ def prompt_sequence(prompt_config: "PromptConfig") -> list[TrackingActivityType]
     return responses
 
 
-def prompt_any(prompt_config: PromptConfig) -> TrackingActivityType:
+def prompt_any(prompt_config: PromptConfig) -> TrackingActivityResponseType:
     """
     Run whichever type of prompt is appropriate for the configuration supplied.
     """
-    assert (
-        not prompt_config.sequence_item_config and prompt_config.components
+    assert not (
+        prompt_config.sequence_item_config and prompt_config.components
     ), "At most one of 'sequence_item_config' and 'components' can be defined for an activity item."
     if prompt_config.sequence_item_config:
         return prompt_sequence(prompt_config)
     if prompt_config.components:
         return prompt_composite(prompt_config)
-    return prompt_single(prompt_config)
+    return prompt_atomic(prompt_config)

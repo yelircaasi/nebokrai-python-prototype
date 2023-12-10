@@ -36,7 +36,7 @@ class Tracker:
             base_order = routine_dict.get("default_order") or 40.0
             for i, item_dict in enumerate(routine_dict["items"]):
                 self.activities.append(
-                    TrackerItem.from_routine_item_dict(
+                    TrackerItem.from_routine_activity_dict(
                         item_dict, routine_name, order=base_order + i / 100
                     )
                 )
