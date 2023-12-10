@@ -15,15 +15,18 @@ class NKTime:
 
     @classmethod
     def from_string(cls, date_string: Optional[str]) -> "NKTime":
-        assert isinstance(
-            date_string, str
-        ), f"Argument to NKTime.from_string must be str, not '{type(date_string)}'."
+        if not isinstance(date_string, str):
+            raise ValueError(
+                f"Argument to NKTime.from_string must be str, not '{type(date_string)}'."
+            )
         if date_string.lower().startswith("none"):
             return NKTime.nonetime()
         substrings = date_string.split(":")
-        assert (
-            len(substrings) == 2
-        ), f"Argument to NKTime.from_string must have exactly one colon. Given: '{date_string}'."
+        if not len(substrings) == 2:
+            raise ValueError(
+                "Argument to NKTime.from_string must have exactly one colon."
+                f" Given: '{date_string}'."
+            )
         hour, minute = map(int, substrings)
         return cls(hour, minute)
 

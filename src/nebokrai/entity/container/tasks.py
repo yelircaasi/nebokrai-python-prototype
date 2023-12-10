@@ -127,9 +127,9 @@ class Tasks:
         for task in self._tasks.values():
             task.original_date = date
 
-    def update_tmnkdate(self, date: NKDate) -> None:
+    def update_tmpdate(self, date: NKDate) -> None:
         for task in self._tasks.values():
-            task.tmnkdate = date
+            task.tmpdate = date
 
     def extend(self, __tasks: "Tasks") -> None:
         for task in __tasks:

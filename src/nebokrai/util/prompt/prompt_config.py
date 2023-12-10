@@ -1,6 +1,8 @@
 from typing import Callable, Optional
 
 from ..elementary_types import (
+    Natural,
+    Nonnegative,
     PromptTypeName,
     TrackingActivityResponseType,
     prompt_type_mapping,
@@ -11,18 +13,7 @@ from ..serde.custom_dict_types import (
     ComponentDictParsed,
     SubitemDictParsed,
 )
-from .type_conversion import convert_time_amount
-
-ConversionFuncType = Callable[[str], TrackingActivityResponseType]
-conversion_func_dict: dict[PromptTypeName, ConversionFuncType] = {
-    "float": float,
-    "integer": int,
-    "natural": int,
-    "boolean": lambda s: s.strip().lower() in {"y", "yes", "true", "done", "check"},
-    "text": lambda x: x,
-    "time_amount": convert_time_amount,
-    "time": NKTime.from_string,
-}
+from .type_conversion import ConversionFuncType, conversion_func_dict
 
 
 class PromptConfig:

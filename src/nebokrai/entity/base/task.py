@@ -13,7 +13,7 @@ class Task:
       used as a template for an entry.
     """
 
-    tmnkdate: NKDate = NKDate.nonedate()
+    tmpdate: NKDate = NKDate.nonedate()
 
     def __init__(
         self,
@@ -25,7 +25,7 @@ class Task:
         dependencies: Optional[set[TaskID]] = None,
         date_earliest: Optional[NKDate] = None,
         date_latest: Optional[NKDate] = None,
-        tmnkdate: Optional[NKDate] = None,
+        tmpdate: Optional[NKDate] = None,
         notes: str = "",
         status: Literal["todo", "done"] = "todo",
         blocks: Optional[set[str]] = None,
@@ -49,7 +49,7 @@ class Task:
         self.categories = (categories or set()).union(config.default_categories)
 
         # record
-        self.tmnkdate = tmnkdate if tmnkdate else self.tmnkdate
+        self.tmpdate = tmpdate if tmpdate else self.tmpdate
         self.original_date: NKDate = NKDate.nonedate()
         self.block_assigned = ""
 
@@ -187,28 +187,28 @@ class Task:
         return (
             (self.task_id in __other.dependencies)
             and (__other.task_id not in self.dependencies)
-            or (__other.tmnkdate > self.tmnkdate)
+            or (__other.tmpdate > self.tmpdate)
         )
 
     def __gt__(self, __other: Any) -> bool:
         return (
             (__other.task_id in self.dependencies)
             and (self.task_id not in __other.dependencies)
-            or (self.tmnkdate > __other.tmnkdate)
+            or (self.tmpdate > __other.tmpdate)
         )
 
     def __le__(self, __other: Any) -> bool:
         return (
             (not self.task_id not in __other.dependencies)
             and (__other.task_id not in self.dependencies)
-            and (__other.tmnkdate >= self.tmnkdate)
+            and (__other.tmpdate >= self.tmpdate)
         )
 
     def __ge__(self, __other: Any) -> bool:
         return (
             (__other.task_id not in self.dependencies)
             and (self.task_id not in __other.dependencies)
-            and (self.tmnkdate >= __other.tmnkdate)
+            and (self.tmpdate >= __other.tmpdate)
         )
 
     def __str__(self) -> str:

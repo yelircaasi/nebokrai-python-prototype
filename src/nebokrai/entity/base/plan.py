@@ -224,7 +224,7 @@ def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Ta
 
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
-    tasks.update_tmnkdate(date)
+    tasks.update_tmpdate(date)
     tasks.update_original_date(date)
 
     plan.plan_dict.update({date: tasks})

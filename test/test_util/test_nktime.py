@@ -44,18 +44,18 @@ def test_string_ops() -> None:
         NKTime.from_string("none") == NKTime.from_string("None") == NKTime.nonetime() == NoneTime()
     )
 
-    with pytest.raises(AssertionError) as excinfo:  # type: ignore
+    with pytest.raises(ValueError) as excinfo:  # type: ignore
         t1 = NKTime.from_string(3)  # type: ignore
     assert str(excinfo.value) == "Argument to NKTime.from_string must be str, not '<class 'int'>'."
 
-    with pytest.raises(AssertionError) as excinfo:  # type: ignore
+    with pytest.raises(ValueError) as excinfo:  # type: ignore
         t2 = NKTime.from_string("3")
     assert (
         str(excinfo.value)
-        == f"Argument to NKTime.from_string must have exactly one colon. Given: '3'."
+        == "Argument to NKTime.from_string must have exactly one colon. Given: '3'."
     )
 
-    with pytest.raises(AssertionError) as excinfo:  # type: ignore
+    with pytest.raises(ValueError) as excinfo:  # type: ignore
         t3 = NKTime.from_string("3:55:34")
     assert (
         str(excinfo.value)
