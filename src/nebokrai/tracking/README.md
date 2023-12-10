@@ -1,6 +1,6 @@
 # Tracking
 
-Notes on tracking in planager.
+Notes on tracking in nebokrai.
 
 The main benefits of doing tracking in this way are that it will allow me to 
 track from my phone (via Signal and a server) as well as my computer.

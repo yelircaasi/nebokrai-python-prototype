@@ -3,8 +3,8 @@ from typing import Callable, Optional, TypeVar, Union
 
 import pytest
 
-from planager.util.elementary_types import TrackingActivityResponseType
-from planager.util.prompt import (
+from nebokrai.util.elementary_types import TrackingActivityResponseType
+from nebokrai.util.prompt import (
     PromptConfig,
     prompt_any,
     prompt_atomic,

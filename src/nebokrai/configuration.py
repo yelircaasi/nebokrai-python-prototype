@@ -250,9 +250,9 @@ class Config:
         return self.__dict__[__key]
 
 
-str_path_to_dirpath_file: Optional[str] = os.environ.get("PLANAGER_CONFIG_FILE")
+str_path_to_dirpath_file: Optional[str] = os.environ.get("NEBOKRAI_CONFIG_FILE")
 if not str_path_to_dirpath_file:
-    path_to_dirpath_file = Path.home() / ".config/planager/path.txt"
+    path_to_dirpath_file = Path.home() / ".config/nebokrai/path.txt"
 else:
     path_to_dirpath_file = Path(str_path_to_dirpath_file)
 
@@ -261,9 +261,9 @@ if not path_to_dirpath_file.exists():
 path_to_dir = Path(path_to_dirpath_file)
 
 with open(path_to_dir, encoding="ascii") as f:
-    planager_root = Path(f.read().strip())
+    nebokrai_root = Path(f.read().strip())
 
-path_manager = PathManager(planager_root)
+path_manager = PathManager(nebokrai_root)
 
 with open(path_manager.declaration, encoding="utf-8") as f:
     config_dict: ConfigDictParsed = parse_config_dict(json.load(f)["config"])

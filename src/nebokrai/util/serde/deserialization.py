@@ -131,8 +131,6 @@ def parse_calendar_routine(
 
 
 def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
-
-
     deps_raw: str = task_dict.get("dependencies") or ""
     cats_raw: str = task_dict.get("categories") or ""
     dependencies = set(map(TaskID.from_string, filter(bool, deps_raw)))

@@ -24,7 +24,7 @@ coverage = "^7.3.2"
 pytest-cov = "^4.1.0"
 
 [tool.poetry.scripts]
-planager = "planager.__main__:main"
+nebokrai = "nebokrai.__main__:main"
 
 [build-system]
 requires = ["poetry-core"]
@@ -68,7 +68,7 @@ line-length = 100
 [tool.pytest.ini_options]
 testpaths = "test"
 python_classes = "*Test"
-addopts = ["--cov=planager", "--cov-report", "html", "--cov-report", "term"]
+addopts = ["--cov=nebokrai", "--cov-report", "html", "--cov-report", "term"]
 
 [tool.coverage.run]
 dynamic_context = "test_function"

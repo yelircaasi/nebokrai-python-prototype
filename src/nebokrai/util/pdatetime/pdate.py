@@ -5,7 +5,7 @@ from typing import Any, Union
 
 class PDate:
     """
-    Bespoke date class designed to simplify the planager codebase.
+    Bespoke date class designed to simplify the nebokrai codebase.
     """
 
     date_regex: re.Pattern = re.compile(r"(\d{2,4})[^\d](\d\d?)[^\d](\d\d?)")

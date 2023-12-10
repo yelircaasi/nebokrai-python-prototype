@@ -3,7 +3,7 @@ from typing import Any, Optional
 
 class PTime:
     """
-    Bespoke time class designed to simplify the planager codebase.
+    Bespoke time class designed to simplify the nebokrai codebase.
     """
 
     def __init__(self, hour: int = 0, minute: int = 0, isblank: bool = False):

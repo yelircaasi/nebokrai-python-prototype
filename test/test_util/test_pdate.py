@@ -2,8 +2,8 @@ from datetime import date
 
 import pytest
 
-from planager.util import PDate
-from planager.util.pdatetime.pdate import NoneDate
+from nebokrai.util import PDate
+from nebokrai.util.pdatetime.pdate import NoneDate
 
 
 def test_basic_pdate() -> None:

@@ -1,7 +1,7 @@
 import pytest
 
-from planager.util import PTime
-from planager.util.pdatetime.ptime import NoneTime
+from nebokrai.util import PTime
+from nebokrai.util.pdatetime.ptime import NoneTime
 
 
 def test_basic_ptime() -> None:

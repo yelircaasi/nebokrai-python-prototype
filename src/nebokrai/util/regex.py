@@ -5,7 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class Regexes:
     """
-    Collection of regexes used throughout planager.
+    Collection of regexes used throughout nebokrai.
     """
 
     item_split: re.Pattern = re.compile(r"\s+[~-]+\s*")

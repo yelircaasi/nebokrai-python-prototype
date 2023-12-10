@@ -5,7 +5,7 @@ from .cli import commands_dict
 
 
 def get_arg_parser() -> argparse.ArgumentParser:
-    arg_parser = argparse.ArgumentParser(prog="planager")
+    arg_parser = argparse.ArgumentParser(prog="nebokrai")
     arg_parser.add_argument(
         "action",
         type=str,

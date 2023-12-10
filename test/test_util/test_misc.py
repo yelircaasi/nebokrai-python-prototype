@@ -1,4 +1,4 @@
-from planager.util import round5
+from nebokrai.util import round5
 
 
 def test_round5() -> None:

@@ -31,7 +31,6 @@ class Task:
         blocks: Optional[set[str]] = None,
         categories: Optional[set[str]] = None,
     ) -> None:
-
         # meta / info
         self.name = name
         self.project_name = project_name  # unnecessary

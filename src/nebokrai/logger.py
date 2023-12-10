@@ -2,7 +2,7 @@ from logging import Logger
 
 
 def get_logger() -> Logger:
-    logger = Logger("planager")
+    logger = Logger("nebokrai")
     return logger
 
 

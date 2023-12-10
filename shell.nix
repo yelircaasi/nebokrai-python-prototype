@@ -3,7 +3,7 @@ with import <nixpkgs> {};
 with pkgs.python3Packages;
 
 buildPythonPackage rec {
-  name = "planager";
+  name = "nebokrai";
   src = "./";
   propagatedBuildInputs = [ poetry-core ];
 }

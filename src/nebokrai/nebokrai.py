@@ -25,7 +25,7 @@ from .tracking import Logs, Tracker
 from .util import PDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
 
 
-class Planager:
+class Nebokrai:
     """
     One class to rule them all.
     """
@@ -178,7 +178,7 @@ class Planager:
 
     def save_plan(self) -> None:
         """
-        Writes plan to $PLANAGER_ROOT/derivation/plan.json and backs up the last plan file.
+        Writes plan to $NEBOKRAI_ROOT/derivation/plan.json and backs up the last plan file.
         """
         assert self.plan is not None
         os.rename(self.path_manager.plan, self.path_manager.plan_backup)
@@ -191,7 +191,7 @@ class Planager:
 
     def save_schedules(self) -> None:
         """
-        Writes schedules to $PLANAGER_ROOT/derivation/schedules.json and backs up the last
+        Writes schedules to $NEBOKRAI_ROOT/derivation/schedules.json and backs up the last
           schedules file.
         """
         assert self.schedules is not None
@@ -259,7 +259,7 @@ class Planager:
             return self.roadmaps[__key.roadmap_id][__key.project_id][__key]
         if isinstance(__key, PDate):
             return self.schedules[__key]
-        raise KeyError(f"Invalid key for Planager object: {__key}")
+        raise KeyError(f"Invalid key for Nebokrai object: {__key}")
 
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...

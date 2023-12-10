@@ -2,490 +2,494 @@
     "__main__": {
         "bacon": 0,
         "imports": [
-            "planager",
-            "planager.__main__",
-            "planager.cli",
-            "planager.configuration",
-            "planager.declaration",
-            "planager.derivation",
-            "planager.entity",
-            "planager.entity.base",
-            "planager.entity.base.calendar",
-            "planager.entity.base.entry",
-            "planager.entity.base.plan",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.entries",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps",
-            "planager.entity.container.routines",
-            "planager.entity.container.schedules",
-            "planager.entity.container.tasks",
-            "planager.logger",
-            "planager.planager",
-            "planager.tracking",
-            "planager.tracking.logs",
-            "planager.tracking.tracker",
-            "planager.tracking.tracker_item",
-            "planager.validation"
+            "nebokrai",
+            "nebokrai.__main__",
+            "nebokrai.cli",
+            "nebokrai.configuration",
+            "nebokrai.declaration",
+            "nebokrai.derivation",
+            "nebokrai.entity",
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.entries",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps",
+            "nebokrai.entity.container.routines",
+            "nebokrai.entity.container.schedules",
+            "nebokrai.entity.container.tasks",
+            "nebokrai.logger",
+            "nebokrai.nebokrai",
+            "nebokrai.tracking",
+            "nebokrai.tracking.logs",
+            "nebokrai.tracking.tracker",
+            "nebokrai.tracking.tracker_item",
+            "nebokrai.validation"
         ],
         "name": "__main__",
         "path": null
     },
-    "planager": {
+    "nebokrai": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity.base.project"
+            "nebokrai.entity.base.project",
+            "nebokrai.nebokrai"
         ],
         "imports": [
-            "planager.planager"
+            "nebokrai.nebokrai"
         ],
-        "name": "planager",
-        "path": "/home/isaac/Learning/planager-py/src/planager/__init__.py"
+        "name": "nebokrai",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/__init__.py"
     },
-    "planager.__main__": {
+    "nebokrai.__main__": {
         "bacon": 1,
         "imported_by": [
             "__main__"
         ],
         "imports": [
-            "planager.cli"
+            "nebokrai.cli"
         ],
-        "name": "planager.__main__",
-        "path": "/home/isaac/Learning/planager-py/src/planager/__main__.py"
+        "name": "nebokrai.__main__",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/__main__.py"
     },
-    "planager.cli": {
+    "nebokrai.cli": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.__main__"
+            "nebokrai.__main__"
         ],
         "imports": [
-            "planager.planager",
-            "planager.validation"
+            "nebokrai.configuration",
+            "nebokrai.nebokrai",
+            "nebokrai.validation"
         ],
-        "name": "planager.cli",
-        "path": "/home/isaac/Learning/planager-py/src/planager/cli.py"
+        "name": "nebokrai.cli",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/cli.py"
     },
-    "planager.configuration": {
+    "nebokrai.configuration": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity.base.calendar",
-            "planager.entity.base.entry",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule",
-            "planager.entity.base.task",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps",
-            "planager.entity.container.tasks",
-            "planager.planager",
-            "planager.tracking.tracker"
+            "nebokrai.cli",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps",
+            "nebokrai.entity.container.tasks",
+            "nebokrai.nebokrai",
+            "nebokrai.tracking.tracker"
         ],
-        "name": "planager.configuration",
-        "path": "/home/isaac/Learning/planager-py/src/planager/configuration.py"
+        "name": "nebokrai.configuration",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/configuration.py"
     },
-    "planager.declaration": {
+    "nebokrai.declaration": {
         "bacon": 1,
         "imported_by": [
             "__main__"
         ],
-        "name": "planager.declaration",
-        "path": "/home/isaac/Learning/planager-py/src/planager/declaration/__init__.py"
+        "name": "nebokrai.declaration",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/declaration/__init__.py"
     },
-    "planager.derivation": {
+    "nebokrai.derivation": {
         "bacon": 1,
         "imported_by": [
             "__main__"
         ],
         "imports": [
-            "planager.planager"
+            "nebokrai.nebokrai"
         ],
-        "name": "planager.derivation",
-        "path": "/home/isaac/Learning/planager-py/src/planager/derivation/__init__.py"
+        "name": "nebokrai.derivation",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/derivation/__init__.py"
     },
-    "planager.entity": {
+    "nebokrai.entity": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.planager"
+            "nebokrai.nebokrai"
         ],
         "imports": [
-            "planager.entity.base",
-            "planager.entity.base.calendar",
-            "planager.entity.base.entry",
-            "planager.entity.base.plan",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.entries",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps",
-            "planager.entity.container.routines",
-            "planager.entity.container.schedules",
-            "planager.entity.container.tasks"
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.entries",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps",
+            "nebokrai.entity.container.routines",
+            "nebokrai.entity.container.schedules",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/__init__.py"
+        "name": "nebokrai.entity",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/__init__.py"
     },
-    "planager.entity.base": {
+    "nebokrai.entity.base": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.container.entries",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps",
-            "planager.entity.container.routines",
-            "planager.entity.container.schedules",
-            "planager.entity.container.tasks"
+            "nebokrai.entity",
+            "nebokrai.entity.container.entries",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps",
+            "nebokrai.entity.container.routines",
+            "nebokrai.entity.container.schedules",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity.base",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/__init__.py"
+        "name": "nebokrai.entity.base",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/__init__.py"
     },
-    "planager.entity.base.calendar": {
+    "nebokrai.entity.base.calendar": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.plan",
-            "planager.entity.base.schedule"
+            "nebokrai.entity",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.schedule"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base.entry",
-            "planager.entity.container",
-            "planager.entity.container.entries",
-            "planager.entity.container.routines"
+            "nebokrai.configuration",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.entries",
+            "nebokrai.entity.container.routines"
         ],
-        "name": "planager.entity.base.calendar",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/calendar.py"
+        "name": "nebokrai.entity.base.calendar",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/calendar.py"
     },
-    "planager.entity.base.entry": {
+    "nebokrai.entity.base.entry": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.calendar",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule",
-            "planager.entity.base.task",
-            "planager.entity.container.entries"
+            "nebokrai.entity",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container.entries"
         ],
         "imports": [
-            "planager.configuration"
+            "nebokrai.configuration"
         ],
-        "name": "planager.entity.base.entry",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/entry.py"
+        "name": "nebokrai.entity.base.entry",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/entry.py"
     },
-    "planager.entity.base.plan": {
+    "nebokrai.entity.base.plan": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.schedule"
+            "nebokrai.entity",
+            "nebokrai.entity.base.schedule"
         ],
         "imports": [
-            "planager.entity.base.calendar",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.routines",
-            "planager.entity.container.tasks"
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.routines",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity.base.plan",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/plan.py"
+        "name": "nebokrai.entity.base.plan",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/plan.py"
     },
-    "planager.entity.base.project": {
+    "nebokrai.entity.base.project": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.roadmap",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps"
+            "nebokrai.entity",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps"
         ],
         "imports": [
-            "planager",
-            "planager.configuration",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.tasks"
+            "nebokrai",
+            "nebokrai.configuration",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity.base.project",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/project.py"
+        "name": "nebokrai.entity.base.project",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/project.py"
     },
-    "planager.entity.base.roadmap": {
+    "nebokrai.entity.base.roadmap": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.container.roadmaps"
+            "nebokrai.entity",
+            "nebokrai.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base.project",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.projects"
+            "nebokrai.configuration",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.projects"
         ],
-        "name": "planager.entity.base.roadmap",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/roadmap.py"
+        "name": "nebokrai.entity.base.roadmap",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/roadmap.py"
     },
-    "planager.entity.base.routine": {
+    "nebokrai.entity.base.routine": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.container.routines"
+            "nebokrai.entity",
+            "nebokrai.entity.container.routines"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base.entry",
-            "planager.entity.container",
-            "planager.entity.container.entries"
+            "nebokrai.configuration",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.entries"
         ],
-        "name": "planager.entity.base.routine",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/routine.py"
+        "name": "nebokrai.entity.base.routine",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/routine.py"
     },
-    "planager.entity.base.schedule": {
+    "nebokrai.entity.base.schedule": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.container.schedules"
+            "nebokrai.entity",
+            "nebokrai.entity.container.schedules"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base.calendar",
-            "planager.entity.base.entry",
-            "planager.entity.base.plan",
-            "planager.entity.container",
-            "planager.entity.container.entries"
+            "nebokrai.configuration",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.entry",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.entries"
         ],
-        "name": "planager.entity.base.schedule",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/schedule.py"
+        "name": "nebokrai.entity.base.schedule",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/schedule.py"
     },
-    "planager.entity.base.task": {
+    "nebokrai.entity.base.task": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.plan",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps",
-            "planager.entity.container.tasks"
+            "nebokrai.entity",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps",
+            "nebokrai.entity.container.tasks"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base.entry"
+            "nebokrai.configuration",
+            "nebokrai.entity.base.entry"
         ],
-        "name": "planager.entity.base.task",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/base/task.py"
+        "name": "nebokrai.entity.base.task",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/base/task.py"
     },
-    "planager.entity.container": {
+    "nebokrai.entity.container": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.calendar",
-            "planager.entity.base.plan",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps"
+            "nebokrai.entity",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps"
         ],
-        "name": "planager.entity.container",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/__init__.py"
+        "name": "nebokrai.entity.container",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/__init__.py"
     },
-    "planager.entity.container.entries": {
+    "nebokrai.entity.container.entries": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.calendar",
-            "planager.entity.base.routine",
-            "planager.entity.base.schedule"
+            "nebokrai.entity",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.routine",
+            "nebokrai.entity.base.schedule"
         ],
         "imports": [
-            "planager.entity.base",
-            "planager.entity.base.entry"
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.entry"
         ],
-        "name": "planager.entity.container.entries",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/entries.py"
+        "name": "nebokrai.entity.container.entries",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/entries.py"
     },
-    "planager.entity.container.projects": {
+    "nebokrai.entity.container.projects": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.roadmap",
-            "planager.entity.container.roadmaps"
+            "nebokrai.entity",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base",
-            "planager.entity.base.project",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.tasks"
+            "nebokrai.configuration",
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity.container.projects",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/projects.py"
+        "name": "nebokrai.entity.container.projects",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/projects.py"
     },
-    "planager.entity.container.roadmaps": {
+    "nebokrai.entity.container.roadmaps": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity"
+            "nebokrai.entity"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base",
-            "planager.entity.base.project",
-            "planager.entity.base.roadmap",
-            "planager.entity.base.task",
-            "planager.entity.container",
-            "planager.entity.container.projects",
-            "planager.entity.container.tasks"
+            "nebokrai.configuration",
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.base.roadmap",
+            "nebokrai.entity.base.task",
+            "nebokrai.entity.container",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.tasks"
         ],
-        "name": "planager.entity.container.roadmaps",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/roadmaps.py"
+        "name": "nebokrai.entity.container.roadmaps",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/roadmaps.py"
     },
-    "planager.entity.container.routines": {
+    "nebokrai.entity.container.routines": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.calendar",
-            "planager.entity.base.plan"
+            "nebokrai.entity",
+            "nebokrai.entity.base.calendar",
+            "nebokrai.entity.base.plan"
         ],
         "imports": [
-            "planager.entity.base",
-            "planager.entity.base.routine"
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.routine"
         ],
-        "name": "planager.entity.container.routines",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/routines.py"
+        "name": "nebokrai.entity.container.routines",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/routines.py"
     },
-    "planager.entity.container.schedules": {
+    "nebokrai.entity.container.schedules": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity"
+            "nebokrai.entity"
         ],
         "imports": [
-            "planager.entity.base",
-            "planager.entity.base.schedule"
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.schedule"
         ],
-        "name": "planager.entity.container.schedules",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/schedules.py"
+        "name": "nebokrai.entity.container.schedules",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/schedules.py"
     },
-    "planager.entity.container.tasks": {
+    "nebokrai.entity.container.tasks": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.entity",
-            "planager.entity.base.plan",
-            "planager.entity.base.project",
-            "planager.entity.container.projects",
-            "planager.entity.container.roadmaps"
+            "nebokrai.entity",
+            "nebokrai.entity.base.plan",
+            "nebokrai.entity.base.project",
+            "nebokrai.entity.container.projects",
+            "nebokrai.entity.container.roadmaps"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity.base",
-            "planager.entity.base.task"
+            "nebokrai.configuration",
+            "nebokrai.entity.base",
+            "nebokrai.entity.base.task"
         ],
-        "name": "planager.entity.container.tasks",
-        "path": "/home/isaac/Learning/planager-py/src/planager/entity/container/tasks.py"
+        "name": "nebokrai.entity.container.tasks",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/entity/container/tasks.py"
     },
-    "planager.logger": {
+    "nebokrai.logger": {
         "bacon": 1,
         "imported_by": [
             "__main__"
         ],
-        "name": "planager.logger",
-        "path": "/home/isaac/Learning/planager-py/src/planager/logger.py"
+        "name": "nebokrai.logger",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/logger.py"
     },
-    "planager.planager": {
+    "nebokrai.nebokrai": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager",
-            "planager.cli",
-            "planager.derivation"
+            "nebokrai",
+            "nebokrai.cli",
+            "nebokrai.derivation"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.entity",
-            "planager.tracking"
+            "nebokrai",
+            "nebokrai.configuration",
+            "nebokrai.entity",
+            "nebokrai.tracking"
         ],
-        "name": "planager.planager",
-        "path": "/home/isaac/Learning/planager-py/src/planager/planager.py"
+        "name": "nebokrai.nebokrai",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/nebokrai.py"
     },
-    "planager.tracking": {
+    "nebokrai.tracking": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.planager"
+            "nebokrai.nebokrai"
         ],
         "imports": [
-            "planager.tracking.logs",
-            "planager.tracking.tracker"
+            "nebokrai.tracking.logs",
+            "nebokrai.tracking.tracker"
         ],
-        "name": "planager.tracking",
-        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/__init__.py"
+        "name": "nebokrai.tracking",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/tracking/__init__.py"
     },
-    "planager.tracking.logs": {
+    "nebokrai.tracking.logs": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.tracking"
+            "nebokrai.tracking"
         ],
-        "name": "planager.tracking.logs",
-        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/logs.py"
+        "name": "nebokrai.tracking.logs",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/tracking/logs.py"
     },
-    "planager.tracking.tracker": {
+    "nebokrai.tracking.tracker": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.tracking"
+            "nebokrai.tracking"
         ],
         "imports": [
-            "planager.configuration",
-            "planager.tracking.tracker_item"
+            "nebokrai.configuration",
+            "nebokrai.tracking.tracker_item"
         ],
-        "name": "planager.tracking.tracker",
-        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/tracker.py"
+        "name": "nebokrai.tracking.tracker",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/tracking/tracker.py"
     },
-    "planager.tracking.tracker_item": {
+    "nebokrai.tracking.tracker_item": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.tracking.tracker"
+            "nebokrai.tracking.tracker"
         ],
-        "name": "planager.tracking.tracker_item",
-        "path": "/home/isaac/Learning/planager-py/src/planager/tracking/tracker_item.py"
+        "name": "nebokrai.tracking.tracker_item",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/tracking/tracker_item.py"
     },
-    "planager.validation": {
+    "nebokrai.validation": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "planager.cli"
+            "nebokrai.cli"
         ],
-        "name": "planager.validation",
-        "path": "/home/isaac/Learning/planager-py/src/planager/validation.py"
+        "name": "nebokrai.validation",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/validation.py"
     }
 }

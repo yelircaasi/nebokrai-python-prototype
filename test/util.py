@@ -5,9 +5,9 @@ from typing import Any, Callable, Union
 
 import pytest
 
-from planager.util.elementary_types import TrackingActivityResponseType
-from planager.util.prompt import prompt_any
-from planager.util.prompt.prompt_config import PromptConfig
+from nebokrai.util.elementary_types import TrackingActivityResponseType
+from nebokrai.util.prompt import prompt_any
+from nebokrai.util.prompt.prompt_config import PromptConfig
 
 this_file = Path(__file__)
 
@@ -15,7 +15,7 @@ this_file = Path(__file__)
 @dataclass
 class TDataPaths:
     """
-    Helper class for working with test data, found in …/planager-py/test/data
+    Helper class for working with test data, found in …/nebokrai-py/test/data
     """
 
     tdatamanager_path: Path = this_file

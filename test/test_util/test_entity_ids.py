@@ -1,6 +1,6 @@
 import pytest
 
-from planager.util.entity_ids import ProjectID, RoadmapID, TaskID
+from nebokrai.util.entity_ids import ProjectID, RoadmapID, TaskID
 
 
 def test_ids() -> None:

@@ -1,7 +1,7 @@
 import re
 from typing import Iterator, Optional, Union
 
-from planager.util.serde.custom_dict_types import ProjectDictRaw
+from nebokrai.util.serde.custom_dict_types import ProjectDictRaw
 
 from ...configuration import config
 from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize

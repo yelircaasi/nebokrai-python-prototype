@@ -1,7 +1,8 @@
-# planager-py
+# nebokrai
 
-Python prototype of a tool for planning, prioritizing, and tracking. Designed by me for me to be an
-all-in-one way to stay organized and motivated.
+Tool for planning, prioritizing, scheduling, and tracking. Designed by me for me to be an
+all-in-one way to stay organized and motivated by keeping short-term goals and plans aligned with
+long-term goals.
 
 Still unstable and in undergoing rapid development. Currently written in the Python standard
 library (no other dependencies), but liable to be re-written in another better-suited (perhaps
@@ -11,7 +12,7 @@ a try.
 
 ## Design Philosophy
 
-planager is informed by a set of guiding principles, a few of which will likely sound familiar to
+nebokrai is informed by a set of guiding principles, a few of which will likely sound familiar to
 anyone who has spent time in or around software development:
 
 * **declarativeness**: what we want is clearly specified in one place and the program is tasked with
@@ -46,7 +47,7 @@ anyone who has spent time in or around software development:
 ### Planning
 
 In keeping with [Habit #2]() - "Begin with the end in mind" - it is beneficial to set long-term
-goals, as it guides short- and medium-term action. To this end, planager specifies a hierarchy of
+goals, as it guides short- and medium-term action. To this end, nebokrai specifies a hierarchy of
 units:
 
 * roadmaps consist of projects
@@ -76,7 +77,7 @@ declaration will fail. This is desirable: early failure duringm compilation is a
 to failure later during  deployment. 
 
 This implies an iterative planning process. I declare roadmaps, projects, and tasks along with a
-calendar and configuration parameters. Then planager either allocates tasks to days, or informs
+calendar and configuration parameters. Then nebokrai either allocates tasks to days, or informs
 me that I cannot and provides helpful information as to why the declaration was impossible to
 realize. Then I fix the offending parts of the declaration and repeat the process until I have a
 feasible plan.
@@ -95,7 +96,7 @@ Constraint types include:
 * blocks and categories: entries may have block or category names specified, such as "work" or
   "transit", where an entry can be scheduled within another entry, such as work-related tasks (i.e.
   tasks bearing the "work" category tag) being scheduled inside an entry with the block tag "work",
-  which is a planager-specific way of saying that work-related activities are scheduled during
+  which is a nebokrai-specific way of saying that work-related activities are scheduled during
   work hours
 * categories can be binding or non-binding, where binding categories may be scheduled _exclusively_
   inside entries with the corresponding block tag, whereas a non-binding category allows scheduling
@@ -137,7 +138,7 @@ Coming soon...
 ## Usage
 
 ```shell
-planager derive
+nebokrai derive
 ```
 
 ## Installation
@@ -145,7 +146,7 @@ planager derive
 Use pipx, the silver bullet solution to installing Python CLI tools.
 
 ```shell
-pipx install planager
+pipx install nebokrai
 ```
 
 ## Roadmap
@@ -157,20 +158,20 @@ pipx install planager
 
 mypy errors
 
-- [x] src/planager/cli.py
-- [x] src/planager/entity/container/schedules.py
-- [x] src/planager/entity/base/schedule.py
-- [x] src/planager/entity/base/plan.py
-- [x] src/planager/entity/base/roadmap.py
-- [x] src/planager/entity/base/calendar.py
-- [x] src/planager/entity/container/projects.py
-- [x] src/planager/entity/base/project.py
-- [x] src/planager/entity/base/routine.py
-- [x] src/planager/entity/container/tasks.py
-- [x] src/planager/entity/base/entry.py
-- [x] src/planager/util/serde/deserialization.py
-- [x] src/planager/configuration.py
-- [x] src/planager/util/__init__.py
-- [x] src/planager/util/prompt/prompt.py
+- [x] src/nebokrai/cli.py
+- [x] src/nebokrai/entity/container/schedules.py
+- [x] src/nebokrai/entity/base/schedule.py
+- [x] src/nebokrai/entity/base/plan.py
+- [x] src/nebokrai/entity/base/roadmap.py
+- [x] src/nebokrai/entity/base/calendar.py
+- [x] src/nebokrai/entity/container/projects.py
+- [x] src/nebokrai/entity/base/project.py
+- [x] src/nebokrai/entity/base/routine.py
+- [x] src/nebokrai/entity/container/tasks.py
+- [x] src/nebokrai/entity/base/entry.py
+- [x] src/nebokrai/util/serde/deserialization.py
+- [x] src/nebokrai/configuration.py
+- [x] src/nebokrai/util/__init__.py
+- [x] src/nebokrai/util/prompt/prompt.py
 
 - [ ] re-wite in Rust with WASM (or Janet/Lua/Fennel/Teal?) plugin system -> https://nullderef.com/series/rust-plugins/
