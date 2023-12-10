@@ -1,4 +1,3 @@
-import re
 from typing import Iterable
 
 from ...configuration import config
@@ -132,13 +131,11 @@ def parse_calendar_routine(
 
 
 def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
-    def parse_id(s: str) -> TaskID:
-        res = re.split(r"\W", s)
-        return TaskID(res[0], res[1], res[2])
+
 
     deps_raw: str = task_dict.get("dependencies") or ""
     cats_raw: str = task_dict.get("categories") or ""
-    dependencies = set(map(parse_id, filter(bool, deps_raw)))
+    dependencies = set(map(TaskID.from_string, filter(bool, deps_raw)))
     categories = set(filter(bool, cats_raw)) or set()
 
     project_id_str = task_dict.get("project_id")
@@ -148,7 +145,7 @@ def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
         "id": task_dict["name"],
         "project_name": task_dict.get("project_name"),
         "project_id": ProjectID.from_string(project_id_str) if project_id_str else None,
-        "priority": task_dict.get("priority"),  # , config.default_priority),
+        "priority": task_dict.get("priority"),
         "notes": task_dict.get("notes") or "",
         "duration": task_dict.get("duration") or config.default_duration,
         "status": task_dict.get("status"),
@@ -204,7 +201,6 @@ def parse_day_log(log_dict: DayLogDictRaw) -> DayLogDictRaw:
         "time_amount": parse_time_amount,
         "timed_distance": identity,
         "timed_distance_with_elevation": identity,
-        # "typed_list": parse_typed_list,
     }
     print(log_dict)
     print(dispatch)
@@ -228,7 +224,3 @@ def parse_time_amount(time_amount: TimeAmountRaw) -> int:
     return (
         time_amount if isinstance(time_amount, int) else PTime.from_string(time_amount).tominutes()
     )
-
-
-# def parse_typed_list(raw_typed_list: list[RawPromptResponseType]) -> list[PromptResponseType]:
-#     return []

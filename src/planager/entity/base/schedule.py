@@ -57,8 +57,6 @@ class Schedule:
             "entries": list(map(Entry.serialize, self.entries)),
         }
         return serialized
-        # return {"date": str(self.date), "entries": list(map(Entry.serialize, self.schedule))}
-        # return unparse_schedule_dict(parsed)
 
     @classmethod
     def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":

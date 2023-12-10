@@ -52,7 +52,6 @@ class Routine:
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        # routine_dict: Routine = parse_routine_dict(_routine_dict)
         items: list[Entry] = []
         for item_dict in routine_dict["items"]:
             items.append(Entry.deserialize(item_dict))

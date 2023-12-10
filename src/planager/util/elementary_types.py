@@ -1,15 +1,18 @@
 from dataclasses import dataclass
-from typing import Annotated, Literal, Protocol, TypedDict, TypeVar, Union
+from typing import Annotated, Literal, Optional, Protocol, TypedDict, TypeVar, Union
 
 from .pdatetime.ptime import PTime
-
-# from .serde.custom_dict_types import TimedDistance
 
 T = TypeVar("T")
 
 
 class SupportsGe(Protocol):
     def __ge__(self: T, __other: T) -> bool:
+        ...
+
+
+class SupportsGt(Protocol):
+    def __gt__(self: T, __other: T) -> bool:
         ...
 
 
@@ -33,6 +36,17 @@ class Ge(BaseMetadata):
     """
 
     ge: SupportsGe
+
+
+@dataclass(frozen=True)
+class Gt(BaseMetadata):
+    """Gt(gt=x) implies that the value must be greater than or equal to x.
+
+    It can be used with any type that supports the ``>=`` operator,
+    including numbers, dates and times, strings, sets, and so on.
+    """
+
+    gt: SupportsGt
 
 
 class TimedDistance(TypedDict):
@@ -60,38 +74,49 @@ DesirabilityString = Literal["yes", "no"]
 WeekdayLiteral = Literal["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 StatusLiteral = Literal["todo", "done"]
 Natural = Annotated[int, Ge(ge=0)]
-TrackingActivityType = Union[
+Nonnegative = Annotated[float, Ge(ge=0)]
+Positive = Annotated[float, Gt(gt=0)]
+TrackingActivityResponseType = Union[
     int,
     list[int],
     str,
     float,
     TimedDistance,
+    TimedDistanceWithElevation,
     Natural,
     bool,
     list[Natural],
     PTime,
     None,
-    list["TrackingActivityType"],
-    dict[str, "TrackingActivityType"],
+    list["TrackingActivityResponseType"],
+    dict[str, "TrackingActivityResponseType"],
 ]
-# int | list[int] | str | float |
 TimeAmountRaw = Union[str, int]
 TrueString = Literal["y", "yes", "✔"]
 true_strings = set(["y", "yes", "✔"])
-PromptTypeName = Literal[
-    "boolean",
-    "float",
-    "integer_sequence",
-    "integer",
-    "nonnegative",
-    "natural_sequence",
-    "natural",
-    "text",
-    "time_amount",
-    "time",
-    "timed_distance_with_elevation",
-    "timed_distance",
+PromptTypeName = Optional[
+    Literal[
+        "boolean",
+        "float",
+        "integer_sequence",
+        "integer",
+        "nonnegative",
+        "natural_sequence",
+        "natural",
+        "text",
+        "time_amount",
+        "time",
+    ]
 ]
-# typed_list: Callable[[list[RawPromptResponseType]], list[PromptResponseType]]
-
-prompt_type_mapping: dict[PromptTypeName, TrackingActivityType] = {}
+prompt_type_mapping: dict[PromptTypeName, str] = {
+    "boolean": "bool",
+    "float": "float",
+    "integer_sequence": "list[int]",
+    "integer": "int",
+    "nonnegative": "list[float] where float >= 0",
+    "natural_sequence": "list[int] where int > 0",
+    "natural": "int, where int > 0",
+    "text": "str",
+    "time_amount": "float",
+    "time": "PTime",
+}

@@ -16,9 +16,6 @@ from ..util.serde.deserialization import parse_activity_dict
 JSONDict = dict[str, Union[str, float, list[dict], dict[str, Union[list, dict, float, str]]]]
 
 
-# print(prompt_configs)
-
-
 class TrackerItem:
     """
     Used to track activities.
@@ -40,17 +37,10 @@ class TrackerItem:
         activity_dict: ActivityDictParsed = parse_activity_dict(_activity_dict)
         self.name = activity_dict["name"]
         self.prompt_config = PromptConfig.from_activity_dict(activity_dict)
-        # self.prompt = activity_dict["prompt"]
-        # self.error_prompt = activity_dict.get("error_prompt", "")
-        # self.quit_string = ":q"
-        # self.item_type = activity_dict.get("dtype", "boolean")
-        # self.components: dict[PromptTypeName, ActivityDictRaw] = {}
-        # self.project_dict = self.prompt_config_from_info
         self.desirable = activity_dict["desirable"]
         _order: Optional[float] = activity_dict.get("order", 50.0)
         self.order: float = float(_order or 50.0)
         self.response = None
-        # self.subactivity_dict =
 
     @classmethod
     def from_routine_activity_dict(
@@ -69,14 +59,12 @@ class TrackerItem:
             "response": None,
         }
 
-        # print(order, routine_name, routine_activity_dict['name'])
         return cls(activity_activity_dict)
 
     def prompt_interactively(self) -> None:
         """
         Master method for interactive prompting, supporting all prompt data types.
         """
-        # item_prompt_config = self.prompt_config_from_info
         self.response = prompt_any(self.prompt_config)
 
     def deserialize(self, log_dict: ActivityDictRaw) -> None:

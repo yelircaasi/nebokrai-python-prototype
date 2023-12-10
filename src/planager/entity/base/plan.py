@@ -33,10 +33,8 @@ class Plan:
         cls, declaration_dict: DeclarationDictRaw, plan_derivation_dict: PlanDictRaw
     ) -> "Plan":
         """
-        Instantiate Plan object from dictio-ry corresponding to JSON format.
+        Instantiate Plan object from dictionary corresponding to JSON format.
         """
-        # routines = Routines.deserialize(declaration["routines"])
-        # calendar_dict = declaration["calendar"]
 
         routines = Routines.deserialize(declaration_dict["routines"])
         calendar_dict = declaration_dict["calendar"]
@@ -45,16 +43,6 @@ class Plan:
         plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
 
         return cls(calendar=Calendar.deserialize(routines, calendar_dict))
-
-    # @classmethod
-    # def from_declaration(cls, declaration_path: Path) -> "Plan":
-    #     """
-    #     Reads a saved plan in .json format.
-    #     """
-    #     with open(declaration_path, encoding="utf-8") as f:
-    #         declaration: DeclarationDictRaw = json.load(f)
-
-    #     return cls.deserialize(declaration)
 
     @classmethod
     def from_derivation(cls, declaration_path: Path, plan_derivation_path: Path) -> "Plan":  # TODO
@@ -130,8 +118,6 @@ class Plan:
 
     @property
     def gantt_view(self) -> str:
-        # def make_gantt_string(roadmaps: Roadmaps, plan: Plan) -> str:
-        # def make_gantt_string(self, roadmaps: Roadmaps, plan: Plan, raw: bool = False) -> str:
         """
         Creates a Gantt-style representation of the declaration and resulting plan.
         """
@@ -165,7 +151,6 @@ class Plan:
                 symbol = circles[task.status]
                 grid[pnum][dnum] = symbol
 
-        # import pdb; pdb.set_trace()
         lines = list(map("".join, grid))
         line_tuples = sorted(
             zip(map(format_name, project_names), lines), key=lambda x: x[1], reverse=True
@@ -230,20 +215,12 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
     Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
       the lowest-priority excess task ids are returned.
     """
-    # print(date)
     plan.ensure_date(date)
     tasks = Tasks(tasks) + plan.plan_dict.get(date, [])
     avail_dict = plan.calendar[date].available_dict
 
     blocked_tasks: Tasks = tasks.pop_tasks_from_blocks(avail_dict)
-    # if blocked_tasks:
-    #     color.pcyan(f"  Blocked Tasks ({date}):")
-    #     color.pcyan("    " + "\n    ".join(map(lambda t: t.fullname, blocked_tasks)))
-
     excess = tasks.pop_excess_tasks(avail_dict["empty"])
-    # if excess:
-    #     color.pred(f"  Excess Tasks ({date}):")
-    #     color.pred("    " + "\n    ".join(map(lambda t: t.fullname, excess)))
 
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
@@ -254,7 +231,7 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
     return plan, excess
 
 
-def update_plan(  # add_subplan(
+def update_plan(
     plan: Plan,
     subplan: dict[PDate, Tasks],
 ) -> Plan:
@@ -262,16 +239,12 @@ def update_plan(  # add_subplan(
     Adds subplan (like plan, but corresponding to single project) to the plan,
       rolling tasks over when the daily maximum is exceeded, according to priority.
     """
-    # color.pblack("Entering update_plan()")
     for date, tasks_ in subplan.items():
         plan, rollover = add_tasks(plan, date, tasks_)
 
         next_date = date.copy()
         while rollover:
-            # print(f"{color.magenta('Inside rollover loop, date:')} {color.green(str(date))}.")
-            # color.pmagenta("  " + "\n  ".join(map(lambda t: t.fullname, rollover)))
-
             plan, rollover = add_tasks(plan, next_date, rollover)
             next_date += 1
-    # color.pblack("Exiting update_plan()")
+
     return plan

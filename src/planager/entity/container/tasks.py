@@ -21,19 +21,11 @@ class Tasks:
             self._tasks = OrderedDict(tasks)
         else:
             tasks = tasks or []
-            # for i, task in enumerate(tasks):
-            #     task.project_order = i + 1
             self._tasks = OrderedDict(
                 sorted(
                     map(lambda task: (task.task_id, task), tasks), key=lambda t: t[1].project_order
                 )
             )
-        # if isinstance(tasks, list) and tasks:
-        #     if tasks[0].project_name == "Notion - F.B. ML & DS":
-        #         print(200 * "!")
-        #         print(self._tasks)
-        #         print(200 * "@")
-        #         exit()
 
     @classmethod
     def deserialize(
@@ -71,13 +63,11 @@ class Tasks:
         Get tasks that can be added to the blocks specified in 'available_dict' and remove them
           from self.
         """
-        # print(available_dict)
         relevant_block_names = sorted(
             self.get_relevant_block_names(available_dict), key=lambda bl: available_dict[bl]
         )
         blocked_tasks: Tasks = self.get_blocked_tasks(relevant_block_names, available_dict)
         self.remove_tasks(blocked_tasks)
-        # print(len(blocked_tasks))
 
         return blocked_tasks
 
@@ -88,9 +78,6 @@ class Tasks:
         Get member tasks that can be added to blocks according to the block time availablity
           dictionary.
         """
-        # color.pgreen(
-        #     "Available time: " + ", ".join([f"{k}: {v}" for k, v in available_dict.items()])
-        # )
         blocked_tasks = Tasks()
 
         def block_filter(categories: set[str]) -> Callable[[str], bool]:
@@ -131,7 +118,6 @@ class Tasks:
         excess_tasks = Tasks()
         total = self.total_remaining_duration
         while total > available_empty:
-            # print(total)
             task_to_move = self.pop()
             excess_tasks.add(task_to_move)
             total -= task_to_move.remaining_duration

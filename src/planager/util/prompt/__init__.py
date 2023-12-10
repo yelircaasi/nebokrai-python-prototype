@@ -12,38 +12,6 @@ from ..serde.custom_dict_types import (
 from .prompt_config import PromptConfig
 
 __all__ = ["PromptConfig", "prompt_any", "prompt_configs"]
-# from .prompt_functions import (
-#     prompt_boolean,
-#     prompt_dispatcher,
-#     prompt_integer,
-#     prompt_integer_sequence,
-#     prompt_natural,
-#     prompt_natural_sequence,
-#     prompt_numerical,
-#     prompt_text,
-#     prompt_time,
-#     prompt_time_amount,
-#     prompt_timed_distance,
-#     prompt_timed_distance_with_elevation,
-#     prompt_typed_list,
-#     simple_prompt_functions,
-# )
-
-# __all__ = [
-#     "prompt_boolean",
-#     "prompt_integer",
-#     "prompt_integer_sequence",
-#     "prompt_natural",
-#     "prompt_natural_sequence",
-#     "prompt_numerical",
-#     "prompt_text",
-#     "prompt_time",
-#     "prompt_time_amount",
-#     "prompt_timed_distance",
-#     "prompt_timed_distance_with_elevation",
-#     "prompt_typed_list",
-#     "simple_prompt_functions",
-# ]
 
 
 def prompt_atomic(prompt_config: "PromptConfig") -> Optional[TrackingActivityResponseType]:
@@ -73,8 +41,6 @@ def prompt_composite(prompt_config: PromptConfig) -> dict[str, TrackingActivityR
     ret: dict[str, TrackingActivityResponseType] = {}
     for k, kconfig in prompt_config.components.items():
         parsed_response: TrackingActivityResponseType = prompt_any(kconfig)
-        # if parsed_response is None:
-        #     return None
         ret.update({k: parsed_response})
     return ret
 

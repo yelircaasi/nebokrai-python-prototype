@@ -1,8 +1,16 @@
 from typing import Callable, Optional
 
-from ..elementary_types import PromptTypeName, TrackingActivityResponseType, prompt_type_mapping
+from ..elementary_types import (
+    PromptTypeName,
+    TrackingActivityResponseType,
+    prompt_type_mapping,
+)
 from ..pdatetime import PTime
-from ..serde.custom_dict_types import ActivityDictParsed, ComponentDictParsed, SubitemDictParsed
+from ..serde.custom_dict_types import (
+    ActivityDictParsed,
+    ComponentDictParsed,
+    SubitemDictParsed,
+)
 from .type_conversion import convert_time_amount
 
 ConversionFuncType = Callable[[str], TrackingActivityResponseType]
@@ -81,93 +89,3 @@ class PromptConfig:
         """
         print(components_dict)  # TODO
         return {"": PromptConfig()}
-
-
-# atomic_configs: dict[PromptTypeName, PromptConfig] = {
-#     pc.prompt_type: pc
-#     for pc in [
-#         PromptConfig(
-#             prompt_type="boolean",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#         PromptConfig(
-#             prompt_type="natural",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#         PromptConfig(
-#             prompt_type="integer",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#         PromptConfig(
-#             prompt_type="text",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#         PromptConfig(
-#             prompt_type="time_amount",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#         PromptConfig(
-#             prompt_type="time",
-#             sequence_item_config=None,
-#             components=None,
-#         ),
-#     ]
-# }
-# components_dict: dict[PromptTypeName, dict[str, PromptConfig]] = {
-#     "timed_distance_with_elevation": {
-#         "kilometers": PromptConfig(prompt_type="float"),
-#         "seconds": PromptConfig(prompt_type="float"),
-#         "up": PromptConfig(prompt_type="float"),
-#         "down": PromptConfig(prompt_type="float"),
-#     },
-#     "timed_distance": {
-#         "kilometers": PromptConfig(prompt_type="float"),
-#         "seconds": PromptConfig(prompt_type="float"),
-#     },
-# }
-# composite_configs: dict[PromptTypeName, PromptConfig] = {
-#     pc.prompt_type: pc
-#     for pc in [
-#         PromptConfig(
-#             prompt_type="timed_distance_with_elevation",
-#             sequence_item_config=None,
-#             components={
-#                 "kilometers": PromptConfig(prompt_type="float"),
-#                 "seconds": PromptConfig(prompt_type="float"),
-#                 "up": PromptConfig(prompt_type="float"),
-#                 "down": PromptConfig(prompt_type="float"),
-#             },
-#         ),
-#         PromptConfig(
-#             prompt_type="timed_distance",
-#             sequence_item_config=None,
-#             components={
-#                 "kilometers": PromptConfig(prompt_type="float"),
-#                 "seconds": PromptConfig(prompt_type="float"),
-#             },
-#         ),
-#     ]
-# }
-# sequence_configs: dict[PromptTypeName, PromptConfig] = {
-#     pc.prompt_type: pc
-#     for pc in [
-#         PromptConfig(
-#             prompt_type="integer_sequence",
-#             sequence_item_config=atomic_configs["integer"],
-#         ),
-#         PromptConfig(
-#             prompt_type="natural_sequence",
-#             sequence_item_config=atomic_configs["natural"],
-#             components=None,
-#         ),
-#     ]
-# }
-
-# prompt_configs: dict[PromptTypeName, PromptConfig] = (
-#     atomic_configs | composite_configs | sequence_configs
-# )

@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "planager"
+name = "nebokrai"
 version = "0.1.0"
-description = "Python prototype of a tool for planning, prioritizing, and tracking. Designed by me for me to be an all-in-one way to stay organized"
+description = "Python tool for planning, prioritizing, and tracking. Designed by me, for me, to be an all-in-one way to stay organized and keep a long-range view of my goals."
 authors = ["Isaac Riley <isaac.r.riley@gmail.com>"]
 license = "GPL3"
 readme = "README.md"
@@ -38,7 +38,6 @@ target-version = ["py310"]
 line-length = 100
 
 [tool.pylint]
-# disable = ["C0114", "R0902", "R0913", "R0914"]
 disable = [
     "C0114",
     "C0325",

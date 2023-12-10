@@ -9,7 +9,7 @@ from ..elementary_types import (
     TimeAmountRaw,
     TimedDistance,
     TimedDistanceWithElevation,
-    TrackingActivityType,
+    TrackingActivityResponseType,
     WeekdayLiteral,
 )
 from ..entity_ids import ProjectID, TaskID
@@ -47,10 +47,6 @@ class PromptResponseParserDispatcher(TypedDict):
     time_amount: Callable[[TimeAmountRaw], Natural]
     timed_distance: Callable[[T], T]
     timed_distance_with_elevation: Callable[[T], T]
-    # typed_list: Callable[[list[RawPromptResponseType]], list[PromptResponseType]]
-
-
-# PromptTypeName = Literal[]
 
 
 class DeclarationDictRaw(TypedDict):
@@ -226,6 +222,40 @@ class TrackingDictParsed(TypedDict):
     activities: list["ActivityDictParsed"]
 
 
+class SubitemDictRaw(TypedDict):
+    """
+    Data type corresponding to a freshly-read activity subdict of 'tracking' subdict of a
+      declaration.json file.
+    """
+
+    name: str
+    dtype: PromptTypeName
+    prompt: NotRequired[str]
+    error_prompt: NotRequired[str]
+    quit_string: NotRequired[str]
+    components: NotRequired[dict[str, "ActivityDictParsed"]]
+    sequence_subitem: NotRequired["ActivityDictParsed"]
+
+
+class SubitemDictParsed(TypedDict):
+    """
+    Data type corresponding to a freshly-read and type-converted activity subdict of the 'tracking'
+      subdict of a declaration.json file.
+    """
+
+    name: str
+    dtype: PromptTypeName
+    prompt: NotRequired[str]
+    error_prompt: NotRequired[str]
+    quit_string: NotRequired[str]
+    components: NotRequired[dict[str, "ActivityDictParsed"]]
+    sequence_subitem: NotRequired["ActivityDictParsed"]
+
+
+ComponentDictRaw = dict[str, SubitemDictRaw]
+ComponentDictParsed = dict[str, SubitemDictParsed]
+
+
 class ActivityDictRaw(TypedDict):
     """
     Data type corresponding to a freshly-read activity subdict of 'tracking' subdict of a
@@ -235,10 +265,13 @@ class ActivityDictRaw(TypedDict):
     name: str
     dtype: PromptTypeName
     desirable: DesirabilityString
-    prompt: str
+    prompt: NotRequired[str]
     error_prompt: NotRequired[str]
-    response: NotRequired[TrackingActivityType]
+    quit_string: NotRequired[str]
+    response: NotRequired[TrackingActivityResponseType]
     order: NotRequired[float]
+    components: NotRequired[ComponentDictRaw]
+    sequence_subitem: NotRequired[SubitemDictRaw]
 
 
 class ActivityDictParsed(TypedDict):
@@ -250,10 +283,13 @@ class ActivityDictParsed(TypedDict):
     name: str
     dtype: PromptTypeName
     desirable: DesirabilityString
-    prompt: str
+    prompt: NotRequired[str]
     error_prompt: NotRequired[str]
-    response: NotRequired[TrackingActivityType]
+    quit_string: NotRequired[str]
+    response: NotRequired[TrackingActivityResponseType]
     order: float
+    components: NotRequired[ComponentDictParsed]
+    sequence_subitem: NotRequired[SubitemDictParsed]
 
 
 class PromptDispatcherType(TypedDict):

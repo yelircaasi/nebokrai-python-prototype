@@ -27,44 +27,6 @@ class PTime:
         hour, minute = map(int, substrings)
         return cls(hour, minute)
 
-    # @classmethod
-    # def ensure_is_ptime(
-    #     cls,
-    #     candidate: Any,
-    #     default: Optional["PTime"] = None,
-    # ) -> "PTime":
-    #     """
-    #     Converts values of several types into the corresponding PTime
-    #     """
-    #     if (candidate is None) and default:
-    #         return default
-    #     if isinstance(candidate, PTime):
-    #         return candidate
-    #     if isinstance(candidate, str):
-    #         if not candidate.strip():
-    #             pass
-    #         try:
-    #             return PTime.from_string(candidate)
-    #         except AssertionError:
-    #             pass
-    #     elif isinstance(candidate, tuple):
-    #         try:
-    #             assert len(candidate) == 2
-    #             hour, minute = map(int, candidate)
-    #             return PTime(hour, minute)
-    #         except AssertionError:
-    #             pass
-    #     elif isinstance(candidate, int):
-    #         try:
-    #             return PTime(candidate)
-    #         except ValueError:
-    #             pass
-    #     else:
-    #         pass
-    #     if isinstance(default, PTime):
-    #         return default
-    #     raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PTime'.")
-
     def __bool__(self):
         return not self.isblank
 
@@ -84,11 +46,11 @@ class PTime:
 
     def timeto(self, time2: "PTime") -> int:
         t2, t1 = time2.tominutes(), self.tominutes()
-        return t2 - t1  # if ((t1 is not None) and (t2 is not None)) else None
+        return t2 - t1
 
     def timefrom(self, time2: "PTime") -> int:
         t2, t1 = self.tominutes(), time2.tominutes()
-        return t2 - t1  # if ((t1 is not None) and (t2 is not None)) else None
+        return t2 - t1
 
     def __add__(self, mins: int) -> "PTime":
         return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
@@ -102,7 +64,7 @@ class PTime:
     def __repr__(self) -> str:
         return f"PTime({self.__str__()})"
 
-    def __eq__(self, ptime2: Any) -> bool:  # type: ignore
+    def __eq__(self, ptime2: Any) -> bool:
         if isinstance(ptime2, PTime):
             return self.tominutes() == ptime2.tominutes()
         return False

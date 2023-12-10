@@ -80,7 +80,9 @@ class TaskID(NamedTuple):
 
     @classmethod
     def from_string(cls, s: str) -> "TaskID":
-        return cls(*s.split("-"))
+        segments = s.split("-")
+        assert len(segments) == 3, f"Invalid input to TaskID.from_string: {segments}"
+        return cls(*segments)
 
     @property
     def roadmap_id(self) -> RoadmapID:

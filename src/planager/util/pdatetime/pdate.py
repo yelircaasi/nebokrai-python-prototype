@@ -17,44 +17,6 @@ class PDate:
         self._day = day
         self._date = date(year, month, day)
 
-    # @classmethod
-    # def ensure_is_pdate(
-    #     cls,
-    #     candidate: Union["PDate", str, tuple[str], int, ],
-    #     default: Optional["PDate"] = None,
-    # ) -> "PDate":
-    #     """
-    #     Converts values of several types into the corresponding PDate
-    #     """
-
-    #     if not candidate:
-    #         pass
-    #     elif isinstance(candidate, PDate):
-    #         return candidate
-    #     elif isinstance(candidate, str):
-    #         if not candidate.strip():
-    #             pass
-    #         elif candidate.startswith("in"):
-    #             return PDate.today() + int(candidate.replace("in", ""))
-    #         try:
-    #             return PDate.from_string(candidate)
-    #         except AssertionError:
-    #             pass
-    #     elif isinstance(candidate, tuple):
-    #         try:
-    #             return PDate(*map(int, candidate))
-    #         except AssertionError:
-    #             pass
-    #     elif isinstance(candidate, int):
-    #         return PDate.today() + candidate
-    #     else:
-    #         pass
-
-    #     if default is not None:
-    #         return default
-
-    #     raise ValueError(f"Impossible conversion requested: {str(candidate)} -> 'PDate'.")
-
     @property
     def year(self) -> int:
         return self._year
@@ -258,11 +220,6 @@ class NoneDate(PDate):
 
     def __eq__(self, __other: object) -> bool:
         return isinstance(__other, NoneDate)
-        # return (self.year, self.month, self.day) == (
-        #     __other.year,
-        #     __other.month,
-        #     __other.day,
-        # )
 
     def __lt__(self, __other: object) -> bool:
         return False

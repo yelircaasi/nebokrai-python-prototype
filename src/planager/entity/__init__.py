@@ -1,3 +1,19 @@
+# from .base import (
+#     Calendar,
+#     Day,
+#     Empty,
+#     Entry,
+#     Plan,
+#     Project,
+#     Roadmap,
+#     Routine,
+#     Schedule,
+#     Task,
+#     add_from_plan_and_excess,
+#     update_plan,
+# )
+# from .container import Entries, Projects, Roadmaps, Routines, Schedules, Tasks
+
 from .base.calendar import Calendar, Day
 from .base.entry import Empty, Entry
 from .base.plan import Plan, update_plan
@@ -30,5 +46,6 @@ __all__ = [
     "Schedules",
     "Task",
     "Tasks",
+    "add_from_plan_and_excess",
     "update_plan",
 ]

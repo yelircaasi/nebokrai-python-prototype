@@ -35,7 +35,6 @@ class Schedules:
     def __setitem__(self, __key: PDate, __value: Schedule) -> None:
         assert isinstance(__value, Schedule)
         self._schedules.update({__key: __value})
-        # raise ValueError(f"Invalid indexed assignment: {{{str(__key)}: {str(__value)}}}")
 
     @property
     def summary(self) -> str:

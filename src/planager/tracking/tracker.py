@@ -32,7 +32,6 @@ class Tracker:
         Adds an item tracker for each item of each routine.
         """
         for routine_name, routine_dict in routines_dict.items():
-            # print(routine_dict)
             base_order = routine_dict.get("default_order") or 40.0
             for i, item_dict in enumerate(routine_dict["items"]):
                 self.activities.append(
