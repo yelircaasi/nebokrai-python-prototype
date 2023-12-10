@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Iterator, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
+from ...util import NKDate, ProjectID, RoadmapID, TaskID, tabularize
 from ...util.serde.custom_dict_types import RoadmapsDictRaw
 from ..base.project import Project
 from ..base.roadmap import Roadmap
@@ -61,11 +61,11 @@ class Roadmaps:
         return _tasks
 
     @property
-    def start_date(self) -> PDate:
+    def start_date(self) -> NKDate:
         return min(roadmap.start_date for roadmap in self._roadmaps.values())
 
     @property
-    def end_date(self) -> PDate:
+    def end_date(self) -> NKDate:
         return max(roadmap.end_date for roadmap in self._roadmaps.values())
 
     def pretty(self) -> str:

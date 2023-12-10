@@ -1,7 +1,7 @@
 from typing import Callable, Iterable, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, PTime, color, tabularize
+from ...util import NKDate, NKTime, color, tabularize
 from ...util.serde.custom_dict_types import ScheduleDictRaw
 from ..container.entries import Entries
 from .calendar import Calendar
@@ -16,7 +16,7 @@ class Schedule:
 
     def __init__(
         self,
-        date: PDate,
+        date: NKDate,
         schedule: Iterable[Entry],
         weight_interval_min: Optional[float] = None,
         weight_interval_max: Optional[float] = None,
@@ -27,7 +27,7 @@ class Schedule:
         self.schedule = Entries(schedule)
 
         # meta / info
-        self.date: PDate = date
+        self.date: NKDate = date
 
         # algo
         self.weight_interval_min = (
@@ -59,7 +59,7 @@ class Schedule:
         return serialized
 
     @classmethod
-    def from_calendar(cls, calendar: Calendar, date: PDate) -> "Schedule":
+    def from_calendar(cls, calendar: Calendar, date: NKDate) -> "Schedule":
         return cls(date, calendar[date].entries)
 
     @classmethod
@@ -68,7 +68,7 @@ class Schedule:
         Create an instance from the dictionary from derivation/plan.json.
         """
         print(schedule_derivation_dict)  # TODO
-        date = PDate(2025, 1, 1)
+        date = NKDate(2025, 1, 1)
         schedule_list: list[Entry] = []
         return Schedule(date, schedule_list)  # TODO
 
@@ -78,7 +78,7 @@ class Schedule:
     def names(self) -> list[str]:
         return [x.name for x in self.schedule]
 
-    def starts(self) -> list[PTime]:
+    def starts(self) -> list[NKTime]:
         return [x.start for x in self.schedule]
 
     def starts_strings(self) -> list[str]:
@@ -184,7 +184,7 @@ class Schedule:
         return self.__repr__()
 
 
-def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: PDate) -> Entries:
+def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: NKDate) -> Entries:
     """
     Combine entries from plan with excess
     """
@@ -230,7 +230,7 @@ def zip_flex_and_fixed(
     return new_entries
 
 
-def assert_plan_and_date(plan: Optional[Plan], date: PDate) -> Plan:
+def assert_plan_and_date(plan: Optional[Plan], date: NKDate) -> Plan:
     """
     Ensures that the plan is not None and contains the specified day.
     """

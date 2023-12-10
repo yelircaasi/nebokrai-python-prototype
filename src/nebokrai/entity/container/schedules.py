@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from ...util import PDate
+from ...util import NKDate
 from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
 from ..base.schedule import Schedule
 
@@ -10,8 +10,8 @@ class Schedules:
     Container class for multiple instances of the Schedule class.
     """
 
-    def __init__(self, schedules: Optional[Dict[PDate, Schedule]] = None) -> None:
-        self._schedules: Dict[PDate, Schedule] = schedules or {}
+    def __init__(self, schedules: Optional[Dict[NKDate, Schedule]] = None) -> None:
+        self._schedules: Dict[NKDate, Schedule] = schedules or {}
 
     @classmethod
     def from_derivation(cls, schedules_derivation_dict: ScheduleDictParsed) -> "Schedules":
@@ -19,7 +19,7 @@ class Schedules:
         Create an instance from the dictionary read from from derivation/schedules.json.
         """
         print(schedules_derivation_dict)  # TODO
-        schedules_dict: dict[PDate, Schedule] = {}
+        schedules_dict: dict[NKDate, Schedule] = {}
         scheds = Schedules(schedules_dict)
         return scheds
 
@@ -29,10 +29,10 @@ class Schedules:
     def __len__(self) -> int:
         return len(self._schedules)
 
-    def __getitem__(self, __key: PDate) -> Schedule:
+    def __getitem__(self, __key: NKDate) -> Schedule:
         return self._schedules[__key]
 
-    def __setitem__(self, __key: PDate, __value: Schedule) -> None:
+    def __setitem__(self, __key: NKDate, __value: Schedule) -> None:
         assert isinstance(__value, Schedule)
         self._schedules.update({__key: __value})
 

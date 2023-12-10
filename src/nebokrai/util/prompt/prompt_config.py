@@ -5,7 +5,7 @@ from ..elementary_types import (
     TrackingActivityResponseType,
     prompt_type_mapping,
 )
-from ..pdatetime import PTime
+from ..nkdatetime import NKTime
 from ..serde.custom_dict_types import (
     ActivityDictParsed,
     ComponentDictParsed,
@@ -21,7 +21,7 @@ conversion_func_dict: dict[PromptTypeName, ConversionFuncType] = {
     "boolean": lambda s: s.strip().lower() in {"y", "yes", "true", "done", "check"},
     "text": lambda x: x,
     "time_amount": convert_time_amount,
-    "time": PTime.from_string,
+    "time": NKTime.from_string,
 }
 
 

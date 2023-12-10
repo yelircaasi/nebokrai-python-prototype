@@ -1,7 +1,7 @@
 from typing import Any, Literal, Optional
 
 from ...configuration import config
-from ...util import PDate, ProjectID, PTime, TaskID, tabularize
+from ...util import NKDate, NKTime, ProjectID, TaskID, tabularize
 from ...util.serde.custom_dict_types import TaskDictParsed, TaskDictRaw, TaskFullDictRaw
 from ...util.serde.deserialization import parse_task_dict
 from .entry import Entry
@@ -13,7 +13,7 @@ class Task:
       used as a template for an entry.
     """
 
-    tmpdate: PDate = PDate.nonedate()
+    tmnkdate: NKDate = NKDate.nonedate()
 
     def __init__(
         self,
@@ -23,9 +23,9 @@ class Task:
         priority: Optional[float],
         duration: Optional[int],
         dependencies: Optional[set[TaskID]] = None,
-        date_earliest: Optional[PDate] = None,
-        date_latest: Optional[PDate] = None,
-        tmpdate: Optional[PDate] = None,
+        date_earliest: Optional[NKDate] = None,
+        date_latest: Optional[NKDate] = None,
+        tmnkdate: Optional[NKDate] = None,
         notes: str = "",
         status: Literal["todo", "done"] = "todo",
         blocks: Optional[set[str]] = None,
@@ -49,8 +49,8 @@ class Task:
         self.categories = (categories or set()).union(config.default_categories)
 
         # record
-        self.tmpdate = tmpdate if tmpdate else self.tmpdate
-        self.original_date: PDate = PDate.nonedate()
+        self.tmnkdate = tmnkdate if tmnkdate else self.tmnkdate
+        self.original_date: NKDate = NKDate.nonedate()
         self.block_assigned = ""
 
     @classmethod
@@ -128,14 +128,14 @@ class Task:
 
     def as_entry(
         self,
-        start: Optional[PTime] = None,
-        end: Optional[PTime] = None,
+        start: Optional[NKTime] = None,
+        end: Optional[NKTime] = None,
     ) -> Entry:
         """
         Create an instance of Entry from a task.
         """
         if not start:
-            start = PTime.nonetime()
+            start = NKTime.nonetime()
         return Entry(
             f"{self.name} ({self.project_name})",
             start,
@@ -187,28 +187,28 @@ class Task:
         return (
             (self.task_id in __other.dependencies)
             and (__other.task_id not in self.dependencies)
-            or (__other.tmpdate > self.tmpdate)
+            or (__other.tmnkdate > self.tmnkdate)
         )
 
     def __gt__(self, __other: Any) -> bool:
         return (
             (__other.task_id in self.dependencies)
             and (self.task_id not in __other.dependencies)
-            or (self.tmpdate > __other.tmpdate)
+            or (self.tmnkdate > __other.tmnkdate)
         )
 
     def __le__(self, __other: Any) -> bool:
         return (
             (not self.task_id not in __other.dependencies)
             and (__other.task_id not in self.dependencies)
-            and (__other.tmpdate >= self.tmpdate)
+            and (__other.tmnkdate >= self.tmnkdate)
         )
 
     def __ge__(self, __other: Any) -> bool:
         return (
             (__other.task_id not in self.dependencies)
             and (self.task_id not in __other.dependencies)
-            and (self.tmpdate >= __other.tmpdate)
+            and (self.tmnkdate >= __other.tmnkdate)
         )
 
     def __str__(self) -> str:

@@ -4,7 +4,7 @@ from typing import Iterator, Optional, Union
 from nebokrai.util.serde.custom_dict_types import ProjectDictRaw
 
 from ...configuration import config
-from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
+from ...util import NKDate, ProjectID, RoadmapID, TaskID, tabularize
 from ..container.tasks import Tasks
 from .task import Task
 
@@ -20,8 +20,8 @@ class Project:
         project_id: ProjectID,
         tasks: Tasks,
         priority: Optional[float],
-        start: Optional[PDate],
-        end: Optional[PDate],
+        start: Optional[NKDate],
+        end: Optional[NKDate],
         interval: Optional[int],
         cluster_size: Optional[int],
         duration: Optional[int],
@@ -34,7 +34,7 @@ class Project:
         self.project_id = project_id
         self._tasks = tasks
         self.priority = priority or config.default_priority
-        self.start = start or PDate.tomorrow() + config.default_project_dates_missing_offset + (
+        self.start = start or NKDate.tomorrow() + config.default_project_dates_missing_offset + (
             hash(self.name) % config.default_project_dates_missing_hashmod
         )
         self.end = end if end else None
@@ -78,8 +78,8 @@ class Project:
                 project_categories=categories,
             ),
             priority=priority,
-            start=PDate.from_string(start_str) if start_str else None,
-            end=PDate.from_string(end_str) if end_str else None,
+            start=NKDate.from_string(start_str) if start_str else None,
+            end=NKDate.from_string(end_str) if end_str else None,
             interval=int(project_dict.get("interval") or config.default_interval),
             cluster_size=int(project_dict.get("cluster_size") or config.default_cluster_size),
             duration=duration,
@@ -118,7 +118,7 @@ class Project:
         return ret
 
     @property
-    def subplan(self) -> dict[PDate, Tasks]:
+    def subplan(self) -> dict[NKDate, Tasks]:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
         """
@@ -151,13 +151,13 @@ class Project:
                 "For `Project` class, two of `start`, `end`, and `interval` must be defined."
             )
 
-        subplan: dict[PDate, Tasks] = {
+        subplan: dict[NKDate, Tasks] = {
             self.start + ints[i]: Tasks(cluster) for i, cluster in enumerate(clusters)
         }
 
         return subplan
 
-    def get_end(self) -> PDate:
+    def get_end(self) -> NKDate:
         return self.end or (self.start + 365)
 
     @property

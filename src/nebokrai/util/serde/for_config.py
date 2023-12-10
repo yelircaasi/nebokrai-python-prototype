@@ -1,4 +1,4 @@
-from ..pdatetime.ptime import PTime
+from ..nkdatetime.nktime import NKTime
 from .custom_dict_types import ConfigDictParsed, ConfigDictRaw
 from .util import split_tag_sequence
 
@@ -19,8 +19,8 @@ def parse_config_dict(conf_dict: ConfigDictRaw) -> ConfigDictParsed:
         "default_categories": conf_dict["default_categories"],
         "default_ismovable": conf_dict["default_ismovable"],
         "default_alignend": conf_dict["default_alignend"],
-        "default_day_start": PTime.from_string(conf_dict["default_day_start"]),
-        "default_day_end": PTime.from_string(conf_dict["default_day_end"]),
+        "default_day_start": NKTime.from_string(conf_dict["default_day_start"]),
+        "default_day_end": NKTime.from_string(conf_dict["default_day_end"]),
         "default_empty_blocks": split_tag_sequence(conf_dict["default_empty_blocks"]),
         "default_project_dates_missing_offset": conf_dict["default_project_dates_missing_offset"],
         "default_project_dates_missing_hashmod": conf_dict["default_project_dates_missing_hashmod"],

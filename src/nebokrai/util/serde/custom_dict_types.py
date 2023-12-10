@@ -13,13 +13,13 @@ from ..elementary_types import (
     WeekdayLiteral,
 )
 from ..entity_ids import ProjectID, TaskID
-from ..pdatetime.pdate import PDate
-from ..pdatetime.ptime import PTime
+from ..nkdatetime.nkdate import NKDate
+from ..nkdatetime.nktime import NKTime
 
 RoutinesDictRaw = dict[str, "RoutineDictRaw"]
 RoutinesDictParsed = dict[str, "RoutineDictParsed"]
 PlanDictRaw = dict[str, list["TaskFullDictRaw"]]
-PlanDictParsed = dict[PDate, "PlanTaskParsed"]
+PlanDictParsed = dict[NKDate, "PlanTaskParsed"]
 RoadmapsDictRaw = dict[str, "RoadmapDictRaw"]
 RoadmapsDictParsed = dict[str, "RoadmapDictParsed"]
 RoutinesInCalendarDictRaw = dict[str, "RoutineInCalendarDictRaw"]
@@ -43,7 +43,7 @@ class PromptResponseParserDispatcher(TypedDict):
     natural: Callable[[Natural], Natural]
     natural_sequence: Callable[[list[Natural]], list[Natural]]
     string: Callable[[T], T]
-    time: Callable[[str], PTime]
+    time: Callable[[str], NKTime]
     time_amount: Callable[[TimeAmountRaw], Natural]
     timed_distance: Callable[[T], T]
     timed_distance_with_elevation: Callable[[T], T]
@@ -124,8 +124,8 @@ class ConfigDictParsed(TypedDict):
     default_categories: str
     default_ismovable: bool
     default_alignend: bool
-    default_day_start: PTime
-    default_day_end: PTime
+    default_day_start: NKTime
+    default_day_end: NKTime
     default_empty_blocks: set[str]
     default_project_dates_missing_offset: int
     default_project_dates_missing_hashmod: int
@@ -162,7 +162,7 @@ class RoutineDictParsed(TypedDict):
     """
 
     name: str
-    default_start: PTime
+    default_start: NKTime
     default_priority: float
     default_notes: str
     default_normaltime: int
@@ -299,7 +299,7 @@ class PromptDispatcherType(TypedDict):
     """
 
     sequence: Callable[[str, str, PromptTypeName], list]
-    time: Callable[[str, str, str], PTime]
+    time: Callable[[str, str, str], NKTime]
     integer: Callable[[str, str, str], int]
     integer_sequence: Callable[[str, str, str], list[int]]
     natural: Callable[[str, str, str], Natural]
@@ -320,7 +320,7 @@ class CalendarDictRaw(TypedDict):
 
 
 class CalendarDictParsed(TypedDict):
-    days: dict[PDate, "DayDictParsed"]
+    days: dict[NKDate, "DayDictParsed"]
 
 
 class DayDictRaw(TypedDict):
@@ -337,8 +337,8 @@ class DayDictRaw(TypedDict):
 
 
 class DayDictParsed(TypedDict):
-    start: PTime
-    end: PTime
+    start: NKTime
+    end: NKTime
     weekday: WeekdayLiteral
     routines: list["RoutineInCalendarDictParsed"]
     entries: list["EntryDictParsed"]
@@ -359,8 +359,8 @@ class RoutineInCalendarDictRaw(TypedDict):
 
 class RoutineInCalendarDictParsed(TypedDict):
     name: str
-    start: PTime
-    end: PTime
+    start: NKTime
+    end: NKTime
     priority: float
     normaltime: int
     idealtime: int
@@ -391,8 +391,8 @@ class EntryDictRaw(TypedDict):
 
 class EntryDictParsed(TypedDict):
     name: str
-    start: PTime
-    end: PTime
+    start: NKTime
+    end: NKTime
     priority: float
     blocks: set[str]
     ismovable: bool
@@ -405,7 +405,7 @@ class EntryDictParsed(TypedDict):
     alignend: bool
     order: float
     subentries: list["EntryDictParsed"]
-    assigned_time: Optional[PTime]
+    assigned_time: Optional[NKTime]
 
 
 class RoadmapDictRaw(TypedDict):
@@ -439,8 +439,8 @@ class ProjectDictParsed(TypedDict):
     name: str
     task_string: str
     priority: float
-    start: PDate
-    end: PDate
+    start: NKDate
+    end: NKDate
     duration: int
     tags: set[str]
     description: str
@@ -523,7 +523,7 @@ class ScheduleDictRaw(TypedDict):
 
 
 class ScheduleDictParsed(TypedDict):
-    date: PDate
+    date: NKDate
     entries: list["ScheduleEntryParsed"]
 
 

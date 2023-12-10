@@ -1,4 +1,4 @@
-from ..pdatetime.ptime import PTime
+from ..nkdatetime.nktime import NKTime
 
 
 def convert_time_amount(s: str) -> float:
@@ -10,6 +10,6 @@ def convert_time_amount(s: str) -> float:
     if s.replace(".", "", 1).isdigit():
         return float(s)
     if ":" in s:
-        ptime = PTime.from_string(s)
-        return float(60 * ptime.hour + ptime.minute)
+        nktime = NKTime.from_string(s)
+        return float(60 * nktime.hour + nktime.minute)
     raise ValueError(f"Input string {s} cannot be converted to float.")

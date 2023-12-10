@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 
-class PTime:
+class NKTime:
     """
     Bespoke time class designed to simplify the nebokrai codebase.
     """
@@ -14,16 +14,16 @@ class PTime:
         self.isblank = isblank
 
     @classmethod
-    def from_string(cls, date_string: Optional[str]) -> "PTime":
+    def from_string(cls, date_string: Optional[str]) -> "NKTime":
         assert isinstance(
             date_string, str
-        ), f"Argument to PTime.from_string must be str, not '{type(date_string)}'."
+        ), f"Argument to NKTime.from_string must be str, not '{type(date_string)}'."
         if date_string.lower().startswith("none"):
-            return PTime.nonetime()
+            return NKTime.nonetime()
         substrings = date_string.split(":")
         assert (
             len(substrings) == 2
-        ), f"Argument to PTime.from_string must have exactly one colon. Given: '{date_string}'."
+        ), f"Argument to NKTime.from_string must have exactly one colon. Given: '{date_string}'."
         hour, minute = map(int, substrings)
         return cls(hour, minute)
 
@@ -31,58 +31,58 @@ class PTime:
         return not self.isblank
 
     def copy(self):
-        return PTime(self.hour, self.minute)
+        return NKTime(self.hour, self.minute)
 
     def tominutes(self) -> int:
         return 60 * self.hour + self.minute
 
     @classmethod
-    def fromminutes(cls, mins: int) -> "PTime":
+    def fromminutes(cls, mins: int) -> "NKTime":
         return cls(*divmod(mins, 60))
 
     @staticmethod
     def nonetime() -> "NoneTime":
         return NoneTime()
 
-    def timeto(self, time2: "PTime") -> int:
+    def timeto(self, time2: "NKTime") -> int:
         t2, t1 = time2.tominutes(), self.tominutes()
         return t2 - t1
 
-    def timefrom(self, time2: "PTime") -> int:
+    def timefrom(self, time2: "NKTime") -> int:
         t2, t1 = self.tominutes(), time2.tominutes()
         return t2 - t1
 
-    def __add__(self, mins: int) -> "PTime":
-        return PTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
+    def __add__(self, mins: int) -> "NKTime":
+        return NKTime.fromminutes(min(1440, max(0, self.tominutes() + mins)))
 
-    def __sub__(self, mins: int) -> "PTime":
-        return PTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
+    def __sub__(self, mins: int) -> "NKTime":
+        return NKTime.fromminutes(min(1440, max(0, self.tominutes() - mins)))
 
     def __str__(self) -> str:
         return f"{self.hour:0>2}:{self.minute:0>2}"
 
     def __repr__(self) -> str:
-        return f"PTime({self.__str__()})"
+        return f"NKTime({self.__str__()})"
 
-    def __eq__(self, ptime2: Any) -> bool:
-        if isinstance(ptime2, PTime):
-            return self.tominutes() == ptime2.tominutes()
+    def __eq__(self, nktime2: Any) -> bool:
+        if isinstance(nktime2, NKTime):
+            return self.tominutes() == nktime2.tominutes()
         return False
 
-    def __lt__(self, ptime2: "PTime") -> bool:
-        return self.tominutes() < ptime2.tominutes()
+    def __lt__(self, nktime2: "NKTime") -> bool:
+        return self.tominutes() < nktime2.tominutes()
 
-    def __gt__(self, ptime2: "PTime") -> bool:
-        return self.tominutes() > ptime2.tominutes()
+    def __gt__(self, nktime2: "NKTime") -> bool:
+        return self.tominutes() > nktime2.tominutes()
 
-    def __le__(self, ptime2: "PTime") -> bool:
-        return self.tominutes() <= ptime2.tominutes()
+    def __le__(self, nktime2: "NKTime") -> bool:
+        return self.tominutes() <= nktime2.tominutes()
 
-    def __ge__(self, ptime2: "PTime") -> bool:
-        return self.tominutes() >= ptime2.tominutes()
+    def __ge__(self, nktime2: "NKTime") -> bool:
+        return self.tominutes() >= nktime2.tominutes()
 
 
-class NoneTime(PTime):
+class NoneTime(NKTime):
     """
     Empty time for cases where this may be superior to using None
     """

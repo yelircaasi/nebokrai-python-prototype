@@ -3,7 +3,7 @@ from itertools import chain
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, ProjectID, TaskID, tabularize
+from ...util import NKDate, ProjectID, TaskID, tabularize
 from ...util.serde.custom_dict_types import TaskDictRaw, TaskFullDictRaw
 from ..base.task import Task
 
@@ -123,13 +123,13 @@ class Tasks:
             total -= task_to_move.remaining_duration
         return excess_tasks
 
-    def update_original_date(self, date: PDate) -> None:
+    def update_original_date(self, date: NKDate) -> None:
         for task in self._tasks.values():
             task.original_date = date
 
-    def update_tmpdate(self, date: PDate) -> None:
+    def update_tmnkdate(self, date: NKDate) -> None:
         for task in self._tasks.values():
-            task.tmpdate = date
+            task.tmnkdate = date
 
     def extend(self, __tasks: "Tasks") -> None:
         for task in __tasks:

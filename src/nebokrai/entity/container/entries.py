@@ -2,7 +2,7 @@ import itertools
 import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
-from ...util import PTime
+from ...util import NKTime
 from ..base.entry import Empty, Entry
 
 EntriesInitType = Optional[Union["Entries", Iterable[Entry]]]
@@ -45,12 +45,12 @@ class Entries:
         self._entries.sort(key=key)
 
     @property
-    def start(self) -> PTime:
-        return min(self._entries, key=lambda x: x.start).start if self._entries else PTime()
+    def start(self) -> NKTime:
+        return min(self._entries, key=lambda x: x.start).start if self._entries else NKTime()
 
     @property
-    def end(self) -> PTime:
-        return max(self._entries, key=lambda x: x.end).end if self._entries else PTime(24)
+    def end(self) -> NKTime:
+        return max(self._entries, key=lambda x: x.end).end if self._entries else NKTime(24)
 
     @property
     def total_duration(self) -> int:
@@ -115,8 +115,8 @@ class Entries:
             )
         return (
             adjacency
-            and (self._entries[0].start == PTime())
-            and (self._entries[-1].end == PTime(24))
+            and (self._entries[0].start == NKTime())
+            and (self._entries[-1].end == NKTime(24))
         )
 
     def get_overlaps(self, entry: Entry) -> "Entries":
@@ -167,7 +167,7 @@ class Entries:
         elif not fixed:
             self._entries.append(flex.pop(0))
         else:
-            hard_boundary = fixed[0].start if fixed else PTime(24)
+            hard_boundary = fixed[0].start if fixed else NKTime(24)
             available = self.earliest_end.timeto(hard_boundary)
             next_entry = flex.pop(0) if available >= flex[0].mintime else fixed.pop(0)
             self._entries.append(next_entry)
@@ -175,8 +175,8 @@ class Entries:
         return flex, fixed
 
     @property
-    def earliest_end(self) -> PTime:
-        return PTime(0) if not self._entries else self.entries_sorted[-1].end
+    def earliest_end(self) -> NKTime:
+        return NKTime(0) if not self._entries else self.entries_sorted[-1].end
 
     @property
     def entries_sorted(self) -> list[Entry]:

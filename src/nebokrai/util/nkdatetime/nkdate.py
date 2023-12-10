@@ -3,7 +3,7 @@ from datetime import date
 from typing import Any, Union
 
 
-class PDate:
+class NKDate:
     """
     Bespoke date class designed to simplify the nebokrai codebase.
     """
@@ -42,48 +42,48 @@ class PDate:
         self._day = day
 
     def copy(self):
-        return PDate(self.year, self.month, self.day)
+        return NKDate(self.year, self.month, self.day)
 
     @classmethod
-    def today(cls) -> "PDate":
+    def today(cls) -> "NKDate":
         d = date.today()
         return cls(d.year, d.month, d.day)
 
     @classmethod
-    def from_string(cls, date_str: str) -> "PDate":
+    def from_string(cls, date_str: str) -> "NKDate":
         if not isinstance(date_str, str):
             raise TypeError(
-                f"Invalid type for PDate.from_string: '{type(date_str)}' (value: '{date_str}')."
+                f"Invalid type for NKDate.from_string: '{type(date_str)}' (value: '{date_str}')."
             )
         result = re.search(cls.date_regex, str(date_str))
         if result:
             year, month, day = map(int, result.groups())
             return cls(year, month, day)
-        raise ValueError(f"Invalid string for conversion to PDate: '{date_str}'.")
+        raise ValueError(f"Invalid string for conversion to NKDate: '{date_str}'.")
 
     def toordinal(self) -> int:
         return self._date.toordinal()
 
     @classmethod
-    def fromordinal(cls, __ord: int) -> "PDate":
+    def fromordinal(cls, __ord: int) -> "NKDate":
         d = date.fromordinal(__ord)
         return cls(d.year, d.month, d.day)
 
     def weekday(self) -> int:
         return self._date.weekday()
 
-    def daysto(self, date2: "PDate") -> int:
+    def daysto(self, date2: "NKDate") -> int:
         return date2.toordinal() - self.toordinal()
 
     def __int__(self) -> int:
         return self.toordinal()
 
-    def __add__(self, days: int) -> "PDate":
+    def __add__(self, days: int) -> "NKDate":
         d = date.fromordinal(self.toordinal() + int(days))
-        return PDate(d.year, d.month, d.day)
+        return NKDate(d.year, d.month, d.day)
 
-    def __sub__(self, days: int) -> "PDate":  # type: ignore
-        return PDate.fromordinal(self.toordinal() - int(days))
+    def __sub__(self, days: int) -> "NKDate":  # type: ignore
+        return NKDate.fromordinal(self.toordinal() - int(days))
 
     def pretty(self) -> str:
         """
@@ -125,7 +125,7 @@ class PDate:
         ending = ordinal_endings.get(self.day, "th")
         return f"{days[self.weekday()]}, {months[self.month]} {self.day}{ending}, {self.year}"
 
-    def range(self, end: Union["PDate", int], inclusive: bool = True) -> list["PDate"]:
+    def range(self, end: Union["NKDate", int], inclusive: bool = True) -> list["NKDate"]:
         """
         Returns a list of consecutive days, default inclusive. Supports reverse-order ranges.
         """
@@ -161,7 +161,7 @@ class PDate:
         return dates
 
     @classmethod
-    def tomorrow(cls) -> "PDate":
+    def tomorrow(cls) -> "NKDate":
         return cls.today() + 1
 
     @staticmethod
@@ -172,7 +172,7 @@ class PDate:
         return hash((self.year, self.month, self.day))
 
     def __eq__(self, __other: object) -> bool:
-        if not isinstance(__other, (date, PDate)):
+        if not isinstance(__other, (date, NKDate)):
             return False
         return (self.year, self.month, self.day) == (
             __other.year,
@@ -204,10 +204,10 @@ class PDate:
         return f"{self.year}-{self.month:0>2}-{self.day:0>2}"
 
     def __repr__(self) -> str:
-        return f"PDate({self.__str__()})"
+        return f"NKDate({self.__str__()})"
 
 
-class NoneDate(PDate):
+class NoneDate(NKDate):
     """
     Empty date for cases where this may be superior to using None
     """

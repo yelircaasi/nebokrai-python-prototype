@@ -1,7 +1,7 @@
 from typing import Iterable, Optional, Union
 
 from ...configuration import config
-from ...util import PTime, round5, tabularize
+from ...util import NKTime, round5, tabularize
 from ...util.serde.custom_dict_types import (
     EntryDictParsed,
     EntryDictRaw,
@@ -18,8 +18,8 @@ class Entry:
     def __init__(
         self,
         name: str,
-        start: Optional[PTime],
-        end: Optional[PTime] = None,
+        start: Optional[NKTime],
+        end: Optional[NKTime] = None,
         priority: Optional[Union[float, int]] = None,
         blocks: Optional[set[str]] = None,
         categories: Optional[set[str]] = None,
@@ -28,10 +28,10 @@ class Entry:
         idealtime: Optional[int] = None,
         mintime: Optional[int] = None,
         maxtime: Optional[int] = None,
-        start_earliest: Optional[PTime] = None,
-        start_latest: Optional[PTime] = None,
-        end_earliest: Optional[PTime] = None,
-        end_latest: Optional[PTime] = None,
+        start_earliest: Optional[NKTime] = None,
+        start_latest: Optional[NKTime] = None,
+        end_earliest: Optional[NKTime] = None,
+        end_latest: Optional[NKTime] = None,
         ismovable: bool = True,
         alignend: bool = False,
         order: Optional[float] = None,
@@ -45,7 +45,7 @@ class Entry:
         self.notes = notes
 
         # algo
-        self.start: PTime = start if isinstance(start, PTime) else PTime.nonetime()
+        self.start: NKTime = start if isinstance(start, NKTime) else NKTime.nonetime()
         self.priority = config.default_priority if priority is None else priority
         self.blocks = blocks or set([])
         self.categories = (categories or set([])).union(config.default_categories)
@@ -68,14 +68,14 @@ class Entry:
         self.idealtime: int = idealtime or round5(config.default_idealtime_factor * self.normaltime)
         self.mintime: int = mintime or round5(config.default_mintime_factor * self.normaltime)
         self.maxtime: int = maxtime or round5(config.default_maxtime_factor * self.normaltime)
-        self.end: PTime = end or (self.start + self.normaltime)
+        self.end: NKTime = end or (self.start + self.normaltime)
         self.start_earliest = (start_earliest,)
         self.start_latest = start_latest
         self.end_earliest = end_earliest
         self.end_latest = end_latest
         self.alignend: bool = alignend
         self.order: float = config.default_order if order is None else order
-        self.assigned_time: Optional[PTime] = None
+        self.assigned_time: Optional[NKTime] = None
 
     @classmethod
     def deserialize(cls, _entry_dict: EntryDictRaw | RoutineItemDictRaw) -> "Entry":
@@ -148,8 +148,8 @@ class Entry:
         """
         return Entry(
             "First",
-            start=PTime(),
-            end=PTime(),
+            start=NKTime(),
+            end=NKTime(),
             ismovable=False,
             priority=-1.0,
             mintime=0,
@@ -164,8 +164,8 @@ class Entry:
         """
         return Entry(
             "Last",
-            start=PTime(24),
-            end=PTime(24),
+            start=NKTime(24),
+            end=NKTime(24),
             ismovable=False,
             priority=-1.0,
             mintime=0,
@@ -198,7 +198,7 @@ class Entry:
         return self.start.timeto(self.end)
 
     @property
-    def timespan(self) -> tuple[PTime, PTime]:
+    def timespan(self) -> tuple[NKTime, NKTime]:
         return (self.start, self.end)
 
     def hasmass(self) -> bool:
@@ -350,7 +350,7 @@ class Empty(Entry):
     Used in scheduling algorithms.
     """
 
-    def __init__(self, start: PTime, end: PTime):
+    def __init__(self, start: NKTime, end: NKTime):
         super().__init__(
             "Empty",
             start=start,

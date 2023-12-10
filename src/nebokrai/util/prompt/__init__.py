@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Any, Callable, Iterable, NamedTuple, Optional
 
 from ..elementary_types import Natural, PromptTypeName, TrackingActivityResponseType
-from ..pdatetime import PTime
+from ..nkdatetime import NKTime
 from ..serde.custom_dict_types import (
     PromptDispatcherType,
     TimedDistance,

@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable, Optional, Union
 
-from .util import PTime
+from .util import NKTime
 from .util.serde.for_config import ConfigDictParsed, ConfigDictRaw, parse_config_dict
 
 
@@ -113,8 +113,8 @@ class Config:
     default_ismovable: bool
     default_alignend: bool
 
-    default_day_start: PTime
-    default_day_end: PTime
+    default_day_start: NKTime
+    default_day_end: NKTime
     default_empty_blocks: set[str]
     default_project_dates_missing_offset: int
     default_project_dates_missing_hashmod: int
@@ -140,8 +140,8 @@ class Config:
         default_categories: set,
         default_ismovable: bool,
         default_alignend: bool,
-        default_day_start: PTime,
-        default_day_end: PTime,
+        default_day_start: NKTime,
+        default_day_end: NKTime,
         default_empty_blocks: set[str],
         default_project_dates_missing_offset: int,
         default_project_dates_missing_hashmod: int,

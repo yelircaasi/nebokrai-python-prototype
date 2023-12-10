@@ -22,7 +22,7 @@ from .entity import (
     update_plan,
 )
 from .tracking import Logs, Tracker
-from .util import PDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
+from .util import NKDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
 
 
 class Nebokrai:
@@ -119,7 +119,7 @@ class Nebokrai:
         start_date_new, end_date_new = self.start_and_end_dates
         schedules, excess_entries = Schedules(), Entries()
         # ----
-        end_date_new = PDate.from_string("2023-12-31")  # FIXME
+        end_date_new = NKDate.from_string("2023-12-31")  # FIXME
         # ----
         for date in start_date_new.range(end_date_new):
             print(f"Scheduling {color.cyan(str(date))}.")
@@ -132,13 +132,13 @@ class Nebokrai:
         self.schedules = schedules
 
     @property
-    def start_and_end_dates(self) -> tuple[PDate, PDate]:
+    def start_and_end_dates(self) -> tuple[NKDate, NKDate]:
         """
         Returns start and end date recovered from information in the  roadmaps.
         """
         assert self.plan
-        start_date = self.roadmaps.start_date or (PDate.tomorrow())
-        end_date: PDate = self.roadmaps.end_date or max(
+        start_date = self.roadmaps.start_date or (NKDate.tomorrow())
+        end_date: NKDate = self.roadmaps.end_date or max(
             self.plan.end_date,
             self.calendar.end_date,
         )
@@ -152,7 +152,7 @@ class Nebokrai:
         """
         inverse_plan = plan.inverse
 
-        def get_last_date(_id: Union[TaskID, ProjectID]) -> PDate:
+        def get_last_date(_id: Union[TaskID, ProjectID]) -> NKDate:
             if isinstance(_id, ProjectID):
                 return max(map(lambda t: inverse_plan[t], (projects[_id])))
             if isinstance(_id, TaskID):
@@ -257,7 +257,7 @@ class Nebokrai:
             return self.roadmaps[__key.roadmap_id][__key]
         if isinstance(__key, TaskID):
             return self.roadmaps[__key.roadmap_id][__key.project_id][__key]
-        if isinstance(__key, PDate):
+        if isinstance(__key, NKDate):
             return self.schedules[__key]
         raise KeyError(f"Invalid key for Nebokrai object: {__key}")
 

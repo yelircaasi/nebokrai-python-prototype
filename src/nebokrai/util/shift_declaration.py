@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import Protocol
 
-from .pdatetime import PDate
+from .nkdatetime import NKDate
 
 
 class PathManager(Protocol):
@@ -26,7 +26,7 @@ def shift_declaration_ndays(path_manager: PathManager, ndays: int) -> None:
     roadmaps_string = json.dumps(roadmaps_dict, ensure_ascii=False)
 
     all_dates = list(
-        map(PDate.from_string, re.findall(r"(?<=\")\d{4}-\d\d-\d\d(?=\")", roadmaps_string))
+        map(NKDate.from_string, re.findall(r"(?<=\")\d{4}-\d\d-\d\d(?=\")", roadmaps_string))
     )
     min_date, max_date = min(all_dates), max(all_dates)
     print(min_date, max_date)

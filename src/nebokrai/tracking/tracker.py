@@ -1,7 +1,7 @@
 import json
 
 from ..configuration import path_manager
-from ..util import PDate
+from ..util import NKDate
 from ..util.prompt.prompt_functions import prompt_natural_sequence
 from ..util.serde.custom_dict_types import (
     ActivityDictRaw,
@@ -70,6 +70,6 @@ class Tracker:
         for activity in self.activities:
             activity_serialized: ActivityDictRaw = activity.serialize()
             log_dict.update({activity.name: activity_serialized})
-        tracking_path = path_manager.tracking_dir / f"{PDate.today()}.json"
+        tracking_path = path_manager.tracking_dir / f"{NKDate.today()}.json"
         with open(tracking_path, "w", encoding="utf-8") as f:
             json.dump(log_dict, f, ensure_ascii=False, indent=4)

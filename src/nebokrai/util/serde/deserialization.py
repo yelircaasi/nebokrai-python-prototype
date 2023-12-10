@@ -2,9 +2,9 @@ from typing import Iterable
 
 from ...configuration import config
 from ...util.entity_ids import ProjectID, TaskID
-from ...util.pdatetime.pdate import PDate
+from ...util.nkdatetime.nkdate import NKDate
 from ..elementary_types import Natural, T, TimeAmountRaw, true_strings
-from ..pdatetime.ptime import PTime
+from ..nkdatetime.nktime import NKTime
 from .custom_dict_types import (
     ActivityDictParsed,
     ActivityDictRaw,
@@ -53,7 +53,7 @@ def parse_declaration_dict(decl_dict: DeclarationDictRaw) -> DeclarationDictPars
 def parse_routine_dict(routine_dict: "RoutineDictRaw") -> "RoutineDictParsed":
     return {
         "name": routine_dict["name"],
-        "default_start": PTime.from_string(routine_dict["default_start"]),
+        "default_start": NKTime.from_string(routine_dict["default_start"]),
         "default_priority": routine_dict["default_priority"],
         "default_notes": routine_dict["default_notes"],
         "default_normaltime": routine_dict["default_normaltime"],
@@ -98,7 +98,7 @@ def parse_activity_dict(activity_dict: ActivityDictRaw) -> ActivityDictParsed:
 def parse_calendar_dict(calendar_dict: CalendarDictRaw) -> CalendarDictParsed:
     return {
         "days": {
-            PDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict["days"].items()
+            NKDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict["days"].items()
         },
     }
 
@@ -106,8 +106,8 @@ def parse_calendar_dict(calendar_dict: CalendarDictRaw) -> CalendarDictParsed:
 def parse_calendar_day(day_dict: DayDictRaw) -> DayDictParsed:
     return {
         "weekday": day_dict["weekday"],
-        "start": PTime.from_string(day_dict["start"]),
-        "end": PTime.from_string(day_dict["end"]),
+        "start": NKTime.from_string(day_dict["start"]),
+        "end": NKTime.from_string(day_dict["end"]),
         "routines": list(map(parse_calendar_routine, day_dict["routines"])),
         "entries": list(map(parse_entry_dict, day_dict["entries"])),
     }
@@ -118,8 +118,8 @@ def parse_calendar_routine(
 ) -> RoutineInCalendarDictParsed:
     return {
         "name": cal_routine_dict["name"],
-        "start": PTime.from_string(cal_routine_dict["start"]),
-        "end": PTime.from_string(cal_routine_dict["end"]),
+        "start": NKTime.from_string(cal_routine_dict["start"]),
+        "end": NKTime.from_string(cal_routine_dict["end"]),
         "priority": cal_routine_dict["priority"],
         "normaltime": cal_routine_dict["normaltime"],
         "idealtime": cal_routine_dict["idealtime"],
@@ -158,8 +158,8 @@ def parse_entry_dict(entry_dict: EntryDictRaw | RoutineItemDictRaw) -> EntryDict
         "name": entry_dict["name"],
         "priority": entry_dict["priority"],
         "normaltime": normaltime,
-        "start": PTime.from_string(entry_dict.get("start")),
-        "end": PTime.from_string(entry_dict.get("end")),
+        "start": NKTime.from_string(entry_dict.get("start")),
+        "end": NKTime.from_string(entry_dict.get("end")),
         "mintime": entry_dict.get("mintime") or int(config.default_mintime_factor * normaltime),
         "maxtime": entry_dict.get("maxtime") or int(config.default_maxtime_factor * normaltime),
         "idealtime": entry_dict.get("idealtime")
@@ -172,7 +172,7 @@ def parse_entry_dict(entry_dict: EntryDictRaw | RoutineItemDictRaw) -> EntryDict
         "subentries": list(map(parse_entry_dict, entry_dict.get("subentries") or [])),
         "blocks": split_tag_sequence(entry_dict.get("blocks") or ""),
         "ismovable": entry_dict.get("ismovable") or config.default_ismovable,
-        "assigned_time": PTime.from_string(entry_dict.get("assigned_time")),
+        "assigned_time": NKTime.from_string(entry_dict.get("assigned_time")),
     }
 
 
@@ -195,7 +195,7 @@ def parse_day_log(log_dict: DayLogDictRaw) -> DayLogDictRaw:
         "natural": parse_natural,
         "natural_sequence": parse_natural_sequence,
         "string": identity,
-        "time": PTime.from_string,
+        "time": NKTime.from_string,
         "time_amount": parse_time_amount,
         "timed_distance": identity,
         "timed_distance_with_elevation": identity,
@@ -220,5 +220,5 @@ def parse_natural_sequence(natural_sequence: Iterable[Natural]) -> list[Natural]
 
 def parse_time_amount(time_amount: TimeAmountRaw) -> int:
     return (
-        time_amount if isinstance(time_amount, int) else PTime.from_string(time_amount).tominutes()
+        time_amount if isinstance(time_amount, int) else NKTime.from_string(time_amount).tominutes()
     )

@@ -1,7 +1,7 @@
 from typing import Any, Callable, Iterable, Optional, Union
 
 from ...configuration import config
-from ...util import PDate, PTime, tabularize
+from ...util import NKDate, NKTime, tabularize
 from ...util.serde.custom_dict_types import RoutineDictRaw
 from ..container.entries import Entries
 from .entry import Entry
@@ -15,7 +15,7 @@ class Routine:
     def __init__(
         self,
         name: str,
-        start: PTime,
+        start: NKTime,
         items: Iterable[Entry],
         priority: int,
         notes: str,
@@ -25,7 +25,7 @@ class Routine:
         maxtime: int,
         ismovable: bool,
         order: float,
-        valid_dates: Union[Callable[[PDate], bool], set[PDate]] = lambda d: True,
+        valid_dates: Union[Callable[[NKDate], bool], set[NKDate]] = lambda d: True,
     ) -> None:
         self.name = name
         self.start = start
@@ -39,7 +39,7 @@ class Routine:
         self.ismovable = ismovable
         self.order = order
 
-        def validator(d: PDate) -> bool:
+        def validator(d: NKDate) -> bool:
             ret: bool = (
                 (d in valid_dates) if hasattr(valid_dates, "__contains__") else valid_dates(d)
             )
@@ -58,7 +58,7 @@ class Routine:
 
         return cls(
             routine_dict["name"],
-            PTime.from_string(routine_dict["default_start"]),
+            NKTime.from_string(routine_dict["default_start"]),
             items,
             priority=int(routine_dict["default_priority"]),
             notes=routine_dict.get("default_notes", ""),
@@ -76,12 +76,12 @@ class Routine:
             ),
         )
 
-    def valid_on(self, date: PDate) -> bool:
+    def valid_on(self, date: NKDate) -> bool:
         return self.valid_dates(date)
 
     def as_entry(
         self,
-        start: PTime,
+        start: NKTime,
         priority: Optional[float],
         normaltime: int,
         idealtime: int,

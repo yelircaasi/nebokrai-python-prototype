@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Annotated, Literal, Optional, Protocol, TypedDict, TypeVar, Union
 
-from .pdatetime.ptime import PTime
+from .nkdatetime.nktime import NKTime
 
 T = TypeVar("T")
 
@@ -86,7 +86,7 @@ TrackingActivityResponseType = Union[
     Natural,
     bool,
     list[Natural],
-    PTime,
+    NKTime,
     None,
     list["TrackingActivityResponseType"],
     dict[str, "TrackingActivityResponseType"],
@@ -118,5 +118,5 @@ prompt_type_mapping: dict[PromptTypeName, str] = {
     "natural": "int, where int > 0",
     "text": "str",
     "time_amount": "float",
-    "time": "PTime",
+    "time": "NKTime",
 }

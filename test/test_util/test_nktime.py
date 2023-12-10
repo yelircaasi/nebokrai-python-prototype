@@ -1,15 +1,15 @@
 import pytest
 
-from nebokrai.util import PTime
-from nebokrai.util.pdatetime.ptime import NoneTime
+from nebokrai.util import NKTime
+from nebokrai.util.nkdatetime.nktime import NoneTime
 
 
 def test_basic_ptime() -> None:
-    time1 = PTime()
-    time2 = PTime(10, 43)
-    time3 = PTime(24)
+    time1 = NKTime()
+    time2 = NKTime(10, 43)
+    time3 = NKTime(24)
 
-    blank = PTime(isblank=True)
+    blank = NKTime(isblank=True)
     assert not blank
     assert bool(blank) == False
 
@@ -22,15 +22,15 @@ def test_basic_ptime() -> None:
     assert time3.minute == 0
 
     with pytest.raises(ValueError) as excinfo:  # type: ignore
-        t1 = PTime(25)
+        t1 = NKTime(25)
     assert str(excinfo.value) == "Time must be within 00:00..24:00"
 
     with pytest.raises(ValueError) as excinfo:  # type: ignore
-        t1 = PTime(-1)
+        t1 = NKTime(-1)
     assert str(excinfo.value) == "Time must be within 00:00..24:00"
 
     with pytest.raises(ValueError) as excinfo:  # type: ignore
-        t1 = PTime(24, 1)
+        t1 = NKTime(24, 1)
     assert str(excinfo.value) == "Time must be within 00:00..24:00"
 
     copy1 = time1.copy()
@@ -39,36 +39,38 @@ def test_basic_ptime() -> None:
 
 
 def test_string_ops() -> None:
-    assert PTime.from_string("15:32") == PTime(15, 32)
-    assert PTime.from_string("none") == PTime.from_string("None") == PTime.nonetime() == NoneTime()
-
-    with pytest.raises(AssertionError) as excinfo:  # type: ignore
-        t1 = PTime.from_string(3)  # type: ignore
-    assert str(excinfo.value) == "Argument to PTime.from_string must be str, not '<class 'int'>'."
-
-    with pytest.raises(AssertionError) as excinfo:  # type: ignore
-        t2 = PTime.from_string("3")
+    assert NKTime.from_string("15:32") == NKTime(15, 32)
     assert (
-        str(excinfo.value)
-        == f"Argument to PTime.from_string must have exactly one colon. Given: '3'."
+        NKTime.from_string("none") == NKTime.from_string("None") == NKTime.nonetime() == NoneTime()
     )
 
     with pytest.raises(AssertionError) as excinfo:  # type: ignore
-        t3 = PTime.from_string("3:55:34")
+        t1 = NKTime.from_string(3)  # type: ignore
+    assert str(excinfo.value) == "Argument to NKTime.from_string must be str, not '<class 'int'>'."
+
+    with pytest.raises(AssertionError) as excinfo:  # type: ignore
+        t2 = NKTime.from_string("3")
     assert (
         str(excinfo.value)
-        == f"Argument to PTime.from_string must have exactly one colon. Given: '3:55:34'."
+        == f"Argument to NKTime.from_string must have exactly one colon. Given: '3'."
     )
 
-    assert str(PTime(16, 2)) == "16:02"
-    assert str(PTime(1, 22)) == "01:22"
-    assert str(PTime(3, 5)) == "03:05"
+    with pytest.raises(AssertionError) as excinfo:  # type: ignore
+        t3 = NKTime.from_string("3:55:34")
+    assert (
+        str(excinfo.value)
+        == f"Argument to NKTime.from_string must have exactly one colon. Given: '3:55:34'."
+    )
+
+    assert str(NKTime(16, 2)) == "16:02"
+    assert str(NKTime(1, 22)) == "01:22"
+    assert str(NKTime(3, 5)) == "03:05"
 
 
 def test_arithmetic() -> None:
-    time1 = PTime(9)
-    time2 = PTime(10, 43)
-    time3 = PTime(10, 43)
+    time1 = NKTime(9)
+    time2 = NKTime(10, 43)
+    time3 = NKTime(10, 43)
 
     assert time1.timeto(time2) == 103
     assert time2.timefrom(time1) == 103
@@ -95,7 +97,7 @@ def test_arithmetic() -> None:
 
 def test_nonetime() -> None:
     nt = NoneTime()
-    other = PTime(9, 0)
+    other = NKTime(9, 0)
 
     assert str(nt) == "XX:XX"
 

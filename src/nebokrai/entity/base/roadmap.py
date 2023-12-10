@@ -1,7 +1,7 @@
 from typing import Iterable, Iterator, List, Optional, Tuple
 
 from ...configuration import config
-from ...util import PDate, ProjectID, RoadmapID, TaskID, tabularize
+from ...util import NKDate, ProjectID, RoadmapID, TaskID, tabularize
 from ...util.serde.custom_dict_types import RoadmapDictRaw
 from ..container.projects import Projects
 from .project import Project
@@ -64,24 +64,24 @@ class Roadmap:
         )
 
     @property
-    def start_date(self) -> PDate:
+    def start_date(self) -> NKDate:
         """
         Property returning the earliest date of any task contained in the
           consituent projects of the given roadmap.
         """
         if not self._projects:
-            return PDate.nonedate()
+            return NKDate.nonedate()
         return min(map(lambda p: p.start, self._projects))
 
     @property
-    def end_date(self) -> PDate:
+    def end_date(self) -> NKDate:
         """
         Property returning the latest date of any task contained in the
           consituent projects of the given roadmap.
         """
         if not self._projects:
-            return PDate.nonedate()
-        today = PDate.today()
+            return NKDate.nonedate()
+        today = NKDate.today()
         return max(map(lambda p: p.end or today, self._projects))
 
     def items(self) -> List[Tuple[ProjectID, Project]]:

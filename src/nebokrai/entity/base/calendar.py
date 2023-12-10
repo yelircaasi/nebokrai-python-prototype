@@ -1,8 +1,8 @@
 from typing import Any, Iterable, Iterator, Union
 
 from ...configuration import config
-from ...util import PDate, tabularize
-from ...util.pdatetime.ptime import PTime
+from ...util import NKDate, tabularize
+from ...util.nkdatetime.nktime import NKTime
 from ...util.serde.custom_dict_types import (
     CalendarDictRaw,
     DayDictRaw,
@@ -22,9 +22,9 @@ class Day:
 
     def __init__(
         self,
-        date: PDate,
-        start: PTime,
-        end: PTime,
+        date: NKDate,
+        start: NKTime,
+        end: NKTime,
         entries: Entries,
         routines: Entries,
     ) -> None:
@@ -39,11 +39,11 @@ class Day:
             min(end, self.routines.end),
             self.entries.end,
         )
-        morning_normaltime = PTime(0).timeto(waketime)
-        evening_normaltime = bedtime.timeto(PTime(24))
+        morning_normaltime = NKTime(0).timeto(waketime)
+        evening_normaltime = bedtime.timeto(NKTime(24))
         morning_sleep = Entry(
             "Sleep",
-            PTime(0),
+            NKTime(0),
             end=waketime,
             priority=config.default_sleep_priority,
             normaltime=morning_normaltime,
@@ -55,7 +55,7 @@ class Day:
         evening_sleep = Entry(
             "Sleep",
             bedtime,
-            end=PTime(24),
+            end=NKTime(24),
             priority=config.default_sleep_priority,
             normaltime=evening_normaltime,
             idealtime=evening_normaltime,
@@ -98,7 +98,7 @@ class Day:
         )
 
     @classmethod
-    def deserialize(cls, routines: Routines, date: PDate, day_dict: DayDictRaw) -> "Day":
+    def deserialize(cls, routines: Routines, date: NKDate, day_dict: DayDictRaw) -> "Day":
         """
         Instantiates from config, json-derived dic, and project information.
         """
@@ -113,8 +113,8 @@ class Day:
             routines_dict.update({routine_dict["name"].split("  ")[0].lower(): routine_dict})
         routine_entries = cls.make_routine_entries(routines_dict, routines)
 
-        start = PTime.from_string(day_dict.get("start", str(config.default_day_start)))
-        end = PTime.from_string(day_dict.get("end", str(config.default_day_end)))
+        start = NKTime.from_string(day_dict.get("start", str(config.default_day_start)))
+        end = NKTime.from_string(day_dict.get("end", str(config.default_day_end)))
 
         return cls(date, start, end, entries, routine_entries)
 
@@ -132,7 +132,7 @@ class Day:
             routine_name = routine_spec["name"]
 
             routine_entry = routines[routine_name].as_entry(
-                start=PTime.from_string(
+                start=NKTime.from_string(
                     routine_spec.get("start") or str(routines[routine_name].start)
                 ),
                 priority=int(routine_spec.get("priority") or routines[routine_name].priority),
@@ -221,8 +221,8 @@ class Calendar:
     Container for all days, with a few helper methods.
     """
 
-    def __init__(self, days: Union[dict[PDate, Day], Iterable[Day]]) -> None:
-        self.days: dict[PDate, Day] = days if isinstance(days, dict) else {d.date: d for d in days}
+    def __init__(self, days: Union[dict[NKDate, Day], Iterable[Day]]) -> None:
+        self.days: dict[NKDate, Day] = days if isinstance(days, dict) else {d.date: d for d in days}
 
     @classmethod
     def deserialize(cls, routines: Routines, calendar_dict: CalendarDictRaw) -> "Calendar":
@@ -231,7 +231,7 @@ class Calendar:
         """
         days = {}
         for date_string, day_dict in calendar_dict["days"].items():
-            day_date = PDate.from_string(date_string)
+            day_date = NKDate.from_string(date_string)
             day = Day.deserialize(routines, day_date, day_dict)
             days.update({day_date: day})
 
@@ -246,24 +246,24 @@ class Calendar:
         self.days.update({day.date: day})
 
     @property
-    def start_date(self) -> PDate:
+    def start_date(self) -> NKDate:
         return min(self.days)
 
     @property
-    def end_date(self) -> PDate:
+    def end_date(self) -> NKDate:
         return max(self.days)
 
     def long_repr(self) -> str:
         spacer = tabularize(" ", config.repr_width, thick=True) + "\n"
         return spacer.join(map(str, self.days.values()))
 
-    def __getitem__(self, __date: PDate) -> Day:
+    def __getitem__(self, __date: NKDate) -> Day:
         return self.days[__date]
 
-    def __setitem__(self, __name: PDate, __value: Any) -> None:
+    def __setitem__(self, __name: NKDate, __value: Any) -> None:
         ...
 
-    def __iter__(self) -> Iterator[PDate]:
+    def __iter__(self) -> Iterator[NKDate]:
         return iter(self.days.keys())
 
     @property

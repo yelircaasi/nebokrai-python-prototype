@@ -3,7 +3,7 @@ from itertools import chain
 from pathlib import Path
 from typing import Iterable, Iterator
 
-from ...util import PDate
+from ...util import NKDate
 from ...util.serde.custom_dict_types import DeclarationDictRaw, PlanDictRaw
 from ..container.routines import Routines
 from ..container.tasks import Tasks
@@ -23,7 +23,7 @@ class Plan:
     ) -> None:
         self.calendar = calendar
         self.tasks: Tasks = Tasks()
-        self.plan_dict: dict[PDate, Tasks] = {date: Tasks() for date in calendar}
+        self.plan_dict: dict[NKDate, Tasks] = {date: Tasks() for date in calendar}
 
     def serialize(self) -> PlanDictRaw:
         return {str(date): tasks.serialize() for date, tasks in self.plan_dict.items()}
@@ -57,33 +57,33 @@ class Plan:
         return cls.deserialize(declaration, plan_derivation)
 
     @staticmethod
-    def deserialize_plan_dict(plan_derivation_dict: PlanDictRaw) -> dict[PDate, Tasks]:
+    def deserialize_plan_dict(plan_derivation_dict: PlanDictRaw) -> dict[NKDate, Tasks]:
         return {
-            PDate.from_string(date): Tasks.deserialize(tasks)
+            NKDate.from_string(date): Tasks.deserialize(tasks)
             for date, tasks in plan_derivation_dict.items()
         }
 
     @property
-    def inverse(self) -> dict[Task, PDate]:
+    def inverse(self) -> dict[Task, NKDate]:
         """
         Returns a dictionary mapping tasks to dates.
         """
-        inverse_plan: dict[Task, PDate] = {}
+        inverse_plan: dict[Task, NKDate] = {}
         for date, tasks_ in self.items():
             for task_ in tasks_:
                 inverse_plan.update({task_: date})
         return inverse_plan
 
-    def ensure_date(self, date: PDate):
+    def ensure_date(self, date: NKDate):
         if date not in self.plan_dict:
             self.plan_dict.update({date: Tasks()})
 
     @property
-    def end_date(self) -> PDate:
+    def end_date(self) -> NKDate:
         return max(self.plan_dict)
 
     @property
-    def start_date(self) -> PDate:
+    def start_date(self) -> NKDate:
         return min(self.plan_dict)
 
     def fill_empty(self) -> None:
@@ -94,22 +94,22 @@ class Plan:
             if date not in self.plan_dict:
                 self.plan_dict.update({date: Tasks()})
 
-    def items(self) -> Iterator[tuple[PDate, Tasks]]:
+    def items(self) -> Iterator[tuple[NKDate, Tasks]]:
         return iter(self.plan_dict.items())
 
-    def __iter__(self) -> Iterator[PDate]:
+    def __iter__(self) -> Iterator[NKDate]:
         return iter(self.plan_dict.keys())
 
-    def __contains__(self, __date: PDate) -> bool:
+    def __contains__(self, __date: NKDate) -> bool:
         return __date in self.plan_dict
 
-    def __getitem__(self, __date: PDate) -> Tasks:
+    def __getitem__(self, __date: NKDate) -> Tasks:
         return self.plan_dict[__date]
 
-    def get(self, __date: PDate, __default: Tasks = Tasks()) -> Tasks:
+    def get(self, __date: NKDate, __default: Tasks = Tasks()) -> Tasks:
         return self.plan_dict.get(__date, __default)
 
-    def __setitem__(self, __date: PDate, __tasks: Tasks) -> None:
+    def __setitem__(self, __date: NKDate, __tasks: Tasks) -> None:
         self.plan_dict.update({__date: __tasks})
 
     @property
@@ -159,7 +159,7 @@ class Plan:
         return "\n".join(map("".join, line_tuples))
 
     def __str__(self) -> str:
-        def task_repr(task: Task, date: PDate) -> str:
+        def task_repr(task: Task, date: NKDate) -> str:
             name = str(task.name) or str(task.task_id)
             orig = ("orig: " + str(task.original_date)) if task.original_date != date else ""
             return (
@@ -167,7 +167,7 @@ class Plan:
                 f"pr {task.priority}     {task.duration}m   {orig}   {task.block_assigned}"
             )
 
-        def time_repr(date: PDate) -> str:
+        def time_repr(date: NKDate) -> str:
             entry_names = ", ".join([e.name for e in self.calendar[date].entries])
             blocks = "\n".join(
                 (f"  {b}: {t}" for b, t in self.calendar[date].available_dict.items())
@@ -210,7 +210,7 @@ class Plan:
         return self.__str__()
 
 
-def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:
+def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:
     """
     Add tasks to a specified date in the plan. If the tasks exceed the date's available time,
       the lowest-priority excess task ids are returned.
@@ -224,7 +224,7 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
 
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
-    tasks.update_tmpdate(date)
+    tasks.update_tmnkdate(date)
     tasks.update_original_date(date)
 
     plan.plan_dict.update({date: tasks})
@@ -233,7 +233,7 @@ def add_tasks(plan: Plan, date: PDate, tasks: Iterable[Task]) -> tuple[Plan, Tas
 
 def update_plan(
     plan: Plan,
-    subplan: dict[PDate, Tasks],
+    subplan: dict[NKDate, Tasks],
 ) -> Plan:
     """
     Adds subplan (like plan, but corresponding to single project) to the plan,
