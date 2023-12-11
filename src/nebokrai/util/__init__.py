@@ -17,7 +17,6 @@ __all__ = [
     "color",
     "PromptConfig",
     "prompt_any",
-    "prompt_configs",
     "round5",
     "shift_declaration_ndays",
     "tabularize",

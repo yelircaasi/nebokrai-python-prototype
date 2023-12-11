@@ -161,4 +161,4 @@ cython_debug/
 
 # ad hoc
 data/
-data_backup/
+backup/

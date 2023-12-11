@@ -38,9 +38,9 @@
             "nebokrai.util.elementary_types",
             "nebokrai.util.entity_ids",
             "nebokrai.util.misc",
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.pdate",
-            "nebokrai.util.pdatetime.ptime",
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nkdate",
+            "nebokrai.util.nkdatetime.nktime",
             "nebokrai.util.prompt",
             "nebokrai.util.prompt.prompt_config",
             "nebokrai.util.prompt.prompt_functions",
@@ -203,8 +203,8 @@
             "nebokrai.entity.container.entries",
             "nebokrai.entity.container.routines",
             "nebokrai.util",
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.ptime",
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nktime",
             "nebokrai.util.serde",
             "nebokrai.util.serde.custom_dict_types"
         ],
@@ -609,7 +609,7 @@
             "nebokrai.util.display",
             "nebokrai.util.entity_ids",
             "nebokrai.util.misc",
-            "nebokrai.util.pdatetime",
+            "nebokrai.util.nkdatetime",
             "nebokrai.util.prompt",
             "nebokrai.util.regex",
             "nebokrai.util.shift_declaration"
@@ -657,12 +657,13 @@
             "nebokrai.util.prompt",
             "nebokrai.util.prompt.prompt_config",
             "nebokrai.util.prompt.prompt_functions",
+            "nebokrai.util.prompt.type_conversion",
             "nebokrai.util.serde.custom_dict_types",
             "nebokrai.util.serde.deserialization"
         ],
         "imports": [
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.ptime"
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nktime"
         ],
         "name": "nebokrai.util.elementary_types",
         "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/elementary_types.py"
@@ -687,7 +688,7 @@
         "name": "nebokrai.util.misc",
         "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/misc.py"
     },
-    "nebokrai.util.pdatetime": {
+    "nebokrai.util.nkdatetime": {
         "bacon": 1,
         "imported_by": [
             "__main__",
@@ -703,37 +704,37 @@
             "nebokrai.util.shift_declaration"
         ],
         "imports": [
-            "nebokrai.util.pdatetime.pdate",
-            "nebokrai.util.pdatetime.ptime"
+            "nebokrai.util.nkdatetime.nkdate",
+            "nebokrai.util.nkdatetime.nktime"
         ],
-        "name": "nebokrai.util.pdatetime",
-        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/pdatetime/__init__.py"
+        "name": "nebokrai.util.nkdatetime",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/nkdatetime/__init__.py"
     },
-    "nebokrai.util.pdatetime.pdate": {
+    "nebokrai.util.nkdatetime.nkdate": {
         "bacon": 1,
         "imported_by": [
             "__main__",
-            "nebokrai.util.pdatetime",
+            "nebokrai.util.nkdatetime",
             "nebokrai.util.serde.custom_dict_types",
             "nebokrai.util.serde.deserialization"
         ],
-        "name": "nebokrai.util.pdatetime.pdate",
-        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/pdatetime/pdate.py"
+        "name": "nebokrai.util.nkdatetime.nkdate",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/nkdatetime/nkdate.py"
     },
-    "nebokrai.util.pdatetime.ptime": {
+    "nebokrai.util.nkdatetime.nktime": {
         "bacon": 1,
         "imported_by": [
             "__main__",
             "nebokrai.entity.base.calendar",
             "nebokrai.util.elementary_types",
-            "nebokrai.util.pdatetime",
+            "nebokrai.util.nkdatetime",
             "nebokrai.util.prompt.type_conversion",
             "nebokrai.util.serde.custom_dict_types",
             "nebokrai.util.serde.deserialization",
             "nebokrai.util.serde.for_config"
         ],
-        "name": "nebokrai.util.pdatetime.ptime",
-        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/pdatetime/ptime.py"
+        "name": "nebokrai.util.nkdatetime.nktime",
+        "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/nkdatetime/nktime.py"
     },
     "nebokrai.util.prompt": {
         "bacon": 1,
@@ -746,7 +747,7 @@
         ],
         "imports": [
             "nebokrai.util.elementary_types",
-            "nebokrai.util.pdatetime",
+            "nebokrai.util.nkdatetime",
             "nebokrai.util.prompt.prompt_config",
             "nebokrai.util.serde",
             "nebokrai.util.serde.custom_dict_types"
@@ -762,7 +763,7 @@
         ],
         "imports": [
             "nebokrai.util.elementary_types",
-            "nebokrai.util.pdatetime",
+            "nebokrai.util.nkdatetime",
             "nebokrai.util.prompt.type_conversion",
             "nebokrai.util.serde",
             "nebokrai.util.serde.custom_dict_types"
@@ -790,8 +791,9 @@
             "nebokrai.util.prompt.prompt_config"
         ],
         "imports": [
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.ptime"
+            "nebokrai.util.elementary_types",
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nktime"
         ],
         "name": "nebokrai.util.prompt.type_conversion",
         "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/prompt/type_conversion.py"
@@ -860,9 +862,9 @@
         "imports": [
             "nebokrai.util.elementary_types",
             "nebokrai.util.entity_ids",
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.pdate",
-            "nebokrai.util.pdatetime.ptime"
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nkdate",
+            "nebokrai.util.nkdatetime.nktime"
         ],
         "name": "nebokrai.util.serde.custom_dict_types",
         "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/serde/custom_dict_types.py"
@@ -880,9 +882,9 @@
             "nebokrai.util",
             "nebokrai.util.elementary_types",
             "nebokrai.util.entity_ids",
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.pdate",
-            "nebokrai.util.pdatetime.ptime",
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nkdate",
+            "nebokrai.util.nkdatetime.nktime",
             "nebokrai.util.serde.custom_dict_types",
             "nebokrai.util.serde.for_config",
             "nebokrai.util.serde.util"
@@ -898,8 +900,8 @@
             "nebokrai.util.serde.deserialization"
         ],
         "imports": [
-            "nebokrai.util.pdatetime",
-            "nebokrai.util.pdatetime.ptime",
+            "nebokrai.util.nkdatetime",
+            "nebokrai.util.nkdatetime.nktime",
             "nebokrai.util.serde.custom_dict_types",
             "nebokrai.util.serde.util"
         ],
@@ -931,7 +933,7 @@
             "nebokrai.util"
         ],
         "imports": [
-            "nebokrai.util.pdatetime"
+            "nebokrai.util.nkdatetime"
         ],
         "name": "nebokrai.util.shift_declaration",
         "path": "/home/isaac/Learning/nebokrai/src/nebokrai/util/shift_declaration.py"

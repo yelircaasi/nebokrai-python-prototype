@@ -1,15 +1,13 @@
 import re
-from typing import Callable, Optional
+from typing import Callable
 
 from ..elementary_types import (
     Natural,
     Nonnegative,
     PromptTypeName,
     TrackingActivityResponseType,
-    prompt_type_mapping,
 )
 from ..nkdatetime import NKTime
-from ..nkdatetime.nktime import NKTime
 
 ConversionFuncType = Callable[[str], TrackingActivityResponseType]
 
@@ -19,15 +17,21 @@ def split_input_sequence(input_sequence_string: str) -> list[str]:
 
 
 def convert_nonnegative(nonneg: str) -> Nonnegative:
-    nnf = float(nonneg)
-    if not nnf >= 0:
+    """
+    Parses string input as a nonnegative float, if possible.
+    """
+    nnf = float(nonneg.strip())
+    if nnf < 0:
         raise ValueError
     return nnf
 
 
 def convert_natural(nonneg_int: str) -> Natural:
-    nni = int(nonneg_int)
-    if not nni >= 0:
+    """
+    Parses string input as a nonnegative integer, if possible.
+    """
+    nni = int(nonneg_int.strip())
+    if nni < 0:
         raise ValueError
     return nni
 

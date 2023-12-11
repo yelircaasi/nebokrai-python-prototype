@@ -11,7 +11,7 @@ from ..serde.custom_dict_types import (
 )
 from .prompt_config import PromptConfig
 
-__all__ = ["PromptConfig", "prompt_any", "prompt_configs"]
+__all__ = ["PromptConfig", "prompt_any"]
 
 
 def prompt_atomic(prompt_config: "PromptConfig") -> Optional[TrackingActivityResponseType]:

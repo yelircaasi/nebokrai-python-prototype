@@ -1,7 +1,7 @@
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Union
+from typing import Any, Callable, Optional, Tuple, Union
 
 import pytest
 
@@ -27,3 +27,25 @@ class TDataPaths:
     expected1 = data_dir / "json_expected1"
     expected2 = data_dir / "json_expected2"
     expected3 = data_dir / "json_expected3"
+
+
+def prompt_helper(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture,
+    pconf: PromptConfig,
+    input_strings: Tuple[str, ...],
+    expected_response: Optional[TrackingActivityResponseType],
+    expected_error_message: Optional[str] = None,
+) -> None:
+    """
+    Abstracts away the boilerplate code for testing input prompts.
+    """
+    string_iter = iter(input_strings)
+    monkeypatch.setattr("builtins.input", lambda _: next(string_iter))  # type: ignore
+    received = prompt_any(pconf)
+
+    if expected_error_message is None:
+        assert received == expected_response
+    else:
+        cap = capsys.readouterr()
+        assert cap.out == expected_error_message

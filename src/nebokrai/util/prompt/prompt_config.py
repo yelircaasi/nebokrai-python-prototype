@@ -1,13 +1,6 @@
-from typing import Callable, Optional
+from typing import Optional
 
-from ..elementary_types import (
-    Natural,
-    Nonnegative,
-    PromptTypeName,
-    TrackingActivityResponseType,
-    prompt_type_mapping,
-)
-from ..nkdatetime import NKTime
+from ..elementary_types import PromptTypeName, prompt_type_mapping
 from ..serde.custom_dict_types import (
     ActivityDictParsed,
     ComponentDictParsed,

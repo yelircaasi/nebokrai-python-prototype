@@ -1,4 +1,3 @@
-import json
 from typing import Callable
 
 from .configuration import path_manager
@@ -20,7 +19,8 @@ def validate() -> None:
     """
     CLI to validate the data found in the nebokrai root folder. Non-destructive.
     """
-    validate_declaration(path_manager.declaration)
+    validate_declaration(path_manager.declaration_dir)
+    # validate_derivation(path_manager.derivation_dir)
 
 
 def declare() -> None:
@@ -93,9 +93,9 @@ def lint() -> None:
     """
     Checks the declaration.json file specified for validity.
     """
-    with open(path_manager.declaration, encoding="utf-8") as f:
-        declaration = json.load(f)
-    print(declaration)
+    # with open(path_manager.declaration, encoding="utf-8") as f:
+    #     declaration = json.load(f)
+    # print(declaration)
     print("Not yet implemented!")
 
 

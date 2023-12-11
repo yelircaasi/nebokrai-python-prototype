@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Any, Optional, Union
 
 from . import configuration
-from .configuration import PathManager
+from .configuration import PathManager, path_manager
 from .entity import (
     Calendar,
     Day,
@@ -41,7 +41,6 @@ class Nebokrai:
     declaration_edit_time: datetime
     plan_edit_time: datetime
     schedule_edit_time: datetime
-    # derivation:
 
     def __init__(
         self,
@@ -49,23 +48,19 @@ class Nebokrai:
     ) -> None:
         self.path_manager = path_manager_obj or configuration.path_manager
 
-        with open(self.path_manager.declaration, encoding="utf-8") as f:
-            dec = json.load(f)
+        with open(self.path_manager.roadmaps, encoding="utf-8") as f:
+            self.roadmaps = Roadmaps.deserialize(json.load(f))
+        with open(self.path_manager.routines, encoding="utf-8") as f:
+            routines_dict = json.load(f)
+            self.routines = Routines.deserialize(routines_dict)
+        with open(self.path_manager.calendar, encoding="utf-8") as f:
+            self.calendar = Calendar.deserialize(self.routines, json.load(f))
+        with open(self.path_manager.tracking, encoding="utf-8") as f:
+            self.tracker = Tracker(json.load(f), routines_dict)
 
-        self.roadmaps = Roadmaps.deserialize(dec["roadmaps"])
-        self.routines = Routines.deserialize(dec["routines"])
-        self.calendar = Calendar.deserialize(self.routines, dec["calendar"])
-        self.tracker = Tracker(dec["tracking"], dec["routines"])
-
-        with open(self.path_manager.edit_times, encoding="utf-8") as f:
-            edit_times = json.load(f)
-
-        def from_key(k: str) -> datetime:
-            return datetime.fromisoformat(edit_times[k])
-
-        self.declaration_edit_time = from_key("declaration_edit_time")
-        self.plan_edit_time = from_key("plan_edit_time")
-        self.schedule_edit_time = from_key("schedule_edit_time")
+        # self.declaration_edit_time = from_key("declaration_edit_time")
+        # self.plan_edit_time = from_key("plan_edit_time")
+        # self.schedule_edit_time = from_key("schedule_edit_time")
 
     def declare_interactive(self) -> None:
         print("Not yet implemented.")
@@ -212,7 +207,7 @@ class Nebokrai:
         self.tracker.record()
 
     def shift_declaration(self, ndays: int) -> None:
-        shift_declaration_ndays(self.path_manager, ndays)
+        shift_declaration_ndays(path_manager, ndays)
 
     def write_json(self) -> None:
         """
@@ -270,7 +265,6 @@ class Nebokrai:
                 self.roadmap_tree(),
                 str(self.routines),
                 str(self.plan),
-                # self.schedule,
             )
         )
 

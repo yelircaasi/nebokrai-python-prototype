@@ -9,33 +9,35 @@ from .util import NKTime
 from .util.serde.for_config import ConfigDictParsed, ConfigDictRaw, parse_config_dict
 
 
-class PathManager:  # only supports JSON for now
+class PathManager:
     """
     Helper class to simplify working with paths in the data directory.
     """
 
-    declaration: Path
-    derivation: Path
-    tracking: Path
-    edit_times: Path
-    txt: Path
-
     def __init__(self, root: Union[Path, str]) -> None:
         self.root = Path(root)
-        self.declaration = self.root / "declaration.json"
+
+        self.declaration_dir = self.root / "declaration"
         self.derivation_dir = self.root / "derivation"
         self.backup_dir = self.root / "backup"
+        self.tmp_dir = self.root / "tmp"
+        self.txt_dir = self.root / "txt"
+        self.tracking_dir = self.root / "tracking"
+
+        self.calendar = self.declaration_dir / "calendar.json"
+        self.config = self.declaration_dir / "config.json"
+        self.roadmaps = self.declaration_dir / "roadmaps.json"
+        self.routines = self.declaration_dir / "routines.json"
+        self.tracking = self.declaration_dir / "tracking.json"
+
         self.plan = self.derivation_dir / "plan.json"
         self.schedules = self.derivation_dir / "schedules.json"
-        self.tracking_dir = self.root / "tracking"
-        self.tracking = self.tracking_dir / "tracking.json"
-        self.edit_times = self.root / "edit_times.json"
-        self.txt = self.root / "txt"
-        self.txt_plan = self.txt / "plan.txt"
-        self.txt_schedules = self.txt / "schedules.txt"
-        self.txt_gantt = self.txt / "gantt.txt"
-        self.tmp = self.root / "tmp"
-        self.tmp_declaration = self.tmp / "declaration.json"
+
+        self.txt_plan = self.txt_dir / "plan.txt"
+        self.txt_schedules = self.txt_dir / "schedules.txt"
+        self.txt_gantt = self.txt_dir / "gantt.txt"
+
+        self.tracking_store = self.tracking_dir / "tracking_store.json"
 
     def backup(self, backup_name: str) -> Path:
         """
@@ -90,6 +92,43 @@ class PathManager:  # only supports JSON for now
         """
         dt = datetime.now()
         return str(dt).split(".", maxsplit=1)[0].replace(" ", "_").replace(":", "-")
+
+    def __str__(self) -> str:
+        width = 50
+        double_bar = width * "="
+        single_bar = width * "-"
+        return "\n".join(
+            (
+                double_bar,
+                f"root:               {self.root}",
+                single_bar,
+                f"declaration_dir:    {self.declaration_dir}",
+                f"derivation_dir:     {self.derivation_dir}",
+                f"backup_dir:         {self.backup_dir}",
+                f"tmp_dir:            {self.tmp_dir}",
+                f"txt_dir:            {self.txt_dir}",
+                f"tracking_dir:       {self.tracking_dir}",
+                single_bar,
+                f"calendar:           {self.calendar}",
+                f"config:             {self.config}",
+                f"roadmaps:           {self.roadmaps}",
+                f"routines:           {self.routines}",
+                f"tracking:           {self.tracking}",
+                single_bar,
+                f"plan:               {self.plan}",
+                f"schedules:          {self.schedules}",
+                single_bar,
+                f"txt_plan:           {self.txt_plan}",
+                f"txt_schedules:      {self.txt_schedules}",
+                f"txt_gantt:          {self.txt_gantt}",
+                single_bar,
+                f"tracking_store:     {self.tracking_store}",
+                double_bar,
+            )
+        )
+
+    def __repr__(self) -> str:
+        return str(self)
 
 
 class Config:
@@ -265,8 +304,8 @@ with open(path_to_dir, encoding="ascii") as f:
 
 path_manager = PathManager(nebokrai_root)
 
-with open(path_manager.declaration, encoding="utf-8") as f:
-    config_dict: ConfigDictParsed = parse_config_dict(json.load(f)["config"])
+with open(path_manager.config, encoding="utf-8") as f:
+    config_dict: ConfigDictParsed = parse_config_dict(json.load(f))
 config = Config.deserialize(config_dict)
 
 __all__ = ["config", "path_manager"]

@@ -1,39 +1,10 @@
-import sys
-from typing import Optional, Tuple
+from test.util import prompt_helper
 
 import pytest
 
 from nebokrai.util.elementary_types import TrackingActivityResponseType
 from nebokrai.util.nkdatetime.nktime import NKTime
-from nebokrai.util.prompt import (
-    PromptConfig,
-    prompt_any,
-    prompt_atomic,
-    prompt_composite,
-    prompt_sequence,
-)
-
-
-def prompt_helper(
-    monkeypatch: pytest.MonkeyPatch,
-    capsys: pytest.CaptureFixture,
-    pconf: PromptConfig,
-    input_strings: Tuple[str, ...],
-    expected_response: Optional[TrackingActivityResponseType],
-    expected_error_message: Optional[str] = None,
-) -> None:
-    """
-    Abstracts away the boilerplate code for testing input prompts.
-    """
-    string_iter = iter(input_strings)
-    monkeypatch.setattr("builtins.input", lambda _: next(string_iter))  # type: ignore
-    received = prompt_any(pconf)
-
-    if expected_error_message is None:
-        assert received == expected_response
-    else:
-        cap = capsys.readouterr()
-        assert cap.out == expected_error_message
+from nebokrai.util.prompt import PromptConfig
 
 
 def test_prompt_config() -> None:
@@ -61,7 +32,17 @@ def test_prompt_atomic_float_defaults(
     assert pc.prompt_message == pm
 
     prompt_helper(monkeypatch, capsys, pc, ("1.5",), 1.5)
-    prompt_helper(monkeypatch, capsys, pc, ("random", "-3.897",), -3.897, "Invalid input.\n")
+    prompt_helper(
+        monkeypatch,
+        capsys,
+        pc,
+        (
+            "random",
+            "-3.897",
+        ),
+        -3.897,
+        "Invalid input.\n",
+    )
     prompt_helper(monkeypatch, capsys, pc, (":q",), None, "")
 
 
@@ -153,7 +134,14 @@ def test_prompt_atomic_integer_sequence_defaults(
 
     prompt_helper(monkeypatch, capsys, pc, ("1 3 5 7 -9 ",), [1, 3, 5, 7, -9])
     prompt_helper(monkeypatch, capsys, pc, ("1, 3,5,7,-9 ",), [1, 3, 5, 7, -9])
-    prompt_helper(monkeypatch, capsys, pc, ("1 3 5 7 -9 random", "1.5, 8", "-1, 0, 1"), [-1, 0, 1], "Invalid input.\nInvalid input.\n")
+    prompt_helper(
+        monkeypatch,
+        capsys,
+        pc,
+        ("1 3 5 7 -9 random", "1.5, 8", "-1, 0, 1"),
+        [-1, 0, 1],
+        "Invalid input.\nInvalid input.\n",
+    )
 
 
 def test_prompt_atomic_natural_sequence_defaults(
@@ -165,7 +153,14 @@ def test_prompt_atomic_natural_sequence_defaults(
 
     prompt_helper(monkeypatch, capsys, pc, ("1 3 5 7  ",), [1, 3, 5, 7])
     prompt_helper(monkeypatch, capsys, pc, ("1, 3,5,7, ",), [1, 3, 5, 7])
-    prompt_helper(monkeypatch, capsys, pc, ("random", "1 3 5 7 -9", "1.5, 8", "0, 1, 2"), [0, 1, 2], "Invalid input.\nInvalid input.\nInvalid input.\n")
+    prompt_helper(
+        monkeypatch,
+        capsys,
+        pc,
+        ("random", "1 3 5 7 -9", "1.5, 8", "0, 1, 2"),
+        [0, 1, 2],
+        "Invalid input.\nInvalid input.\nInvalid input.\n",
+    )
 
 
 def test_prompt_atomic_nonnegative_sequence_defaults(
@@ -177,4 +172,11 @@ def test_prompt_atomic_nonnegative_sequence_defaults(
 
     prompt_helper(monkeypatch, capsys, pc, ("1 3 5 7  ",), [1.0, 3.0, 5.0, 7.0])
     prompt_helper(monkeypatch, capsys, pc, ("1.5, 3.3,5.5,7.7, ",), [1.5, 3.3, 5.5, 7.7])
-    prompt_helper(monkeypatch, capsys, pc, ("random", "1 3 5 7 -9", "-1.5, 8", "0, 1.8, 2"), [0.0, 1.8, 2], "Invalid input.\nInvalid input.\nInvalid input.\n")
+    prompt_helper(
+        monkeypatch,
+        capsys,
+        pc,
+        ("random", "1 3 5 7 -9", "-1.5, 8", "0, 1.8, 2"),
+        [0.0, 1.8, 2],
+        "Invalid input.\nInvalid input.\nInvalid input.\n",
+    )
