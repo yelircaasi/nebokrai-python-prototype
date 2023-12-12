@@ -18,15 +18,10 @@ class TDataPaths:
     Helper class for working with test data, found in …/nebokrai-py/test/data
     """
 
-    tdatamanager_path: Path = this_file
-    data_dir: Path = this_file.parent / "data"
-    input1 = data_dir / "json_directory1"
-    input2 = data_dir / "json_directory2"
-    input3 = data_dir / "json_directory3"
-    json_dirs = [input1, input2, input3]
-    expected1 = data_dir / "json_expected1"
-    expected2 = data_dir / "json_expected2"
-    expected3 = data_dir / "json_expected3"
+    test_dir: Path = this_file.parent
+    tmp_dir: Path = test_dir / "tmp"
+    data_dir: Path = test_dir / "data"
+    default_data_dir: Path = data_dir / "default"
 
 
 def prompt_helper(

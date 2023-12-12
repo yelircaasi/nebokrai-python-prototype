@@ -1,0 +1,81 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Calendar JSON Schema",
+    "description": "Day-by-day manual planning for defaults and ad hoc activities, to be filled in by planning and scheduling later.",
+    "type": "object",
+    "patternProperties": {
+        "^[0-9]{4}-[0-9]{2}-[0-9]{2}$": {
+            "type": "object",
+            "properties": {
+                "weekday": {
+                    "type": "string",
+                    "enum": [
+                        "Mon",
+                        "Tue",
+                        "Wed",
+                        "Thu",
+                        "Fri",
+                        "Sat",
+                        "Sun"
+                    ]
+                },
+                "routines": {
+                    "type": "array",
+                    "item": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "start": {
+                                "type": "string",
+                                "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+                            },
+                            "end": {
+                                "type": "string",
+                                "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "start",
+                            "end"
+                        ]
+                    }
+                },
+                "entries": {
+                    "type": "array",
+                    "item": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "start": {
+                                "type": "string",
+                                "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+                            },
+                            "end": {
+                                "type": "string",
+                                "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "blocks": {
+                                "type": "string"
+                            },
+                            "ismovable": {
+                                "type": "boolean"
+                            }
+                        }
+                    },
+                    "required": [
+                        "name",
+                        "start",
+                        "end"
+                    ]
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

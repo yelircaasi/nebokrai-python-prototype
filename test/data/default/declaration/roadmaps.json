@@ -1,0 +1,228 @@
+{
+    "work": {
+        "name": "Work Roadmap",
+        "categories": "work",
+        "projects": [
+            {
+                "name": "Datagen",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            },
+            {
+                "name": "Image Classification",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            }
+        ]
+    },
+    "rice": {
+        "name": "System Setup Roadmap",
+        "categories": "coding",
+        "projects": [
+            {
+                "id": "sose",
+                "name": "Software Selection",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            },
+            {
+                "id": "nixos",
+                "name": "NixOS - configuration and mastery",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            },
+            {
+                "id": "clvx",
+                "name": "Clavix - keybindings",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            },
+            {
+                "id": "pctx",
+                "name": "Pictrix - color management",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            }
+        ]
+    },
+    "plgr": {
+        "name": "",
+        "categories": "coding",
+        "projects": [
+            {
+                "id": "cdng",
+                "name": "",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            }
+        ]
+    },
+    "gthb": {
+        "name": "Personal Programming Projects",
+        "categories": "coding",
+        "projects": [
+            {
+                "id": "ppp",
+                "name": "Software Selection",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            }
+        ]
+    },
+    "ftns": {
+        "name": "Fitness Roadmap",
+        "categories": "fitness",
+        "projects": [
+            {
+                "id": "wght",
+                "name": "Weights",
+                "priority": 60,
+                "start": "2023-12-05",
+                "end": "2024-01-31",
+                "duration": 30,
+                "tags": "",
+                "description": "",
+                "notes": "",
+                "dependencies": "",
+                "categories": "",
+                "tasks": [
+                    {
+                        "name": "",
+                        "id": "",
+                        "dependencies": "",
+                        "notes": "",
+                        "status": "todo"
+                    }
+                ]
+            }
+        ]
+    }
+}

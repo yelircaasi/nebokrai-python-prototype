@@ -1,0 +1,3079 @@
+{
+    "_2023-12-10": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-11": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-12": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-13": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-14": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-15": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-16": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-17": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-18": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-19": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-20": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-21": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-22": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-23": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-24": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-25": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-26": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-27": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-28": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-29": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2023-12-30": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2023-12-31": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-01": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-02": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-03": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-04": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-05": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-06": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-07": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-08": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-09": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-10": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-11": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-12": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-13": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-14": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-15": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-16": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-17": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-18": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-19": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-20": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-21": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-22": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-23": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-24": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-25": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-26": {
+        "weekday": "Fri",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-27": {
+        "weekday": "Sat",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            },
+            {
+                "name": "Weekly Planning and Review",
+                "start": "09:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-28": {
+        "weekday": "Sun",
+        "routines": [
+            {
+                "name": "Morning Routine"
+            },
+            {
+                "name": "Midday Routine"
+            },
+            {
+                "name": "Evening Routine"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Weekend walk",
+                "start": "08:00",
+                "end": "09:30",
+                "priority": 40
+            }
+        ]
+    },
+    "2024-01-29": {
+        "weekday": "Mon",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-30": {
+        "weekday": "Tue",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-01-31": {
+        "weekday": "Wed",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    },
+    "2024-02-01": {
+        "weekday": "Thu",
+        "routines": [
+            {
+                "name": "Morning Routine",
+                "start": "04:00",
+                "end": "05:15"
+            },
+            {
+                "name": "Midday Routine",
+                "start": "13:00"
+            },
+            {
+                "name": "Evening Routine",
+                "start": "20:00"
+            }
+        ],
+        "entries": [
+            {
+                "name": "Commute to work",
+                "start": "05:15",
+                "end": "06:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "06:30",
+                "end": "12:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Lunch",
+                "start": "12:00",
+                "end": "13:00",
+                "priority": 40,
+                "blocks": "meal",
+                "ismovable": false
+            },
+            {
+                "name": "Work",
+                "start": "13:30",
+                "end": "16:00",
+                "priority": 90,
+                "blocks": "work",
+                "ismovable": false
+            },
+            {
+                "name": "Commute from work",
+                "start": "16:00",
+                "end": "17:30",
+                "priority": 90,
+                "blocks": "transport",
+                "ismovable": false
+            },
+            {
+                "name": "Dinner",
+                "start": "17:30",
+                "end": "18:30",
+                "priority": 40,
+                "blocks": "meal",
+                "order": 80,
+                "ismovable": false
+            }
+        ]
+    }
+}

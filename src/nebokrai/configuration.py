@@ -289,7 +289,7 @@ class Config:
         return self.__dict__[__key]
 
 
-str_path_to_dirpath_file: Optional[str] = os.environ.get("NEBOKRAI_CONFIG_FILE")
+str_path_to_dirpath_file: Optional[str] = os.environ.get("NEBOKRAI_ROOT_FILE")
 if not str_path_to_dirpath_file:
     path_to_dirpath_file = Path.home() / ".config/nebokrai/path.txt"
 else:

@@ -44,7 +44,7 @@ class PromptConfig:
           via the parsed activity dict.
         """
         prompt_type = activity_dict["dtype"]
-        sequence_item_config = cls.config_from_subitem_dict(activity_dict["sequence_subitem"])
+        sequence_item_config = cls.config_from_subitem_dict(activity_dict["subitem"])
         components = cls.config_from_components_dict(activity_dict["components"])
 
         return PromptConfig(

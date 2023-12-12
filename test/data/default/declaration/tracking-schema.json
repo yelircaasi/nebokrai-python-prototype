@@ -1,0 +1,192 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Tracking JSON Schema",
+    "description": "Format for information used for reporting activities completed along with other metrics. Also used to create dashboards and visualizations.",
+    "type": "object",
+    "properties": {
+        "activities": {
+            "description": "",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The name of the tracking activity, such as 'Inboxes Clean' or 'Running'.",
+                        "type": "string"
+                    },
+                    "dtype": {
+                        "description": "Used to specify how an activity is prompted and stored. Overrides 'components' and 'subitem' if the dtype is in the predefined list. If dtype is supplied, a pre-defined type is used; otherwise one of 'components' and 'subitem' must be given.",
+                        "type": "string",
+                        "enum": [
+                            "boolean",
+                            "float",
+                            "integer_sequence",
+                            "integer",
+                            "nonnegative",
+                            "natural_sequence",
+                            "natural",
+                            "text",
+                            "time_amount",
+                            "time",
+                            "timed_distance_with_elevation",
+                            "timed_distance"
+                        ]
+                    },
+                    "scoring": {
+                        "description": "Used to specify which response is considered good. For example, a boolean true response for 'Nose Picking' is unlikely to be considered scoring for most people. Defaults to 'true' for boolean data types. To be used, it must be compatible with the activity dtype; otherwise a woarning is logged and the default is used.",
+                        "type": "object",
+                        "properties": {
+                            "target": {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "value_scores": {},
+                            "penalty_under": {},
+                            "penalty_over": {}
+                        }
+                    },
+                    "prompt": {
+                        "description": "How the user is to be prompted for input when interactively tracking activities.",
+                        "type": "string"
+                    },
+                    "error_prompt": {
+                        "description": "The secondary prompt to be displayed when an input is given that cannot be parsed as the specified dtype.",
+                        "type": "string"
+                    },
+                    "quit_string": {
+                        "description": "The string used to quit a prompt. Default: ':q'",
+                        "type": "string"
+                    },
+                    "order": {
+                        "description": "Value between 0 and 1 to determine the relative position in the queue during prompting. Default: 0.5",
+                        "type": "number"
+                    },
+                    "components": {
+                        "description": "May not be defined when 'subitem' is also defined. Optional field used to define a complex data type for activity tracking. Classic example: running, where you want to track both distance and time, but each should belong to the same activity.",
+                        "$ref": "#/$defs/composite_type"
+                    },
+                    "subitem": {
+                        "description": "May not be defined when 'components' is also defined. Optional field used to define an array data type for activity tracking that contains n instances of the same subitem.",
+                        "$ref": "#/$defs/subitem_type"
+                    }
+                },
+                "oneOf": [
+                        {
+                             "type": "object",
+                             "required": ["name", "dtype"]
+                        },
+                        {
+                             "type": "object",
+                             "required": ["name", "components"]
+                        },
+                        {
+                             "type": "object",
+                             "required": ["name", "subitem"]
+                        }
+                    ],
+                "required": [
+                    "name",
+                    "scoring",
+                    "prompt"
+                ],
+                "minProperties": 4,
+                "maxProperties": 5
+            }
+        }
+    },
+    "$defs": {
+        "composite_type": {
+            "patternPproperties": {
+                "[_A-Za-z0-9]+": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "dtype": {
+                            "$ref": "#/$defs/predefined"
+                        },
+                        "components": {
+                            "$ref": "#/$defs/composite_type"
+                        },
+                        "subitem": {
+                            "$ref": "#/$defs/subitem_type"
+                        }
+                    },
+                    "oneOf": [
+                        {
+                             "type": "object",
+                             "required": ["name", "dtype"]
+                        },
+                        {
+                             "type": "object",
+                             "required": ["name", "components"]
+                        },
+                        {
+                             "type": "object",
+                             "required": ["name", "subitem"]
+                        }
+                    ],
+                    "required": [
+                        "name"
+                    ],
+                    "minProperties": 2,
+                    "additionalProperties": false
+                }
+            }
+        },
+        "subitem_type": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "dtype": {
+                    "$ref": "#/$defs/predefined"
+                },
+                "components": {
+                    "$ref": "#/$defs/composite_type"
+                },
+                "subitem": {
+                    "$ref": "#/$defs/subitem_type"
+                }
+            },
+            "oneOf": [
+                {
+                     "type": "object",
+                     "required": ["name", "dtype"]
+                },
+                {
+                     "type": "object",
+                     "required": ["name", "components"]
+                },
+                {
+                     "type": "object",
+                     "required": ["name", "subitem"]
+                }
+            ],
+            "required": ["name"],
+            "minProperties": 2,
+            "additionalProperties": false
+        },
+        "predefined": {
+            "enum": [
+                "boolean",
+                "float",
+                "integer_sequence",
+                "integer",
+                "nonnegative",
+                "nonnegative_sequence",
+                "natural_sequence",
+                "natural",
+                "text",
+                "time_amount",
+                "time"
+            ]
+        }
+    }
+}

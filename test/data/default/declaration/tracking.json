@@ -1,0 +1,202 @@
+{
+    "activities": [
+        {
+            "name": "Tasks Complete",
+            "dtype": "boolean",
+            "scoring": {
+                "target": true
+            },
+            "prompt": "Did you complete all your tasks today?  "
+        },
+        {
+            "name": "Piano Time",
+            "dtype": "natural",
+            "scoring": {
+                "target": true
+            },
+            "prompt": "How much time did you spend playing the piano?  "
+        },
+        {
+            "name": "Bedtime Last Night",
+            "dtype": "time",
+            "scoring": {
+                "target": "22:00"
+            },
+            "prompt": "What time did you go to bed last night?  "
+        },
+        {
+            "name": "Get Up Time",
+            "dtype": "time",
+            "scoring": {
+                "target": "06:00"
+            },
+            "prompt": "What time did you get up?  "
+        },
+        {
+            "name": "Inboxes Clean",
+            "dtype": "boolean",
+            "scoring": {
+                "target": true
+            },
+            "prompt": "Are your email inboxes clean?  "
+        },
+        {
+            "name": "Clockodo",
+            "dtype": "boolean",
+            "scoring": {
+                "target": true
+            },
+            "prompt": "Did you track your time with Clockodo?  "
+        },
+        {
+            "name": "Nose Picking",
+            "dtype": "boolean",
+            "scoring": {
+                "target": false
+            },
+            "prompt": "Did you pick your nose today?  "
+        },
+        {
+            "name": "Nail Picking",
+            "dtype": "boolean",
+            "scoring": {
+                "target": false
+            },
+            "prompt": "Did you pick your nails today?  "
+        },
+        {
+            "name": "Masturbation",
+            "dtype": "boolean",
+            "scoring": {
+                "target": null
+            },
+            "prompt": "Did you masturbate today?  "
+        },
+        {
+            "name": "Caffeine",
+            "dtype": "natural",
+            "scoring": {
+                "target": 0,
+                "badness": 0.5
+            },
+            "prompt": "How much caffeine did you consume today?  "
+        },
+        {
+            "name": "Alcohol",
+            "dtype": "natural",
+            "scoring": {
+                "target": 0,
+                "badness": 1
+            },
+            "prompt": "How much alcohol did you consume today?  "
+        },
+        {
+            "name": "Text Messages",
+            "dtype": "natural",
+            "scoring": {
+                "target": true
+            },
+            "prompt": "How many text messages did you send today?  "
+        },
+        {
+            "name": "Brain Candy",
+            "dtype": "time_amount",
+            "scoring": {
+                "target": 50,
+                "penalty_under": 0,
+                "penalty_over": 0.05
+            },
+            "prompt": "How much time did you spend on 'brain candy' today?  "
+        },
+        {
+            "name": "Deep Work",
+            "dtype": "time_amount",
+            "scoring": {
+                "target": 240,
+                "target_scores": {}
+            },
+            "prompt": "How much time did you spend on deep work?  "
+        },
+        {
+            "name": "Food",
+            "scoring": {
+                "target": 0
+            },
+            "prompt": "What did you eat?  ",
+            "order": 0.1,
+            "subitem": {
+                "name": "Food Entry",
+                "dtype": "text"
+            }
+        },
+        {
+            "name": "Weights",
+            "scoring": {
+                "target": "more"
+            },
+            "prompt": "Which weights did you  lift?  ",
+            "subitem": {
+                "name": "Set",
+                "components": {
+                    "name": {
+                        "dtype": "nonnegative"
+                    },
+                    "sets": {
+                        "dtype": "natural_sequence"
+                    },
+                    "subjective_perception": {
+                        "dtype": "nonnegative"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Running",
+            "scoring": {
+                "target": "more"
+            },
+            "prompt": "How much did you run today?  ",
+            "subitem": {
+                "name": "Run",
+                "components": {
+                    "distance (km)": {
+                        "dtype": "nonnegative"
+                    },
+                    "duration": {
+                        "dtype": "time_amount"
+                    },
+                    "up": {
+                        "dtype": "nonnegative"
+                    },
+                    "down": {
+                        "dtype": "nonnegative"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Walking",
+            "scoring": {
+                "target": "more"
+            },
+            "prompt": "How much did you walk today?  ",
+            "subitem": {
+                "name": "Walk",
+                "components": {
+                    "distance (km)": {
+                        "dtype": "nonnegative"
+                    },
+                    "duration": {
+                        "dtype": "time_amount"
+                    },
+                    "up": {
+                        "dtype": "nonnegative"
+                    },
+                    "down": {
+                        "dtype": "nonnegative"
+                    }
+                }
+            }
+        }
+    ]
+}

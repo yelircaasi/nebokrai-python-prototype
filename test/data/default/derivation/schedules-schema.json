@@ -1,0 +1,107 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Schedules Derivation Schema",
+    "description": "Format for the automatically computed (derived) schedules data structure, containing an array of entries for each day object in the array.",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "date": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+            },
+            "entries": {
+                "$ref": "#/$defs/entries_type"
+            }
+        }
+    },
+    "$defs": {
+        "entries_type": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "start": {
+                        "type": "string",
+                        "pattern": "[X0-9]{2}:[X0-9]{2}"
+                    },
+                    "end": {
+                        "type": "string",
+                        "pattern": "[X0-9]{2}:[X0-9]{2}"
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "subentries": {
+                        "$ref": "#/$defs/entries_type"
+                    },
+                    "priority": {
+                        "type": "number"
+                    },
+                    "blocks": {
+                        "type": "string"
+                    },
+                    "categories": {
+                        "type": "string"
+                    },
+                    "ismovable": {
+                        "type": "boolean"
+                    },
+                    "normaltime": {
+                        "type": "integer"
+                    },
+                    "idealtime": {
+                        "type": "integer"
+                    },
+                    "mintime": {
+                        "type": "integer"
+                    },
+                    "maxtime": {
+                        "type": "integer"
+                    },
+                    "alignend": {
+                        "type": "boolean"
+                    },
+                    "order": {
+                        "type": "number"
+                    },
+                    "assigned_time": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "enum": [
+                            null,
+                            {
+                                "type": "string",
+                                "pattern": "[X0-9]{2}:[X0-9]{2}"
+                            }
+                        ]
+                    }
+                },
+                "required": [
+                    "name",
+                    "start",
+                    "end",
+                    "notes",
+                    "subentries",
+                    "priority",
+                    "blocks",
+                    "categories",
+                    "ismovable",
+                    "normaltime",
+                    "idealtime",
+                    "mintime",
+                    "maxtime",
+                    "alignend",
+                    "order",
+                    "assigned_time"
+                ],
+                "additionalProperties": false
+            }
+        }
+    }
+}

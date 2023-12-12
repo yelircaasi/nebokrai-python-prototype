@@ -1,0 +1,81 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Routines JSON Schema",
+    "description": "Daily sequences of actions, which serve both to simplify the rest of day-to-day planning and scheduling, but also to provide stability.",
+    "type": "object",
+    "patternProperties": {
+        "[_A-Za-z0-9]": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "default_start": {
+                    "type": "string",
+                    "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+                },
+                "default_priority": {
+                    "type": "number"
+                },
+                "default_notes": {
+                    "type": "string"
+                },
+                "default_normaltime": {
+                    "type": "integer"
+                },
+                "default_idealtime": {
+                    "type": "integer"
+                },
+                "default_mintime": {
+                    "type": "integer"
+                },
+                "default_maxtime": {
+                    "type": "integer"
+                },
+                "default_blocks": {
+                    "type": "string"
+                },
+                "default_order": {
+                    "type": "number"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "normaltime": {
+                                "type": "integer"
+                            },
+                            "idealtime": {
+                                "type": "integer"
+                            },
+                            "mintime": {
+                                "type": "integer"
+                            },
+                            "maxtime": {
+                                "type": "integer"
+                            },
+                            "order": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "default_start",
+                "default_priority",
+                "default_normaltime",
+                "default_order",
+                "items"
+            ]
+        }
+    }
+}

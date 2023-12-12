@@ -1,0 +1,94 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Roadmaps JSON Schema",
+    "description": "The main heavy lifting in the declaration. A roadmap is a set of projects, while a ",
+    "type": "object",
+    "patternProperties": {
+        "[a-z][a-z]{1,4}": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "categories": {
+                    "type": "string"
+                },
+                "projects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "start": {
+                                "type": "string",
+                                "pattern": "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}"
+                            },
+                            "end": {
+                                "type": "string",
+                                "pattern": "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}"
+                            },
+                            "duration": {
+                                "type": "integer"
+                            },
+                            "tags": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "notes": {
+                                "type": "string"
+                            },
+                            "dependencies": {
+                                "type": "string"
+                            },
+                            "categories": {
+                                "type": "string"
+                            },
+                            "tasks": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "dependencies": {
+                                            "type": "string"
+                                        },
+                                        "notes": {
+                                            "type": "string"
+                                        },
+                                        "status": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "name",
+                                        "id"
+                                    ]
+                                }
+                            }
+                        },
+                        "required": [
+                            "name",
+                            "tasks"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "projects"
+            ]
+        }
+    }
+}

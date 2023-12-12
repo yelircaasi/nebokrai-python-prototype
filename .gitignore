@@ -162,3 +162,4 @@ cython_debug/
 # ad hoc
 data/
 backup/
+!test/data/

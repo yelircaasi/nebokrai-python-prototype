@@ -1,0 +1,82 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Tracking JSON Schema",
+    "description": "All configuration information, specifying algorithm parameters and all default values.",
+    "type": "object",
+    "properties": {
+        "repr_width": {
+            "type": "number"
+        },
+        "default_duration": {
+            "type": "number"
+        },
+        "default_priority": {
+            "type": "number"
+        },
+        "default_sleep_priority": {
+            "type": "number"
+        },
+        "default_interval": {
+            "type": "number"
+        },
+        "default_cluster_size": {
+            "type": "number"
+        },
+        "default_order": {
+            "type": "number"
+        },
+        "default_normaltime": {
+            "type": "number"
+        },
+        "default_idealtime_factor": {
+            "type": "number"
+        },
+        "default_mintime_factor": {
+            "type": "number"
+        },
+        "default_maxtime_factor": {
+            "type": "number"
+        },
+        "default_categories": {
+            "type": "string"
+        },
+        "default_ismovable": {
+            "type": "boolean"
+        },
+        "default_alignend": {
+            "type": "boolean"
+        },
+        "default_day_start": {
+            "type": "string",
+            "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+        },
+        "default_day_end": {
+            "type": "string",
+            "pattern": "^[0-9]{1,2}:[0-9]{2}$"
+        },
+        "default_empty_blocks": {
+            "type": "string"
+        },
+        "default_project_dates_missing_offset": {
+            "type": "number"
+        },
+        "default_project_dates_missing_hashmod": {
+            "type": "number"
+        },
+        "default_schedule_weight_interval_min": {
+            "type": "number"
+        },
+        "default_schedule_weight_interval_max": {
+            "type": "number"
+        },
+        "default_sched_weight_transform_exp": {
+            "type": "number"
+        },
+        "default_sleep_delta_min": {
+            "type": "number"
+        },
+        "default_sleep_delta_max": {
+            "type": "number"
+        }
+    }
+}

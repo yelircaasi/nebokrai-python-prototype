@@ -1,0 +1,353 @@
+{
+    "morning": {
+        "name": "Morning Routine",
+        "default_start": "05:00",
+        "default_priority": 80,
+        "default_notes": "",
+        "default_normaltime": 60,
+        "default_idealtime": 90,
+        "default_mintime": 15,
+        "default_maxtime": 180,
+        "default_blocks": "",
+        "default_order": 1.0,
+        "items": [
+            {
+                "name": "Get up and drink water",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 5
+            },
+            {
+                "name": "Get dressed for sports",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 4,
+                "order": 10
+            },
+            {
+                "name": "Stretch",
+                "priority": 60,
+                "normaltime": 5,
+                "idealtime": 10,
+                "mintime": 2,
+                "maxtime": 15,
+                "order": 15
+            },
+            {
+                "name": "Workout",
+                "priority": 50,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 20
+            },
+            {
+                "name": "Haircut, shower, shave, dress",
+                "priority": 70,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 25
+            },
+            {
+                "name": "Meditation",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 30
+            },
+            {
+                "name": "Breakfast prep",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 35
+            },
+            {
+                "name": "Breakfast",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 45
+            },
+            {
+                "name": "Mouthwash, floss, brush teeth",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 50
+            },
+            {
+                "name": "Thorough clean-up and organizing",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 55
+            },
+            {
+                "name": "Flashcards",
+                "priority": 5,
+                "normaltime": 15,
+                "idealtime": 30,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 40
+            },
+            {
+                "name": "Review daily plan",
+                "priority": 80,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 80
+            },
+            {
+                "name": "Study wisdom literature",
+                "priority": 60,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 5,
+                "maxtime": 3,
+                "order": 85
+            },
+            {
+                "name": "Miscellaneous prep for the day",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 90
+            }
+        ]
+    },
+    "midday": {
+        "name": "Midday Routine",
+        "default_start": "13:00",
+        "default_priority": 80,
+        "default_notes": "",
+        "default_normaltime": 30,
+        "default_idealtime": 30,
+        "default_mintime": 15,
+        "default_maxtime": 60,
+        "default_ismovable": false,
+        "default_order": 45.0,
+        "items": [
+            {
+                "name": "Large glass of water",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Stretch",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Meditation",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Review day and adjust plan",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            }
+        ]
+    },
+    "evening": {
+        "name": "Evening Routine",
+        "default_start": "20:00",
+        "default_priority": 80,
+        "default_notes": "",
+        "default_normaltime": 60,
+        "default_idealtime": 90,
+        "default_mintime": 15,
+        "default_maxtime": 120,
+        "default_order": 99,
+        "items": [
+            {
+                "name": "Thorough clean-up and organizing",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Brush teeth and rinse",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Review day and write in journal",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Review and refine plan for the next day",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Complete tracking for the day",
+                "priority": 60,
+                "normaltime": 10,
+                "idealtime": 10,
+                "mintime": 5,
+                "maxtime": 15,
+                "order": 1
+            },
+            {
+                "name": "Prepare things for the next day, especially clothes and food",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Evening stroll",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Stretch",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Meditation",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Reading without distractions",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            }
+        ]
+    },
+    "weekly": {
+        "name": "Weekly Planning and Review",
+        "default_start": "10:00",
+        "default_priority": 80,
+        "default_notes": "",
+        "default_normaltime": 90,
+        "default_idealtime": 120,
+        "default_mintime": 15,
+        "default_maxtime": 60,
+        "default_order": 20,
+        "items": [
+            {
+                "name": "Complete tracking for the past week",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Write weekly review",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Review and adjust plan for coming week",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Review and adjust plan for coming week",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            },
+            {
+                "name": "Plan meals for the coming week",
+                "priority": 20,
+                "normaltime": 2,
+                "idealtime": 3,
+                "mintime": 1,
+                "maxtime": 3,
+                "order": 1
+            }
+        ]
+    }
+}

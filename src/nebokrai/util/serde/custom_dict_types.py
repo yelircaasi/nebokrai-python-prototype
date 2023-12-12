@@ -234,7 +234,7 @@ class SubitemDictRaw(TypedDict):
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]
     components: NotRequired[dict[str, "ActivityDictParsed"]]
-    sequence_subitem: NotRequired["ActivityDictParsed"]
+    subitem: NotRequired["ActivityDictParsed"]
 
 
 class SubitemDictParsed(TypedDict):
@@ -249,7 +249,7 @@ class SubitemDictParsed(TypedDict):
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]
     components: NotRequired[dict[str, "ActivityDictParsed"]]
-    sequence_subitem: NotRequired["ActivityDictParsed"]
+    subitem: NotRequired["ActivityDictParsed"]
 
 
 ComponentDictRaw = dict[str, SubitemDictRaw]
@@ -271,7 +271,7 @@ class ActivityDictRaw(TypedDict):
     response: NotRequired[TrackingActivityResponseType]
     order: NotRequired[float]
     components: NotRequired[ComponentDictRaw]
-    sequence_subitem: NotRequired[SubitemDictRaw]
+    subitem: NotRequired[SubitemDictRaw]
 
 
 class ActivityDictParsed(TypedDict):
@@ -289,7 +289,7 @@ class ActivityDictParsed(TypedDict):
     response: NotRequired[TrackingActivityResponseType]
     order: float
     components: NotRequired[ComponentDictParsed]
-    sequence_subitem: NotRequired[SubitemDictParsed]
+    subitem: NotRequired[SubitemDictParsed]
 
 
 class PromptDispatcherType(TypedDict):

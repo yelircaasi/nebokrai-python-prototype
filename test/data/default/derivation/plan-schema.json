@@ -1,0 +1,58 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Plan Derivation Schema",
+    "description": "Format for the automatically computed (derived) plan data structure, containing an array of tasks for each day in the plan.",
+    "patternProperties": {
+        "[0-9]{4}-[0-9]{2}-[0-9]{2}": {
+            "type": "array",
+            "item": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "project_name": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string",
+                        "pattern": "[a-z0-9]{1,7}"
+                    },
+                    "priority": {
+                        "type": "number"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "dependencies": {
+                        "type": "string"
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "todo",
+                            "done"
+                        ]
+                    },
+                    "categories": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name",
+                    "project_name",
+                    "id",
+                    "priority",
+                    "duration",
+                    "dependencies",
+                    "notes",
+                    "status",
+                    "categories"
+                ],
+                "additionalProperties": false
+            }
+        }
+    }
+}
