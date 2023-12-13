@@ -9,7 +9,7 @@ from .util import TDataPaths as tdp
 def read_file_pair(basename: str) -> tuple[Union[dict, list], Union[dict, list]]:
     with open(tdp.default_data_dir / f"{basename}.json") as f:
         contents = json.load(f)
-    with open(tdp.default_data_dir / f"{basename}-schema.json") as f:
+    with open(tdp.root_dir / f"schemata/{basename}-schema.json") as f:
         schema_contents = json.load(f)
 
     return contents, schema_contents

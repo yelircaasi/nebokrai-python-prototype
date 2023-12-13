@@ -19,6 +19,7 @@ class TDataPaths:
     """
 
     test_dir: Path = this_file.parent
+    root_dir: Path = test_dir.parent
     tmp_dir: Path = test_dir / "tmp"
     data_dir: Path = test_dir / "data"
     default_data_dir: Path = data_dir / "default"
