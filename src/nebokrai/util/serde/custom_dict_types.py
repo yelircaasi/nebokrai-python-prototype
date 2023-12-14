@@ -252,8 +252,8 @@ class SubitemDictParsed(TypedDict):
     subitem: NotRequired["ActivityDictParsed"]
 
 
-ComponentDictRaw = dict[str, SubitemDictRaw]
-ComponentDictParsed = dict[str, SubitemDictParsed]
+ComponentsDictRaw = dict[str, SubitemDictRaw]
+ComponentsDictParsed = dict[str, SubitemDictParsed]
 
 
 class ActivityDictRaw(TypedDict):
@@ -270,7 +270,7 @@ class ActivityDictRaw(TypedDict):
     quit_string: NotRequired[str]
     response: NotRequired[TrackingActivityResponseType]
     order: NotRequired[float]
-    components: NotRequired[ComponentDictRaw]
+    components: NotRequired[ComponentsDictRaw]
     subitem: NotRequired[SubitemDictRaw]
 
 
@@ -288,7 +288,7 @@ class ActivityDictParsed(TypedDict):
     quit_string: NotRequired[str]
     response: NotRequired[TrackingActivityResponseType]
     order: float
-    components: NotRequired[ComponentDictParsed]
+    components: NotRequired[ComponentsDictParsed]
     subitem: NotRequired[SubitemDictParsed]
 
 

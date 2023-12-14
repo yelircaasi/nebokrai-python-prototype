@@ -3,7 +3,7 @@ from typing import Optional
 from ..elementary_types import PromptTypeName, prompt_type_mapping
 from ..serde.custom_dict_types import (
     ActivityDictParsed,
-    ComponentDictParsed,
+    ComponentsDictParsed,
     SubitemDictParsed,
 )
 from .type_conversion import ConversionFuncType, conversion_func_dict
@@ -66,7 +66,7 @@ class PromptConfig:
 
     @staticmethod
     def config_from_components_dict(
-        components_dict: ComponentDictParsed,
+        components_dict: ComponentsDictParsed,
     ) -> Optional[dict[str, "PromptConfig"]]:
         """
         Read in parsed components dict as its own dict of PromptConfig object.

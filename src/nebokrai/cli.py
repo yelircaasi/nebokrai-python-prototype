@@ -2,7 +2,8 @@ from typing import Callable
 
 from .configuration import path_manager
 from .nebokrai import Nebokrai
-from .util.prompt.prompt_functions import prompt_integer
+from .util.prompt import prompt_any
+from .util.prompt.prompt_config import PromptConfig
 from .validation import validate_declaration
 
 
@@ -81,10 +82,13 @@ def shift() -> None:  # WORKS!
     """
     nebokrai = Nebokrai()
     print(nebokrai.summary)
-    ndays = prompt_integer(
-        "How many days would you like to shift the declaration back by? ",
-        "Invalid input. Please enter an integer.",
+    ndays = prompt_any(
+        PromptConfig(
+            "integer",
+            prompt_message="How many days would you like to shift the declaration back by? ",
+        )
     )
+    assert isinstance(ndays, int)
     print(f"Shifting declaration back by {ndays} days...")
     nebokrai.shift_declaration(ndays)
 

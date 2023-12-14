@@ -1,8 +1,10 @@
 import json
 
+from nebokrai.util.elementary_types import Natural
+
 from ..configuration import path_manager
 from ..util import NKDate
-from ..util.prompt.prompt_functions import prompt_natural_sequence
+from ..util.prompt import PromptConfig, prompt_any
 from ..util.serde.custom_dict_types import (
     ActivityDictRaw,
     DayLogDictRaw,
@@ -50,15 +52,20 @@ class Tracker:
         """
         print("The following tracking items are available:")
         print("\n".join(map(lambda ia: f"  {ia[0]:>2}) {ia[1].name}", enumerate(self.activities))))
-        indices = prompt_natural_sequence(
-            "Please enter a number or list of numbers (seprated by commas, spaces, or both), "
-            + "or leave empty for all items."
+        indices = prompt_any(
+            PromptConfig(
+                "natural_sequence",
+                prompt_message="Please enter a number or list of numbers (seprated by commas, "
+                + "spaces, or both), or leave empty for all items.",
+            )
         )
         if not indices:
             for activity in self.activities:
                 activity.prompt_interactively()
         else:
+            assert isinstance(indices, list)
             for index in indices:
+                assert isinstance(index, int)
                 self.activities[index].prompt_interactively()
 
     def write(self) -> None:
