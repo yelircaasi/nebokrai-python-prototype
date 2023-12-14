@@ -25,7 +25,7 @@ from .tracking import Logs, Tracker
 from .util import NKDate, ProjectID, RoadmapID, TaskID, color, shift_declaration_ndays
 
 
-class Nebokrai:
+class NebokraiEntryPoint:
     """
     One class to rule them all.
     """
@@ -254,7 +254,7 @@ class Nebokrai:
             return self.roadmaps[__key.roadmap_id][__key.project_id][__key]
         if isinstance(__key, NKDate):
             return self.schedules[__key]
-        raise KeyError(f"Invalid key for Nebokrai object: {__key}")
+        raise KeyError(f"Invalid key for NebokraiEntryPoint object: {__key}")
 
     def __setitem__(self, __name: str, __value: Any) -> None:
         ...

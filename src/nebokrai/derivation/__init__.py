@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from ..nebokrai import Nebokrai
+from ..nebokrai import NebokraiEntryPoint
 
 
-def derive_from_json() -> "Nebokrai":
-    plgr = Nebokrai()
-    return plgr
+def derive_from_json() -> "NebokraiEntryPoint":
+    nbkr = NebokraiEntryPoint()
+    return nbkr

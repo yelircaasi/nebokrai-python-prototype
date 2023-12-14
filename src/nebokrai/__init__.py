@@ -1,5 +1,5 @@
-from .nebokrai import Nebokrai
+from .nebokrai import NebokraiEntryPoint
 
 __all__ = [
-    "Nebokrai",
+    "NebokraiEntryPoint",
 ]

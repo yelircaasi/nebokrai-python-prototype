@@ -53,6 +53,7 @@ disable = [
 ]
 no-docstring-rgx = "^_|copy|from_string|fromordinal|today|get_task|get_project|get_arg_parser|main|parse_|.*?Raw|.*?Parsed"
 docstring-min-length = 3
+ignored-argument-names = "_.*|^ignored_|^unused_|arg_namespace"
 
 [tool.isort]
 profile = "black"
