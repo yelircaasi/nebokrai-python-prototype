@@ -6,7 +6,8 @@ long-term goals.
 
 Still unstable and in undergoing rapid development. Currently written in the Python standard
 library (no other dependencies), but liable to be re-written in another better-suited (perhaps
-sexier?) language. The README may describe some not-yet-implemented features, as I am giving 
+more attractive?) language. The README may describe some not-yet-implemented features, as I am 
+giving 
 ['readme-driven development'](https://tom.preston-werner.com/2010/08/23/readme-driven-development.html)
 a try.
 
@@ -87,9 +88,9 @@ feasible plan.
 From the plan, the next step is to create a schedule. Algorithmically, this turns out to be more
 involved - see [this]() for details and discussion. The general process is as follows: 
 
-1. Entries are c
-2. Entries are added to days in order of priority such that all constraints are satisfied
-3. Entry times are adjusted such that they partition the available time
+1. Entries are defined in the calendar or created from tasks in the plan.
+2. Entries are added to days in order of priority such that all constraints are satisfied.
+3. Entry times are adjusted such that they partition the available time.
 
 Constraint types include:
 
@@ -110,18 +111,30 @@ Constraint types include:
 The scheduler acts as a sort of temporal constraint solver to find the optimal schedule satisfying
 the declaration and (more immediately) the plan.
 
-One of the major benefits of planning in this way is the built-in-by-design requirement that priorities are respected when planning. For example, routines can be declared in their own section of the declaration, referenced on relevant days in the calendar, and then included in planning and scheduling. To borrow yet another phrase from computer science, this is a sort of ahead-of-time compilation, which makes possible a high degree of optimization.
+One of the major benefits of planning in this way is the built-in-by-design requirement that 
+priorities are respected when planning. For example, routines can be declared in their own section 
+of the declaration, referenced on relevant days in the calendar, and then included in planning and 
+scheduling. To borrow yet another phrase from computer science, this is a sort of ahead-of-time 
+compilation, which makes possible a high degree of optimization.
 
 ### Tracking
 
-To understand what is working and what is not, it is important to have a clear record of what actually happened. As psychological studies have shown, memory is often unreliable and deceptive. Without data, I can easily overestimate the extent to which I have eaten healthily or the amount of time I spent actually working on projects (with my brain engaged, not just sitting in the right chair). Activity tracking is the antidote to these problems.
+To understand what is working and what is not, it is important to have a clear record of what 
+actually happened. As psychological studies have shown, memory is often unreliable and deceptive. 
+Without data, I can easily overestimate the extent to which I have eaten healthily or the amount of 
+time I spent actually working on projects (with my brain engaged, not just sitting in the right 
+chair). Activity tracking is the antidote to these problems.
 
-On the other hand, tracking is tedious, and in many forms it is quite burdensome. Any system attempting to facilitate tracking needs to mitigate this. An easy interactive CLI and a mobile interface via the Signal app (and later others) are two approaches that make tracking if not outright enjoyable, at least more pleasant and less of a chore.
+On the other hand, tracking is tedious, and in many forms it is quite burdensome. Any system 
+attempting to facilitate tracking needs to mitigate this. An easy interactive CLI and a mobile 
+interface via the Signal app (and later others) are two approaches that make tracking if not 
+outright enjoyable, at least more pleasant and less of a chore.
 
 ### CLI
 
 Commands are arranged hierarchically. Each command, unless run with options that specify otherwise,
-and unless otherwise specified in the description, defaults to interactive and has an `interactive` command.
+and unless otherwise specified in the description, defaults to interactive and has an `interactive` 
+command.
 
 For more info, consult the documentation and run `nebokrai --help`.
 
@@ -139,7 +152,7 @@ nebokrai               # defaults to `interactive`
  ┃    ┣━━ dryun        # perform derivation and save 
  ┃    ┣━━ dryun-accept # accept the results of the last dryrun (if the last derivation was a dryrun)
  ┃    ┣━━ plan         # 
- ┃    ┣━━ schedules    # 
+ ┃    ┗━━ schedules    # 
  ┣━━ track             # enter interactive tracking prompt
  ┣━━ x                 # check off a task as completed
  ┣━━ declaration       # enter interactive declaration management menu

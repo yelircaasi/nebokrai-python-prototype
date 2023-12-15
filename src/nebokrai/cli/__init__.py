@@ -31,6 +31,7 @@ from .commands import (
     generations_interactive,
     interactive,
     revert_interactive,
+    summary,
     sync_noninteractive,
     track_interactive,
     tracking_interactive,
@@ -143,6 +144,7 @@ from .commands import (
 commands_dict: dict[str, Callable] = {
     "": interactive,
     "interactive": interactive,
+    "summary": summary,
     "validate": validate_interactive,
     "validate all": validate_all,
     "validate calendar": validate_calendar,

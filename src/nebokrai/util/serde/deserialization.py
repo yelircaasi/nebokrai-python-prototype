@@ -1,10 +1,10 @@
-from typing import Iterable
+from typing import Iterable, Union
 
 from ...configuration import config
 from ...util.entity_ids import ProjectID, TaskID
 from ...util.nkdatetime.nkdate import NKDate
 from ..elementary_types import Natural, T, TimeAmountRaw, true_strings
-from ..nkdatetime.nktime import NKTime
+from ..nkdatetime.nktime import NKTime, NoneTime
 from .custom_dict_types import (
     ActivityDictParsed,
     ActivityDictRaw,
@@ -88,18 +88,16 @@ def parse_tracking_dict(tracking_dict: TrackingDictRaw) -> TrackingDictParsed:
 def parse_activity_dict(activity_dict: ActivityDictRaw) -> ActivityDictParsed:
     return {
         "name": activity_dict["name"],
-        "dtype": activity_dict["dtype"],
-        "desirable": activity_dict["desirable"],
+        "dtype": activity_dict.get("dtype"),
         "prompt": activity_dict["prompt"].strip(" ") + "  ",
+        "scoring": activity_dict["scoring"],
         "order": activity_dict.get("order") or config.default_order,
     }
 
 
 def parse_calendar_dict(calendar_dict: CalendarDictRaw) -> CalendarDictParsed:
     return {
-        "days": {
-            NKDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict["days"].items()
-        },
+        NKDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict.items()
     }
 
 
@@ -153,13 +151,15 @@ def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
 
 
 def parse_entry_dict(entry_dict: EntryDictRaw | RoutineItemDictRaw) -> EntryDictParsed:
-    normaltime = entry_dict["normaltime"]
+    start: Union[NKTime, NoneTime] = NKTime.from_string(str(entry_dict.get("start")))
+    end: Union[NKTime, NoneTime] = NKTime.from_string(str(entry_dict.get("end")))
+    normaltime = entry_dict.get("normaltime") or start.timeto(end) if (start and end) else config.default_normaltime
     return {
         "name": entry_dict["name"],
         "priority": entry_dict["priority"],
         "normaltime": normaltime,
-        "start": NKTime.from_string(entry_dict.get("start")),
-        "end": NKTime.from_string(entry_dict.get("end")),
+        "start": NKTime.from_string(str(entry_dict.get("start"))),
+        "end": NKTime.from_string(str(entry_dict.get("end"))),
         "mintime": entry_dict.get("mintime") or int(config.default_mintime_factor * normaltime),
         "maxtime": entry_dict.get("maxtime") or int(config.default_maxtime_factor * normaltime),
         "idealtime": entry_dict.get("idealtime")
@@ -172,7 +172,7 @@ def parse_entry_dict(entry_dict: EntryDictRaw | RoutineItemDictRaw) -> EntryDict
         "subentries": list(map(parse_entry_dict, entry_dict.get("subentries") or [])),
         "blocks": split_tag_sequence(entry_dict.get("blocks") or ""),
         "ismovable": entry_dict.get("ismovable") or config.default_ismovable,
-        "assigned_time": NKTime.from_string(entry_dict.get("assigned_time")),
+        "assigned_time": NKTime.from_string(str(entry_dict.get("assigned_time"))),
     }
 
 

@@ -230,7 +230,7 @@ class Calendar:
         Creates instance from dict, intended to be used with .json declaration format.
         """
         days = {}
-        for date_string, day_dict in calendar_dict["days"].items():
+        for date_string, day_dict in calendar_dict.items():
             day_date = NKDate.from_string(date_string)
             day = Day.deserialize(routines, day_date, day_dict)
             days.update({day_date: day})

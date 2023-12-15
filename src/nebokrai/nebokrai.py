@@ -62,7 +62,7 @@ class NebokraiEntryPoint:
         # self.plan_edit_time = from_key("plan_edit_time")
         # self.schedule_edit_time = from_key("schedule_edit_time")
 
-    def declare_interactive(self) -> None:
+    def edit_declaration_interactive(self) -> None:
         print("Not yet implemented.")
 
     def derive(self) -> None:

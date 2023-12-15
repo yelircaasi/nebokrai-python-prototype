@@ -19,7 +19,7 @@ class Projects:
 
     @classmethod
     def deserialize(
-        cls, roadmap_id: RoadmapID, projects_dict: dict[str, ProjectDictRaw]
+        cls, roadmap_id: RoadmapID, projects_dict: list[ProjectDictRaw]
     ) -> "Projects":
         """
         Creates instance from dict, intended to be used with .json declaration format.
@@ -27,10 +27,9 @@ class Projects:
 
         projects = cls()
 
-        for project_code, project_dict in projects_dict.items():
-            project_id = roadmap_id.project_id(project_code)
-            if project_dict:
-                projects.add(Project.deserialize(project_id, project_dict))
+        for project_dict in projects_dict:
+            project_id = roadmap_id.project_id(project_dict["id"])
+            projects.add(Project.deserialize(project_id, project_dict))
 
         return projects
 

@@ -1,4 +1,4 @@
-from argparse import Namespace
+from ...nebokrai import NebokraiEntryPoint
 
 
 def declaration_interactive() -> None:
@@ -14,7 +14,9 @@ def declaration_remove() -> None:
 
 
 def declaration_edit() -> None:
-    print("running 'nebokrai declaration edit'")
+    print("Editing nebokrai declaration.")
+    nbkr = NebokraiEntryPoint()
+    nbkr.edit_declaration_interactive()
 
 
 def declaration_search() -> None:

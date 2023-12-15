@@ -30,7 +30,7 @@ class PromptConfig:
         self.quit_string: str = quit_string
         self.prompt_message: str = prompt_message or (
             f"Please give an input corresponding to '{prompt_type}'"
-            f", parsable as {prompt_type_mapping[prompt_type]}"
+            f", parsable as {prompt_type_mapping.get(prompt_type, '`custom`')}"
             f" ('{quit_string}' to quit):  "
         )
         self.invalid_input_message: str = invalid_input_message or "Invalid input."
@@ -43,21 +43,21 @@ class PromptConfig:
         Create an instance of PromptConfig from the information supplied in declaration.json,
           via the parsed activity dict.
         """
-        prompt_type = activity_dict["dtype"]
-        sequence_item_config = cls.config_from_subitem_dict(activity_dict["subitem"])
-        components = cls.config_from_components_dict(activity_dict["components"])
+        prompt_type = activity_dict.get("dtype")
+        subitem_config = cls.config_from_subitem_dict(activity_dict.get("subitem"))
+        components = cls.config_from_components_dict(activity_dict.get("components"))
 
         return PromptConfig(
             prompt_type=prompt_type,
-            quit_string=activity_dict["quit_string"],
+            quit_string=activity_dict.get("quit_string", ":q"), #TODO
             prompt_message=activity_dict["prompt"],
-            invalid_input_message=activity_dict["error_prompt"],
-            sequence_item_config=sequence_item_config,
+            invalid_input_message=activity_dict.get("error_prompt"), #TODO
+            sequence_item_config=subitem_config,
             components=components,
         )
 
     @staticmethod
-    def config_from_subitem_dict(subitem_dict: SubitemDictParsed) -> Optional["PromptConfig"]:
+    def config_from_subitem_dict(subitem_dict: SubitemDictParsed | None) -> Optional["PromptConfig"]:
         """
         Read in parsed subitem dict as its own PromptConfig object.
         """
@@ -66,7 +66,7 @@ class PromptConfig:
 
     @staticmethod
     def config_from_components_dict(
-        components_dict: ComponentsDictParsed,
+        components_dict: ComponentsDictParsed | None,
     ) -> Optional[dict[str, "PromptConfig"]]:
         """
         Read in parsed components dict as its own dict of PromptConfig object.

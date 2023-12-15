@@ -37,7 +37,7 @@ class TrackerItem:
         activity_dict: ActivityDictParsed = parse_activity_dict(_activity_dict)
         self.name = activity_dict["name"]
         self.prompt_config = PromptConfig.from_activity_dict(activity_dict)
-        self.desirable = activity_dict["desirable"]
+        self.scoring = activity_dict["scoring"]
         _order: Optional[float] = activity_dict.get("order", 50.0)
         self.order: float = float(_order or 50.0)
         self.response = None
@@ -52,7 +52,7 @@ class TrackerItem:
         name = f"[{routine_name}] {routine_activity_dict['name']}"
         activity_activity_dict: ActivityDictRaw = {
             "name": name,
-            "desirable": "yes",
+            "scoring": {},
             "prompt": f"Did you complete '{name}'?",
             "dtype": "boolean",
             "order": order,
@@ -80,6 +80,6 @@ class TrackerItem:
             "name": self.name,
             "response": self.response,
             "dtype": self.prompt_config.prompt_type,
-            "desirable": self.desirable,
+            "scoring": self.scoring,
             "prompt": self.prompt_config.prompt_message,
         }

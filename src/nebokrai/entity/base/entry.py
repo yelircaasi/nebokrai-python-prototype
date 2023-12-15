@@ -90,7 +90,7 @@ class Entry:
             else int(config.default_idealtime_factor * normaltime)
         )
 
-        bool_helper = {None: True, False: False}
+        bool_helper = {True: True, None: True, False: False}
 
         return cls(
             entry_dict["name"],

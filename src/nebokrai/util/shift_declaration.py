@@ -29,7 +29,7 @@ def shift_declaration_ndays(path_manager: PathManagerType, ndays: int) -> None:
         map(NKDate.from_string, re.findall(r"(?<=\")\d{4}-\d\d-\d\d(?=\")", roadmaps_string))
     )
     min_date, max_date = min(all_dates), max(all_dates)
-    print(min_date, max_date)
+    # print(min_date, max_date)
     date_range = max_date.range(min_date) if ndays > 0 else min_date.range(max_date)
     for date in date_range:
         roadmaps_string = roadmaps_string.replace(str(date), str(date + ndays))

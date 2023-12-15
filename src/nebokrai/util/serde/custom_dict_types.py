@@ -264,7 +264,7 @@ class ActivityDictRaw(TypedDict):
 
     name: str
     dtype: PromptTypeName
-    desirable: DesirabilityString
+    scoring: dict #TODO
     prompt: NotRequired[str]
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]
@@ -282,7 +282,7 @@ class ActivityDictParsed(TypedDict):
 
     name: str
     dtype: PromptTypeName
-    desirable: DesirabilityString
+    scoring: dict #TODO
     prompt: NotRequired[str]
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]
@@ -311,16 +311,18 @@ class PromptDispatcherType(TypedDict):
     timed_distance_with_elevation: Callable[[str, str, str], TimedDistanceWithElevation]
 
 
-class CalendarDictRaw(TypedDict):
-    """
-    Data type corresponding to a freshly-read 'calendar' subdict a declaration.json file.
-    """
+# class CalendarDictRaw(TypedDict):
+#     """
+#     Data type corresponding to a freshly-read 'calendar' subdict a declaration.json file.
+#     """
 
-    days: dict[str, "DayDictRaw"]
+#     days: dict[str, "DayDictRaw"]
+CalendarDictRaw = dict[str, "DayDictRaw"]
+CalendarDictParsed = dict[NKDate, "DayDictParsed"]
 
 
-class CalendarDictParsed(TypedDict):
-    days: dict[NKDate, "DayDictParsed"]
+# class CalendarDictParsed(TypedDict):
+#     days: dict[NKDate, "DayDictParsed"]
 
 
 class DayDictRaw(TypedDict):
@@ -411,7 +413,7 @@ class EntryDictParsed(TypedDict):
 class RoadmapDictRaw(TypedDict):
     name: str
     categories: str
-    projects: dict[str, "ProjectDictRaw"]
+    projects: list["ProjectDictRaw"]
 
 
 class RoadmapDictParsed(TypedDict):
@@ -420,7 +422,7 @@ class RoadmapDictParsed(TypedDict):
 
 class ProjectDictRaw(TypedDict):
     name: str
-    task_string: str
+    id: str
     priority: float
     start: str
     end: NotRequired[str]
@@ -437,7 +439,7 @@ class ProjectDictRaw(TypedDict):
 
 class ProjectDictParsed(TypedDict):
     name: str
-    task_string: str
+    id: str
     priority: float
     start: NKDate
     end: NKDate
