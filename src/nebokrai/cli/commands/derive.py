@@ -1,4 +1,4 @@
-from argparse import Namespace
+from ...nebokrai import NebokraiEntryPoint
 
 
 def derive_interactive() -> None:
