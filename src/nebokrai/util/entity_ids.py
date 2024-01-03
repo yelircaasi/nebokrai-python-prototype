@@ -1,5 +1,7 @@
 from typing import NamedTuple
 
+from nebokrai.util import color
+
 
 class RoadmapID(NamedTuple):
     """
@@ -48,7 +50,8 @@ class ProjectID(NamedTuple):
 
     @classmethod
     def from_string(cls, s: str) -> "ProjectID":
-        return cls(*s.split("-"))
+        roadmap, project = s.split("-")[:2]
+        return cls(roadmap, project)
 
     def __contains__(self, __id: object) -> bool:
         if isinstance(__id, RoadmapID):

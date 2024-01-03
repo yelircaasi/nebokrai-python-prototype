@@ -2,6 +2,8 @@ from collections import OrderedDict
 from itertools import chain
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util import NKDate, ProjectID, TaskID, tabularize
 from ...util.serde.custom_dict_types import TaskDictRaw, TaskFullDictRaw
@@ -40,6 +42,7 @@ class Tasks:
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
+        
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             task = Task.deserialize(
@@ -236,3 +239,8 @@ class Tasks:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        newline_indented = '  \n'
+        return f"{color.green('TASKS:')} \n{newline_indented.join(map(lambda t: t.parsim, self._tasks.values()))}"

@@ -1,5 +1,5 @@
 import sys
-from .cli import commands_dict
+from .cli import commands_dict, error_help_wrapped
 
 
 def main() -> None:
@@ -8,9 +8,9 @@ def main() -> None:
     # if "action" not in args:
     #     args.action = "interactive"
 
-    action = ' '.join(sys.argv[1:])
-    print(action)
-    commands_dict[action]()
+    action = " ".join(sys.argv[1:])
+    # print(action)
+    commands_dict.get(action, error_help_wrapped(action))()
 
 
 if __name__ == "__main__":

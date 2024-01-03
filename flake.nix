@@ -19,7 +19,7 @@
       in
       {
         packages = {
-          nebokrai = mkPoetryApplication { projectDir = self; };
+          nebokrai = mkPoetryApplication { projectDir = self; preferWheels = true; };
           default = self.packages.${system}.nebokrai;
         };
 

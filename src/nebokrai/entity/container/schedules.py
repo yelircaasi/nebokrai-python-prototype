@@ -45,3 +45,7 @@ class Schedules:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        return f""

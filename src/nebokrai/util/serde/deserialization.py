@@ -1,5 +1,7 @@
 from typing import Iterable, Union
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util.entity_ids import ProjectID, TaskID
 from ...util.nkdatetime.nkdate import NKDate
@@ -96,9 +98,7 @@ def parse_activity_dict(activity_dict: ActivityDictRaw) -> ActivityDictParsed:
 
 
 def parse_calendar_dict(calendar_dict: CalendarDictRaw) -> CalendarDictParsed:
-    return {
-        NKDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict.items()
-    }
+    return {NKDate.from_string(k): parse_calendar_day(v) for k, v in calendar_dict.items()}
 
 
 def parse_calendar_day(day_dict: DayDictRaw) -> DayDictParsed:
@@ -132,15 +132,14 @@ def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
     deps_raw: str = task_dict.get("dependencies") or ""
     cats_raw: str = task_dict.get("categories") or ""
     dependencies = set(map(TaskID.from_string, filter(bool, deps_raw)))
-    categories = set(filter(bool, cats_raw)) or set()
-
-    project_id_str = task_dict.get("project_id")
-
+    categories = config.comma_split(cats_raw)  # set(filter(bool, cats_raw)) or set()
+    project_id_str: str = task_dict.get("project_id") or ""
+    
     return {
         "name": task_dict["name"],
-        "id": task_dict["name"],
+        "id": task_dict["id"],
         "project_name": task_dict.get("project_name"),
-        "project_id": ProjectID.from_string(project_id_str) if project_id_str else None,
+        "project_id": ProjectID.from_string(project_id_str) if ('-' in project_id_str) else None,
         "priority": task_dict.get("priority"),
         "notes": task_dict.get("notes") or "",
         "duration": task_dict.get("duration") or config.default_duration,
@@ -153,7 +152,11 @@ def parse_task_dict(task_dict: TaskDictRaw | TaskFullDictRaw) -> TaskDictParsed:
 def parse_entry_dict(entry_dict: EntryDictRaw | RoutineItemDictRaw) -> EntryDictParsed:
     start: Union[NKTime, NoneTime] = NKTime.from_string(str(entry_dict.get("start")))
     end: Union[NKTime, NoneTime] = NKTime.from_string(str(entry_dict.get("end")))
-    normaltime = entry_dict.get("normaltime") or start.timeto(end) if (start and end) else config.default_normaltime
+    normaltime = (
+        entry_dict.get("normaltime") or start.timeto(end)
+        if (start and end)
+        else config.default_normaltime
+    )
     return {
         "name": entry_dict["name"],
         "priority": entry_dict["priority"],
@@ -181,7 +184,6 @@ def parse_roadmaps_dict(roadmaps_dict: RoadmapsDictRaw) -> RoadmapsDictParsed:
 
 
 def parse_roadmap_dict(roadmap_dict: RoadmapDictRaw) -> RoadmapDictParsed:
-    print(roadmap_dict)
     return {"tmp": "placeholder"}
 
 
@@ -200,8 +202,6 @@ def parse_day_log(log_dict: DayLogDictRaw) -> DayLogDictRaw:
         "timed_distance": identity,
         "timed_distance_with_elevation": identity,
     }
-    print(log_dict)
-    print(dispatch)
     return {}
 
 

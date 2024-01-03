@@ -47,6 +47,7 @@ class NebokraiEntryPoint:
         path_manager_obj: Optional[PathManager] = None,
     ) -> None:
         self.path_manager = path_manager_obj or configuration.path_manager
+        print(self.path_manager)
 
         with open(self.path_manager.roadmaps, encoding="utf-8") as f:
             self.roadmaps = Roadmaps.deserialize(json.load(f))
@@ -57,6 +58,7 @@ class NebokraiEntryPoint:
             self.calendar = Calendar.deserialize(self.routines, json.load(f))
         with open(self.path_manager.tracking, encoding="utf-8") as f:
             self.tracker = Tracker(json.load(f), routines_dict)
+        
 
         # self.declaration_edit_time = from_key("declaration_edit_time")
         # self.plan_edit_time = from_key("plan_edit_time")
@@ -112,9 +114,10 @@ class NebokraiEntryPoint:
           in turn, the schedules.
         """
         start_date_new, end_date_new = self.start_and_end_dates
+        print(start_date_new, end_date_new)
         schedules, excess_entries = Schedules(), Entries()
         # ----
-        end_date_new = NKDate.from_string("2023-12-31")  # FIXME
+        # end_date_new = NKDate.from_string("2023-12-31")  # FIXME
         # ----
         for date in start_date_new.range(end_date_new):
             print(f"Scheduling {color.cyan(str(date))}.")
@@ -197,7 +200,7 @@ class NebokraiEntryPoint:
             f.write(str(self.schedules))
 
     def open_plan(self) -> None:
-        ...
+        self.plan = Plan.from_derivation(path_manager)
 
     def open_schedules(self) -> None:
         ...

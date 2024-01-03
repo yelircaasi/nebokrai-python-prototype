@@ -56,7 +56,6 @@ class Project:
         """
         Instantiates from config, json-derived dic, and project information.
         """
-
         start_str = project_dict["start"] if "start" in project_dict else ""
         end_str = project_dict["end"] if "end" in project_dict else ""
 
@@ -65,18 +64,19 @@ class Project:
         categories = set(filter(bool, re.split(", ?", project_dict.get("categories", "")))).union(
             config.default_categories
         )
-
-        return cls(
-            project_dict["name"],
-            project_id,
-            tasks=Tasks.deserialize(
+        tasks=Tasks.deserialize(
                 project_dict["tasks"],
                 project_id,
                 project_dict["name"],
                 project_priority=priority,
                 project_duration=duration,
                 project_categories=categories,
-            ),
+        )
+
+        return cls(
+            project_dict["name"],
+            project_id,
+            tasks=tasks,
             priority=priority,
             start=NKDate.from_string(start_str) if start_str else None,
             end=NKDate.from_string(end_str) if end_str else None,
@@ -211,7 +211,7 @@ class Project:
             + (width - 2) * "━"
             + "┛"
         )
-
+        
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
@@ -225,3 +225,7 @@ class Project:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        return f""

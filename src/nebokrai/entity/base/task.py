@@ -1,5 +1,7 @@
 from typing import Any, Literal, Optional
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util import NKDate, NKTime, ProjectID, TaskID, tabularize
 from ...util.serde.custom_dict_types import TaskDictParsed, TaskDictRaw, TaskFullDictRaw
@@ -67,13 +69,10 @@ class Task:
         Instantiates from config, json-derived dic, and project information.
         """
         task_dict: TaskDictParsed = parse_task_dict(task_dict_raw)
-
         project_name_str: str = task_dict.get("project_name") or project_name or "?"
-        roadmap_id: str = project_id.roadmap if project_id else "?"
-        project_id_str: str = (
-            project_id.roadmap if project_id else str(task_dict.get("project_id") or "?")
-        )
-        task_id = TaskID(roadmap_id, project_id_str, task_dict["id"])
+        project_id = project_id or task_dict["project_id"]
+        task_code = task_dict["id"].split('-')[-1] or "?"
+        task_id = project_id.task_id(task_code) if project_id else TaskID("?", "?", task_code) #TaskID(roadmap_id, project_id_str, task_dict["id"])
         priority: float = task_dict.get("priority") or project_priority or config.default_priority
         duration: int = task_dict.get("duration") or project_duration or config.default_duration
 
@@ -86,7 +85,8 @@ class Task:
             notes=task_dict["notes"],
             status=task_dict.get("status") or "todo",
             dependencies=task_dict["dependencies"],
-            categories=(task_dict.get("categories") or set()).union(project_categories or set()),
+            categories=task_dict.get("categories")
+            or set(),  # config.comma_split(task_dict.get("categories") or '').union(project_categories or set()),
         )
 
     @classmethod
@@ -216,3 +216,32 @@ class Task:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        taskid = color.red(str(self.task_id) + 17 * ' ')[:27]
+        name = color.green(self.name + 20 * ' ')[:30]
+        prio = color.magenta('prio ' + str(self.priority))
+        dur = color.cyan(str(self.duration) + 'min')
+        order = color.yellow('order ' + str(self.project_order))
+        return f"  {taskid: <27} {name: <30} {prio:<8} {dur:<7} {order:<9}"
+        # self.name = name
+        # self.project_name = project_name  # unnecessary
+        # self.task_id = task_id
+        # self.notes = notes
+
+        # # algo
+        # self.priority = config.default_priority if priority is None else priority
+        # self.duration = config.default_duration if duration is None else duration
+        # self.dependencies = dependencies or set()
+        # self.date_earliest = date_earliest
+        # self.date_latest = date_latest
+        # self.project_order = -1
+        # self.status = status
+        # self.blocks = blocks or set()
+        # self.categories = (categories or set()).union(config.default_categories)
+
+        # # record
+        # self.tmpdate = tmpdate if tmpdate else self.tmpdate
+        # self.original_date: NKDate = NKDate.nonedate()
+        # self.block_assigned = ""

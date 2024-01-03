@@ -264,7 +264,7 @@ class ActivityDictRaw(TypedDict):
 
     name: str
     dtype: PromptTypeName
-    scoring: dict #TODO
+    scoring: dict  # TODO
     prompt: NotRequired[str]
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]
@@ -282,7 +282,7 @@ class ActivityDictParsed(TypedDict):
 
     name: str
     dtype: PromptTypeName
-    scoring: dict #TODO
+    scoring: dict  # TODO
     prompt: NotRequired[str]
     error_prompt: NotRequired[str]
     quit_string: NotRequired[str]

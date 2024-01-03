@@ -199,6 +199,10 @@ class Day:
             time_dict.update({block: self.available_for_block(block)})
         return time_dict
 
+    @property
+    def parsim(self) -> str:
+        return f""
+
     def __str__(self) -> str:
         width = config.repr_width
         header_thickbeam = "┣━━━━━━━━━━━━━┯" + (width - 16) * "━" + "┫\n"

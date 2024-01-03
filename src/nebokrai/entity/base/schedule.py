@@ -163,7 +163,7 @@ class Schedule:
 
     @property
     def summary(self) -> str:
-        return "Not yet implemented."
+        return "'Schedule.summary' not yet implemented."
 
     def __str__(self) -> str:
         """ """
@@ -182,6 +182,10 @@ class Schedule:
 
     def __repr__(self) -> str:
         return self.__repr__()
+
+    @property
+    def parsim(self) -> str:
+        return f""
 
 
 def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: NKDate) -> Entries:
@@ -223,8 +227,8 @@ def zip_flex_and_fixed(
     new_entries = Entries()
 
     while flex_entries or fixed_entries:
-        color.pgreen("Zipping fixed and flex entries:")
-        color.pgreen(new_entries.summary)
+        # color.pgreen("Zipping fixed and flex entries:")
+        # color.pgreen(new_entries.summary)
         flex_entries, fixed_entries = new_entries.append_flex_or_fixed(flex_entries, fixed_entries)
 
     return new_entries
@@ -248,7 +252,6 @@ def add_from_plan_and_excess(
     Adds all tasks planned for this day, converting tasks to entries.
     """
     color.pblack("Entering add_from_plan_and_excess()")
-
     plan = assert_plan_and_date(plan, schedule.date)
     entries: Entries = entries_from_plan_and_excess(plan, excess, schedule.date)
     schedule, entries = add_to_blocks(schedule, entries)

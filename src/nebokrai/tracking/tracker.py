@@ -28,7 +28,7 @@ class Tracker:
             self.activities.append(TrackerItem(item_dict))
         self.add_routines(routines_dict)
         self.activities.sort(key=lambda a: (a.order, a.name))
-
+        
     def add_routines(self, routines_dict: dict[str, RoutineDictRaw]) -> None:
         """
         Adds an item tracker for each item of each routine.

@@ -343,6 +343,10 @@ class Entry:
     def __repr__(self) -> str:
         return self.pretty()
 
+    @property
+    def parsim(self) -> str:
+        return f""
+
 
 class Empty(Entry):
     """

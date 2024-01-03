@@ -18,9 +18,7 @@ class Projects:
         self._tasks: Tasks = self._get_tasks()
 
     @classmethod
-    def deserialize(
-        cls, roadmap_id: RoadmapID, projects_dict: list[ProjectDictRaw]
-    ) -> "Projects":
+    def deserialize(cls, roadmap_id: RoadmapID, projects_dict: list[ProjectDictRaw]) -> "Projects":
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
@@ -119,3 +117,7 @@ class Projects:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        return f""

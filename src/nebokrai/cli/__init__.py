@@ -44,6 +44,20 @@ from .commands import (
     validate_routines,
     validate_tracking,
 )
+
+
+def help() -> None:
+    print("Nebokrai help.")
+
+
+def error_help_wrapped(command: str) -> Callable[[], None]:
+    def inner():
+        print(f"Invalid command: nebokrai {command}")
+        help()
+
+    return inner
+
+
 # from .parser import build_arg_parser
 
 # def interactive() -> None:
@@ -144,6 +158,9 @@ from .commands import (
 commands_dict: dict[str, Callable] = {
     "": interactive,
     "interactive": interactive,
+    "help": help,
+    "--help": help,
+    "-h": help,
     "summary": summary,
     "validate": validate_interactive,
     "validate all": validate_all,
@@ -192,4 +209,4 @@ commands_dict: dict[str, Callable] = {
 }
 
 
-__all__ = ["build_arg_parser", "commands_dict"]
+__all__ = ["build_arg_parser", "commands_dict", "error_help_wrapped"]

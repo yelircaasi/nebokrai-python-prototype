@@ -3,8 +3,16 @@ from itertools import chain
 from pathlib import Path
 from typing import Iterable, Iterator
 
+from nebokrai.configuration import PathManager
+
 from ...util import NKDate
-from ...util.serde.custom_dict_types import DeclarationDictRaw, PlanDictRaw
+from ...util.serde.custom_dict_types import (
+    CalendarDictRaw,
+    DeclarationDictRaw,
+    PlanDictRaw,
+    RoutineDictRaw,
+    RoutinesDictRaw,
+)
 from ..container.routines import Routines
 from ..container.tasks import Tasks
 from .calendar import Calendar
@@ -30,31 +38,37 @@ class Plan:
 
     @classmethod
     def deserialize(
-        cls, declaration_dict: DeclarationDictRaw, plan_derivation_dict: PlanDictRaw
+        cls,
+        plan_derivation_dict: PlanDictRaw,
+        calendar_dict: CalendarDictRaw,
+        routines_dict: RoutinesDictRaw,
     ) -> "Plan":
         """
         Instantiate Plan object from dictionary corresponding to JSON format.
         """
-
-        routines = Routines.deserialize(declaration_dict["routines"])
-        calendar_dict = declaration_dict["calendar"]
-        plan = cls(calendar=Calendar.deserialize(routines, calendar_dict))
+        print("####################---------------------------------------------------------------")
+        
+        routines = Routines.deserialize(routines_dict)
+        calendar = Calendar.deserialize(routines, calendar_dict)
+        plan = cls(calendar)
         plan.plan_dict = cls.deserialize_plan_dict(plan_derivation_dict)
         plan.tasks = Tasks(chain.from_iterable(plan.plan_dict.values()))
-
-        return cls(calendar=Calendar.deserialize(routines, calendar_dict))
+        print("####################")
+        return plan
 
     @classmethod
-    def from_derivation(cls, declaration_path: Path, plan_derivation_path: Path) -> "Plan":  # TODO
+    def from_derivation(cls, path_manager: PathManager) -> "Plan":  # TODO
         """
         Reads a saved plan in .json format.
         """
-        with open(declaration_path, encoding="utf-8") as f:
-            declaration = json.load(f)
-        with open(plan_derivation_path, encoding="utf-8") as f:
+        with open(path_manager.plan, encoding="utf-8") as f:
             plan_derivation = json.load(f)
+        with open(path_manager.calendar, encoding="utf-8") as f:
+            calendar_dict = json.load(f)
+        with open(path_manager.routines, encoding="utf-8") as f:
+            routines_dict = json.load(f)
 
-        return cls.deserialize(declaration, plan_derivation)
+        return cls.deserialize(plan_derivation, calendar_dict, routines_dict)
 
     @staticmethod
     def deserialize_plan_dict(plan_derivation_dict: PlanDictRaw) -> dict[NKDate, Tasks]:
@@ -208,6 +222,11 @@ class Plan:
 
     def __repr__(self) -> str:
         return self.__str__()
+    
+    @property
+    def parsim(self) -> str:
+        return f""
+
 
 
 def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:

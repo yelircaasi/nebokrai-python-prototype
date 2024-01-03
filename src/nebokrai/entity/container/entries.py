@@ -221,7 +221,7 @@ class Entries:
 
     @property
     def summary(self) -> str:
-        return "Not yet implemented."
+        return "'Entries.summary' not yet implemented."
 
     def __bool__(self) -> bool:
         return bool(self._entries)
@@ -251,3 +251,7 @@ class Entries:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    @property
+    def parsim(self) -> str:
+        return f""

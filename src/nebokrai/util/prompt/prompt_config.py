@@ -49,15 +49,17 @@ class PromptConfig:
 
         return PromptConfig(
             prompt_type=prompt_type,
-            quit_string=activity_dict.get("quit_string", ":q"), #TODO
+            quit_string=activity_dict.get("quit_string", ":q"),  # TODO
             prompt_message=activity_dict["prompt"],
-            invalid_input_message=activity_dict.get("error_prompt"), #TODO
+            invalid_input_message=activity_dict.get("error_prompt"),  # TODO
             sequence_item_config=subitem_config,
             components=components,
         )
 
     @staticmethod
-    def config_from_subitem_dict(subitem_dict: SubitemDictParsed | None) -> Optional["PromptConfig"]:
+    def config_from_subitem_dict(
+        subitem_dict: SubitemDictParsed | None,
+    ) -> Optional["PromptConfig"]:
         """
         Read in parsed subitem dict as its own PromptConfig object.
         """

@@ -21,7 +21,6 @@ class PathManager:
         self.derivation_dir = self.root / "derivation"
         self.backup_dir = self.root / "backup"
         self.tmp_dir = self.root / "tmp"
-        self.txt_dir = self.root / "txt"
         self.tracking_dir = self.root / "tracking"
 
         self.calendar = self.declaration_dir / "calendar.json"
@@ -32,6 +31,8 @@ class PathManager:
 
         self.plan = self.derivation_dir / "plan.json"
         self.schedules = self.derivation_dir / "schedules.json"
+        self.txt_dir = self.derivation_dir / "txt"
+        self.log_dir = self.derivation_dir / "log"
 
         self.txt_plan = self.txt_dir / "plan.txt"
         self.txt_schedules = self.txt_dir / "schedules.txt"
@@ -94,7 +95,7 @@ class PathManager:
         return str(dt).split(".", maxsplit=1)[0].replace(" ", "_").replace(":", "-")
 
     def __str__(self) -> str:
-        width = 50
+        width = 100
         double_bar = width * "="
         single_bar = width * "-"
         return "\n".join(
@@ -107,6 +108,7 @@ class PathManager:
                 f"backup_dir:         {self.backup_dir}",
                 f"tmp_dir:            {self.tmp_dir}",
                 f"txt_dir:            {self.txt_dir}",
+                f"log_dir:            {self.log_dir}",
                 f"tracking_dir:       {self.tracking_dir}",
                 single_bar,
                 f"calendar:           {self.calendar}",
@@ -232,7 +234,9 @@ class Config:
             float(cfg["default_idealtime_factor"]),
             float(cfg["default_mintime_factor"]),
             float(cfg["default_maxtime_factor"]),
-            set(re.split(", ?", cfg["default_categories"])),
+            cls.comma_split(
+                cfg["default_categories"]
+            ),  # set(re.split(", ?", cfg["default_categories"])),
             cfg["default_ismovable"],
             cfg["default_alignend"],
             cfg["default_day_start"],
@@ -277,9 +281,14 @@ class Config:
             "default_sleep_delta_max": self.default_sleep_delta_max,
         }
 
-    @staticmethod
-    def comma_join(string_iterable: Iterable[str]) -> str:
+    def comma_join(self, string_iterable: Iterable[str]) -> str:
+        # string_list = self.comma_split(comma_sep_string)
+        # print(f"{string_list=}")
         return ",".join(sorted(string_iterable))
+
+    @staticmethod
+    def comma_split(comma_sep_string: str) -> set[str]:
+        return set(filter(bool, re.split(" ?, ?", comma_sep_string.strip())))
 
     @property
     def default_routine_dict(self) -> dict[str, dict]:
