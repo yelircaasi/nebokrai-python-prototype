@@ -344,7 +344,7 @@ class Entry:
         return self.pretty()
 
     @property
-    def parsim(self) -> str:
+    def repr1(self) -> str:
         return f""
 
 

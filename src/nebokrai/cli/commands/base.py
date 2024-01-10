@@ -2,8 +2,8 @@ from ...nebokrai import NebokraiEntryPoint
 
 
 def interactive() -> None:
-    print("running 'nebokrai' without commands")
+    print("Running 'nebokrai' without commands.")
 
 
 def summary() -> None:
-    print("running 'nebokrai summary'")
+    print("Running 'nebokrai summary'.")

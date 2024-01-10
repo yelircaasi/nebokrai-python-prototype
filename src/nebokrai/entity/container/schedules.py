@@ -1,5 +1,7 @@
 from typing import Dict, Optional
 
+from nebokrai.util import color
+
 from ...util import NKDate
 from ...util.serde.custom_dict_types import ScheduleDictParsed, ScheduleDictRaw
 from ..base.schedule import Schedule
@@ -47,5 +49,5 @@ class Schedules:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        return color.red(" | ").join(map(lambda e: e.repr1, self))

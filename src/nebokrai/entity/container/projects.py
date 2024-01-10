@@ -1,5 +1,7 @@
 from typing import Any, Iterator, Optional, Union
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util import ProjectID, RoadmapID, TaskID, tabularize
 from ...util.serde.custom_dict_types import ProjectDictRaw
@@ -119,5 +121,5 @@ class Projects:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        return color.red(" | ").join(map(lambda e: e.repr1, self))

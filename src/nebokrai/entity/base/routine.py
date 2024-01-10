@@ -1,5 +1,7 @@
 from typing import Any, Callable, Iterable, Optional, Union
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util import NKDate, NKTime, tabularize
 from ...util.serde.custom_dict_types import RoutineDictRaw
@@ -137,5 +139,9 @@ class Routine:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        def stringify(entry: Entry) -> str:
+            return f"{color.green(entry.start)} {color.magenta(entry.name)}"
+        
+        item_names = ' | '.join(map(stringify, self.items))
+        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {item_names}"

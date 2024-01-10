@@ -1,5 +1,7 @@
 from typing import Iterable, Iterator, Optional
 
+from nebokrai.util import color
+
 from ...util import tabularize
 from ...util.serde.custom_dict_types import RoutinesDictRaw
 from ..base.routine import Routine
@@ -57,5 +59,5 @@ class Routines:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        return color.red(" | ").join(map(lambda e: e.repr1, self))

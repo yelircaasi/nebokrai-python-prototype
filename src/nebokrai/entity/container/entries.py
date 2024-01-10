@@ -2,6 +2,8 @@ import itertools
 import operator
 from typing import Any, Callable, Iterable, Iterator, Optional, Union
 
+from nebokrai.util import color
+
 from ...util import NKTime
 from ..base.entry import Empty, Entry
 
@@ -253,5 +255,5 @@ class Entries:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        return color.red(" | ").join(map(lambda e: e.repr1, self))

@@ -184,8 +184,11 @@ class Schedule:
         return self.__repr__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        def stringify(entry: Entry) -> str:
+            return f"{color.green(entry.start)} {color.magenta(entry.name)}"
+
+        return f"Schedule {self.date}: {' | '.join(map(stringify, self.schedule))}"
 
 
 def entries_from_plan_and_excess(plan: Plan, excess: Entries, date: NKDate) -> Entries:

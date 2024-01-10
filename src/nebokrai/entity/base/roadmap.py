@@ -1,5 +1,7 @@
 from typing import Iterable, Iterator, List, Optional, Tuple
 
+from nebokrai.util import color
+
 from ...configuration import config
 from ...util import NKDate, ProjectID, RoadmapID, TaskID, tabularize
 from ...util.serde.custom_dict_types import RoadmapDictRaw
@@ -110,5 +112,9 @@ class Roadmap:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        def stringify(project: Project) -> str:
+            return f"{color.magenta(project.name[:20])} ({color.cyan(str(project.project_id))})"
+        
+        projects_string = ' | '.join(map(stringify, self._projects))
+        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {projects_string}"

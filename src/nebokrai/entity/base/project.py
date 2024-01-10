@@ -1,5 +1,6 @@
 import re
 from typing import Iterator, Optional, Union
+from nebokrai.util import color
 
 from nebokrai.util.serde.custom_dict_types import ProjectDictRaw
 
@@ -227,5 +228,10 @@ class Project:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        def stringify(task: Task) -> str:
+            return f"{color.magenta(task.name[:20])} ({color.cyan(str(task.task_id))})"
+        
+        tasks_string = ' | '.join(map(stringify, self._tasks))
+        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {tasks_string}"
+

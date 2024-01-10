@@ -218,7 +218,7 @@ class Task:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
+    def repr1(self) -> str:
         taskid = color.red(str(self.task_id) + 17 * ' ')[:27]
         name = color.green(self.name + 20 * ' ')[:30]
         prio = color.magenta('prio ' + str(self.priority))

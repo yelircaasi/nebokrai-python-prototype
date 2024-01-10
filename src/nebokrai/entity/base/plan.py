@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Iterable, Iterator
 
 from nebokrai.configuration import PathManager
+from nebokrai.util import color
 
 from ...util import NKDate
 from ...util.serde.custom_dict_types import (
@@ -224,8 +225,15 @@ class Plan:
         return self.__str__()
     
     @property
-    def parsim(self) -> str:
-        return f""
+    def repr1(self) -> str:
+        def stringify(date: NKDate, task_list: Iterable[Task]) -> str:
+            if not task_list:
+                return ""
+            return f"{color.green(str(date))} ({'|'.join(map(lambda t: color.cyan(str(t.name)), task_list))})"
+        
+        projects_string = ' || '.join(map(stringify, self.plan_dict.items()))
+        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {projects_string}"
+
 
 
 

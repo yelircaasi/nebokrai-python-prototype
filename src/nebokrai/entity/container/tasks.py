@@ -241,6 +241,10 @@ class Tasks:
         return self.__str__()
 
     @property
-    def parsim(self) -> str:
+    def repr1(self) -> str:
+        return color.red(" | ").join(map(lambda e: e.repr1, self))
+
+    @property
+    def repr2(self) -> str:
         newline_indented = '  \n'
         return f"{color.green('TASKS:')} \n{newline_indented.join(map(lambda t: t.parsim, self._tasks.values()))}"

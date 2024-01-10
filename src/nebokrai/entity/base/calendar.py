@@ -200,7 +200,7 @@ class Day:
         return time_dict
 
     @property
-    def parsim(self) -> str:
+    def repr1(self) -> str:
         return f""
 
     def __str__(self) -> str:
