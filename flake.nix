@@ -22,12 +22,11 @@
       in
       {
         packages = {
-          #${projectName} = mkPoetryApplication {
-          #  python = pkgs.python311;
-          #  projectDir = self; 
-          #  preferWheels = true; 
-
-          #};
+          ${projectName} = mkPoetryApplication {
+            python = pkgs.python311;
+            projectDir = self; 
+            preferWheels = true; 
+          };
           #${projectName} = mkPoetryEditablePackage {
           #  projectDir = ./.;
           #  python = pkgs.python311;
@@ -36,19 +35,22 @@
           #  };
           # preferWheels = true;
           #};
-          ${projectName} = mkPoetryEnv {
-            python = pkgs.python311;
-            projectDir = ./.;
-            editablePackageSources = {
-              ${projectName} = ./src;
-            };
-            preferWheels = true;
-          };
+          #${projectName} = mkPoetryEnv {
+          #  python = pkgs.python311;
+          #  pyproject = ./pyproject.toml;
+          #  poetrylock = ./poetry.lock;
+          #  projectDir = ./.;
+          #  editablePackageSources = {
+          #    ${projectName} = ./src;
+          #  };
+          #  preferWheels = true;
+          #};
           default = self.packages.${system}.${projectName};
         };
 
         devShells.default = pkgs.mkShell {
           inputsFrom = [ self.packages.${system}.${projectName} ];
+
           packages = with pkgs; [ 
             poetry 
             check-jsonschema 
