@@ -48,7 +48,7 @@ class Plan:
         Instantiate Plan object from dictionary corresponding to JSON format.
         """
         print("####################---------------------------------------------------------------")
-        
+
         routines = Routines.deserialize(routines_dict)
         calendar = Calendar.deserialize(routines, calendar_dict)
         plan = cls(calendar)
@@ -223,18 +223,20 @@ class Plan:
 
     def __repr__(self) -> str:
         return self.__str__()
-    
+
     @property
     def repr1(self) -> str:
         def stringify(date: NKDate, task_list: Iterable[Task]) -> str:
             if not task_list:
                 return ""
             return f"{color.green(str(date))} ({'|'.join(map(lambda t: color.cyan(str(t.name)), task_list))})"
-        
-        projects_string = ' || '.join(map(stringify, self.plan_dict.items()))
+
+        projects_string = " || ".join(map(stringify, self.plan_dict.items()))
         return f"{color.magenta(self.name)}: start {color.green(self.start)}: {projects_string}"
 
 
+def handle_blocked(tasks: Tasks, avail_dict: dict[str, int]) -> Tasks:
+    
 
 
 def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:
@@ -244,11 +246,13 @@ def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Ta
     """
     plan.ensure_date(date)
     tasks = Tasks(tasks) + plan.plan_dict.get(date, [])
-    avail_dict = plan.calendar[date].available_dict
+    # tasks.fold_into_blocks()
+    avail_dict: dict[str, int] = plan.calendar[date].available_dict
 
     blocked_tasks: Tasks = tasks.pop_tasks_from_blocks(avail_dict)
-    excess = tasks.pop_excess_tasks(avail_dict["empty"])
+    excess: Tasks = tasks.pop_excess_tasks(avail_dict["empty"])
 
+    # can now add blocked tasks,  since they will not require additional time
     tasks.extend(blocked_tasks)
     tasks.sort(key=lambda t: t.priority)
     tasks.update_tmpdate(date)

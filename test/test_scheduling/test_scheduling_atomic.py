@@ -122,7 +122,10 @@ def test_Schedule_summary() -> None:
     assert schedule.summary == summary_expected
 
 
-# def test_() -> None:
+def test_() -> None:
+    assert True
+
+
 #     schedule = Schedule()
 
 

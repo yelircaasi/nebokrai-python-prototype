@@ -216,6 +216,58 @@ Use pipx, the silver bullet solution to installing Python CLI tools.
 ```shell
 pipx install nebokrai
 ```
+## Dev Notes
+
+Nebokrai considerations:
+
+functions should be composable and, as much as posssible, do exactly one thing.
+This will make testing easier, as well as adding new functionalities.
+
+### Planning ========================================================================
+
+For flex entries, planning should take into account some combination of: 
+* priority
+* goodness
+* badness (or simply derive priority from goodness and badness?)
+* normal time
+* ideal time
+* min time
+* max time
+* dependencies (rename to blockers?)
+* composability of entries to add subtasks to blocks
+
+Potential other features: 
+* earliest date
+* latest date
+* dread (i.e. opposite of how fun it is)
+* strain/strenuousness,
+
+It may also make sense to add more complex planning modules, for things like meal
+planning and workout planning.
+### Scheduling ========================================================================
+
+Scheduling takes into account what is already scheduled and fixed, as well as 
+what can be added to what. For flex entries (and among subtasks in the same 
+block), ordering is determined by:
+* priority (optionally omitted in favor of goodness and badness)
+* dread
+* strenuousness
+* normaltime
+* idealtime
+* mintime
+* maxtime
+
+### Tracking
+
+Currently, the tracking is fully defined from primitives in the declaration. This has
+the advantage of generality, but it is probably worth adding some classes to the source
+for complex and idiosynchratic tracking tasks: WorkoutTracker, NutritionTracker,
+FinanceTracker (?), TimeTracker (?) (for general time tracking), especially
+where these might need to interact with the derivation to access goals from the plan.
+
+### General ===========================================================================
+
+Change CLI so that modules are only imported as needed
 
 ## Roadmap
 

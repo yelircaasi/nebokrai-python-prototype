@@ -42,7 +42,6 @@ class Tasks:
         """
         Creates instance from dict, intended to be used with .json declaration format.
         """
-        
         tasks_list: list[Task] = []
         for task_dict in tasks_dict_list:
             task = Task.deserialize(
@@ -60,6 +59,12 @@ class Tasks:
 
     def serialize(self) -> list[TaskFullDictRaw]:
         return list(map(Task.serialize, self._tasks.values()))
+
+    # def fold_into_blocks(self) -> None:
+    #     """
+    #     Adds all tasks to other tasks
+    #     """
+    #     ...
 
     def pop_tasks_from_blocks(self, available_dict: dict[str, int]) -> "Tasks":
         """
@@ -246,5 +251,5 @@ class Tasks:
 
     @property
     def repr2(self) -> str:
-        newline_indented = '  \n'
+        newline_indented = "  \n"
         return f"{color.green('TASKS:')} \n{newline_indented.join(map(lambda t: t.parsim, self._tasks.values()))}"

@@ -58,7 +58,6 @@ class NebokraiEntryPoint:
             self.calendar = Calendar.deserialize(self.routines, json.load(f))
         with open(self.path_manager.tracking, encoding="utf-8") as f:
             self.tracker = Tracker(json.load(f), routines_dict)
-        
 
         # self.declaration_edit_time = from_key("declaration_edit_time")
         # self.plan_edit_time = from_key("plan_edit_time")

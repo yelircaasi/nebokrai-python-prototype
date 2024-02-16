@@ -1,7 +1,7 @@
 import re
 from typing import Iterator, Optional, Union
-from nebokrai.util import color
 
+from nebokrai.util import color
 from nebokrai.util.serde.custom_dict_types import ProjectDictRaw
 
 from ...configuration import config
@@ -65,13 +65,13 @@ class Project:
         categories = set(filter(bool, re.split(", ?", project_dict.get("categories", "")))).union(
             config.default_categories
         )
-        tasks=Tasks.deserialize(
-                project_dict["tasks"],
-                project_id,
-                project_dict["name"],
-                project_priority=priority,
-                project_duration=duration,
-                project_categories=categories,
+        tasks = Tasks.deserialize(
+            project_dict["tasks"],
+            project_id,
+            project_dict["name"],
+            project_priority=priority,
+            project_duration=duration,
+            project_categories=categories,
         )
 
         return cls(
@@ -109,54 +109,203 @@ class Project:
         """
         Divides a list of tasks into k clusters of size `cluster_size`.
         """
+        # def split_for_date_constraints(cluster: Iterable[Task]) -> list[list[Task]]:
+        #     tasks = sorted(cluster, key=lambda t: (t.earliest_date, t.latest_date))
+        #     first = [tasks.pop(0)]
+        #     _earliest = tasks[0].earliest_date
+        #     _latest = tasks[0].latest_date
+        #     while tasks and tasks[0]
+        # tasks = sorted(sorted(list(self._tasks), key=lambda t: t.latest_date), key=lambda t: t.latest_date
         tasks = list(self._tasks)
         length = len(tasks)
         quotient, remainder = divmod(length, self.cluster_size)
         num_clusters = quotient + int(bool(remainder))
-        ret: list[list[Task]] = [
+        prelim: list[list[Task]] = [
             tasks[self.cluster_size * i : self.cluster_size * (i + 1)] for i in range(num_clusters)
         ]
-        return ret
+        # ret = []
+        # for pre_cluster in prelim:
+        #     earliest, latest = pre_cluster.earliest_data, pre_cluster.latest_date
+        #     if earliest > latest:
+        #         for sub_cluster in split_for_date_constraints(pre_cluster):
+        #             ret.append(sub_cluster)
+        #     else:
+        #         ret.append(pre_cluster)
+        return prelim
+
+    def plan_tasks_old(self, tasks: Tasks) -> dict[NKDate, Tasks]:
+        """ """
+        clusters = self.clusters
+        if not clusters:
+            return {}
+        nclusters = len(clusters)
+
+        if len(clusters) == 1:
+            return {self.start: Tasks(clusters[0])}
+        # if self.end:
+        #     while nclusters > self.start.daysto(self.end):
+        #         time_info = f"{self.start} - {self.end}"
+        #         cluster_info = "{nclusters} clusters, cluster size {self.cluster_size}"
+        #         print(f"Not enough time allocated to '{self.name}': {time_info}, {cluster_info}.")
+        #         self.cluster_size += 1
+        #         clusters = self.clusters
+        #         nclusters = len(clusters)
+        #
+        #     ndays = int(self.get_end()) - int(self.start)
+        #     factor = ndays / nclusters
+        #     offsets = [int(round(i * factor)) for i in range(nclusters)]
+        # elif self.interval:
+        #     gap = self.interval
+        #     offsets = [i * gap for i in range(nclusters)]
+        else:
+            raise ValueError(
+                f"Invalid parameter configuration for {self.name}. "
+                "For `Project` class, two of `start`, `end`, and `interval` must be defined."
+            )
+        protoplan: dict[NKDate, Tasks] = {
+            self.start + offset: Tasks(cluster) for cluster, offset in zip(clusters, offsets)
+        }
+
+        protoplan: dict[NKDate, Tasks] = {}
+        for cluster in clusters:
+            earliest = cluster.earliest_date
+            latest = cluster.latest_date
+            if earliest:
+                if self.end and not (earliest <= self.end):
+                    raise ValueError(
+                        f"Project {str(self.project_id)} contains a task whose earliest permissible"
+                        f"date ({str(earliest)}) is after the end of the project ("
+                        f"{str(self.end)})."
+                    )
+            if latest:
+                if not (latest >= self.start):
+                    raise ValueError(
+                        f"Project {str(self.project_id)} contains a task whose latest permissible"
+                        f"date ({str(latest)}) is before the start of the project ("
+                        f"{str(self.start)})."
+                    )
+
+        return protoplan
+
+    def make_protoplan_end_fixed(
+        self, clusters: list[list[Task]], start: NKDate, end: NKDate
+    ) -> list[tuple[NKDate, Tasks]]:
+        nclusters = len(clusters)
+        while nclusters > start.daysto(end):
+            time_info = f"{self.start} - {self.end}"
+            cluster_info = f"{nclusters} clusters, cluster size {self.cluster_size}"
+            print(
+                f"Not enough time allocated to '{str(self.project_id)}': "
+                f"{time_info}, {cluster_info}. Incrementing cluster size."
+            )
+            self.cluster_size += 1
+            # clusters = self.clusters
+            nclusters = len(clusters)
+
+        ndays = int(end) - int(start)
+        factor = ndays / nclusters
+        offsets = [int(round(i * factor)) for i in range(nclusters)]
+        protoplan: list[tuple[NKDate, Tasks]] = [
+            (start + offset, Tasks(cluster)) for cluster, offset in zip(clusters, offsets)
+        ]
+        return protoplan
+
+    def plan_tasks_end_fixed(
+        self, clusters: list[list[Task]], start: NKDate, end: NKDate
+    ) -> dict[NKDate, Tasks]:
+        """ """
+        protoplan = self.make_protoplan_end_fixed(clusters, start, end)
+        final_plan: dict[NKDate, Tasks] = {}
+        protoplan_list = list(protoplan.items())
+        while protoplan_list:
+            protodate, cluster = protoplan_list.pop(0)
+            earliest = cluster.earliest_date
+            latest = cluster.latest_date
+            if latest and latest < protodate:
+                if (not final_plan) or (max(final_plan) < latest):
+                    return final_plan | self.plan_tasks_end_fixed(
+                        [clust for d, clust in protoplan_list], latest, end
+                    )
+                self.check_latest(latest, protodate)
+                # raise ValueError(
+                #     f"Impossible to create subplan from project {str(self.project_id)}"
+                #     " due to latest date of at least one task (interval-based planning)."
+                # )
+            if earliest and earliest > protodate:
+                return final_plan | self.plan_tasks_end_fixed(
+                    [clust for d, clust in protoplan_list], earliest, end
+                )
+            final_plan.update({protodate: cluster})
+        return final_plan
+
+    def make_protoplan_end_flex(
+        self,
+        clusters: list[list[Task]],
+        start: NKDate,
+        interval: int,
+    ) -> list[tuple[NKDate, Tasks]]:
+        nclusters = len(clusters)
+        if self.interval:
+            offsets = [i * interval for i in range(nclusters)]
+        else:
+            raise ValueError(f"Project {str(self.project_id)} has no end and no interval defined.")
+        protoplan: list[tuple[NKDate, Tasks]] = [
+            (start + offset, Tasks(cluster)) for cluster, offset in zip(clusters, offsets)
+        ]
+        return protoplan
+
+    def plan_tasks_end_flex(
+        self, clusters: list[list[Task]], start: NKDate, interval: int
+    ) -> dict[NKDate, Tasks]:
+        """ """
+        protoplan_list = self.make_protoplan_end_flex(clusters, start, interval)
+        final_plan: dict[NKDate, Tasks] = {}
+        while protoplan_list:
+            protodate, cluster = protoplan_list.pop(0)
+            earliest = cluster.earliest_date
+            latest = cluster.latest_date
+            self.check_latest(latest, protodate)
+            if earliest and earliest > protodate:
+                return final_plan | self.plan_tasks_end_flex(
+                    [clust for d, clust in protoplan_list], earliest, interval
+                )
+        return final_plan
+
+    def check_earliest(self, earliest: NKDate, other: NKDate) -> None:
+        if earliest and earliest > other:
+            raise ValueError(
+                f"Impossible to create subplan from project {str(self.project_id)}"
+                " due to earliest date of at least one task (interval-based planning)."
+            )
+
+    def check_latest(self, latest: NKDate, other: NKDate) -> None:
+        if latest and latest < other:
+            raise ValueError(
+                f"Impossible to create subplan from project {str(self.project_id)}"
+                " due to latest date of at least one task (interval-based planning)."
+            )
 
     @property
     def subplan(self) -> dict[NKDate, Tasks]:
         """
         Spaces out a list of clusters between a start and end date, given some interval.
         """
-        clusters = self.clusters
-        if not clusters:
-            return {}
-        nclusters = len(clusters)
+        # subplan = self.plan_tasks(self._tasks)
+        clusters, start = self.clusters, self.start
+        match (len(clusters)):
+            case 0:
+                return {}
+            case 1:
+                cluster = clusters[0]
+                earliest, latest = cluster.earliest_date, cluster.latest_date
 
-        if self.end:
-            while nclusters > self.start.daysto(self.end):
-                time_info = f"{self.start} - {self.end}"
-                cluster_info = "{nclusters} clusters, cluster size {self.cluster_size}"
-                print(f"Not enough time allocated to '{self.name}': {time_info}, {cluster_info}.")
-                self.cluster_size += 1
-                clusters = self.clusters
-                nclusters = len(clusters)
-
-        if len(clusters) == 1:
-            return {self.start: Tasks(clusters[0])}
-        if self.end:
-            ndays = int(self.get_end()) - int(self.start)
-            factor = ndays / nclusters
-            ints = [int(round(i * factor)) for i in range(nclusters)]
-        elif self.interval:
-            gap = self.interval
-            ints = [i * gap for i in range(nclusters)]
-        else:
-            raise ValueError(
-                f"Invalid parameter configuration for {self.name}. "
-                "For `Project` class, two of `start`, `end`, and `interval` must be defined."
-            )
-
-        subplan: dict[NKDate, Tasks] = {
-            self.start + ints[i]: Tasks(cluster) for i, cluster in enumerate(clusters)
-        }
-
-        return subplan
+                return {start: Tasks(cluster)}
+            case _:
+                return (
+                    self.plan_tasks_end_fixed(clusters, start, self.end)
+                    if self.end
+                    else self.plan_tasks_end_flex(clusters, start, self.interval)
+                )
 
     def get_end(self) -> NKDate:
         return self.end or (self.start + 365)
@@ -212,7 +361,7 @@ class Project:
             + (width - 2) * "━"
             + "┛"
         )
-        
+
     def __iter__(self) -> Iterator[Task]:
         return iter(self._tasks)
 
@@ -231,7 +380,6 @@ class Project:
     def repr1(self) -> str:
         def stringify(task: Task) -> str:
             return f"{color.magenta(task.name[:20])} ({color.cyan(str(task.task_id))})"
-        
-        tasks_string = ' | '.join(map(stringify, self._tasks))
-        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {tasks_string}"
 
+        tasks_string = " | ".join(map(stringify, self._tasks))
+        return f"{color.magenta(self.name)}: start {color.green(self.start)}: {tasks_string}"
