@@ -9,7 +9,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, flake-utils, poetry2nix }:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    poetry2nix,
+  }:
     {
       # Nixpkgs overlay providing the application
       overlay = nixpkgs.lib.composeManyExtensions [
@@ -24,22 +29,20 @@
           };
         })
       ];
-    } // (flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ self.overlay ];
-        };
-      in
-      rec {
-        devShells = {
-          nebokrai = pkgs.mkreports;
-        };
+    }
+    // (flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [self.overlay];
+      };
+    in rec {
+      devShells = {
+        nebokrai = pkgs.mkreports;
+      };
 
-        packages = {
-          nebokrai = pkgs.nebokrai;
-        };
-        devShell = devShells.nebokrai;
-      }));
+      packages = {
+        nebokrai = pkgs.nebokrai;
+      };
+      devShell = devShells.nebokrai;
+    }));
 }
-

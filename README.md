@@ -24,14 +24,15 @@ anyone who has spent time in or around software development:
   - purity in this context brings with it a striking number of benefits:
     * **transparent relationship** between all components of the system, from long-terms plans and
       goals down to short-term schedules and to-do lists - this hints at the possibility of
-      something analogous to backpropagation, but that is not yet on the horizon
+      something analogous to backpropagation, but that is not yet on the horizon (cross-lingual 
+      pun not intended)
     * **attribution**, i.e. low-level details like a daily schedule have their roots in what I 
       really want in the long run and if I don't like or understand something, I can trace it back 
       to the  declaration to understand why the program planned / scheduled it that way - in other 
       words, nothing is random and everything has a discoverable cause
 * **resilience**: known to nerds as "fault tolerance"
   - life happens, and the ability to adjust a plan following failures  and setbacks is essential
-  - plans and goals without resilience are simply too brittle and are likely to be abandoned in 
+  - plans and goals without resilience are simply too brittle and are too likely to be abandoned in 
     frustration
 * **observability and traceability via logging**: the practice and paradigm of keeping detailed 
   notes on what happened and how and why is that we can look at what went wrong and, conversely, 
@@ -56,7 +57,7 @@ units:
 * tasks are self.contained atomic units
 
 Conversely, each task belongs to a project, which in turn belongs to a roadmap. This child-parent
-relationship ensures context.
+relationship ensures context, which is useful in keeping an overview of the system as a whole.
 
 Each unit has a number of properties (more on this later). Every child unit
 inherits by default from its parent. For example, unless otherwise specified in the declaration,
@@ -74,13 +75,13 @@ for Gantt-style visualization, for example:
 
 Planning in this way is also a good way to make sure that the long-term objectives are realistic
 within the constraints provided. If the total duration of all tasks is simply too great, the
-declaration will fail. This is desirable: early failure duringm compilation is always preferrable
+declaration will fail. This is desirable: early failure during compilation is always preferrable
 to failure later during  deployment. 
 
 This implies an iterative planning process. I declare roadmaps, projects, and tasks along with a
 calendar and configuration parameters. Then nebokrai either allocates tasks to days, or informs
 me that I cannot and provides helpful information as to why the declaration was impossible to
-realize. Then I fix the offending parts of the declaration and repeat the process until I have a
+realize. I then remedy the offending parts of the declaration and repeat the process until I have a
 feasible plan.
 
 ### Scheduling
@@ -244,6 +245,7 @@ Potential other features:
 
 It may also make sense to add more complex planning modules, for things like meal
 planning and workout planning.
+
 ### Scheduling ========================================================================
 
 Scheduling takes into account what is already scheduled and fixed, as well as 
@@ -256,6 +258,10 @@ block), ordering is determined by:
 * idealtime
 * mintime
 * maxtime
+*
+
+This allows me to conform to the principle "eat your frogs first", i.e. get unpleasant 
+important tasks out of the way first to avoid procrastination.
 
 ### Tracking
 
@@ -267,7 +273,7 @@ where these might need to interact with the derivation to access goals from the 
 
 ### General ===========================================================================
 
-Change CLI so that modules are only imported as needed
+Change CLI so that modules are only imported as needed (i.e. laziness).
 
 ## Roadmap
 
@@ -275,6 +281,9 @@ Change CLI so that modules are only imported as needed
 - [x] re-write in a functional style; 
   - [x] all algorithmically interesting methods to their own functions (except where there it makes good semantic sense to prefer methods)
   - [x] make classes handle data and how it is displayed, providing just an interface; all logic should be done in pure functions
+- [ ] read [haskell.nix docs](https://input-output-hk.github.io/haskell.nix/index.html)
+- [ ] create standard haskell dev environment on https://github.com/RosettaProjects/development-flakes
+- [ ] create minimal example involving a cli to read and print routines.json (using aeson)
 
 mypy errors
 

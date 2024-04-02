@@ -236,7 +236,7 @@ class Plan:
 
 
 def handle_blocked(tasks: Tasks, avail_dict: dict[str, int]) -> Tasks:
-    
+    pass
 
 
 def add_tasks(plan: Plan, date: NKDate, tasks: Iterable[Task]) -> tuple[Plan, Tasks]:
